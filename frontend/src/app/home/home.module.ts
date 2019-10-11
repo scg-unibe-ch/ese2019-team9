@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
@@ -9,7 +9,7 @@ import {LoginComponent} from '../login/login.component';
 import { BottomHeaderComponent } from '../header/bottom-header/bottom-header.component';
 import { TopHeaderComponent } from '../header/top-header/top-header.component';
 import {LogoComponent} from '../header/logo/logo.component';
-import {TopHeaderEndComponent} from "../header/top-header/top-header-end/top-header-end.component";
+import {TopHeaderEndComponent} from '../header/top-header/top-header-end/top-header-end.component';
 
 @NgModule({
   imports: [
@@ -18,10 +18,15 @@ import {TopHeaderEndComponent} from "../header/top-header/top-header-end/top-hea
     IonicModule,
     RouterModule.forChild([
       {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
         path: '',
         component: HomePage
       }
-    ])
+    ]),
+    ReactiveFormsModule
   ],
   declarations: [HomePage, LoginComponent, BottomHeaderComponent, LogoComponent, TopHeaderComponent, TopHeaderEndComponent]
 })
