@@ -10,6 +10,8 @@ import { BottomHeaderComponent } from '../header/bottom-header/bottom-header.com
 import { TopHeaderComponent } from '../header/top-header/top-header.component';
 import {LogoComponent} from '../header/logo/logo.component';
 import {TopHeaderEndComponent} from '../header/top-header/top-header-end/top-header-end.component';
+import { RegistrationComponent } from '../registration/registration.component';
+import {HeaderComponent} from '../header/header.component';
 
 @NgModule({
   imports: [
@@ -22,12 +24,16 @@ import {TopHeaderEndComponent} from '../header/top-header/top-header-end/top-hea
         component: LoginComponent
       },
       {
+        path: 'registration',
+        component: RegistrationComponent
+      },
+      {
         path: '',
         component: HomePage
       }
     ]),
     ReactiveFormsModule
   ],
-  declarations: [HomePage, LoginComponent, BottomHeaderComponent, LogoComponent, TopHeaderComponent, TopHeaderEndComponent]
+  declarations: [HomePage, LoginComponent, BottomHeaderComponent, LogoComponent, TopHeaderComponent, TopHeaderEndComponent, RegistrationComponent, HeaderComponent]
 })
 export class HomePageModule {}

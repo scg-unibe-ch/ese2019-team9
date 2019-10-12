@@ -1,7 +1,9 @@
 <ion-header>
-  <ion-title>
-    Log In
-  </ion-title>
+  <ion-toolbar>
+    <ion-title>
+      Log In
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
@@ -20,7 +22,7 @@
           </ion-item>
         </ion-card>
         <ion-card>
-          <ion-button size="block" fill="empty" type="submit"> Log In </ion-button>
+          <ion-button class="loginButton" fill="empty" size="block" type="submit"> Log In </ion-button>
         </ion-card>
       </ion-col>
     </ion-row>
@@ -29,6 +31,6 @@
 <ion-footer>
   <ion-title >
     Not a member yet?
-    <ion-button fill="empty" size="small" (click)="presentPopover($event)"> Join now! </ion-button>
+    <ion-button fill="empty" size="small" (click)="presentRegistrationPopover($event)"> Join now! </ion-button>
   </ion-title>
 </ion-footer>

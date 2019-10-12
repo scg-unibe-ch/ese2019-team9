@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { LoginComponent } from '../../../login/login.component';
+import { RegistrationComponent } from '../../../registration/registration.component';
 
 
 @Component({
@@ -9,21 +10,33 @@ import { LoginComponent } from '../../../login/login.component';
   styleUrls: ['./top-header-end.component.scss'],
 })
 export class TopHeaderEndComponent implements OnInit {
+  currentPopover;
 
   constructor(public popoverController: PopoverController) { }
 
   ngOnInit() {}
 
-  async presentPopover(ev: any) {
+  async presentLoginPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: LoginComponent,
       event: ev,
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover-style'
-
     });
+    this.currentPopover = popover;
     return await popover.present();
   }
 
+  async presentRegistrationPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: RegistrationComponent,
+      event: ev,
+      translucent: true,
+      backdropDismiss: true,
+      cssClass: 'popover-style'
+    });
+    this.currentPopover = popover;
+    return await popover.present();
+  }
 }

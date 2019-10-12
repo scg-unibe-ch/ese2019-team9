@@ -1,5 +1,22 @@
-ion-button {
-  --color: black;
+.button {
   font-size: 12px;
+  font-weight: bold;
+  --color: black;
+  --border-color: black;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 20px;
+  --padding-end: 20px;
+  --padding-start: 20px;
+  --color-hover: #a6a6a6; //Todo: add color to global.scss
+  margin-left: 10px;
 }
+
+.joinButton {
+  --color: #74f2ee; //Todo: add color to global.scss
+  --border-color: #74f2ee;
+  --background-hover: #74f2ee;
+  --color-hover: white;
+}
+
 
