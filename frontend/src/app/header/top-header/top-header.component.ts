@@ -10,5 +10,4 @@ export class TopHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
-
 }
