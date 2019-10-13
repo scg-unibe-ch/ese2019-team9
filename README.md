@@ -5,4 +5,5 @@ Navigate to backend folder and run 'npm run dev'.
 Overview: GET request to /user  
 Registration: POST request to /user/signup passing a json object with email and password  
 Update: PATCH request to /user/<id> passing a json object with email and password  
-Delettion: DELETE request to /user/<id>  
+Deletion: DELETE request to /user/<id>  
+Login: POST request to /user/login passing a json object with email and password 
