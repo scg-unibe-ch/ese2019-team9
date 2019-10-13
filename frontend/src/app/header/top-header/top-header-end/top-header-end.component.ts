@@ -10,9 +10,8 @@ import { RegistrationComponent } from '../../../registration/registration.compon
   styleUrls: ['./top-header-end.component.scss'],
 })
 export class TopHeaderEndComponent implements OnInit {
-  currentPopover;
 
-  constructor(public popoverController: PopoverController) { }
+  constructor(private popoverController: PopoverController ) { }
 
   ngOnInit() {}
 
@@ -24,7 +23,6 @@ export class TopHeaderEndComponent implements OnInit {
       backdropDismiss: true,
       cssClass: 'popover-style'
     });
-    this.currentPopover = popover;
     return await popover.present();
   }
 
@@ -36,7 +34,8 @@ export class TopHeaderEndComponent implements OnInit {
       backdropDismiss: true,
       cssClass: 'popover-style'
     });
-    this.currentPopover = popover;
     return await popover.present();
   }
+
+
 }
