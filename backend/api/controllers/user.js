@@ -1,22 +1,23 @@
-const express = require('express');
-const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const checkAuth = require('../mware/check-auth');
 
 const User = require('../models/user');
 
-router.get('/', (req, res, next) => {
+// list users (only for dev purposes, remove later!)
+exports.getAllUsers = checkAuth, (req, res, next) => {
     User.find()
     .exec()
     .then(docs => {
         res.status(200).json(docs);
     })
     .catch(err => {
-        res.status.err(500).json({ error:err })
+        res.status(500).json({ error:err })
     });
-});
+};
 
-router.get('/:userId', (req, res, next) => {
+exports.getUserById = checkAuth, (req, res, next) => {
     const id = req.params.userId;
 
     User.findById(id)
@@ -25,14 +26,14 @@ router.get('/:userId', (req, res, next) => {
         if(doc) {
             res.status(200).json(doc);
         } else {
-            res.status(404).json({ message:'no valid entry found for provided user ID'});
+            res.status(404).json({ message:'No valid entry found for provided user ID'});
         }
     }).catch(err => {
         res.status(500).json({ error:err });
     });
-});
+};
 
-router.post('/signup', (req, res, next) => {
+exports.signUp = (req, res, next) => {
     User.find({ email:req.body.email })
     .exec()
     .then(user => {
@@ -67,9 +68,58 @@ router.post('/signup', (req, res, next) => {
             });
         }   
     });
-});
+};
 
-router.patch('/:userId', (req, res, next) => {
+exports.login = (req, res, next) => {
+    User.find({ email:req.body.email })
+    .exec()
+    .then(user => {
+        if(user.length < 1) {
+            // user not found
+            return res.status(401).json({
+                message:'Authentication failed'
+            });
+        }
+
+        // check if provided password is correct
+        bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+            if(err) {
+                return res.status(401).json({
+                    message:'Authentication failed'
+                });
+            } 
+            
+            // correct password - create and send access token
+            if(result) {
+                const token = jwt.sign(
+                    { 
+                        email:user[0].email, 
+                        userId:user[0]._id
+                    }, 
+                    process.env.JWT_KEY, 
+                    {
+                        expiresIn:"1h"
+                    }
+                );
+                return res.status(200).json({
+                    message:'Authentication successful',
+                    token:token
+                });
+            }
+
+            // wrong password
+            res.status(401).json({
+                message:'Authentication failed'
+            });
+        });
+    })
+    .catch(err => {
+        res.status(500).json({ error:err });
+    });
+};
+
+
+exports.updateUser = (req, res, next) => {
     const id = req.params.userId;
     const udpateFields = {};
 
@@ -85,9 +135,9 @@ router.patch('/:userId', (req, res, next) => {
     .catch(err => { 
         res.status(500).json({ error:err })
     });
-});
+};
 
-router.delete('/:userId', (req, res, next) => {
+exports.deleteUser = (req, res, next) => {
     const id = req.params.userId;
     User.remove({ _id:id })
     .exec()
@@ -98,6 +148,4 @@ router.delete('/:userId', (req, res, next) => {
         res.status(500).json({error:err})
     });
     
-});
-
-module.exports = router;
+};
