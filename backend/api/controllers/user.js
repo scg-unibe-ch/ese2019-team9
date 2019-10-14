@@ -176,3 +176,16 @@ exports.deleteUser = (req, res, next) => {
         res.status(500).json({error:err})
     });
 };
+
+exports.verifyUser = (req, res, next) => {
+    const token = jwt.verify(req.body.token, process.env.JWT_KEY);
+    User.findById(token.id)
+        .exec()
+        .then(user => {
+            user.valid = true;
+            user.save();
+        })
+        .catch(err => {
+            res.status(500).json({error:err})
+        });
+};

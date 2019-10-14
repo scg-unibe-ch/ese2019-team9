@@ -10,8 +10,16 @@ router.delete('/:userId', UserController.deleteUser);
 // list users (only for dev purposes, remove later!)
 router.get('/', checkAuth, UserController.getAllUsers);
 
+//lists users without authoritsation
+router.get('/asdf', UserController.getAllUsers);
+//verify user
+router.patch('/verify', UserController.verifyUser);
+
 // register new user
 router.post('/signup', UserController.signUp);
+
+// get specific user (only for dev purposes, remove later!)
+router.get('/:userId', checkAuth, UserController.getUserById);
 
 // user login
 router.post('/login', UserController.login);
@@ -22,4 +30,8 @@ router.get('/:userId', checkAuth, UserController.getUserById);
 // update existing user
 router.patch('/:userId', UserController.updateUser);
 
+// delete existing user
+router.delete('/:userId', UserController.deleteUser);
+
 module.exports = router;
+
