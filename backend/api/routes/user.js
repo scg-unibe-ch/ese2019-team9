@@ -12,6 +12,7 @@ router.get('/', checkAuth, UserController.getAllUsers);
 
 //lists users without authoritsation
 router.get('/asdf', UserController.getAllUsers);
+
 //verify user
 router.patch('/verify', UserController.verifyUser);
 

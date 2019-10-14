@@ -192,8 +192,9 @@ exports.verifyUser = (req, res, next) => {
     User.findById(token.id)
         .exec()
         .then(user => {
-            user.valid = true;
+            user.verifiedEmail = true;
             user.save();
+            res.status(200).json({ message:'Email verified' });
         })
         .catch(err => {
             res.status(500).json({error:err})
