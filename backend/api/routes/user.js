@@ -4,6 +4,9 @@ const router = express.Router();
 const UserController = require('../controllers/user');
 const checkAuth = require('../mware/check-auth');
 
+// delete existing user
+router.delete('/:userId', UserController.deleteUser);
+
 // list users (only for dev purposes, remove later!)
 router.get('/', checkAuth, UserController.getAllUsers);
 
@@ -21,6 +24,9 @@ router.get('/:userId', checkAuth, UserController.getUserById);
 // user login
 router.post('/login', UserController.login);
 
+// get specific user (only for dev purposes, remove later!)
+router.get('/:userId', checkAuth, UserController.getUserById);
+
 // update existing user
 router.patch('/:userId', UserController.updateUser);
 
@@ -28,3 +34,4 @@ router.patch('/:userId', UserController.updateUser);
 router.delete('/:userId', UserController.deleteUser);
 
 module.exports = router;
+

@@ -56,9 +56,19 @@ exports.signUp = (req, res, next) => {
                     user
                     .save()
                     .then(result => {
+                        const token = jwt.sign(
+                            { 
+                                id:user[0]._id
+                            }, 
+                            process.env.JWT_KEY, 
+                            {
+                            }
+                        );
+
                         res.status(201).json({
                             message: 'User created',
-                            createdUser: result
+                            createdUser: result,
+                            token:token
                         });
                     }).catch(err => {
                         res.status(500).json({ error:err });
@@ -116,7 +126,6 @@ exports.login = (req, res, next) => {
         res.status(500).json({ error:err });
     });
 };
-
 
 exports.updateUser = (req, res, next) => {
     const id = req.params.userId;
