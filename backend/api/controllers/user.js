@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const checkAuth = require('../mware/check-auth');
 
 const User = require('../models/user');
 
 // list users (only for dev purposes, remove later!)
-exports.getAllUsers = checkAuth, (req, res, next) => {
+exports.getAllUsers = (req, res, next) => {
     User.find()
     .exec()
     .then(docs => {
@@ -17,7 +16,7 @@ exports.getAllUsers = checkAuth, (req, res, next) => {
     });
 };
 
-exports.getUserById = checkAuth, (req, res, next) => {
+exports.getUserById = (req, res, next) => {
     const id = req.params.userId;
 
     User.findById(id)
@@ -147,5 +146,4 @@ exports.deleteUser = (req, res, next) => {
     .catch(err => {
         res.status(500).json({error:err})
     });
-    
 };
