@@ -37,5 +37,4 @@ export class TopHeaderEndComponent implements OnInit {
     return await popover.present();
   }
 
-
 }

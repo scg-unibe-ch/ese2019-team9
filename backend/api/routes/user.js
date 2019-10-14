@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const UserController = require('../controllers/user');
+const checkAuth = require('../mware/check-auth');
 
 // list users (only for dev purposes, remove later!)
-router.get('/', UserController.getAllUsers);
+router.get('/', checkAuth, UserController.getAllUsers);
 
 // get specific user (only for dev purposes, remove later!)
-router.get('/:userId', UserController.getUserById);
+router.get('/:userId', checkAuth, UserController.getUserById);
 
 // register new user
 router.post('/signup', UserController.signUp);
