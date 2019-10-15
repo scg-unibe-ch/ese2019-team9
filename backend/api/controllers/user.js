@@ -1,8 +1,19 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const ejs = require('ejs');
+const fs = require('fs');
 
 const User = require('../models/user');
+
+const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "noah.schmid@gym.spiritus.ch", 
+      pass: "molnunibe19" 
+    }
+  });
 
 // list users (only for dev purposes, remove later!)
 exports.getAllUsers = (req, res, next) => {
@@ -50,16 +61,45 @@ exports.signUp = (req, res, next) => {
                     const user = new User ({
                         _id: new mongoose.Types.ObjectId(),
                         email:req.body.email,
-                        password:hash
+                        password:hash,
+                        verifiedEmail:false
                     });
         
                     user
                     .save()
                     .then(result => {
-                        res.status(201).json({
-                            message: 'User created',
-                            createdUser: result
+                        const token = jwt.sign(
+                            { 
+                                id:user._id
+                            }, 
+                            process.env.JWT_KEY, 
+                            {
+                            }
+                        );
+                        try {
+                        const placeholders = { tokenPlaceholder:token };
+                        const template = fs.readFileSync('api/templates/email_verification.html', { encoding:'utf-8' });
+                        const body = ejs.render(template, placeholders);
+                        
+                        const mail = {
+                            from:"no-reply@moln.ch",
+                            to:user.email,
+                            subject:"MOLN account email verification",
+                            text:"Please follow this link to verify your email address: " + token,
+                            html:body
+                        };
+                    
+                        transport.sendMail(mail, (error, info) => {
+                            res.status(201).json({
+                                message:'User created and verification email sent',
+                                createdUser:result,
+                                verificationToken:token
+                            });
                         });
+
+                    } catch (err) {
+                        console.log(err);
+                    }
                     }).catch(err => {
                         res.status(500).json({ error:err });
                     });
@@ -97,7 +137,7 @@ exports.login = (req, res, next) => {
                     }, 
                     process.env.JWT_KEY, 
                     {
-                        expiresIn:"1h"
+                        expiresIn:"3h"
                     }
                 );
                 return res.status(200).json({
@@ -116,7 +156,6 @@ exports.login = (req, res, next) => {
         res.status(500).json({ error:err });
     });
 };
-
 
 exports.updateUser = (req, res, next) => {
     const id = req.params.userId;
@@ -146,4 +185,18 @@ exports.deleteUser = (req, res, next) => {
     .catch(err => {
         res.status(500).json({error:err})
     });
+};
+
+exports.verifyUser = (req, res, next) => {
+    const token = jwt.verify(req.body.token, process.env.JWT_KEY);
+    User.findById(token.id)
+        .exec()
+        .then(user => {
+            user.verifiedEmail = true;
+            user.save();
+            res.status(200).json({ message:'Email verified' });
+        })
+        .catch(err => {
+            res.status(500).json({error:err})
+        });
 };
