@@ -2,6 +2,7 @@
   <ion-button class="button" fill="empty" > Become a seller </ion-button>
   <ion-button *ngIf="!authService.isLoggedIn()" class="button" (click)="presentLoginPopover($event)" fill="empty"> Log in </ion-button>
   <ion-button *ngIf="!authService.isLoggedIn()" class="joinButton" (click)="presentRegistrationPopover($event)" fill="empty"> Join now </ion-button>
-  <ion-button *ngIf="authService.isLoggedIn()" class="joinButton" (click)="presentRegistrationPopover($event)" fill="empty" (click)="authService.logout()"> Logout </ion-button>
+  <ion-button *ngIf="authService.isLoggedIn()" class="button" fill="empty" (click)="authService.logout()"> Logout </ion-button>
+  <ion-button *ngIf="authService.isLoggedIn()" class="joinButton" fill="empty"><ion-icon name="person"></ion-icon></ion-button>
 </div>
 
