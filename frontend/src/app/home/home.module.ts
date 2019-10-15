@@ -19,22 +19,19 @@ import {HeaderComponent} from '../header/header.component';
     FormsModule,
     IonicModule,
     RouterModule.forChild([
-      {
-        path: 'login',
-        component: LoginComponent
-      },
-      {
-        path: 'registration',
-        component: RegistrationComponent
-      },
-      {
-        path: '',
-        component: HomePage
-      }
+      { path: 'login', component: LoginComponent },
+      { path: 'registration', component: RegistrationComponent },
+      { path: '', component: HomePage },
+
+      // otherwise redirect to home
+      { path: '**', redirectTo: '' }
     ]),
     ReactiveFormsModule
   ],
   exports: [HeaderComponent],
-  declarations: [HomePage, LoginComponent, BottomHeaderComponent, LogoComponent, TopHeaderComponent, TopHeaderEndComponent, RegistrationComponent, HeaderComponent]
+  declarations: [HomePage, LoginComponent,
+    BottomHeaderComponent, LogoComponent,
+    TopHeaderComponent, TopHeaderEndComponent,
+    RegistrationComponent, HeaderComponent]
 })
 export class HomePageModule {}

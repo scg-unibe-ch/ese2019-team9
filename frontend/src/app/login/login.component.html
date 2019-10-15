@@ -1,11 +1,11 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Log In
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        Log In
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
 
     <ion-row>
       <ion-col size="10" offset="1">
@@ -14,6 +14,10 @@
           <ion-item>
             <ion-label></ion-label>
             <ion-input type="text" placeholder="E-mail" formControlName="email"></ion-input>
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
           </ion-item>
         </ion-card>
         <ion-card>
