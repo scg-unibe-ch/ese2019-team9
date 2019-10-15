@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { User } from './models/user';
+import { User } from './_models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.httpClient.post<User>(this.loginEndpoint, {email, password}, this.httpOptions)
-        .pipe(map(res => this.setSession));
+        .pipe(map(res => this.setSession(res)));
   }
 
   private setSession(authResult) {
