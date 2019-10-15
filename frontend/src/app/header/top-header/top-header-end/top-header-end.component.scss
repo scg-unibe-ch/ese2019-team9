@@ -2,14 +2,16 @@
   font-family: Gotham, sans-serif;
   font-size: 12px;
   font-weight: bold;
-  --color: black;
-  --border-color: black;
+  --color: var(--my-grey);
+  --border-color: var(--my-grey);
   --border-style: solid;
   --border-width: 1px;
   --border-radius: 20px;
   --padding-end: 20px;
   --padding-start: 20px;
-  --color-hover: var(--my-grey);
+  --background-hover: var(--my-grey);
+  --color-hover: white;
+
   margin-left: 10px;
 }
 
