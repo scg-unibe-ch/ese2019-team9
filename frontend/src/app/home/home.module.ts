@@ -34,6 +34,7 @@ import {HeaderComponent} from '../header/header.component';
     ]),
     ReactiveFormsModule
   ],
+  exports: [HeaderComponent],
   declarations: [HomePage, LoginComponent, BottomHeaderComponent, LogoComponent, TopHeaderComponent, TopHeaderEndComponent, RegistrationComponent, HeaderComponent]
 })
 export class HomePageModule {}
