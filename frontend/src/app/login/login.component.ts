@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { RestService } from '../rest.service';
+import {FormBuilder, Validators} from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../auth.service';
 
 
 @Component({
@@ -13,31 +13,24 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
   loginForm;
-  endpoint = 'http://localhost:8080/user/signup';
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-    })
-  };
 
   constructor(
       private formBuilder: FormBuilder,
-      private rest: RestService,
-      private httpClient: HttpClient) {
+      private authService: AuthService) {
 
     this.loginForm = this.formBuilder.group({
-      email: '',
-      password: ''
+      email: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
   ngOnInit() {}
 
-  onSubmit(userData) {
-    this.httpClient.post(this.endpoint, {
-      email: userData.email,
-      password: userData.password
-    }, this.httpOptions).pipe();
+  onSubmitLogin() {
+    const val = this.loginForm.value;
+    this.authService.login(val.email, val.password).subscribe();
+
     this.loginForm.reset();
   }
+
 }
