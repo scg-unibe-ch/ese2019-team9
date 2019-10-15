@@ -6,6 +6,7 @@ const ejs = require('ejs');
 const fs = require('fs');
 
 const User = require('../models/user');
+const publicDomain = "themoln.herokuapp.com/";
 
 const transport = nodemailer.createTransport({
     service: "gmail",
@@ -77,29 +78,30 @@ exports.signUp = (req, res, next) => {
                             }
                         );
                         try {
-                        const placeholders = { tokenPlaceholder:token };
-                        const template = fs.readFileSync('api/templates/email_verification.html', { encoding:'utf-8' });
-                        const body = ejs.render(template, placeholders);
+                            const url = process.env.PUBLIC_DOMAIN + "/verify?token=" + token
+                            const placeholders = { tokenPlaceholder:url };
+                            const template = fs.readFileSync('api/templates/email_verification.html', { encoding:'utf-8' });
+                            const body = ejs.render(template, placeholders);
+                            
+                            const mail = {
+                                from:"no-reply@moln.ch",
+                                to:user.email,
+                                subject:"MOLN account email verification",
+                                text:"Please follow this link to verify your email address: " + token,
+                                html:body
+                            };
                         
-                        const mail = {
-                            from:"no-reply@moln.ch",
-                            to:user.email,
-                            subject:"MOLN account email verification",
-                            text:"Please follow this link to verify your email address: " + token,
-                            html:body
-                        };
-                    
-                        transport.sendMail(mail, (error, info) => {
-                            res.status(201).json({
-                                message:'User created and verification email sent',
-                                createdUser:result,
-                                verificationToken:token
+                            transport.sendMail(mail, (error, info) => {
+                                res.status(201).json({
+                                    message:'User created and verification email sent',
+                                    createdUser:result,
+                                    verificationToken:token
+                                });
                             });
-                        });
 
-                    } catch (err) {
-                        console.log(err);
-                    }
+                        } catch (err) {
+                            console.log(err);
+                        }
                     }).catch(err => {
                         res.status(500).json({ error:err });
                     });
@@ -183,7 +185,7 @@ exports.deleteUser = (req, res, next) => {
         res.status(200).json({ message:'User deleted' });
     })
     .catch(err => {
-        res.status(500).json({error:err})
+        res.status(500).json({ error:err })
     });
 };
 
@@ -197,6 +199,6 @@ exports.verifyUser = (req, res, next) => {
             res.status(200).json({ message:'Email verified' });
         })
         .catch(err => {
-            res.status(500).json({error:err})
+            res.status(500).json({ error:err })
         });
 };
