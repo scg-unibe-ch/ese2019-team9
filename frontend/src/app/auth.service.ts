@@ -26,7 +26,8 @@ export class AuthService {
 
   private setSession(authResult) {
 
-    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('token', authResult.token);
+    console.log(authResult.token);
   }
 
   logout() {

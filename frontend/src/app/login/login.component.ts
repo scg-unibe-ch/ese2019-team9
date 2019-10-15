@@ -13,37 +13,43 @@ import { first } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   loginForm;
   error;
+  submitted = false;
 
 
   constructor(
       private formBuilder: FormBuilder,
       private authService: AuthService,
-      private router: Router) {
+      private router: Router) { }
 
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+  ngOnInit() {
+      this.loginForm = this.formBuilder.group({
+          email: ['', [Validators.required, Validators.email]],
+          password: ['', [Validators.required, Validators.minLength(6)]]
+      });
   }
 
-  ngOnInit() {}
-
-    // convenience getter for easy access to form fields
+    // getter for easy access to form fields
     get f() { return this.loginForm.controls; }
 
   onSubmitLogin() {
-    const val = this.loginForm.value;
-    this.authService.login(val.email, val.password)
-        .pipe(first())
-        .subscribe(
-            data => {
-              this.loginForm.reset();
-            },
-            error => {
-              this.error = error;
-            }
-        );
+      this.submitted = true;
 
+      // stop here if form is invalid
+      if (this.loginForm.invalid) {
+          return;
+      }
+
+      const val = this.loginForm.value;
+      this.authService.login(val.email, val.password)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  this.loginForm.reset();
+              },
+              error => {
+                  this.error = error;
+              }
+          );
   }
 
 }

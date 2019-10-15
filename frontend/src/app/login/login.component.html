@@ -13,17 +13,21 @@
         <ion-card>
           <ion-item>
             <ion-label></ion-label>
-            <ion-input type="text" placeholder="E-mail" formControlName="email"></ion-input>
+            <ion-input type="text" placeholder="E-mail*" formControlName="email"></ion-input>
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
               <div *ngIf="f.email.errors.required">Email is required</div>
-              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+              <div *ngIf="f.email.errors.email">Not a valid address</div>
             </div>
           </ion-item>
         </ion-card>
         <ion-card>
           <ion-item>
             <ion-label></ion-label>
-            <ion-input type="password" placeholder="Password" formControlName="Password"></ion-input>
+            <ion-input type="password" placeholder="Password*" formControlName="password"></ion-input>
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.minlength">Must be 6+ characters</div>
+            </div>
           </ion-item>
         </ion-card>
         <ion-card class="loginButton">
