@@ -21,6 +21,10 @@ export class AuthService {
     })
   };
 
+  register(email: string, password: string) {
+    return this.httpClient.post<User>(this.registrationEndpoint, {email, password}, this.httpOptions);
+  }
+
   login(email: string, password: string) {
     return this.httpClient.post<User>(this.loginEndpoint, {email, password}, this.httpOptions)
         .pipe(map(res => this.setSession(res)));
@@ -29,7 +33,6 @@ export class AuthService {
   private setSession(authResult) {
 
     localStorage.setItem('token', authResult.token);
-    console.log(authResult.token);
   }
 
   logout() {

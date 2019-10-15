@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {RxReactiveFormsModule, RxwebValidators} from '@rxweb/reactive-form-validators';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import {first} from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -9,23 +11,24 @@ import {RxReactiveFormsModule, RxwebValidators} from '@rxweb/reactive-form-valid
 })
 export class RegistrationComponent implements OnInit {
   loginForm;
+  error;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+      private formBuilder: FormBuilder,
+      private authService: AuthService) { }
 
+  ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required, RxwebValidators.compare({fieldName: 'password'})]
     });
   }
 
   // getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
-  ngOnInit() {}
-
-  onSubmit(userData) {
+  onSubmitRegistration() {
 
     this.submitted = true;
 
@@ -33,9 +36,16 @@ export class RegistrationComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
-    console.log(userData);
-    this.loginForm.reset();
+    const val = this.loginForm.value;
+    this.authService.register(val.email, val.password)
+        .pipe(first())
+        .subscribe(
+            data => {
+              this.loginForm.reset();
+            },
+            error => {
+              this.error = error;
+            }
+        );
   }
-
 }

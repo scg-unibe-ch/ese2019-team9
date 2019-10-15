@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
       if (this.loginForm.invalid) {
           return;
       }
-
       const val = this.loginForm.value;
       this.authService.login(val.email, val.password)
           .pipe(first())
