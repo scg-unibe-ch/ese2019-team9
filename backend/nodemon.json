@@ -1,6 +1,7 @@
 {
     "env": {
         "MONGO_ATLAS_PW": "molnunibe19",
-        "JWT_KEY": "7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/"
+        "JWT_KEY": "7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/",
+        "PUBLIC_DOMAIN": "themoln.herokuapp.com"
     }
 }
