@@ -3,6 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import {first} from 'rxjs/operators';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +17,8 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
       private formBuilder: FormBuilder,
-      private authService: AuthService) { }
+      private authService: AuthService,
+      private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -42,6 +44,7 @@ export class RegistrationComponent implements OnInit {
         .subscribe(
             data => {
               this.loginForm.reset();
+              this.router.navigate(['/registrated']);
             },
             error => {
               this.error = error;
