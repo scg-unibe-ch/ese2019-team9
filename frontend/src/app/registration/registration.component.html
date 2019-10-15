@@ -8,34 +8,26 @@
 <ion-content>
     <ion-row>
       <ion-col size="10" offset="1">
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmitRegistration()">
           <ion-card>
             <ion-item>
               <ion-label></ion-label>
               <ion-input type="text" placeholder="E-mail" formControlName="email"></ion-input>
-                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors.required">Email is required</div>
-                    <div *ngIf="f.email.errors.email">Not a valid address</div>
-                </div>
             </ion-item>
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.minlength">Not a valid address</div>
+              </div>
           </ion-card>
           <ion-card>
             <ion-item>
               <ion-label></ion-label>
               <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">Must be 6+ characters</div>
-                </div>
             </ion-item>
-            <ion-item>
-              <ion-label></ion-label>
-              <ion-input type="password" placeholder="Confirm password" formControlName="cpassword"></ion-input>
-                <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-                    <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
-                    <div *ngIf="f.confirmPassword.errors.compare">Passwords must match</div>
-                </div>
-            </ion-item>
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Must be 6+ characters</div>
+              </div>
           </ion-card>
           <ion-card class="loginButton">
             <ion-button class="loginButton" fill="empty" size="block" type="submit">Join now</ion-button>

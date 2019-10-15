@@ -17,6 +17,7 @@ import {HeaderComponent} from '../header/header.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild([
       { path: 'login', component: LoginComponent },
