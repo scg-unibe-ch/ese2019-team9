@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import { MustMatch } from '../_helpers/must-match';
+import {RxReactiveFormsModule, RxwebValidators} from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-registration',
@@ -9,16 +9,14 @@ import { MustMatch } from '../_helpers/must-match';
 })
 export class RegistrationComponent implements OnInit {
   loginForm;
-  submitted;
+  submitted = false;
 
   constructor(private formBuilder: FormBuilder) {
 
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    }, {
-      validator: MustMatch('password', 'confirmPassword')
+      confirmPassword: ['', Validators.required, RxwebValidators.compare({fieldName: 'password'})]
     });
   }
 
@@ -28,6 +26,14 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit(userData) {
+
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+
     console.log(userData);
     this.loginForm.reset();
   }
