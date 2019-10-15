@@ -12,6 +12,8 @@ import {LogoComponent} from '../header/logo/logo.component';
 import {TopHeaderEndComponent} from '../header/top-header/top-header-end/top-header-end.component';
 import { RegistrationComponent } from '../registration/registration.component';
 import {HeaderComponent} from '../header/header.component';
+import {FooterComponent} from "../footer/footer.component";
+
 
 @NgModule({
   imports: [
@@ -33,6 +35,7 @@ import {HeaderComponent} from '../header/header.component';
   declarations: [HomePage, LoginComponent,
     BottomHeaderComponent, LogoComponent,
     TopHeaderComponent, TopHeaderEndComponent,
-    RegistrationComponent, HeaderComponent]
+    RegistrationComponent, HeaderComponent,
+    FooterComponent]
 })
 export class HomePageModule {}
