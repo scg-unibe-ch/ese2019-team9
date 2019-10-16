@@ -7,9 +7,9 @@ import { RouterModule } from '@angular/router';
 import {HeaderModule} from '../header/header.module';
 
 import { HomePage } from './home.page';
-import {LoginComponent} from '../login/login.component';
+import { LoginComponent} from '../login/login.component';
 import { RegistrationComponent } from '../registration/registration.component';
-import {FooterComponent} from '../footer/footer.component';
+import { FooterComponent} from '../footer/footer.component';
 
 
 @NgModule({

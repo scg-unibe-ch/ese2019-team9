@@ -17,6 +17,6 @@ import {LogoComponent} from './logo/logo.component';
     CommonModule,
     IonicModule
   ],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent, TopHeaderComponent]
 })
 export class HeaderModule { }

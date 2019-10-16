@@ -1,15 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Registration Successful</ion-title>
+    <app-header></app-header>
   </ion-toolbar>
 </ion-header>
-
-
-
-
 <ion-content>
-  <ion-text>
-    Please confirm your email address.
-  </ion-text>
-
+  <ion-title>
+    You are now registered!
+  </ion-title>
+  <ion-grid>
+    <ion-row >
+      <ion-col>
+        <div>
+          We have sent a validation email to your email-address:
+        </div>
+        <div>
+          <ion-button routerLink="/home"> Home </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

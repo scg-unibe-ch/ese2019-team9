@@ -19,9 +19,14 @@ export class VerifyPage implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParamMap.subscribe(queryParams => {
       this.authService.verifyUser(queryParams.get('token'))
-          .subscribe(res => {
-            this.messageReceived = true;
-            this.message = res;
+          .subscribe(data => {
+          }, error => {
+              this.messageReceived = true;
+              if (error.status === 500) {
+                  this.message = 'Verification not successful!';
+              } else if (error.status === 200) {
+                  this.message = 'Verification successful!';
+              }
           });
     });
   }
