@@ -129,6 +129,13 @@ exports.login = (req, res, next) => {
                     message:'Authentication failed'
                 });
             } 
+
+        // check if email adress is verified
+        if(!user[0].verifiedEmail) {
+            return res.status(401).json({
+                message:'Email not verified'
+            });
+        }
             
             // correct password - create and send access token
             if(result) {
@@ -216,7 +223,7 @@ exports.deleteAllDev = (req, res, next) => {
                     res.status(200).json({ message:'All users deleted' });
                 })
                 .catch(err => {
-                    return res.status(500).json({ message:'Fuuuuuuuuuuuck'});
+                    return res.status(500).json({ message:'Failed to delete all users'});
                 });
             }
         });
