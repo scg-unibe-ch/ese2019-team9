@@ -131,11 +131,11 @@ exports.login = (req, res, next) => {
             } 
 
         // check if email adress is verified
-        if(!user[0].verifiedEmail) {
+        /*if(!user[0].verifiedEmail) {
             return res.status(401).json({
                 message:'Email not verified'
             });
-        }
+        }*/
             
             // correct password - create and send access token
             if(result) {
@@ -220,7 +220,7 @@ exports.deleteAllDev = (req, res, next) => {
                 User.remove({_id:element._id})
                 .exec()
                 .then(result => {
-                    res.status(200).json({ message:'All users deleted' });
+                    res.status(200).json({ message:'All dev users deleted' });
                 })
                 .catch(err => {
                     return res.status(500).json({ message:'Failed to delete all users'});
