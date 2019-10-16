@@ -7,8 +7,6 @@ import { RouterModule } from '@angular/router';
 import {HeaderModule} from '../header/header.module';
 
 import { HomePage } from './home.page';
-import { LoginComponent} from '../login/login.component';
-import { RegistrationComponent } from '../registration/registration.component';
 import { FooterComponent} from '../footer/footer.component';
 
 
@@ -19,8 +17,6 @@ import { FooterComponent} from '../footer/footer.component';
     ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild([
-      { path: 'login', component: LoginComponent },
-      { path: 'registration', component: RegistrationComponent },
       { path: '', component: HomePage },
 
       // otherwise redirect to home
@@ -30,7 +26,6 @@ import { FooterComponent} from '../footer/footer.component';
     ReactiveFormsModule
   ],
   exports: [],
-  declarations: [HomePage, LoginComponent,
-    RegistrationComponent, FooterComponent]
+  declarations: [HomePage, FooterComponent]
 })
 export class HomePageModule {}

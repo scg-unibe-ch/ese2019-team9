@@ -14,8 +14,7 @@ export class TopHeaderEndComponent implements OnInit {
 
   constructor(
       private popoverController: PopoverController,
-      private authService: AuthService,
-      private popoverService: PopoverService) { }
+      private authService: AuthService) { }
 
   ngOnInit() {}
 
