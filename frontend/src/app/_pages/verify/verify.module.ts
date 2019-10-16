@@ -22,7 +22,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-      HeaderModule
+    HeaderModule
   ],
   declarations: [VerifyPage]
 })

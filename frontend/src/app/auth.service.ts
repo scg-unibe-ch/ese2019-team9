@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   verifyUser(token: string) {
-      return this.httpClient.patch(this.verificationEndpoint, { token });
+    return this.httpClient.patch(this.verificationEndpoint, { token });
   }
 
   private setSession(authResult) {
