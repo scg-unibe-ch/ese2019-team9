@@ -199,6 +199,7 @@ exports.deleteUser = (req, res, next) => {
 
 exports.verifyUser = (req, res, next) => {
     const token = jwt.verify(req.body.token, process.env.JWT_KEY);
+    console.log(token.id);
     User.findById(token.id)
         .exec()
         .then(user => {
@@ -207,7 +208,7 @@ exports.verifyUser = (req, res, next) => {
             res.status(200).json({ message:'Email verified' });
         })
         .catch(err => {
-            res.status(500).json({ error:err })
+            res.status(500).json({ error:err.message });
         });
 };
 

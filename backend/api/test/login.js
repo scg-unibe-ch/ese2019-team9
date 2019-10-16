@@ -12,6 +12,7 @@ describe("Test user login", ()=>{
     var userJson = {};
     before(()=>{
         return new Promise((resolve) => {
+           // sign up random user
             request({
                 method: 'POST',
                 uri: url + 'signup',
@@ -32,7 +33,7 @@ describe("Test user login", ()=>{
         });
     });
    
-    it("should log in " + user, function(done) {
+    it("log in " + user, function(done) {
         request({
             method: 'POST',
             uri: url + 'login',
@@ -42,5 +43,15 @@ describe("Test user login", ()=>{
             assert.equal(response.statusCode, 200);
         })
         .then(done());
+    });
+    it("request own userid", (done)=>{
+        request({
+            method: 'GET',
+            uri: url + userJson._id,
+            headers: {'authorization': userJson.token}
+        }, (error, response, body)=>{
+            assert.equal(response.statusCode, 200);
+            assert.equal(body.email, loginJson.email);
+        });
     });
 });
