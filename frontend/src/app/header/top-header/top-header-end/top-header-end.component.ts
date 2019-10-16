@@ -3,6 +3,7 @@ import { PopoverController } from '@ionic/angular';
 import { LoginComponent } from '../../../login/login.component';
 import { RegistrationComponent } from '../../../registration/registration.component';
 import { AuthService} from '../../../auth.service';
+import {PopoverService} from '../../../popover.service';
 
 @Component({
   selector: 'app-top-header-end',
@@ -13,8 +14,8 @@ export class TopHeaderEndComponent implements OnInit {
 
   constructor(
       private popoverController: PopoverController,
-      private authService: AuthService
-  ) { }
+      private authService: AuthService,
+      private popoverService: PopoverService) { }
 
   ngOnInit() {}
 

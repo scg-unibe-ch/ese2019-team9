@@ -1,9 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>verify</ion-title>
+    <app-header></app-header>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <ion-card>
+    <ion-title>
+      Verification
+    </ion-title>
+    <ion-card-content>
+      <p *ngIf="messageReceived"> {{ message }}</p>
+      <ion-button routerLink="/home"> Home </ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

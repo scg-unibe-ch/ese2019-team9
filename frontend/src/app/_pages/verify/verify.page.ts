@@ -8,6 +8,8 @@ import {AuthService} from '../../auth.service';
   styleUrls: ['./verify.page.scss'],
 })
 export class VerifyPage implements OnInit {
+  messageReceived = false;
+  message;
 
   constructor(
       private activatedRoute: ActivatedRoute,
@@ -17,7 +19,10 @@ export class VerifyPage implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParamMap.subscribe(queryParams => {
       this.authService.verifyUser(queryParams.get('token'))
-          .subscribe(res => console.log(res));
+          .subscribe(res => {
+            this.messageReceived = true;
+            this.message = res;
+          });
     });
   }
 }
