@@ -144,7 +144,8 @@ exports.login = (req, res, next) => {
                 );
                 return res.status(200).json({
                     message:'Authentication successful',
-                    token:token
+                    token:token,
+                    id:user[0]._id
                 });
             }
 
@@ -201,4 +202,23 @@ exports.verifyUser = (req, res, next) => {
         .catch(err => {
             res.status(500).json({ error:err })
         });
+};
+
+exports.deleteAllDev = (req, res, next) => {
+    User.find()
+    .exec()
+    .then(docs => {
+        docs.forEach(element => {
+            if(element.email.match("[A-Za-z0-9]*@fs\\.ch")){
+                User.remove({_id:element._id})
+                .exec()
+                .then(result => {
+                    res.status(200).json({ message:'All users deleted' });
+                })
+                .catch(err => {
+                    return res.status(500).json({ message:'Fuuuuuuuuuuuck'});
+                });
+            }
+        });
+    })
 };
