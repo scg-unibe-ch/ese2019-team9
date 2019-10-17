@@ -12,11 +12,12 @@ import {BottomHeaderComponent} from './header/bottom-header/bottom-header.compon
 import {LogoComponent} from './header/logo/logo.component';
 import {LoginComponent} from './authentication/login/login.component';
 import {RegistrationComponent} from './authentication/registration/registration.component';
+import {MiddleHeaderComponent} from './header/middle-header/middle-header.component';
 
 
 @NgModule({
   declarations: [HeaderComponent, TopHeaderComponent, TopHeaderEndComponent,
-    BottomHeaderComponent, LogoComponent],
+    BottomHeaderComponent, LogoComponent, MiddleHeaderComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -27,6 +28,6 @@ import {RegistrationComponent} from './authentication/registration/registration.
       { path: 'registration', component: RegistrationComponent },
     ])
   ],
-  exports: [HeaderComponent, TopHeaderComponent]
+  exports: [HeaderComponent, TopHeaderComponent, MiddleHeaderComponent]
 })
 export class HeaderModule { }
