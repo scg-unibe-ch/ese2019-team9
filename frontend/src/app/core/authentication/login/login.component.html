@@ -28,6 +28,7 @@
         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
           <div *ngIf="f.password.errors.required">Password is required</div>
         </div>
+        <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }}</div>
         <ion-card class="loginButton">
           <ion-button class="loginButton" fill="empty" expand="block" type="submit"> Log In </ion-button>
         </ion-card>

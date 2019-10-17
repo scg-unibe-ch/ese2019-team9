@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+
+import { IonicModule } from '@ionic/angular';
 import { HeaderModule } from '../../core/header.module';
 import { AuthModule } from '../../core/auth.module';
 
-import { RegistratedPage } from './registrated.page';
+import { RegisteredPage } from './registered.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RegistratedPage
+    component: RegisteredPage
   }
 ];
 
@@ -25,6 +25,6 @@ const routes: Routes = [
     HeaderModule,
     AuthModule
   ],
-  declarations: [RegistratedPage]
+  declarations: [RegisteredPage]
 })
-export class RegistratedPageModule {}
+export class RegisteredPageModule {}

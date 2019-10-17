@@ -44,15 +44,18 @@ export class LoginComponent implements OnInit {
           .subscribe(
               data => {
                   if (data.status === 401 && data.statusText === 'Authentication failed') {
+                      this.messageReceived = true;
                       this.message = data.statusText;
-
-                  } else if (data.status === 200) {
-
+                  } else if (data.status === 401 && data.statusText === 'Email not verified') {
+                      this.messageReceived = true;
+                      this.message = data.statusText;
+                  } else if (data.status === 200 ) {
+                      this.loginForm.reset();
                   }
-                  this.loginForm.reset();
               },
               error => {
-                  this.error = error;
+                  this.messageReceived = true;
+                  this.message = 'Login failed';
               }
           );
   }

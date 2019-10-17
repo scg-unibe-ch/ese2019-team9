@@ -4,7 +4,6 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import {first} from 'rxjs/operators';
 import {AuthService} from '../../services/authService/auth.service';
 import { Router } from '@angular/router';
-import {LoginComponent} from "../login/login.component";
 
 
 @Component({
@@ -49,9 +48,9 @@ export class RegistrationComponent implements OnInit {
               this.messageReceived = true;
               if (data.status === 200) {
                 this.loginForm.reset();
-                this.router.navigate(['/registrated']);
+                this.router.navigate(['/registered']);
               } else if (data.status === 409) {
-                this.message = 'User with same email already exists';
+                this.message = data.statusText;
               }
             },
             error => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from '../../../models/user';
 import { Router } from '@angular/router';
@@ -18,12 +18,13 @@ export class AuthService {
   verificationEndpoint = 'https://moln-api.herokuapp.com/user/verify';
 
   httpOptions: {
-    headers: HttpHeaders;
+    'Content-Type': 'application/json';
     observe: 'response';
-  };
+  }
 
-  register(email: string, password: string) {
-    return this.httpClient.post<User>(this.registrationEndpoint, {email, password}, this.httpOptions );
+
+register(email: string, password: string) {
+    return this.httpClient.post<User>(this.registrationEndpoint, {email, password}, this.httpOptions);
   }
 
   login(email: string, password: string) {
@@ -35,7 +36,7 @@ export class AuthService {
   }
 
   verifyUser(token: string) {
-    return this.httpClient.patch(this.verificationEndpoint, { token } , { observe: 'response'} );
+    return this.httpClient.patch(this.verificationEndpoint, { token } , { observe: 'response' });
   }
 
   private setSession(authResult) {
