@@ -4,7 +4,7 @@
   "description": "backend for ESE project",
   "main": "server.js",
   "scripts": {
-    "test": "mocha 'C:/UniBe/ese/team9/backend/api/tests/loginAndSpecificRequest.js'",
+    "test": "mocha 'C:/UniBe/ese/team9/backend/api/tests/*.js'",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
