@@ -4,6 +4,7 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import {first} from 'rxjs/operators';
 import {AuthService} from '../../services/authService/auth.service';
 import { Router } from '@angular/router';
+import {LoginComponent} from "../login/login.component";
 
 
 @Component({
@@ -13,8 +14,9 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
   loginForm;
-  error;
   submitted = false;
+  message;
+  messageReceived = false;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -44,11 +46,17 @@ export class RegistrationComponent implements OnInit {
         .pipe(first())
         .subscribe(
             data => {
-              this.loginForm.reset();
-              this.router.navigate(['/registrated']);
+              this.messageReceived = true;
+              if (data.status === 200) {
+                this.loginForm.reset();
+                this.router.navigate(['/registrated']);
+              } else if (data.status === 409) {
+                this.message = 'User with same email already exists';
+              }
             },
             error => {
-              this.error = error;
+              this.messageReceived = true;
+              this.message = 'Registration failed';
             }
         );
   }

@@ -16,23 +16,26 @@ export class AuthService {
   loginEndpoint = 'https://moln-api.herokuapp.com/user/login';
   registrationEndpoint = 'https://moln-api.herokuapp.com/user/signup';
   verificationEndpoint = 'https://moln-api.herokuapp.com/user/verify';
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-    })
+
+  httpOptions: {
+    headers: HttpHeaders;
+    observe: 'response';
   };
 
   register(email: string, password: string) {
-    return this.httpClient.post<User>(this.registrationEndpoint, {email, password}, this.httpOptions);
+    return this.httpClient.post<User>(this.registrationEndpoint, {email, password}, this.httpOptions );
   }
 
   login(email: string, password: string) {
-    return this.httpClient.post<User>(this.loginEndpoint, {email, password}, this.httpOptions)
-        .pipe(map(res => this.setSession(res)));
+    return this.httpClient.post<User>(this.loginEndpoint, {email, password}, this.httpOptions )
+        .pipe(map(res => {
+          this.setSession(res);
+          return res;
+        }));
   }
 
   verifyUser(token: string) {
-    return this.httpClient.patch(this.verificationEndpoint, { token });
+    return this.httpClient.patch(this.verificationEndpoint, { token } , { observe: 'response'} );
   }
 
   private setSession(authResult) {
