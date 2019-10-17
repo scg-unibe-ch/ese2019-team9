@@ -9,7 +9,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {PopoverService} from './popover.service';
 
 
 @NgModule({
@@ -23,7 +22,6 @@ import {PopoverService} from './popover.service';
   providers: [
     StatusBar,
     SplashScreen,
-    PopoverService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

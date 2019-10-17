@@ -5,9 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
-
 import { VerifyPage } from './verify.page';
-import {HeaderModule} from '../../header/header.module';
+import {HeaderModule} from '../../core/header.module';
+import { AuthModule } from '../../core/auth.module';
 
 const routes: Routes = [
   {
@@ -22,7 +22,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    HeaderModule
+    HeaderModule,
+    AuthModule
   ],
   declarations: [VerifyPage]
 })

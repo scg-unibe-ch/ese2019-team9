@@ -4,7 +4,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import {HeaderModule} from '../header/header.module';
+import { HeaderModule } from '../../core/header.module';
+import { AuthModule } from '../../core/auth.module';
 
 import { RegistratedPage } from './registrated.page';
 
@@ -21,7 +22,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    HeaderModule
+    HeaderModule,
+    AuthModule
   ],
   declarations: [RegistratedPage]
 })

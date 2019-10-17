@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import {first} from 'rxjs/operators';
-import { AuthService } from '../auth.service';
+import {AuthService} from '../../services/authService/auth.service';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-registration',

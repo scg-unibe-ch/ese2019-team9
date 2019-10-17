@@ -4,10 +4,11 @@ import { IonicModule } from '@ionic/angular';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {HeaderModule} from '../header/header.module';
+import {HeaderModule} from '../core/header.module';
+import { AuthModule } from '../core/auth.module';
 
 import { HomePage } from './home.page';
-import { FooterComponent} from '../footer/footer.component';
+import {FooterComponent} from '../core/footer/footer.component';
 
 
 @NgModule({
@@ -17,13 +18,10 @@ import { FooterComponent} from '../footer/footer.component';
     ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild([
-      { path: '', component: HomePage },
-
-      // otherwise redirect to home
-      { path: '**', redirectTo: '' }
+      { path: '', component: HomePage }
     ]),
     HeaderModule,
-    ReactiveFormsModule
+    AuthModule
   ],
   exports: [],
   declarations: [HomePage, FooterComponent]

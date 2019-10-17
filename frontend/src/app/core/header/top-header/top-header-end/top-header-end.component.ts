@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
-import { LoginComponent } from '../../../login/login.component';
-import { RegistrationComponent } from '../../../registration/registration.component';
-import { AuthService} from '../../../auth.service';
-import {PopoverService} from '../../../popover.service';
+import { LoginComponent } from '../../../authentication/login/login.component';
+import { RegistrationComponent } from '../../../authentication/registration/registration.component';
+import { AuthService} from '../../../services/authService/auth.service';
 
 @Component({
   selector: 'app-top-header-end',
