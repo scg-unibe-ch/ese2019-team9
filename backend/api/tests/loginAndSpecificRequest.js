@@ -36,7 +36,11 @@ describe("Test user login", ()=>{
     });
 
     after(() =>{
-        request.delete(url + userJson._id, (error, response, body) => {
+        request({
+            method: 'DELETE',
+            uri: url + userJson._id,
+            headers: {'authorization': 'Bearer ' + token}
+        },(error,response,body) =>{
             assert.equal(response.statusCode, 200);
         });
     });

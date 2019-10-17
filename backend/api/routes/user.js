@@ -30,7 +30,7 @@ router.post('/login', UserController.login);
 router.patch('/:userId', UserController.updateUser);
 
 // delete existing user
-router.delete('/:userId', UserController.deleteUser);
+router.delete('/:userId', checkAuth, UserController.deleteUser);
 
 module.exports = router;
 
