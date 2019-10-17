@@ -1,7 +1,6 @@
 const request = require("request");
 const url = "http://localhost:8080/user/";
 const assert = require('assert');
-const jwt = require('jsonwebtoken');
 
 describe("Test user login", ()=>{
     let pw = "zimlechUnsicher";
@@ -21,8 +20,17 @@ describe("Test user login", ()=>{
             },(error, response, body) => {
                 identification = body.createdUser._id;
                 userJson = body.createdUser;
+                token = body.verificationToken;
                 assert.equal(response.statusCode, 201);
-                resolve();
+                request({//verify the email of randuser
+                    method: 'PATCH',
+                    uri: url + 'verify',
+                    json:true,
+                    body: {"token": token}
+                }, (error, response, body)=>{
+                    assert.equal(response.statusCode, 200);
+                    resolve();
+                });
             });
         });
     });
@@ -39,19 +47,33 @@ describe("Test user login", ()=>{
             uri: url + 'login',
             json: true,
             body: loginJson
-        }, (error,response,body, done) => {
+        }, (error,response,body) => {
             assert.equal(response.statusCode, 200);
-        })
-        .then(done());
+            done();
+        });
     });
     it("request own userid", (done)=>{
+        let auth = 'Bearer ' + token;
         request({
             method: 'GET',
             uri: url + userJson._id,
-            headers: {'authorization': userJson.token}
+            headers: {'authorization': auth}
         }, (error, response, body)=>{
             assert.equal(response.statusCode, 200);
-            assert.equal(body.email, loginJson.email);
+            assert.equal(JSON.parse(body).email, loginJson.email);
+            done();
+        });
+    });
+    it("not able to request other userid",(done)=>{
+        let auth = 'Bearer ' + token;
+        request({
+            method: 'GET',
+            uri: url + userJson._id,
+            headers: {'authorization': auth}
+        }, (error, response, body)=>{
+            assert.equal(response.statusCode, 403);
+            assert.equal(JSON.parse(body).email, loginJson.email);
+            done();
         });
     });
 });
