@@ -7,3 +7,8 @@ Registration: POST request to /user/signup passing a json object with email and 
 Update: PATCH request to /user/<id> passing a json object with email and password  
 Deletion: DELETE request to /user/<id>  
 Login: POST request to /user/login passing a json object with email and password 
+
+## Dev commands ##
+Delete all users that end in '@fs.ch': DELETE /dev/
+Delete a user by id: DELETE /dev/:id
+List all users: GET /dev/

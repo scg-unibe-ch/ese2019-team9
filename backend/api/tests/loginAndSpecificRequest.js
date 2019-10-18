@@ -4,10 +4,11 @@ const assert = require('assert');
 
 describe("Test user login", ()=>{
     let pw = "zimlechUnsicher";
-    let loginJson = {"email":  Math.floor(Math.random()*1000000) + "@fs.ch", "password":pw};
-    let user = loginJson.email;
+    let emailAndPw = {"email":  Math.floor(Math.random()*1000000) + "@fs.ch", "password":pw};
+    let user = emailAndPw.email;
     let identification ="";
-    let token = "";
+    let verifyToken = "";
+    let loginToken = "";
     var userJson = {};
     before(()=>{
         return new Promise((resolve) => {
@@ -16,17 +17,17 @@ describe("Test user login", ()=>{
                 method: 'POST',
                 uri: url + 'signup',
                 json: true,
-                body: loginJson
+                body: emailAndPw
             },(error, response, body) => {
                 identification = body.createdUser._id;
                 userJson = body.createdUser;
-                token = body.verificationToken;
+                verifyToken = body.verificationToken;
                 assert.equal(response.statusCode, 201);
                 request({//verify the email of randuser
                     method: 'PATCH',
                     uri: url + 'verify',
                     json:true,
-                    body: {"token": token}
+                    body: {"token": verifyToken}
                 }, (error, response, body)=>{
                     assert.equal(response.statusCode, 200);
                     resolve();
@@ -39,7 +40,7 @@ describe("Test user login", ()=>{
         request({
             method: 'DELETE',
             uri: url + userJson._id,
-            headers: {'authorization': 'Bearer ' + token}
+            headers: {'authorization': 'Bearer ' + verifyToken}
         },(error,response,body) =>{
             assert.equal(response.statusCode, 200);
         });
@@ -50,33 +51,33 @@ describe("Test user login", ()=>{
             method: 'POST',
             uri: url + 'login',
             json: true,
-            body: loginJson
+            body: emailAndPw
         }, (error,response,body) => {
             assert.equal(response.statusCode, 200);
             done();
         });
     });
     it("request own userid", (done)=>{
-        let auth = 'Bearer ' + token;
+        let auth = 'Bearer ' + verifyToken;
         request({
             method: 'GET',
             uri: url + userJson._id,
             headers: {'authorization': auth}
         }, (error, response, body)=>{
             assert.equal(response.statusCode, 200);
-            assert.equal(JSON.parse(body).email, loginJson.email);
+            assert.equal(JSON.parse(body).email, emailAndPw.email);
             done();
         });
     });
     it("not able to request other userid",(done)=>{
-        let auth = 'Bearer ' + token;
+        let auth = 'Bearer ' + verifyToken;
         request({
             method: 'GET',
             uri: url + userJson._id,
             headers: {'authorization': auth}
         }, (error, response, body)=>{
             assert.equal(response.statusCode, 403);
-            assert.equal(JSON.parse(body).email, loginJson.email);
+            assert.equal(JSON.parse(body).email, emailAndPw.email);
             done();
         });
     });

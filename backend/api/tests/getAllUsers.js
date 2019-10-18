@@ -1,5 +1,5 @@
 const request = require("request");
-const url = "http://localhost:8080/user/asdf";
+const url = "http://localhost:8080/dev/";
 const assert = require('assert');
 describe("Test /", function(){
     describe("GET", function(){

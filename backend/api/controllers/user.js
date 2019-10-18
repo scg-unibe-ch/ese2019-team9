@@ -30,7 +30,6 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.getUserById = (req, res, next) => {
     const id = req.params.userId;
-
     User.findById(id)
     .exec()
     .then(doc => {
@@ -130,13 +129,13 @@ exports.login = (req, res, next) => {
                 });
             } 
 
-        // check if email adress is verified
-        if(!user[0].verifiedEmail) {
-            return res.status(401).json({
-                message:'Email not verified'
-            });
-        }
-            
+            // check if email adress is verified
+            if(!user[0].verifiedEmail) {
+                return res.status(401).json({
+                    message:'Email not verified'
+                });
+            }
+                
             // correct password - create and send access token
             if(result) {
                 const token = jwt.sign(
@@ -147,7 +146,7 @@ exports.login = (req, res, next) => {
                     process.env.JWT_KEY, 
                     {
                         expiresIn:"3h"
-                    }
+                    }   
                 );
                 return res.status(200).json({
                     message:'Authentication successful',
@@ -185,9 +184,11 @@ exports.updateUser = (req, res, next) => {
     });
 };
 
-exports.deleteUser = (req, res, next) => {
+exports.deleteUser = (req, res) => {
     const id = req.params.userId;
-    User.remove({ _id:id })
+    let b = req.headers.authorization.split(" ")[1];
+    console.log(req.userData);
+    User.deleteOne({ _id:id })
     .exec()
     .then(result => {
         res.status(200).json({ message:'User deleted' });
@@ -199,7 +200,6 @@ exports.deleteUser = (req, res, next) => {
 
 exports.verifyUser = (req, res, next) => {
     const token = jwt.verify(req.body.token, process.env.JWT_KEY);
-    console.log(token.id);
     User.findById(token.id)
         .exec()
         .then(user => {
@@ -210,23 +210,4 @@ exports.verifyUser = (req, res, next) => {
         .catch(err => {
             res.status(500).json({ error:err.message });
         });
-};
-
-exports.deleteAllDev = (req, res, next) => {
-    User.find()
-    .exec()
-    .then(docs => {
-        docs.forEach(element => {
-            if(element.email.match("[A-Za-z0-9]*@fs\\.ch")){
-                User.remove({_id:element._id})
-                .exec()
-                .then(result => {
-                    res.status(200).json({ message:'All dev users deleted' });
-                })
-                .catch(err => {
-                    return res.status(500).json({ message:'Failed to delete all users'});
-                });
-            }
-        });
-    })
 };
