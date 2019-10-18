@@ -12,8 +12,9 @@ import { first } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   loginForm;
-  error;
   submitted = false;
+  message;
+  messageReceived = false;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
       this.loginForm = this.formBuilder.group({
           email: ['', [Validators.required, Validators.email]],
-          password: ['', [Validators.required, Validators.minLength(6)]]
+          password: ['', [Validators.required]]
       });
   }
 
@@ -42,10 +43,19 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {
-                  this.loginForm.reset();
+                  if (data.status === 401 && data.statusText === 'Authentication failed') {
+                      this.messageReceived = true;
+                      this.message = data.statusText;
+                  } else if (data.status === 401 && data.statusText === 'Email not verified') {
+                      this.messageReceived = true;
+                      this.message = data.statusText;
+                  } else if (data.status === 200 ) {
+                      this.loginForm.reset();
+                  }
               },
               error => {
-                  this.error = error;
+                  this.messageReceived = true;
+                  this.message = 'Login failed';
               }
           );
   }
