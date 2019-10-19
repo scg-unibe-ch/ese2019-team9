@@ -184,10 +184,9 @@ exports.updateUser = (req, res, next) => {
     });
 };
 
-exports.deleteUser = (req, res) => {
-    const id = req.params.userId;
-    let b = req.headers.authorization.split(" ")[1];
-    console.log(req.userData);
+exports.deleteUser = (req, res, next) => {
+    const id = req.userData.id;
+    console.log(req.userData.email);
     User.deleteOne({ _id:id })
     .exec()
     .then(result => {

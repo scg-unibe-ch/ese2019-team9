@@ -1,40 +1,25 @@
 const request = require("request");
+const BuildAndClean = require('./buildAndClean.js');
 const url = "http://localhost:8080/user/";
 const assert = require('assert');
 
 describe("Test email verification", () =>{
-    let pw = "zimlechUnsicher";
-    let loginJson = {"email":  Math.floor(Math.random()*1000000) + "@fs.ch", "password":pw};
-    let user = loginJson.email;
-    let identification ="";
-    let token = "";
-    var userJson = {};
-    before(()=>{
-        return new Promise((resolve) => {
-           // sign up random user
-            request({
-                method: 'POST',
-                uri: url + 'signup',
-                json: true,
-                body: loginJson
-            },(error, response, body) => {
-                identification = body.createdUser._id;
-                userJson = body.createdUser;
-                token = body.verificationToken;
-                assert.equal(response.statusCode, 201);
-                resolve();
-            });
+    let loginJson;
+    let token;
+    var userJson;
+
+    beforeEach(()=>{
+       return new Promise((resolve) => {
+        BuildAndClean.signUp.then((data)=>{
+            loginJson = data.signUpJson;
+            token = data.verifyToken;
+            userJson = data.userJson;
+            console.log(loginJson);
+            resolve();
         });
+       });
     });
-    after(() => {
-        request({
-            method: 'DELETE',
-            uri: url + userJson._id,
-            headers: {'authorization': 'Bearer ' + token}
-        },(error,response,body) =>{
-            assert.equal(response.statusCode, 200);
-        });
-    });
+
     it("should send statusCode 200", (done) =>{
         request({
             method: 'PATCH',
@@ -46,7 +31,7 @@ describe("Test email verification", () =>{
             done();
         });
     });
-    it("should alter the verifiedEmail field of user", (done)=>{
+it("should alter the verifiedEmail field of user", (done)=>{
         request({
             method:'GET',
             uri: url + userJson._id,
