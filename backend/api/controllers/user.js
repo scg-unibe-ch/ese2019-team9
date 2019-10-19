@@ -6,7 +6,6 @@ const ejs = require('ejs');
 const fs = require('fs');
 
 const User = require('../models/user');
-const publicDomain = "themoln.herokuapp.com/";
 
 const transport = nodemailer.createTransport({
     service: "gmail",
@@ -36,7 +35,7 @@ exports.getUserById = (req, res, next) => {
         if(doc) {
             res.status(200).json(doc);
         } else {
-            res.status(404).json({ message:'No valid entry found for provided user ID'});
+            res.status(404).json({ message:'No valid entry found for provided user ID' });
         }
     }).catch(err => {
         res.status(500).json({ error:err });
@@ -93,8 +92,7 @@ exports.signUp = (req, res, next) => {
                             transport.sendMail(mail, (error, info) => {
                                 res.status(201).json({
                                     message:'User created and verification email sent',
-                                    createdUser:result,
-                                    verificationToken:token
+                                    createdUser:result
                                 });
                             });
 
@@ -187,7 +185,10 @@ exports.updateUser = (req, res, next) => {
 exports.deleteUser = (req, res) => {
     const id = req.params.userId;
     let b = req.headers.authorization.split(" ")[1];
-    console.log(req.userData);
+
+    if(id != req.userData.userId)
+        return res.status(403).json({ message:'Access denied' });
+
     User.deleteOne({ _id:id })
     .exec()
     .then(result => {
@@ -203,9 +204,12 @@ exports.verifyUser = (req, res, next) => {
     User.findById(token.id)
         .exec()
         .then(user => {
+            if(user.verifiedEmail)
+                res.status(500).json({ message:'Email already verified' });
+
             user.verifiedEmail = true;
             user.save();
-            res.status(200).json({ message:'Email verified' });
+            res.status(200).json({ message:'Email successfully verified' });
         })
         .catch(err => {
             res.status(500).json({ error:err.message });
