@@ -13,8 +13,9 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
   loginForm;
-  error;
   submitted = false;
+  message;
+  messageReceived = false;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -44,11 +45,17 @@ export class RegistrationComponent implements OnInit {
         .pipe(first())
         .subscribe(
             data => {
-              this.loginForm.reset();
-              this.router.navigate(['/registrated']);
+              this.messageReceived = true;
+              if (data.status === 200) {
+                this.loginForm.reset();
+                this.router.navigate(['/registered']);
+              } else if (data.status === 409) {
+                this.message = data.statusText;
+              }
             },
             error => {
-              this.error = error;
+              this.messageReceived = true;
+              this.message = 'Registration failed';
             }
         );
   }

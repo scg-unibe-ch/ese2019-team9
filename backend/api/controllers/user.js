@@ -1,20 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-const ejs = require('ejs');
-const fs = require('fs');
+const verifyMail = require('../methods/mail.js');
 
 const User = require('../models/user');
-const publicDomain = "themoln.herokuapp.com/";
-
-const transport = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "noah.schmid@gym.spiritus.ch", 
-      pass: "molnunibe19" 
-    }
-  });
 
 // list users (only for dev purposes, remove later!)
 exports.getAllUsers = (req, res, next) => {
@@ -30,14 +19,13 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.getUserById = (req, res, next) => {
     const id = req.params.userId;
-
     User.findById(id)
     .exec()
     .then(doc => {
         if(doc) {
             res.status(200).json(doc);
         } else {
-            res.status(404).json({ message:'No valid entry found for provided user ID'});
+            res.status(404).json({ message:'No valid entry found for provided user ID' });
         }
     }).catch(err => {
         res.status(500).json({ error:err });
@@ -77,31 +65,18 @@ exports.signUp = (req, res, next) => {
                             {
                             }
                         );
-                        try {
-                            const url = process.env.PUBLIC_DOMAIN + "/verify?token=" + token
-                            const placeholders = { tokenPlaceholder:url };
-                            const template = fs.readFileSync('api/templates/email_verification.html', { encoding:'utf-8' });
-                            const body = ejs.render(template, placeholders);
-                            
-                            const mail = {
-                                from:"no-reply@moln.ch",
-                                to:user.email,
-                                subject:"MOLN account email verification",
-                                text:"Please follow this link to verify your email address: " + token,
-                                html:body
-                            };
-                        
-                            transport.sendMail(mail, (error, info) => {
-                                res.status(201).json({
-                                    message:'User created and verification email sent',
-                                    createdUser:result,
-                                    verificationToken:token
-                                });
-                            });
 
-                        } catch (err) {
-                            console.log(err);
-                        }
+
+                        verifyMail.sendVerification(token, user, result).then(()=>{
+                            res.status(201).json({
+                                message:'User created and verification email sent',
+                                createdUser: result
+                            });
+                        })
+                        .catch((error) => {
+                            res.status(500).json({'message': 'you done fucked up'});
+                        });
+                        
                     }).catch(err => {
                         res.status(500).json({ error:err });
                     });
@@ -130,13 +105,13 @@ exports.login = (req, res, next) => {
                 });
             } 
 
-        // check if email adress is verified
-        if(!user[0].verifiedEmail) {
-            return res.status(401).json({
-                message:'Email not verified'
-            });
-        }
-            
+            // check if email adress is verified
+            if(!user[0].verifiedEmail) {
+                return res.status(401).json({
+                    message:'Email not verified'
+                });
+            }
+                
             // correct password - create and send access token
             if(result) {
                 const token = jwt.sign(
@@ -147,7 +122,7 @@ exports.login = (req, res, next) => {
                     process.env.JWT_KEY, 
                     {
                         expiresIn:"3h"
-                    }
+                    }   
                 );
                 return res.status(200).json({
                     message:'Authentication successful',
@@ -186,8 +161,10 @@ exports.updateUser = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-    const id = req.params.userId;
-    User.remove({ _id:id })
+    const id = req.userData.id;
+    console.log(req.userData.email);
+
+    User.deleteOne({ _id:id })
     .exec()
     .then(result => {
         res.status(200).json({ message:'User deleted' });
@@ -199,34 +176,17 @@ exports.deleteUser = (req, res, next) => {
 
 exports.verifyUser = (req, res, next) => {
     const token = jwt.verify(req.body.token, process.env.JWT_KEY);
-    console.log(token.id);
     User.findById(token.id)
         .exec()
         .then(user => {
+            if(user.verifiedEmail)
+                res.status(500).json({ message:'Email already verified' });
+
             user.verifiedEmail = true;
             user.save();
-            res.status(200).json({ message:'Email verified' });
+            res.status(200).json({ message:'Email successfully verified' });
         })
         .catch(err => {
             res.status(500).json({ error:err.message });
         });
-};
-
-exports.deleteAllDev = (req, res, next) => {
-    User.find()
-    .exec()
-    .then(docs => {
-        docs.forEach(element => {
-            if(element.email.match("[A-Za-z0-9]*@fs\\.ch")){
-                User.remove({_id:element._id})
-                .exec()
-                .then(result => {
-                    res.status(200).json({ message:'All dev users deleted' });
-                })
-                .catch(err => {
-                    return res.status(500).json({ message:'Failed to delete all users'});
-                });
-            }
-        });
-    })
 };
