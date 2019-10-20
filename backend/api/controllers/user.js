@@ -1,19 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-const ejs = require('ejs');
-const fs = require('fs');
+const verifyMail = require('../methods/mail.js');
 
 const User = require('../models/user');
-
-const transport = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "noah.schmid@gym.spiritus.ch", 
-      pass: "molnunibe19" 
-    }
-  });
 
 // list users (only for dev purposes, remove later!)
 exports.getAllUsers = (req, res, next) => {
@@ -75,30 +65,18 @@ exports.signUp = (req, res, next) => {
                             {
                             }
                         );
-                        try {
-                            const url = process.env.PUBLIC_DOMAIN + "/verify?token=" + token
-                            const placeholders = { tokenPlaceholder:url };
-                            const template = fs.readFileSync('api/templates/email_verification.html', { encoding:'utf-8' });
-                            const body = ejs.render(template, placeholders);
-                            
-                            const mail = {
-                                from:"no-reply@moln.ch",
-                                to:user.email,
-                                subject:"MOLN account email verification",
-                                text:"Please follow this link to verify your email address: " + token,
-                                html:body
-                            };
-                        
-                            transport.sendMail(mail, (error, info) => {
-                                res.status(201).json({
-                                    message:'User created and verification email sent',
-                                    createdUser:result
-                                });
-                            });
 
-                        } catch (err) {
-                            console.log(err);
-                        }
+
+                        verifyMail.sendVerification(token, user, result).then(()=>{
+                            res.status(201).json({
+                                message:'User created and verification email sent',
+                                createdUser: result
+                            });
+                        })
+                        .catch((error) => {
+                            res.status(500).json({'message': 'you done fucked up'});
+                        });
+                        
                     }).catch(err => {
                         res.status(500).json({ error:err });
                     });
@@ -183,12 +161,9 @@ exports.updateUser = (req, res, next) => {
     });
 };
 
-exports.deleteUser = (req, res) => {
-    const id = req.params.userId;
-    let b = req.headers.authorization.split(" ")[1];
-
-    if(id != req.userData.userId)
-        return res.status(403).json({ message:'Access denied' });
+exports.deleteUser = (req, res, next) => {
+    const id = req.userData.id;
+    console.log(req.userData.email);
 
     User.deleteOne({ _id:id })
     .exec()
