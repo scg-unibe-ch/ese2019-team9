@@ -14,7 +14,6 @@ describe("Test requests for userId", () =>{
                 loginJson = data.signUpJson;
                 verifyToken = data.verifyToken;
                 userJson = data.userJson;
-                console.log(loginJson);
                 resolve();
             });
         });

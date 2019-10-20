@@ -42,7 +42,6 @@ exports.login = function(loginJson) {
             json: true,
             body: loginJson
         }, (error, response, body)=>{
-            console.log(body.token);
             resolve(body.token);
         });
     });
@@ -53,7 +52,7 @@ exports.clean = (userJson) => {
         method: 'DELETE',
         uri: dev + userJson._id,
     },(error,response,body) =>{
-        assert.equal(response.statusCode, 200);
+        return response.statusCode;
     });
 }
 

@@ -14,10 +14,15 @@ describe("Test email verification", () =>{
             loginJson = data.signUpJson;
             token = data.verifyToken;
             userJson = data.userJson;
-            console.log(loginJson);
             resolve();
         });
        });
+    });
+
+    after(()=>{
+        BuildAndClean.clean(userJson, (statusCode) => {
+            assert.equal(statusCode, 200);
+        });
     });
 
     it("should send statusCode 200", (done) =>{
