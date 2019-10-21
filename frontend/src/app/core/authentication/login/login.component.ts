@@ -12,7 +12,9 @@ import { first } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   loginForm;
-  submitted = false;
+  showingPassword = false;
+  type = 'password';
+
   message;
   messageReceived = false;
 
@@ -28,11 +30,15 @@ export class LoginComponent implements OnInit {
       });
   }
 
-    // getter for easy access to form fields
-    get f() { return this.loginForm.controls; }
+  // getter for easy access to form fields
+  get form() { return this.loginForm.controls; }
+
+  showPassword(bool: boolean) {
+      this.showingPassword = bool;
+      this.type = this.showingPassword ? 'text' : 'password';
+  }
 
   onSubmitLogin() {
-      this.submitted = true;
 
       // stop here if form is invalid
       if (this.loginForm.invalid) {

@@ -11,26 +11,28 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
         <ion-card>
           <ion-item>
-            <ion-label></ion-label>
-            <ion-input type="text" placeholder="E-mail*" formControlName="email"></ion-input>
+            <ion-label position="floating"> Email* </ion-label>
+            <ion-input type="text" formControlName="email"></ion-input>
           </ion-item>
         </ion-card>
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">Email is required</div>
-          <div *ngIf="f.email.errors.email">Not a valid address</div>
+        <div *ngIf=" (form.email.dirty || form.email.touched) && form.email.errors" class="invalid-feedback">
+          <div *ngIf="form.email.errors.required"> Email is required </div>
+          <div *ngIf="form.email.errors.email"> Not a valid address </div>
         </div>
         <ion-card>
           <ion-item>
-            <ion-label></ion-label>
-            <ion-input type="password" placeholder="Password*" formControlName="password"></ion-input>
+            <ion-label position="floating"> Password* </ion-label>
+            <ion-input [type]="type" formControlName="password"></ion-input>
+            <ion-icon *ngIf="!showingPassword" slot="end" name="eye" (click)="showPassword(true)"></ion-icon>
+            <ion-icon *ngIf="showingPassword" slot="end" name="eye-off" (click)="showPassword(false)"></ion-icon>
           </ion-item>
         </ion-card>
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Password is required</div>
+        <div *ngIf="(form.password.dirty || form.password.touched) && form.password.errors" class="invalid-feedback">
+          <div *ngIf="form.password.errors.required"> Password is required </div>
         </div>
-        <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }}</div>
-        <ion-card class="loginButton">
-          <ion-button class="loginButton" fill="empty" expand="block" type="submit"> Log In </ion-button>
+        <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </div>
+        <ion-card class="formButton">
+          <ion-button class="formButton" fill="empty" expand="block" type="submit"> Log In </ion-button>
         </ion-card>
       </form>
       <ion-text>

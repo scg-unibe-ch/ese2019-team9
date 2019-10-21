@@ -7,10 +7,11 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
 import {LoginComponent} from './authentication/login/login.component';
 import {RegistrationComponent} from './authentication/registration/registration.component';
+import {ForgotPasswordComponent} from './authentication/forgot-password/forgot-password.component';
 
 
 @NgModule({
-  declarations: [LoginComponent, RegistrationComponent],
+  declarations: [LoginComponent, RegistrationComponent, ForgotPasswordComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -19,6 +20,6 @@ import {RegistrationComponent} from './authentication/registration/registration.
     ReactiveFormsModule,
     NgxCaptchaModule
   ],
-  exports: [LoginComponent, RegistrationComponent]
+  exports: [LoginComponent, RegistrationComponent, ForgotPasswordComponent]
 })
 export class AuthModule { }
