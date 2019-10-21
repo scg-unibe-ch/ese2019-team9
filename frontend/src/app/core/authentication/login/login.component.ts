@@ -43,19 +43,21 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {
-                  if (data.status === 401 && data.statusText === 'Authentication failed') {
-                      this.messageReceived = true;
-                      this.message = data.statusText;
-                  } else if (data.status === 401 && data.statusText === 'Email not verified') {
-                      this.messageReceived = true;
-                      this.message = data.statusText;
-                  } else if (data.status === 200 ) {
+                   if (data.status === 200 ) {
                       this.loginForm.reset();
                   }
               },
               error => {
                   this.messageReceived = true;
-                  this.message = 'Login failed';
+                  if (error.status === 401 && error.statusText === 'Authentication failed') {
+                      this.messageReceived = true;
+                      this.message = error.statusText;
+                  } else if (error.status === 401 && error.statusText === 'Email not verified') {
+                      this.messageReceived = true;
+                      this.message = error.statusText;
+                  } else {
+                      this.message = 'Login failed';
+                  }
               }
           );
   }

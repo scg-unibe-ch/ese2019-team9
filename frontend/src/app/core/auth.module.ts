@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {IonicModule} from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 import {LoginComponent} from './authentication/login/login.component';
 import {RegistrationComponent} from './authentication/registration/registration.component';
@@ -15,7 +16,8 @@ import {RegistrationComponent} from './authentication/registration/registration.
     IonicModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxCaptchaModule
   ],
   exports: [LoginComponent, RegistrationComponent]
 })
