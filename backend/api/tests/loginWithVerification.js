@@ -3,9 +3,8 @@ const url = "http://localhost:8080/user/";
 const assert = require('assert');
 const BuildAndClean = require('./buildAndClean.js');
     
-describe("Test user login", ()=>{
+describe("Test user login with verified Email", ()=>{
     let loginJson;
-    let user;
     let verifyToken;
     var userJson;
 
@@ -27,15 +26,18 @@ describe("Test user login", ()=>{
         });
     });
 
-    it('log in without verification', function(done) {
-        request({
-            method: 'POST',
-            uri: url + 'login',
-            json: true,
-            body: loginJson
-        }, (error,response,body) => {
-            assert.equal(response.statusCode, 401);
-            done();
+    it('login with verified email', (done) => {
+        BuildAndClean.verify(verifyToken).then((verify) => {
+            assert.equal(verify, 200);
+            request({
+                method: 'POST',
+                uri: url + 'login',
+                json: true,
+                body: loginJson
+            }, (error,response,body) => {
+                assert.equal(response.statusCode, 200);
+                done(body.token);
+            });
         });
     });
 });

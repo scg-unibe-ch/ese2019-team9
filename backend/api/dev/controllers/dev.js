@@ -26,6 +26,7 @@ const transport = nodemailer.createTransport({
                 .exec()
                 .then(result => {
                     res.status(200).json({ message:'All dev users deleted' });
+                    next();
                 })
                 .catch(err => {
                     return res.status(500).json({ message:'Failed to delete all users'});
@@ -41,6 +42,7 @@ exports.deleteUser = (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({ message:'User deleted' });
+        next();
     })
     .catch(err => {
         res.status(500).json({ error:err })
@@ -53,8 +55,18 @@ exports.getUser = (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({ message:result});
+        next();
     })
     .catch(err => {
         res.status(500).json({ error:err })
     });
 };
+
+exports.getAllUsers = (req, res, next) =>{
+    User.find().exec().then( (users) => {
+        res.status(200).json(users);
+        next();
+    }).catch((err) =>{
+        res.status(500).json({'message':err});
+    });
+}

@@ -27,6 +27,7 @@
     "@rxweb/reactive-form-validators": "^1.9.4",
     "bootstrap": "^3.4.1",
     "core-js": "^2.5.4",
+    "ngx-captcha": "^7.0.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"

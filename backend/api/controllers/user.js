@@ -5,18 +5,6 @@ const verifyMail = require('../methods/mail.js');
 
 const User = require('../models/user');
 
-// list users (only for dev purposes, remove later!)
-exports.getAllUsers = (req, res, next) => {
-    User.find()
-    .exec()
-    .then(docs => {
-        res.status(200).json(docs);
-    })
-    .catch(err => {
-        res.status(500).json({ error:err })
-    });
-};
-
 exports.getUserById = (req, res, next) => {
     const id = req.params.userId;
     User.findById(id)
@@ -117,7 +105,8 @@ exports.login = (req, res, next) => {
                 const token = jwt.sign(
                     { 
                         email:user[0].email, 
-                        userId:user[0]._id
+                        userId:user[0]._id,
+                        _flag:1
                     }, 
                     process.env.JWT_KEY, 
                     {
