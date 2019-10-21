@@ -39,6 +39,7 @@ exports.signUp = (req, res, next) => {
                         _id: new mongoose.Types.ObjectId(),
                         email:req.body.email,
                         password:hash,
+                        admin:false,
                         verifiedEmail:false
                     });
         
@@ -54,15 +55,14 @@ exports.signUp = (req, res, next) => {
                             }
                         );
 
-
                         verifyMail.sendVerification(token, user, result).then(()=>{
                             res.status(201).json({
                                 message:'User created and verification email sent',
                                 createdUser: result
                             });
                         })
-                        .catch((error) => {
-                            res.status(500).json({'message': 'you done fucked up'});
+                        .catch((err) => {
+                            res.status(500).json({ error:err });
                         });
                         
                     }).catch(err => {
@@ -106,6 +106,7 @@ exports.login = (req, res, next) => {
                     { 
                         email:user[0].email, 
                         userId:user[0]._id,
+                        admin:user[0].admin,
                         _flag:1
                     }, 
                     process.env.JWT_KEY, 
@@ -151,7 +152,11 @@ exports.updateUser = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
     const id = req.userData.id;
-    console.log(req.userData.email);
+
+    if(req.userData.id != req.params.userId || !req.userData.admin)
+        return res.status(401).json({
+            message:'Access denied'
+        });
 
     User.deleteOne({ _id:id })
     .exec()
