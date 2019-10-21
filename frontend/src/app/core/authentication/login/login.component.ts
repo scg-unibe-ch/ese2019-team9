@@ -49,12 +49,12 @@ export class LoginComponent implements OnInit {
               },
               error => {
                   this.messageReceived = true;
-                  if (error.status === 401 && error.statusText === 'Authentication failed') {
+                  if (error.status === 401 && error.error.message === 'Authentication failed') {
                       this.messageReceived = true;
-                      this.message = error.statusText;
-                  } else if (error.status === 401 && error.statusText === 'Email not verified') {
+                      this.message = error.error.message;
+                  } else if (error.status === 401 && error.error.message === 'Email not verified') {
                       this.messageReceived = true;
-                      this.message = error.statusText;
+                      this.message = error.error.message;
                   } else {
                       this.message = 'Login failed';
                   }

@@ -29,7 +29,7 @@
                   <div *ngIf="f.password.errors.required">Password is required</div>
                   <div *ngIf="f.password.errors.minlength">Must be 6+ characters</div>
               </div>
-              <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }}</div>
+              <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </div>
           <ion-card class="loginButton">
             <ion-button class="loginButton" fill="empty" size="block" type="submit">Join now</ion-button>
           </ion-card>

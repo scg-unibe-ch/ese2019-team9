@@ -25,8 +25,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      recaptcha: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -50,13 +49,15 @@ export class RegistrationComponent implements OnInit {
               if (data.status === 200) {
                 this.loginForm.reset();
                 this.router.navigate(['/registered']);
-              } else if (data.status === 409) {
-                this.message = data.statusText;
               }
             },
             error => {
               this.messageReceived = true;
-              this.message = 'Registration failed';
+              if (error.status === 409) {
+                this.message = error.error.message;
+              } else {
+                this.message = 'Registration failed';
+              }
             }
         );
   }
