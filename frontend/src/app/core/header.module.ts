@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputFormModule} from '../shared/input-form.module';
 
+import { AuthModule } from './auth.module';
+
 import {HeaderComponent} from './header/header.component';
 import {TopHeaderComponent} from './header/top-header/top-header.component';
 import {TopHeaderEndComponent} from './header/top-header/top-header-end/top-header-end.component';
@@ -14,6 +16,7 @@ import {MiddleHeaderComponent} from './header/middle-header/middle-header.compon
 
 import {LoginComponent} from './authentication/login/login.component';
 import {RegistrationComponent} from './authentication/registration/registration.component';
+import {ForgotPasswordComponent} from './authentication/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -25,9 +28,11 @@ import {RegistrationComponent} from './authentication/registration/registration.
     FormsModule,
     ReactiveFormsModule,
     InputFormModule,
+    AuthModule,
     RouterModule.forChild([
       { path: 'login', component: LoginComponent },
       { path: 'registration', component: RegistrationComponent },
+      { path: 'forgotPassword', component: ForgotPasswordComponent }
     ])
   ],
   exports: [HeaderComponent, TopHeaderComponent, MiddleHeaderComponent, BottomHeaderComponent]

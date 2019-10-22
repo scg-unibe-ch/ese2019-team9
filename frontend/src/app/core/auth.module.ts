@@ -10,9 +10,6 @@ import {LoginComponent} from './authentication/login/login.component';
 import {RegistrationComponent} from './authentication/registration/registration.component';
 import {ForgotPasswordComponent} from './authentication/forgot-password/forgot-password.component';
 
-
-
-
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent, ForgotPasswordComponent],
     imports: [

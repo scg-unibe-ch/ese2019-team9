@@ -17,6 +17,7 @@ export class ForgotPasswordComponent implements OnInit {
       { type: 'email', message: 'Not a valid address' }
     ]
   };
+  forgotEmailSent = false;
 
   constructor(
       private formBuilder: FormBuilder,

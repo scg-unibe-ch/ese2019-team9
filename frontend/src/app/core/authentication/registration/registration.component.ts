@@ -51,13 +51,12 @@ export class RegistrationComponent implements OnInit {
         .subscribe(
             data => {
               this.messageReceived = true;
-              if (data.status === 200) {
-                this.registrationForm.reset();
-                this.router.navigate(['/registered']);
-              }
+              this.registrationForm.reset();
+              this.router.navigate(['/registered']);
             },
             error => {
               this.messageReceived = true;
+              this.registrationForm.reset();
               if (error.status === 409) {
                 this.message = error.error.message;
               } else {
