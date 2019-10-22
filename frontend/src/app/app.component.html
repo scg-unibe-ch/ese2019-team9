@@ -33,7 +33,7 @@
           <ion-icon name="cog" slot="start"></ion-icon>
           <ion-label>Equipment</ion-label>
         </ion-item>
-        <ion-item routerLink="/">
+        <ion-item *ngIf="authService.isLoggedIn()" routerLink="/">
           <ion-icon name="checkbox-outline" slot="start"></ion-icon>
           <ion-label>Your Bookings</ion-label>
         </ion-item>
