@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../../core/services/authService/auth.service";
+import {AuthService} from '../../core/services/authService/auth.service';
 
 
 @Component({
@@ -12,6 +12,10 @@ export class RegisteredPage implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+  }
+
+  resendEmail() {
+    this.authService.resendEmail().subscribe(res => console.log(res));
   }
 
 }
