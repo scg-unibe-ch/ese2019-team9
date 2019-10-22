@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const UserController = require('../../controllers/user.js')
 
 const DevController = require('../controllers/dev');
 const checkAuth = require('../../mware/check-auth');
@@ -15,5 +16,8 @@ router.delete('/:id', DevController.deleteUser);
 
 //get user by id
 router.get('/:id', DevController.getUser);
+
+//resend email
+router.post('/resend', UserController.resendVerification);
 
 module.exports = router;

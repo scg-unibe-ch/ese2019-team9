@@ -10,7 +10,7 @@ const transport = nodemailer.createTransport({
     }
 });
 
-exports.sendVerification = function(token, user, result){
+exports.sendVerification = function(token, userEmail){
   return new Promise((resolve, reject)=>{
 
     const url = process.env.PUBLIC_DOMAIN + "/verify?token=" + token;
@@ -20,7 +20,7 @@ exports.sendVerification = function(token, user, result){
     
     const mail = {
         from:"no-reply@moln.ch",
-        to:user.email,
+        to: userEmail,
         subject:"MOLN account email verification",
         text:"Please follow this link to verify your email address: " + token,
         html:body

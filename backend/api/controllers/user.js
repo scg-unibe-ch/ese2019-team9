@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const verifyMail = require('../methods/mail.js');
+const verifyEmail = require('../methods/mail.js');
 
 const User = require('../models/user');
 
@@ -43,7 +43,7 @@ exports.signUp = (req, res, next) => {
                         verifiedEmail:false
                     });
         
-                    user
+                    user //?
                     .save()
                     .then(result => {
                         const token = jwt.sign(
@@ -55,7 +55,7 @@ exports.signUp = (req, res, next) => {
                             }
                         );
 
-                        verifyMail.sendVerification(token, user, result).then(()=>{
+                        verifyEmail.sendVerification(token, user.email, result).then(()=>{
                             res.status(201).json({
                                 message:'User created and verification email sent',
                                 createdUser: result
@@ -183,4 +183,24 @@ exports.verifyUser = (req, res, next) => {
         .catch(err => {
             res.status(500).json({ error:err.message });
         });
+};
+
+/**
+ * @param request has to contain a Json with _id and email of the user
+ * @param result
+ * @param next is the next function
+ */
+
+exports.resendVerification = (req, res, next) => {
+    const id = req.body._id;
+    const userMail = req.body.email;
+    const verifyToken = jwt.sign({id:id}, process.env.JWT_KEY,{});
+
+    verifyEmail.sendVerification(verifyToken, userMail)
+    .then(()=>{
+        res.status(200).json({message: 'Verification successfully resent'});
+    })
+    .catch((err) => {
+        res.status(500).json({message: err});
+    });
 };
