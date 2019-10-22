@@ -9,7 +9,7 @@ import {RegistrationComponent} from '../../../authentication/registration/regist
 @Component({
   selector: 'app-top-header-end',
   templateUrl: './top-header-end.component.html',
-  styleUrls: ['./top-header-end.component.scss'],
+  styleUrls: ['./top-header-end.component.scss']
 })
 export class TopHeaderEndComponent implements OnInit {
 

@@ -21,12 +21,8 @@
                   [type]= "'password'" [inputMode]="'password'">
           </app-input-form>
         </ion-card>
-
         <ion-item *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </ion-item>
-
-        <ion-card class="formButton">
-          <ion-button class="formButton" fill="empty" expand="block" type="submit"> Log In </ion-button>
-        </ion-card>
+        <ion-button class="formButton" expand="block" type="submit"> Log In </ion-button>
       </form>
       <ion-text>
         Not a member yet?
