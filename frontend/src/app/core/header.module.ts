@@ -28,6 +28,6 @@ import {MiddleHeaderComponent} from './header/middle-header/middle-header.compon
       { path: 'registration', component: RegistrationComponent },
     ])
   ],
-  exports: [HeaderComponent, TopHeaderComponent, MiddleHeaderComponent, BottomHeaderComponent]
+    exports: [HeaderComponent, TopHeaderComponent, MiddleHeaderComponent, BottomHeaderComponent, LogoComponent]
 })
 export class HeaderModule { }

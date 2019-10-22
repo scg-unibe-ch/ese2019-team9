@@ -1,39 +1,59 @@
-<ion-toolbar>
-    <ion-grid>
-        <ion-row>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear">
-                        <ion-icon name="beer"></ion-icon>
-                        Food and Beverage
-                    </ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear"><ion-icon name="bonfire"></ion-icon>Infrastructure</ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear"><ion-icon name="microphone"></ion-icon>Services</ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear"><ion-icon name="cog"></ion-icon>Equipment</ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear"><ion-icon name="home"></ion-icon>Real Estate</ion-button>
-                </ion-buttons>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-</ion-toolbar>
-
-
-
-
-
+<ion-menu side="start" menuId="m1">
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-title>
+                Menu
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <ion-item *ngIf="authService.isLoggedIn()" routerLink="/">
+                <ion-icon name="person" slot="start"></ion-icon>
+                <ion-label>Profile</ion-label>
+            </ion-item>
+            <ion-item lines="none" routerLink="/">
+                <ion-icon name="business" slot="start"></ion-icon>
+                <ion-label>Real Estate</ion-label>
+            </ion-item>
+            <ion-item lines="none" routerLink="/">
+                <ion-icon name="beer" slot="start"></ion-icon>
+                <ion-label>Food and Beverage</ion-label>
+            </ion-item>
+            <ion-item lines="none" routerLink="/">
+                <ion-icon name="bonfire" slot="start"></ion-icon>
+                <ion-label>Infrastructure</ion-label>
+            </ion-item>
+            <ion-item lines="none" routerLink="/">
+                <ion-icon name="microphone" slot="start"></ion-icon>
+                <ion-label>Services</ion-label>
+            </ion-item>
+            <ion-item routerLink="/">
+                <ion-icon name="cog" slot="start"></ion-icon>
+                <ion-label>Equipment</ion-label>
+            </ion-item>
+            <ion-item routerLink="/">
+                <ion-icon name="wallet" slot="start"></ion-icon>
+                <ion-label>Become a Seller</ion-label>
+            </ion-item>
+            <ion-item *ngIf="authService.isLoggedIn()" routerLink="/">
+                <ion-icon name="checkbox-outline" slot="start"></ion-icon>
+                <ion-label>Your Bookings</ion-label>
+            </ion-item>
+            <ion-item *ngIf="authService.isLoggedIn()" (click)="authService.logout()">
+                <ion-icon name="exit" slot="start"></ion-icon>
+                <ion-label>Logout</ion-label>
+            </ion-item>
+            <ion-item *ngIf="authService.isLoggedIn()" (click)="authService.logout()">
+                <ion-icon name="exit" slot="start"></ion-icon>
+                <ion-label>Logout</ion-label>
+            </ion-item>
+            <ion-item *ngIf="!authService.isLoggedIn()" (click)="presentLoginPopover($event)">
+                <ion-label>Login</ion-label>
+            </ion-item>
+            <ion-item *ngIf="!authService.isLoggedIn()" (click)="presentRegistrationPopover($event)">
+                <ion-label>Registration</ion-label>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
