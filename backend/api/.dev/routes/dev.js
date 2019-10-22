@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const DevController = require('../controllers/dev');
 const checkAuth = require('../../mware/check-auth');
 
