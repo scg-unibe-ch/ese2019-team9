@@ -1,24 +1,24 @@
 .button {
-  font-family: Gotham, sans-serif;
+  font-family: sans-serif;
   font-size: 12px;
   font-weight: bold;
-  --color: var(--my-grey);
-  --border-color: var(--my-grey);
+  --color: var(--ion-color-secondary);
+  --border-color: var(--ion-color-secondary);
   --border-style: solid;
   --border-width: 1px;
   --border-radius: 20px;
   --padding-end: 20px;
   --padding-start: 20px;
-  --background-hover: var(--my-grey);
+  --background-hover: var(--ion-color-secondary);
   --color-hover: white;
 
   margin-left: 10px;
 }
 
 .joinButton {
-  --color: var(--my-blue);
-  --border-color: var(--my-blue);
-  --background-hover: var(--my-blue);
+  --color: var(--ion-color-primary);
+  --border-color: var(--ion-color-primary);
+  --background-hover: var(--ion-color-primary);
   --color-hover: white;
 }
 
