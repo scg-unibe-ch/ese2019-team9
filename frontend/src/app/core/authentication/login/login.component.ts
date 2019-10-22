@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import { AuthService } from '../../services/authService/auth.service';
+import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+
+import { AuthService } from '../../services/authService/auth.service';
+
 
 
 @Component({
@@ -11,10 +13,17 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm;
-  showingPassword = false;
-  type = 'password';
 
+  loginForm: FormGroup;
+  validationMessages = {
+      email: [
+          { type: 'required', message: 'Email is required' },
+          { type: 'email', message: 'Not a valid address' }
+      ],
+      password: [
+          { type: 'required', message: 'Password is required' },
+      ]
+  };
   message;
   messageReceived = false;
 
@@ -28,14 +37,6 @@ export class LoginComponent implements OnInit {
           email: ['', [Validators.required, Validators.email]],
           password: ['', [Validators.required]]
       });
-  }
-
-  // getter for easy access to form fields
-  get form() { return this.loginForm.controls; }
-
-  showPassword(bool: boolean) {
-      this.showingPassword = bool;
-      this.type = this.showingPassword ? 'text' : 'password';
   }
 
   onSubmitLogin() {
@@ -67,5 +68,4 @@ export class LoginComponent implements OnInit {
               }
           );
   }
-
 }

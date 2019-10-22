@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {first} from 'rxjs/operators';
-import {AuthService} from '../../services/authService/auth.service';
 import { Router } from '@angular/router';
 
+import {AuthService} from '../../services/authService/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -11,10 +11,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration.component.scss'],
 })
 export class RegistrationComponent implements OnInit {
-  registrationForm;
-  showingPassword = false;
-  type = 'password';
 
+  registrationForm: FormGroup;
+  validationMessages = {
+    email: [
+      { type: 'required', message: 'Email is required' },
+      { type: 'email', message: 'Not a valid address' }
+    ],
+    password: [
+      { type: 'required', message: 'Password is required' },
+      { type: 'minlength', message: 'Password must contain 6 characters' }
+    ]
+  };
   message;
   messageReceived = false;
 
@@ -29,14 +37,6 @@ export class RegistrationComponent implements OnInit {
       email: ['', [ Validators.required, Validators.email]],
       password: ['', [ Validators.required, Validators.minLength(6)]]
     });
-  }
-
-  // getter for easy access to form fields
-  get form() { return this.registrationForm.controls; }
-
-  showPassword(bool: boolean) {
-    this.showingPassword = bool;
-    this.type = this.showingPassword ? 'text' : 'password';
   }
 
   onSubmitRegistration() {

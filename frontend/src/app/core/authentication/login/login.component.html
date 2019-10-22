@@ -10,27 +10,20 @@
     <ion-col size="10" offset="1">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
         <ion-card>
-          <ion-item>
-            <ion-label position="floating"> Email* </ion-label>
-            <ion-input type="text" formControlName="email"></ion-input>
-          </ion-item>
+          <app-input-form
+                  [inputForm]="loginForm" [givenName]="'email'" [text]="'Email*'" [validationMessages]="validationMessages.email"
+                  [type]="'email'" [inputMode]="'email'">
+          </app-input-form>
         </ion-card>
-        <div *ngIf=" (form.email.dirty || form.email.touched) && form.email.errors" class="invalid-feedback">
-          <div *ngIf="form.email.errors.required"> Email is required </div>
-          <div *ngIf="form.email.errors.email"> Not a valid address </div>
-        </div>
         <ion-card>
-          <ion-item>
-            <ion-label position="floating"> Password* </ion-label>
-            <ion-input [type]="type" formControlName="password"></ion-input>
-            <ion-icon *ngIf="!showingPassword" slot="end" name="eye" (click)="showPassword(true)"></ion-icon>
-            <ion-icon *ngIf="showingPassword" slot="end" name="eye-off" (click)="showPassword(false)"></ion-icon>
-          </ion-item>
+          <app-input-form
+                  [inputForm]="loginForm" [givenName]="'password'" [text]="'Password*'" [validationMessages]="validationMessages.password"
+                  [type]= "'password'" [inputMode]="'password'">
+          </app-input-form>
         </ion-card>
-        <div *ngIf="(form.password.dirty || form.password.touched) && form.password.errors" class="invalid-feedback">
-          <div *ngIf="form.password.errors.required"> Password is required </div>
-        </div>
-        <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </div>
+
+        <ion-item *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </ion-item>
+
         <ion-card class="formButton">
           <ion-button class="formButton" fill="empty" expand="block" type="submit"> Log In </ion-button>
         </ion-card>

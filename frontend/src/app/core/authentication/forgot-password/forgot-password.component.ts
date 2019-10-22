@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Validators, FormBuilder} from '@angular/forms';
+import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 import {AuthService} from '../../services/authService/auth.service';
 
@@ -9,7 +9,14 @@ import {AuthService} from '../../services/authService/auth.service';
   styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
-  forgotPasswordForm;
+
+  forgotPasswordForm: FormGroup;
+  validationMessages = {
+    email: [
+      { type: 'required', message: 'Email is required' },
+      { type: 'email', message: 'Not a valid address' }
+    ]
+  };
 
   constructor(
       private formBuilder: FormBuilder,
@@ -23,18 +30,15 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  // getter for easy access to form fields
-  get form() { return this.forgotPasswordForm.controls; }
-
   onSubmitGetPassword() {
 
     // stop here if form is invalid
     if (this.forgotPasswordForm.invalid) {
       return;
     }
-
-
-
+    /*
+    Insert code that handles API request, once backend implemented their side of the request.
+     */
   }
 
 }
