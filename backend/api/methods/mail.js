@@ -31,3 +31,9 @@ exports.sendVerification = function(token, userEmail){
     });
   });
 }
+
+exports.sendPasswordReset = function(password, userEmail){
+  return new Promise((resolve,reject) => {
+    
+  })
+}

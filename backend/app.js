@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 
 // routes
 const userRoutes = require('./api/routes/user');
-const devRoutes = require('./api/dev/routes/dev');
+const devRoutes = require('./api/.dev/routes/dev');
 app.use('/user', userRoutes);
 app.use('/dev', devRoutes);
 

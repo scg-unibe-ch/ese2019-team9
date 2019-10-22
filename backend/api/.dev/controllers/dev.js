@@ -4,17 +4,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const fs = require('fs');
-
 const User = require('../../models/user');
-const publicDomain = "themoln.herokuapp.com/";
-
-const transport = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "noah.schmid@gym.spiritus.ch", 
-      pass: "molnunibe19" 
-    }
-  });
 
   exports.deleteAllDev = (req, res, next) => {
     User.find()
