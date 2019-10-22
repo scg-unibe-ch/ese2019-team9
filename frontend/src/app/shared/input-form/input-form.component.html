@@ -5,9 +5,9 @@
     <ion-icon *ngIf="!showingPassword" name="eye" (click)="showPassword(true)"></ion-icon>
     <ion-icon *ngIf="showingPassword" name="eye-off" (click)="showPassword(false)"></ion-icon>
   </div>
-  <div class="invalid-feedback">
+  <div>
     <div *ngFor="let validation of validationMessages">
-      <div class="error-message" *ngIf="inputForm.get(givenName).hasError(validation.type) && (inputForm.get(givenName).dirty || inputForm.get(givenName).touched)">
+      <div class="invalid-feedback" *ngIf="inputForm.get(givenName).hasError(validation.type) && (inputForm.get(givenName).dirty || inputForm.get(givenName).touched)">
         {{ validation.message + "\n"}}
       </div>
     </div>
