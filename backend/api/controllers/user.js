@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const verifyMail = require('../methods/mail.js');
+const verifyEmail = require('../methods/mail.js');
 
 const User = require('../models/user');
 
@@ -39,10 +39,11 @@ exports.signUp = (req, res, next) => {
                         _id: new mongoose.Types.ObjectId(),
                         email:req.body.email,
                         password:hash,
+                        admin:false,
                         verifiedEmail:false
                     });
         
-                    user
+                    user //?
                     .save()
                     .then(result => {
                         const token = jwt.sign(
@@ -54,15 +55,14 @@ exports.signUp = (req, res, next) => {
                             }
                         );
 
-
-                        verifyMail.sendVerification(token, user, result).then(()=>{
+                        verifyEmail.sendVerification(token, user.email, result).then(()=>{
                             res.status(201).json({
                                 message:'User created and verification email sent',
                                 createdUser: result
                             });
                         })
-                        .catch((error) => {
-                            res.status(500).json({'message': 'you done fucked up'});
+                        .catch((err) => {
+                            res.status(500).json({ error:err });
                         });
                         
                     }).catch(err => {
@@ -106,6 +106,7 @@ exports.login = (req, res, next) => {
                     { 
                         email:user[0].email, 
                         userId:user[0]._id,
+                        admin:user[0].admin,
                         _flag:1
                     }, 
                     process.env.JWT_KEY, 
@@ -151,7 +152,11 @@ exports.updateUser = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
     const id = req.userData.id;
-    console.log(req.userData.email);
+
+    if(req.userData.id != req.params.userId || !req.userData.admin)
+        return res.status(401).json({
+            message:'Access denied'
+        });
 
     User.deleteOne({ _id:id })
     .exec()
@@ -178,4 +183,24 @@ exports.verifyUser = (req, res, next) => {
         .catch(err => {
             res.status(500).json({ error:err.message });
         });
+};
+
+/**
+ * @param request has to contain a Json with _id and email of the user
+ * @param result
+ * @param next is the next function
+ */
+
+exports.resendVerification = (req, res, next) => {
+    const id = req.body._id;
+    const userMail = req.body.email;
+    const verifyToken = jwt.sign({id:id}, process.env.JWT_KEY,{});
+
+    verifyEmail.sendVerification(verifyToken, userMail)
+    .then(()=>{
+        res.status(200).json({message: 'Verification successfully resent'});
+    })
+    .catch((err) => {
+        res.status(500).json({message: err});
+    });
 };

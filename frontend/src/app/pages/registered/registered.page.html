@@ -11,10 +11,12 @@
     <ion-row >
       <ion-col>
         <div>
-          We have sent a validation email to your email-address:
+          We have sent a validation email to your email-address. Please click on the given link to finish the registration process.
+          <br>
+          If you have not received an email press the button below to resend.
         </div>
         <div>
-          <ion-button routerLink="/home"> Home </ion-button>
+          <ion-button (click)="resendEmail()">Resend</ion-button>
         </div>
       </ion-col>
     </ion-row>

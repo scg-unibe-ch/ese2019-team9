@@ -14,6 +14,9 @@ router.post('/signup', UserController.signUp);
 // user login
 router.post('/login', UserController.login);
 
+//resend email
+router.post('/resend', UserController.resendVerification);
+
 // request own userdata
 router.get('/:userId', checkAuth ,UserController.getUserById);
 
