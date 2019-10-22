@@ -15,15 +15,14 @@ export class AuthService {
   loginEndpoint = 'https://moln-api.herokuapp.com/user/login';
   registrationEndpoint = 'https://moln-api.herokuapp.com/user/signup';
   verificationEndpoint = 'https://moln-api.herokuapp.com/user/verify';
-  resendEndpoint = 'https://moln-api.herokuapp.com/user/resend'
+  resendEndpoint = 'https://moln-api.herokuapp.com/user/resend';
 
   httpOptions: {
     'Content-Type': 'application/json';
     observe: 'response';
   }
 
-
-register(email: string, password: string) {
+  register(email: string, password: string) {
     return this.httpClient.post<User>(this.registrationEndpoint, {email, password}, this.httpOptions)
         .pipe(map(res => {
           this.setUser(res);
@@ -46,9 +45,9 @@ register(email: string, password: string) {
   resendEmail() {
     const id = localStorage.getItem('id');
     const email = localStorage.getItem('email');
+    console.log('resendWorks');
     return this.httpClient.post(this.resendEndpoint, { id, email }, { observe: 'response'});
   }
-
 
   private setSession(authResult) {
 
@@ -56,8 +55,12 @@ register(email: string, password: string) {
   }
 
   private setUser(registrationResult) {
-    localStorage.setItem('id', registrationResult.id);
-    localStorage.setItem('email', registrationResult.email);
+
+    console.log(registrationResult.createdUser.email);
+    console.log(registrationResult.createdUser._id);
+
+    localStorage.setItem('id', registrationResult.createdUser._id);
+    localStorage.setItem('email', registrationResult.createdUser.email);
   }
 
   logout() {
