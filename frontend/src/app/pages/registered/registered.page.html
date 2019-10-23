@@ -21,6 +21,8 @@
         </ion-text>
         <div>
           <ion-button class="blueButton" fill="empty" (click)="resendEmail()">Resend</ion-button>
+          <ion-icon *ngIf="showResentMessage" class="checkmark-circle" name="checkmark-circle"></ion-icon>
+          <ion-icon *ngIf="showNotResentMessage" class="close-circle" name="close-circle"></ion-icon>
         </div>
       </ion-col>
     </ion-row>

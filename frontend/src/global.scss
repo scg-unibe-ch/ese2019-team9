@@ -36,6 +36,21 @@
   font-family: sans-serif;
 }
 
+.feedback {
+  color: var(--ion-color-dark);
+  font-size: 12px;
+  padding-bottom: 5px;
+  font-family: sans-serif;
+}
+
+.checkmark-circle {
+  color: var(--ion-color-success);
+}
+
+.close-circle {
+  color: var(--ion-color-danger);
+}
+
 .formButton{
   font-size: 12px;
   font-weight: bold;

@@ -45,7 +45,6 @@ export class AuthService {
   resendEmail() {
     const id = localStorage.getItem('id');
     const email = localStorage.getItem('email');
-    console.log('resendWorks');
     return this.httpClient.post(this.resendEndpoint, { id, email }, { observe: 'response'});
   }
 
