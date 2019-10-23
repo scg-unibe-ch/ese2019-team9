@@ -25,6 +25,9 @@ export class LoginComponent implements OnInit {
       ]
   };
   message;
+  showResendButton = false;
+  showResentMessage = false;
+  showNotResentMessage = false;
   messageReceived = false;
 
   constructor(
@@ -37,6 +40,16 @@ export class LoginComponent implements OnInit {
           email: ['', [Validators.required, Validators.email]],
           password: ['', [Validators.required]]
       });
+  }
+
+  resendEmail() {
+      this.authService.resendEmail()
+          .subscribe(data => {
+              this.showResentMessage = true;
+          },
+              error => {
+              this.showNotResentMessage = true;
+          });
   }
 
   onSubmitLogin() {
@@ -61,6 +74,7 @@ export class LoginComponent implements OnInit {
                       this.message = error.error.message;
                   } else if (error.status === 401 && error.error.message === 'Email not verified') {
                       this.messageReceived = true;
+                      this.showResendButton = true;
                       this.message = error.error.message;
                   } else {
                       this.message = 'Login failed';

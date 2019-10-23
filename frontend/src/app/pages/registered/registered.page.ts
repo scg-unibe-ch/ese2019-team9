@@ -8,6 +8,9 @@ import {AuthService} from '../../core/services/authService/auth.service';
   styleUrls: ['./registered.page.scss'],
 })
 export class RegisteredPage implements OnInit {
+  showResentMessage = false;
+  showNotResentMessage = false;
+  resentMessage;
 
   constructor(private authService: AuthService) { }
 
@@ -15,7 +18,13 @@ export class RegisteredPage implements OnInit {
   }
 
   resendEmail() {
-    this.authService.resendEmail().subscribe(res => console.log(res));
-  }
+    this.authService.resendEmail()
+        .subscribe(data => {
+              this.showResentMessage = true;
 
+            },
+            error => {
+              this.showNotResentMessage = true;
+            });
+  }
 }
