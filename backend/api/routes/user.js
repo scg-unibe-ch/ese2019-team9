@@ -17,6 +17,9 @@ router.post('/login', UserController.login);
 //resend email
 router.post('/resend', UserController.resendVerification);
 
+//forgot password
+router.post('/forgot', UserController.forgotPassword);
+
 // request own userdata
 router.get('/:userId', checkAuth ,UserController.getUserById);
 
