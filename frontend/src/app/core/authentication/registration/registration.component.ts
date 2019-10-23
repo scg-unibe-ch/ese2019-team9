@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {first} from 'rxjs/operators';
-import {AuthService} from '../../services/authService/auth.service';
 import { Router } from '@angular/router';
 
+import {AuthService} from '../../services/authService/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -12,8 +11,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration.component.scss'],
 })
 export class RegistrationComponent implements OnInit {
-  loginForm;
-  submitted = false;
+
+  registrationForm: FormGroup;
+  validationMessages = {
+    email: [
+      { type: 'required', message: 'Email is required' },
+      { type: 'email', message: 'Not a valid address' }
+    ],
+    password: [
+      { type: 'required', message: 'Password is required' },
+      { type: 'minlength', message: 'Password must contain 6 characters' }
+    ]
+  };
   message;
   messageReceived = false;
 
@@ -23,40 +32,36 @@ export class RegistrationComponent implements OnInit {
       private router: Router) { }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      recaptcha: ['', Validators.required],
+
+    this.registrationForm = this.formBuilder.group( {
+      email: ['', [ Validators.required, Validators.email]],
+      password: ['', [ Validators.required, Validators.minLength(6)]]
     });
   }
 
-  // getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
-
   onSubmitRegistration() {
 
-    this.submitted = true;
-
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
+    if (this.registrationForm.invalid) {
       return;
     }
-    const val = this.loginForm.value;
+    const val = this.registrationForm.value;
     this.authService.register(val.email, val.password)
         .pipe(first())
         .subscribe(
             data => {
               this.messageReceived = true;
-              if (data.status === 200) {
-                this.loginForm.reset();
-                this.router.navigate(['/registered']);
-              } else if (data.status === 409) {
-                this.message = data.statusText;
-              }
+              this.registrationForm.reset();
+              this.router.navigate(['/registered']);
             },
             error => {
               this.messageReceived = true;
-              this.message = 'Registration failed';
+              this.registrationForm.reset();
+              if (error.status === 409) {
+                this.message = error.error.message;
+              } else {
+                this.message = 'Registration failed';
+              }
             }
         );
   }

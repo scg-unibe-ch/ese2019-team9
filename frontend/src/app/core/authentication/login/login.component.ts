@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import { AuthService } from '../../services/authService/auth.service';
+import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+
+import { AuthService } from '../../services/authService/auth.service';
+
 
 
 @Component({
@@ -11,8 +13,17 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm;
-  submitted = false;
+
+  loginForm: FormGroup;
+  validationMessages = {
+      email: [
+          { type: 'required', message: 'Email is required' },
+          { type: 'email', message: 'Not a valid address' }
+      ],
+      password: [
+          { type: 'required', message: 'Password is required' },
+      ]
+  };
   message;
   messageReceived = false;
 
@@ -28,11 +39,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
-    // getter for easy access to form fields
-    get f() { return this.loginForm.controls; }
-
   onSubmitLogin() {
-      this.submitted = true;
 
       // stop here if form is invalid
       if (this.loginForm.invalid) {
@@ -49,17 +56,16 @@ export class LoginComponent implements OnInit {
               },
               error => {
                   this.messageReceived = true;
-                  if (error.status === 401 && error.statusText === 'Authentication failed') {
+                  if (error.status === 401 && error.error.message === 'Authentication failed') {
                       this.messageReceived = true;
-                      this.message = error.statusText;
-                  } else if (error.status === 401 && error.statusText === 'Email not verified') {
+                      this.message = error.error.message;
+                  } else if (error.status === 401 && error.error.message === 'Email not verified') {
                       this.messageReceived = true;
-                      this.message = error.statusText;
+                      this.message = error.error.message;
                   } else {
                       this.message = 'Login failed';
                   }
               }
           );
   }
-
 }

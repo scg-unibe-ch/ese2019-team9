@@ -1,6 +1,6 @@
 <ion-content>
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="medium">
       <ion-title>
         Log In
       </ion-title>
@@ -10,28 +10,19 @@
     <ion-col size="10" offset="1">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
         <ion-card>
-          <ion-item>
-            <ion-label></ion-label>
-            <ion-input type="text" placeholder="E-mail*" formControlName="email"></ion-input>
-          </ion-item>
+          <app-input-form
+                  [inputForm]="loginForm" [givenName]="'email'" [text]="'Email*'" [validationMessages]="validationMessages.email"
+                  [type]="'email'" [inputMode]="'email'">
+          </app-input-form>
         </ion-card>
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">Email is required</div>
-          <div *ngIf="f.email.errors.email">Not a valid address</div>
-        </div>
         <ion-card>
-          <ion-item>
-            <ion-label></ion-label>
-            <ion-input type="password" placeholder="Password*" formControlName="password"></ion-input>
-          </ion-item>
+          <app-input-form
+                  [inputForm]="loginForm" [givenName]="'password'" [text]="'Password*'" [validationMessages]="validationMessages.password"
+                  [type]= "'password'" [inputMode]="'password'">
+          </app-input-form>
         </ion-card>
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Password is required</div>
-        </div>
-        <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }}</div>
-        <ion-card class="loginButton">
-          <ion-button class="loginButton" fill="empty" expand="block" type="submit"> Log In </ion-button>
-        </ion-card>
+        <ion-item *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </ion-item>
+        <ion-button class="formButton" expand="block" type="submit"> Log In </ion-button>
       </form>
       <ion-text>
         Not a member yet?

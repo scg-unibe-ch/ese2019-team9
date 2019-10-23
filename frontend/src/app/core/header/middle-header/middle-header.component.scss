@@ -3,7 +3,7 @@
 }
 
 .backgroundGradient{
-  background-image: linear-gradient(lightgrey, lightblue);
+  background-image: linear-gradient(var(--ion-color-secondary), var(--ion-color-primary));
 }
 
 ion-searchbar{
