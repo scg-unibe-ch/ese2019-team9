@@ -2,11 +2,13 @@
   font-size: 30px;
 }
 
-.line {
-  border-top: solid lightgray 0.5px;
-  border-bottom: solid lightgray 0.5px;
-}
-
 .backgroundGradient{
   background-image: linear-gradient(var(--ion-color-secondary), var(--ion-color-primary));
+}
+
+ion-searchbar{
+  box-shadow: 1px 1px 5px 2px #61f2ff;
+  padding: 0px;
+  margin-top: 15px;
+  margin-bottom: 10px;
 }

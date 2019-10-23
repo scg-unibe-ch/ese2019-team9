@@ -35,6 +35,6 @@ import {ForgotPasswordComponent} from './authentication/forgot-password/forgot-p
       { path: 'forgotPassword', component: ForgotPasswordComponent }
     ])
   ],
-  exports: [HeaderComponent, TopHeaderComponent, MiddleHeaderComponent, BottomHeaderComponent]
+    exports: [HeaderComponent, TopHeaderComponent, MiddleHeaderComponent, BottomHeaderComponent, LogoComponent]
 })
 export class HeaderModule { }
