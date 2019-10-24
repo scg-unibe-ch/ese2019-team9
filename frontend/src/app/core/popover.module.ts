@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import {IonicModule} from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
+import {PopoverService} from './services/popoverService/popover.service';
+
 import {LoginComponent} from './authentication/login/login.component';
 import {RegistrationComponent} from './authentication/registration/registration.component';
 import {ForgotPasswordComponent} from './authentication/forgot-password/forgot-password.component';
-
-
 
 @NgModule({
   declarations: [],
@@ -16,6 +16,7 @@ import {ForgotPasswordComponent} from './authentication/forgot-password/forgot-p
     IonicModule,
     RouterModule
   ],
-  entryComponents: [ LoginComponent, RegistrationComponent, ForgotPasswordComponent ]
+  entryComponents: [ LoginComponent, RegistrationComponent, ForgotPasswordComponent ],
+  providers: [ PopoverService ]
 })
 export class PopoverModule { }
