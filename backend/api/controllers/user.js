@@ -37,10 +37,10 @@ exports.signUp = (req, res, next) => {
                 } else {
                     const user = new User ({
                         _id: new mongoose.Types.ObjectId(),
-                        email:req.body.email,
-                        password:hash,
-                        admin:false,
-                        verifiedEmail:false
+                        email: req.body.email,
+                        password: hash,
+                        admin: false,
+                        verifiedEmail: false
                     });
         
                     user //?
@@ -94,12 +94,7 @@ exports.login = (req, res, next) => {
             } 
 
             // check if email adress is verified
-            if(!user[0].verifiedEmail) {
-                return res.status(307).json({
-                    message:'Email not verified',
-                    id:user[0].id
-                });
-            }
+            
                 
             // correct password - create and send access token
             if(result) {
@@ -120,12 +115,19 @@ exports.login = (req, res, next) => {
                     token:token,
                     id:user[0]._id
                 });
+            }else{
+                if(!user[0].verifiedEmail) {
+                    return res.status(307).json({
+                        message:'Email not verified',
+                        id:user[0].id
+                    });
+                }else{
+                    // wrong password
+                    res.status(401).json({
+                        message:'Authentication failed'
+                    });
+                }
             }
-
-            // wrong password
-            res.status(401).json({
-                message:'Authentication failed'
-            });
         });
     })
     .catch(err => {
@@ -170,8 +172,9 @@ exports.deleteUser = (req, res, next) => {
 };
 
 exports.verifyUser = (req, res, next) => {
-    const token = jwt.verify(req.body.token, process.env.JWT_KEY);
-    User.findById(token.id)
+    try{
+        const token = jwt.verify(req.body.token, process.env.JWT_KEY);
+        User.findById(token.id)
         .exec()
         .then(user => {
             if(user.verifiedEmail){
@@ -184,6 +187,9 @@ exports.verifyUser = (req, res, next) => {
         .catch(err => {
             res.status(500).json({ message: err });
         });
+    }catch(err){
+        res.status(500).json({message: 'token invalid'});
+    }
 };
 
 /**
@@ -231,6 +237,44 @@ exports.resendVerification = (req, res, next) => {
             res.status(500).json({message: err});
         });
     }else{//user gave wrong email
-        
+        Email.sendEmailNotRegistered(usermail)
+        .then(() => {
+            res.status(200).json({message: 'Reset-link sent'});
+        })
+        .catch((err) => {
+            res.status(500).json({message: err});
+        });
     }
+ };
+
+ exports.newPassword = (req, res, next)=>{
+    const token = req.body.token;
+    const password = req.body.password;
+    try{
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
+        const id = decoded.id;
+        User.findById(id).exec()
+        .then((user) => {
+            bcript.hash(password, 10, (err, hash) =>{
+                if(err){
+                    res.status(500).json({message: err});
+                }else{
+                    user.password = hash;
+                    user.save().exec()
+                    .then(()=>{
+                        res.status(200).json({message:'password-reset successful'});
+                    })
+                    .catch((err) =>{
+                        res.status(500).json({message: err});
+                    }
+                    );
+                }
+            });
+        })
+        .catch((err) => {
+            res.status(500).json({message: err});
+        })
+    }catch(err){
+        res.status(500).json({message: 'token invalid'})
+    } 
  };

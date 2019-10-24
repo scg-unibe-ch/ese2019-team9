@@ -52,7 +52,7 @@ exports.sendResetLink = function(token, userEmail){
   });
 }
 
-exports.sendEmailNotRegistered = function(token, userEmail){
+exports.sendEmailNotRegistered = function(userEmail){
   return new Promise((resolve,reject) => {
     const url = process.env.PUBLIC_DOMAIN + '/signup'
     const placeholders = {tokenPlaceholder:url };
