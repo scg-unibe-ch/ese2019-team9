@@ -20,10 +20,9 @@ export class TopHeaderEndComponent implements OnInit {
 
   ngOnInit() {}
 
-  async presentLoginPopover(ev: any) {
+  async presentLoginPopover() {
     const popover = await this.popoverController.create({
       component: LoginComponent,
-      event: ev,
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover-style'
@@ -31,10 +30,9 @@ export class TopHeaderEndComponent implements OnInit {
     return await popover.present();
   }
 
-  async presentRegistrationPopover(ev: any) {
+  async presentRegistrationPopover() {
     const popover = await this.popoverController.create({
       component: RegistrationComponent,
-      event: ev,
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover-style'
