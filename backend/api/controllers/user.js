@@ -255,23 +255,18 @@ exports.resendVerification = (req, res, next) => {
         const id = decoded.id;
         User.findById(id).exec()
         .then((user) => {
-            bcript.hash(password, 10, (err, hash) =>{
+            bcrypt.hash(password, 10, (err, hash) =>{
                 if(err){
                     res.status(500).json({message: err});
                 }else{
                     user.password = hash;
-                    user.save().exec()
-                    .then(()=>{
-                        res.status(200).json({message:'password-reset successful'});
-                    })
-                    .catch((err) =>{
-                        res.status(500).json({message: err});
-                    }
-                    );
+                    user.save()
+                    res.status(200).json({message:'password-reset successful'});
                 }
             });
         })
         .catch((err) => {
+            console.log(err);
             res.status(500).json({message: err});
         })
     }catch(err){
