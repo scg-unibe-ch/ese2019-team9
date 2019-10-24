@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-const ejs = require('ejs');
-const fs = require('fs');
 const User = require('../../models/user');
 
   exports.deleteAllDev = (req, res, next) => {
@@ -19,11 +16,11 @@ const User = require('../../models/user');
                     next();
                 })
                 .catch(err => {
-                    return res.status(500).json({ message:'Failed to delete all users'});
+                    res.status(500).json({ message:'Failed to delete all users ' + err});
                 });
             }
         });
-    })
+    });
 };
 
 exports.deleteUser = (req, res, next) => {
