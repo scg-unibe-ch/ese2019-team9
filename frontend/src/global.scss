@@ -27,6 +27,7 @@
 
 .popover-style {
   --width: 30vw;
+  --heigth: 50vh;
 }
 
 .invalid-feedback {
@@ -68,12 +69,15 @@
     font-size: 12px;
     font-weight: bold;
     --color: var(--ion-color-secondary);
+
     --border-color: var(--ion-color-secondary);
     --border-style: solid;
     --border-width: 1px;
     --border-radius: 20px;
+
     --padding-end: 20px;
     --padding-start: 20px;
+
     --background-hover: var(--ion-color-secondary);
     --color-hover: white;
     margin-left: 5px;
@@ -114,5 +118,22 @@
   padding-bottom: 25px;
   padding-top: 25px;
   text-align: center;
+}
+
+.popoverFooter {
+  font-size: 15px;
+  padding-bottom: 18px;
+  padding-top: 18px;
+  text-align: center;
+}
+
+.removeScrollbarForPopover {
+  overflow-y: hidden;
+}
+
+.formElement {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
 }
 

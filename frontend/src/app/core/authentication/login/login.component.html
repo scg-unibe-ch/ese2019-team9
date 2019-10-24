@@ -9,13 +9,13 @@
   <ion-row>
     <ion-col size="10" offset="1">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
-        <ion-card>
+        <ion-card class="formElement" >
           <app-input-form
                   [inputForm]="loginForm" [givenName]="'email'" [text]="'Email*'" [validationMessages]="validationMessages.email"
                   [type]="'email'" [inputMode]="'email'">
           </app-input-form>
         </ion-card>
-        <ion-card>
+        <ion-card class="formElement" >
           <app-input-form
                   [inputForm]="loginForm" [givenName]="'password'" [text]="'Password*'" [validationMessages]="validationMessages.password"
                   [type]= "'password'" [inputMode]="'password'">
@@ -26,14 +26,20 @@
           <ion-icon *ngIf="showResentMessage" class="checkmark-circle" slot="end" name="checkmark-circle"></ion-icon>
           <ion-icon *ngIf="showNotResentMessage" class="close-circle" slot="end" name="close-circle"></ion-icon>
         </ion-item>
-
         <ion-button class="formButton" expand="block" type="submit"> Log In </ion-button>
+        <div class="feedback" >
+          <a href="" (click)="presentForgotPopover()" slot="end" > Forgot your password? </a>
+        </div>
       </form>
-      <ion-text>
-        Not a member yet?
-        <ion-button fill="empty" size="small" (click)="presentRegistrationPopover($event)"> Join now! </ion-button>
-      </ion-text>
     </ion-col>
   </ion-row>
+  <ion-header class="removeScrollbarForPopover">
+    <ion-toolbar color="medium">
+      <ion-title class="popoverFooter">
+        Not a member yet?
+        <a href="" (click)="presentRegistrationPopover($event)"> Join now! </a>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
 </ion-content>
 
