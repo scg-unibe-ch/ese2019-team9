@@ -14,25 +14,24 @@ export class PopoverService {
       private popoverController: PopoverController
   ) { }
 
-  async presentLoginPopover(ev: any) {
-    const popover = await this.popoverController.create({
-      component: LoginComponent,
+  async presentLoginPopover(ev: any, comp: any) {
+    return await this.popoverController.create({
+      component: comp,
       event: ev,
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover-style'
     });
-    return await popover.present();
   }
 
-  async presentRegistrationPopover(ev: any) {
+  async presentRegistrationPopover(ev: any, component: any) {
     const popover = await this.popoverController.create({
-      component: RegistrationComponent,
+      component,
       event: ev,
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover-style'
     });
-    return await popover.present();
+    return popover;
   }
 }
