@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const verifyEmail = require('../methods/mail.js');
+const Email = require('../methods/mail.js');
 
 const User = require('../models/user');
 
@@ -55,7 +55,7 @@ exports.signUp = (req, res, next) => {
                             }
                         );
 
-                        verifyEmail.sendVerification(token, user.email, result).then(()=>{
+                        Email.sendVerification(token, user.email, result).then(()=>{
                             res.status(201).json({
                                 message:'User created and verification email sent',
                                 createdUser: result
@@ -95,8 +95,9 @@ exports.login = (req, res, next) => {
 
             // check if email adress is verified
             if(!user[0].verifiedEmail) {
-                return res.status(401).json({
-                    message:'Email not verified'
+                return res.status(307).json({
+                    message:'Email not verified',
+                    id:user[0].id
                 });
             }
                 
@@ -173,15 +174,15 @@ exports.verifyUser = (req, res, next) => {
     User.findById(token.id)
         .exec()
         .then(user => {
-            if(user.verifiedEmail)
+            if(user.verifiedEmail){
                 res.status(500).json({ message:'Email already verified' });
-
+            }
             user.verifiedEmail = true;
             user.save();
             res.status(200).json({ message:'Email successfully verified' });
         })
         .catch(err => {
-            res.status(500).json({ error:err.message });
+            res.status(500).json({ message: err });
         });
 };
 
@@ -196,7 +197,7 @@ exports.resendVerification = (req, res, next) => {
     const userMail = req.body.email;
     const verifyToken = jwt.sign({id:id}, process.env.JWT_KEY,{});
 
-    verifyEmail.sendVerification(verifyToken, userMail)
+    Email.sendVerification(verifyToken, userMail)
     .then(()=>{
         res.status(200).json({message: 'Verification successfully resent'});
     })
@@ -204,3 +205,32 @@ exports.resendVerification = (req, res, next) => {
         res.status(500).json({message: err});
     });
 };
+
+/**
+ * @param request contains the email of the user
+ */
+
+ exports.forgotPassword = (req, res, next) => {
+    const usermail = req.body.email;
+
+    //user gave existing email
+    if(User.exists({email: usermail})){
+        User.findOne({email: usermail})
+        .exec()
+        .then((user) =>{
+            const token = jwt.sign({id: user._id}, process.env.JWT_KEY, {expiresIn: "1h"});
+            Email.sendResetLink(token, usermail)
+            .then(() =>{
+                res.status(200).json({message: 'Reset-link sent'});
+            })
+            .catch((err) => {
+                res.status(500).json({message: err});
+            });
+         })
+        .catch((err) => {
+            res.status(500).json({message: err});
+        });
+    }else{//user gave wrong email
+        
+    }
+ };

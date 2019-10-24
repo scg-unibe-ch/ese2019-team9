@@ -15,4 +15,7 @@ router.delete('/:id', DevController.deleteUser);
 //get user by id
 router.get('/:id', DevController.getUser);
 
+//verifies token
+router.get('/verify/:token', DevController.verifyToken)
+
 module.exports = router;

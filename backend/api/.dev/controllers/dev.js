@@ -60,3 +60,13 @@ exports.getAllUsers = (req, res, next) =>{
         res.status(500).json({'message':err});
     });
 }
+
+exports.verifyToken = (req, res, next) => {
+    const token = req.params.token;
+    try{
+        const verified = jwt.verify(token, process.env.JWT_KEY);
+        res.status(200).json({token: verified});
+    }catch(error){
+        res.status(500).json({message: error});
+    }
+}
