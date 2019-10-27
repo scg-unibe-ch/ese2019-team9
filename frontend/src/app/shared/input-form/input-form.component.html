@@ -1,10 +1,10 @@
 <ion-item [formGroup]= "inputForm">
   <ion-label position="floating"> {{ text }} </ion-label>
   <ion-input [type]= "type" [formControlName] = "givenName"  [inputmode] = "inputMode" ></ion-input>
-  <div *ngIf="isPassword" slot="end">
-    <ion-icon *ngIf="!showingPassword" name="eye" (click)="showPassword(true)"></ion-icon>
-    <ion-icon *ngIf="showingPassword" name="eye-off" (click)="showPassword(false)"></ion-icon>
-  </div>
+  <ng-container *ngIf="isPassword">
+    <ion-icon *ngIf="!showingPassword" name="eye" slot="end" (click)="showPassword(true)"></ion-icon>
+    <ion-icon *ngIf="showingPassword" name="eye-off" slot="end" (click)="showPassword(false)"></ion-icon>
+  </ng-container>
   <div>
     <div *ngFor="let validation of validationMessages">
       <div class="invalid-feedback" *ngIf="inputForm.get(givenName).hasError(validation.type) && (inputForm.get(givenName).dirty || inputForm.get(givenName).touched)">

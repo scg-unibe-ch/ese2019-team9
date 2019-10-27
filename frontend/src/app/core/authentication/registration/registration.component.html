@@ -1,31 +1,37 @@
-<ion-header>
-  <ion-toolbar color="light">
-    <ion-title>
-      Join now!
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-row>
-  <ion-col size="10" offset="1">
-    <form [formGroup]="registrationForm" (ngSubmit)="onSubmitRegistration()">
-        <ion-card>
-            <app-input-form
-                    [inputForm]="registrationForm" [givenName]="'email'" [text]="'Email*'" [validationMessages]="validationMessages.email"
-                    [type]="'email'" [inputMode]="'email'">
-            </app-input-form>
-        </ion-card>
-        <ion-card>
-            <app-input-form
-                    [inputForm]="registrationForm" [givenName]="'password'" [text]="'Password*'" [validationMessages]="validationMessages.password"
-                    [type]= "'password'" [inputMode]="'password'">
-            </app-input-form>
-        </ion-card>
-        <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </div>
-        <ion-button class="formButton" expand="block" type="submit">Join now</ion-button>
-    </form>
-    <ion-text>
-        Already a member?
-        <ion-button fill="empty" size="small" (click)="presentLoginPopover($event)"> Log In </ion-button>
-    </ion-text>
-  </ion-col>
-<ion-row>
+<ion-content>
+    <ion-header>
+        <ion-toolbar color="light">
+            <ion-title class="popoverTitle" >
+                Join now!
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-row>
+        <ion-col size="10" offset="1">
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmitRegistration()">
+                <ion-card class="formElement" >
+                    <app-input-form
+                            [inputForm]="registrationForm" [givenName]="'email'" [text]="'Email*'" [validationMessages]="validationMessages.email"
+                            [type]="'email'" [inputMode]="'email'">
+                    </app-input-form>
+                </ion-card>
+                <ion-card class="formElement" >
+                    <app-input-form
+                            [inputForm]="registrationForm" [givenName]="'password'" [text]="'Password*'" [validationMessages]="validationMessages.password"
+                            [type]= "'password'" [inputMode]="'password'">
+                    </app-input-form>
+                </ion-card>
+                <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </div>
+                <ion-button class="formButton" expand="block" type="submit">Join now</ion-button>
+            </form>
+        </ion-col>
+    </ion-row>
+    <ion-header class="removeScrollbarForPopover">
+        <ion-toolbar color="medium">
+            <ion-title class="popoverFooter">
+                Already a member?
+                <a href="" (click)="presentLoginPopover($event)"> Log in </a>
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+</ion-content>
