@@ -12,6 +12,9 @@ router.delete('/', DevController.deleteAllDev);
 //delete specific user without verification and pw
 router.delete('/:id', DevController.deleteUser);
 
+//delete every user with that domain
+router.delete('/regex/:domain/:namespace', DevController.deleteUserWithDomain);
+
 //get user by id
 router.get('/:id', DevController.getUser);
 

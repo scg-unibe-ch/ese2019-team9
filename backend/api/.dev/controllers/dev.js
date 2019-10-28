@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const ejs = require('ejs');
+const fs = require('fs');
 const User = require('../../models/user');
 
   exports.deleteAllDev = (req, res, next) => {
@@ -16,7 +19,7 @@ const User = require('../../models/user');
                     next();
                 })
                 .catch(err => {
-                    res.status(500).json({ message:'Failed to delete all users ' + err});
+                    res.status(500).json({ message:'Failed to delete all users'});
                 });
             }
         });
@@ -66,4 +69,25 @@ exports.verifyToken = (req, res, next) => {
     }catch(error){
         res.status(500).json({message: error});
     }
+}
+
+exports.deleteUserWithDomain = (req, res, next) => {
+    const regex = req.params.domain + '\\.' + req.params.namespace;
+      User.find()
+    .exec()
+    .then(docs => {
+        docs.forEach(element => {
+            if(element.email.match("[A-Za-z0-9]*@" + regex)){
+                User.remove({_id:element._id})
+                .exec()
+                .then(() => {
+                    res.status(200).json({ message:'All dev users deleted' });
+                    next();
+                })
+                .catch(err => {
+                    res.status(500).json({ message:'Failed to delete all users'});
+                });
+            }
+        });
+    });
 }

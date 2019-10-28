@@ -43,7 +43,7 @@ exports.signUp = (req, res, next) => {
                         verifiedEmail: false
                     });
         
-                    user //?
+                    user
                     .save()
                     .then(result => {
                         const token = jwt.sign(
