@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
+import {PopoverController} from '@ionic/angular';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 import { AuthService } from '../../services/authService/auth.service';
-
+import {PopoverService} from '../../services/popoverService/popover.service';
+import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 
 
 @Component({
@@ -33,6 +35,8 @@ export class LoginComponent implements OnInit {
   constructor(
       private formBuilder: FormBuilder,
       private authService: AuthService,
+      private popoverService: PopoverService,
+      private popoverController: PopoverController,
       private router: Router) { }
 
   ngOnInit() {
@@ -51,7 +55,6 @@ export class LoginComponent implements OnInit {
               this.showNotResentMessage = true;
           });
   }
-
   onSubmitLogin() {
 
       // stop here if form is invalid
@@ -64,7 +67,8 @@ export class LoginComponent implements OnInit {
           .subscribe(
               data => {
                    if (data.status === 200 ) {
-                      this.loginForm.reset();
+                       this.loginForm.reset();
+                       this.popoverService.dismissPopover();
                   }
               },
               error => {
@@ -81,5 +85,17 @@ export class LoginComponent implements OnInit {
                   }
               }
           );
+  }
+
+  async presentForgotPopover(evt) {
+      evt.preventDefault();
+      this.popoverService.dismissPopover();
+      const popover = await this.popoverController.create({
+          component: ForgotPasswordComponent,
+          translucent: true,
+          backdropDismiss: true,
+          cssClass: 'popover-style'
+      });
+      return await popover.present();
   }
 }
