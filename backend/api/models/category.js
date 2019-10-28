@@ -5,8 +5,8 @@ const categorySchema = mongoose.Schema({
     name:{ type:String, required:true },
     parent:mongoose.Schema.Types.ObjectId,
     slug:{ type:String },
-    subcategories:{type: Array,
-        default: []}
+    subcategories:{ type:Array, default:[] },
+    products:{ type:Array, default:[] }
 });
 
 module.exports = mongoose.model('Category', categorySchema);
