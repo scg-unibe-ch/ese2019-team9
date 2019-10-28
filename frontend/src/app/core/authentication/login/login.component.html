@@ -28,7 +28,7 @@
         </ion-item>
         <ion-button class="formButton" expand="block" type="submit"> Log In </ion-button>
         <div class="feedback" >
-          <a href="" (click)="presentForgotPopover()" slot="end" > Forgot your password? </a>
+          <a href="" (click)="presentForgotPopover($event)" slot="end" > Forgot your password? </a>
         </div>
       </form>
     </ion-col>
@@ -37,7 +37,7 @@
     <ion-toolbar color="medium">
       <ion-title class="popoverFooter">
         Not a member yet?
-        <a href="" (click)="presentRegistrationPopover($event)"> Join now! </a>
+        <a href="" (click)="presentRegistrationPopover()"> Join now! </a>
       </ion-title>
     </ion-toolbar>
   </ion-header>
