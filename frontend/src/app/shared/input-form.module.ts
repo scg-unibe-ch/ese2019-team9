@@ -4,7 +4,7 @@ import {IonicModule} from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import {InputFormComponent} from './input-form/input-form.component';
+import {InputFormComponent} from '../shared/components/input-form/input-form.component';
 
 
 

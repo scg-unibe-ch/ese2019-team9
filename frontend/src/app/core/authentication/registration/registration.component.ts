@@ -4,6 +4,7 @@ import {first} from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import {AuthService} from '../../services/authService/auth.service';
+import {PopoverService} from '../../services/popoverService/popover.service';
 
 @Component({
   selector: 'app-registration',
@@ -29,6 +30,7 @@ export class RegistrationComponent implements OnInit {
   constructor(
       private formBuilder: FormBuilder,
       private authService: AuthService,
+      private popoverService: PopoverService,
       private router: Router) { }
 
   ngOnInit() {
@@ -52,6 +54,7 @@ export class RegistrationComponent implements OnInit {
             data => {
               this.messageReceived = true;
               this.registrationForm.reset();
+              this.popoverService.dismissPopover();
               this.router.navigate(['/registered']);
             },
             error => {
