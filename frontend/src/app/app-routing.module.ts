@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { path: 'verify', loadChildren: './pages/verify/verify.module#VerifyPageModule' },
   { path: 'registered', loadChildren: './pages/registered/registered.module#RegisteredPageModule' },
+  { path: 'subcategory', loadChildren: './pages/subcategory/subcategory.module#SubcategoryPageModule' },
 
 ];
 
