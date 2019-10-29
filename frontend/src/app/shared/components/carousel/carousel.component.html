@@ -1,13 +1,13 @@
 <ion-card>
   <ion-toolbar>
     <ion-title>
-      {{ catName }}
+      {{ categoryName }}
     </ion-title>
   </ion-toolbar>
   <ion-card-content class="carouselCard">
     <ion-button slot="start" (click)="selectPreviousItem()" > Prev </ion-button>
       <span *ngFor="let cat of itemsToDisplay" >
-          <app-carousel-item [subCatName]="cat.name"></app-carousel-item>
+        <app-carousel-item [subCatName]="cat.name"></app-carousel-item>
       </span>
     <ion-button slot="end" (click)="selectNextItem()" > Next </ion-button>
   </ion-card-content>
