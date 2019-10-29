@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from '../../../models/user';
 import { Router } from '@angular/router';
@@ -16,6 +16,8 @@ export class AuthService {
   registrationEndpoint = 'https://moln-api.herokuapp.com/user/signup';
   verificationEndpoint = 'https://moln-api.herokuapp.com/user/verify';
   resendEndpoint = 'https://moln-api.herokuapp.com/user/resend';
+  forgotPasswordEndpoint = 'https://moln-api.herokuapp.com/user/forgot';
+  resetEndpoint = 'https://moln-api.herokuapp.com/user/reset';
 
   httpOptions: {
     'Content-Type': 'application/json';
@@ -48,8 +50,15 @@ export class AuthService {
     return this.httpClient.post(this.resendEndpoint, { id, email }, { observe: 'response'});
   }
 
-  private setSession(authResult) {
+  forgotPassword(email: string) {
+    return this.httpClient.post(this.forgotPasswordEndpoint, { email }, { observe: 'response'});
+  }
 
+  resetPassword(token: string, password: string) {
+    return this.httpClient.patch(this.resetEndpoint, { token, password }, { observe: 'response'});
+  }
+
+  private setSession(authResult) {
     localStorage.setItem('token', authResult.token);
   }
 
