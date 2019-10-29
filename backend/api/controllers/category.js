@@ -6,7 +6,7 @@ const Category = require('../models/category');
  * and provide a link to get detailed information about each category
  */
 exports.getCategories = (req, res, next) => {
-    Category.find({ parent:null })
+    Category.find( { parent:null })
     .exec()
     .then((docs) => {
         const response = {
@@ -69,8 +69,6 @@ exports.addCategory = (req, res, next) => {
         return newCategory.save();
     })
     .then(result => {
-        console.log("asdasd2");
-        console.log(result);
         res.status(201).json({
             message:'New category created',
             createdCategory:{
@@ -114,16 +112,19 @@ exports.deleteCategory = (req, res, next) => {
 
         return result;
     })
-    .then(result => {
+    .then(async result => {
         let subs = [];
         // delete subcategories
         if(result.subcategories.length > 0) {
             for(let i in result.subcategories) {
-                subs.push(result.subcategories[i]);
+                subs.push(result.subcategories[i]._id);
             }
         } 
 
-        return Category.deleteMany({ id:{ $in:subs }});
+        if(subs.length > 0)
+            await Category.deleteMany({ _id:subs });
+
+        return result;
     })
     .then(result => {
         // now delete category itself
