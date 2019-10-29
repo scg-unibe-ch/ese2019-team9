@@ -20,14 +20,11 @@ export class CarouselComponent implements OnInit {
 
   ngOnInit() {
     this.subCategories = [];
-    /* add the following code once subcategories have been established
-    
     for (let i = 0; i < this.categorySubCategories.length; i++) {
       for (let j = 0; j < this.categorySubCategories[i].length; j++) {
         this.subCategories.push(this.categorySubCategories[i][j]);
       }
     }
-    */
     this.selectCarouselItems(this.carouselSize, 0);
   }
 
@@ -43,8 +40,16 @@ export class CarouselComponent implements OnInit {
 
   selectCarouselItems(carouselSize, startingIndex) {
     this.itemsToDisplay = [];
-    for (let i = startingIndex; i < (carouselSize + startingIndex); i++) {
-      this.itemsToDisplay.push(this.subCategories[i % (this.subCategories.length)]);
+    /* checks for amount of carousel categories,
+    true: all categories are displayed,
+    false: 3 categories get chosen to be displayed
+     */
+    if (this.itemsToDisplay.length < carouselSize) {
+      this.itemsToDisplay = this.subCategories;
+    } else {
+      for (let i = startingIndex; i < (carouselSize + startingIndex); i++) {
+        this.itemsToDisplay.push(this.subCategories[i % (this.subCategories.length)]);
+      }
     }
   }
 }
