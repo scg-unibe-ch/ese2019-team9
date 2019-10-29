@@ -7,22 +7,24 @@ import {CategoryService} from '../../../core/services/categoryService/category.s
   styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselComponent implements OnInit {
-  @Input() catName: string;
-  @Input() catSubcategories: any[];
+  @Input() categoryName: string;
+  @Input() categorySubCategories: any[];
 
   constructor(
       private categoryService: CategoryService
   ) { }
-  categories = [];
+  subCategories = [];
   carouselStartingIndex = 0;
   carouselSize = 3;
   itemsToDisplay = [];
 
   ngOnInit() {
-    for (let i = 0; i < this.catSubcategories.length; i++) {
-      this.categories.push(this.catSubcategories[i]);
+    this.subCategories = [];
+    for (let i = 0; i < this.categorySubCategories.length; i++) {
+      for (let j = 0; j < this.categorySubCategories[i].length; j++) {
+        this.subCategories.push(this.categorySubCategories[i][j]);
+      }
     }
-    console.log(this.categories);
     this.selectCarouselItems(this.carouselSize, 0);
   }
 
@@ -38,8 +40,16 @@ export class CarouselComponent implements OnInit {
 
   selectCarouselItems(carouselSize, startingIndex) {
     this.itemsToDisplay = [];
-    for (let i = startingIndex; i < (carouselSize + startingIndex); i++) {
-      this.itemsToDisplay.push(this.categories[i % (this.categories.length)]);
+    /* checks for amount of carousel categories,
+    true: all categories are displayed,
+    false: 3 categories get chosen to be displayed
+     */
+    if (this.itemsToDisplay.length < carouselSize) {
+      this.itemsToDisplay = this.subCategories;
+    } else {
+      for (let i = startingIndex; i < (carouselSize + startingIndex); i++) {
+        this.itemsToDisplay.push(this.subCategories[i % (this.subCategories.length)]);
+      }
     }
   }
 }

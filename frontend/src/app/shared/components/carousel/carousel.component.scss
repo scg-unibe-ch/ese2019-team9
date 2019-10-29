@@ -1,10 +1,11 @@
-.carouselCard {
+.carouselTitle {
   text-align: center;
-  padding: 10px 30px;
-  display: flex;
 }
 
-.carousel-wrapper {
-  overflow: hidden;
-  height: 100px;
+.carouselControl {
+  cursor: pointer;
+}
+
+.carouselBody {
+  display: flex;
 }

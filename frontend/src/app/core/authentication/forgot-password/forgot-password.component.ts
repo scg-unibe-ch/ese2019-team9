@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 import {AuthService} from '../../services/authService/auth.service';
-import {first} from "rxjs/operators";
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-forgot-password',
@@ -50,8 +50,9 @@ export class ForgotPasswordComponent implements OnInit {
         }
             }, error => {
           if (error.status === 500) {
+            this.messageReceived = true;
             this.forgotPasswordForm.reset();
-            this.message = error.error.message;
+            this.message = 'Have you entered the correct address?';
           }
         });
   }
