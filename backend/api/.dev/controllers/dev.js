@@ -23,6 +23,8 @@ const User = require('../../models/user');
                 });
             }
         });
+    }).catch((err) => {
+        res.status(500).json({message: err});
     });
 };
 
@@ -32,7 +34,6 @@ exports.deleteUser = (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({ message:'User deleted' });
-        next();
     })
     .catch(err => {
         res.status(500).json({ error:err })

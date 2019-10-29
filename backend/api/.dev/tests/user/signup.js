@@ -1,16 +1,22 @@
 const request = require("request");
 const url = "http://localhost:8080/user/";
-const dev = 'http://localhost:8080/dev/';
 const assert = require('assert');
 const BuildAndClean = require('./buildAndClean.js');
+const UserController = require('../../../controllers/user');
+const User = require('../../../models/user');
+const res = require("http");
     
-describe("Test Login", () =>{
+describe("Test signup request", () =>{
     let pw = 'unsicher';
     let wrongmail = 'fs';
     let email = Math.floor(Math.random() * 100000) + '@fs.ch';
     let id;
+
+    after(()=>{
+        BuildAndClean.clean(id);
+    });
     
-    it("normal login", (done)=>{
+    it("normal signup", (done)=>{
         let loginJson = {'email': email, 'password': pw};
         request({
             method: 'POST',
@@ -25,7 +31,7 @@ describe("Test Login", () =>{
         });
     });
 
-    it('login with existing mail',(done) => {
+    it('signup with existing mail',(done) => {
         let loginJson = {'email': email, 'password': pw}
         request({
             method: 'POST',
@@ -40,7 +46,7 @@ describe("Test Login", () =>{
         });
     });
 
-    it('login with invalid mail',(done) => {
+    it('signup with invalid mail',(done) => {
         let loginJson = {'email': wrongmail, 'password': pw}
         request({
             method: 'POST',
@@ -52,14 +58,5 @@ describe("Test Login", () =>{
             assert.equal(res.statusCode, 500);
             done();
         });
-    });
-    after(()=>{
-        request({
-            method: 'DELETE',
-            uri: dev + id
-        },
-        (err, res, body) =>{
-            assert.equal(res.statusCode, 200);
-        })
     });
 });
