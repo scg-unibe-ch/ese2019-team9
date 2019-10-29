@@ -1,28 +1,51 @@
 const mongoose = require('mongoose');
 const Category = require('../models/category');
 
+/**
+ * Return a json object containing all categories in the database
+ * and provide a link to get detailed information about each category
+ */
 exports.getCategories = (req, res, next) => {
-    Category.find()
+    Category.find( { parent:null } )
     .exec()
-    .then((categories) => {
-        return res.status(200).json(categories);
+    .then((docs) => {
+        const response = {
+            count:docs.length,
+            categories:docs.map(doc => {
+                return {
+                    _id:doc._id,
+                    name:doc.name,
+                    slug:doc.slug,
+                    subcategories:doc.subcategories,
+                    request: {
+                        type:'GET',
+                        url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
+                    }
+                }
+            })
+        }
+        return res.status(200).json(response);
     }).catch(err => {
         res.status(500).json(err);
     });
 }
 
+/**
+ * Check if category with same name/slug already exists and if not add the new category to database
+ * If category has a parent, update the subcategories array of the parent
+ */
 exports.addCategory = (req, res, next) => {
     if(!req.body.slug || !req.body.name)
         return res.status(500).json({
             message:"Please specify name and slug"
         });
 
-    Category.find({ $or: { name:req.body.name, slug:req.body.slug } })
+    Category.find({ $or: [{ name:req.body.name }, { slug:req.body.slug }] })
     .exec()
     .then(category => {
         if(category.length > 0)
             return res.status(409).json({
-                message:'Category with same name already exists'
+                message:'Category with same name/slug already exists'
             });
 
         if(req.body.parent) {
@@ -33,15 +56,10 @@ exports.addCategory = (req, res, next) => {
                 parent:req.body.parent
             });
 
-            Category.update(
+            Category.updateOne(
                 { _id:req.body.parent }, 
-                { $push: { 
-                    subcategories:{ 
-                        _id:newCategory._id, 
-                        slug:newCategory.slug, 
-                        name:newCategory.name 
-                    }
-                }})
+                { $push: { subcategories:newCategory } 
+            })
             .exec()
             .then(result => {
                 newCategory
@@ -49,7 +67,15 @@ exports.addCategory = (req, res, next) => {
                 .then(result => {
                     res.status(201).json({
                         message:'New category created',
-                        category:result
+                        createdCategory:{
+                            name:result.name,
+                            slug:category.slug,
+                            _id:result.id,
+                            request:{
+                                type:"GET",
+                                url:process.env.PUBLIC_DOMAIN_API + "/category/" + result._id
+                            }
+                        }
                     });
                 }).catch(err => {
                     res.status(500).json({
@@ -84,20 +110,63 @@ exports.addCategory = (req, res, next) => {
     });
 }
 
+/**
+ * Delete category
+ * If category has a parent, delete from parent subcategories array too
+ * If category has subcategories, delete subcategories too
+ */
 exports.deleteCategory = (req, res, next) => {
-    Category.deleteOne({ _id:req.params.categoryId})
-    .exec()
+    Category.findOne({ _id:req.params.categoryId })
     .then(result => {
-        res.status(200).json({
-            message:'Category deleted'
+        if(!result)
+            return res.status(500).json({
+                message:"Category not found"
+            });
+
+        console.log("category found subcategories:" + result.subcategories.length);
+
+        // if category has parent, delete reference to subcategory
+        if(result.parent)
+            Category.update({ _id:result.parent }, { $pull: {
+                subcategories: { _id:req.params.categoryId }
+            }});
+
+        // delete subcategories
+        if(result.subcategories.length > 0) {
+            for(let i in result.subcategories) {
+                let sub = result.subcategories[i];
+                Category.deleteOne({ _id:sub._id }).catch(err => {
+                    res.status(500).json({
+                        error:err
+                    });
+                });
+            }
+        } 
+
+        // now delete category itself
+        Category.deleteOne({ _id:req.params.categoryId })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message:'Category deleted'
+            });
+        }).catch(err => {
+            console.log("error deleting category");
+            res.status(500).json({
+                error:err
+            });
         });
     }).catch(err => {
+        console.log("error last catch");
         res.status(500).json({
             error:err
         });
     });
 }
 
+/**
+ * Update category
+ */
 exports.updateCategory = (req, res, next) => {
     const updateFields = {};
 
