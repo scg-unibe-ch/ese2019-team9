@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from '../../../models/user';
 import { Router } from '@angular/router';
@@ -59,7 +59,6 @@ export class AuthService {
   }
 
   private setSession(authResult) {
-
     localStorage.setItem('token', authResult.token);
   }
 
