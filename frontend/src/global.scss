@@ -133,3 +133,10 @@
   margin-bottom: 10px;
 }
 
+@media only screen and (max-device-width: 768px) {
+  .popover-style .popover-content { min-width: 250px; }
+}
+
+@media only screen and (max-device-width: 576px) {
+  .popover-style .popover-content { min-width: 80vw; }
+}

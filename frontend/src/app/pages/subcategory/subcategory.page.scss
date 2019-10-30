@@ -1,0 +1,26 @@
+.line{
+  border-bottom: 1px solid grey;
+}
+
+.bigTitle{
+  font-size: 50px;
+}
+
+.mediumTitle{
+  text-align: center;
+}
+
+img.pic-square {
+  height: 200px;
+  object-fit: cover;
+  width: 200px;
+}
+
+.backgroundGradient{
+  background-image: linear-gradient(var(--ion-color-secondary), var(--ion-color-light));
+}
+
+.cardMargin{
+  margin: 0px;
+  padding: 10px;
+}
