@@ -6,7 +6,7 @@ const productSchema = {
     category: { type:String },
     price: { type:Number },
     verified: { type:Boolean, default:false },
-    seller: { type:Array, default:[] }
+    seller: { type:Object, default:{} }
 }
 
 module.exports = mongoose.model('Product', productSchema);
