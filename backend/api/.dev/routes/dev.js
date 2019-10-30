@@ -18,7 +18,10 @@ router.delete('/regex/:domain/:namespace', DevController.deleteUserWithDomain);
 //get user by id
 router.get('/:id', DevController.getUser);
 
+//verify usermail by id
+router.patch('/verify', DevController.verify);
+
 //verifies token
-router.get('/verify/:token', DevController.verifyToken)
+router.get('/verifyToken/:token', DevController.verifyToken)
 
 module.exports = router;

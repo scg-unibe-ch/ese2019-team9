@@ -92,3 +92,16 @@ exports.deleteUserWithDomain = (req, res, next) => {
         });
     });
 }
+exports.verify = (req,res,next) => {
+   let id = req.params.id;
+   User.findOne({_id:id})
+   .exec()
+   .then((user)=>{
+       user.verifiedEmail = true;
+       user.save()
+       res.status(200).json({message: 'successful'});
+   })
+   .catch((err)=>{
+       res.status(500).json({message: err});
+   });
+}
