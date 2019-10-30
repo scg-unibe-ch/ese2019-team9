@@ -1,11 +1,9 @@
 .carouselTitle {
   text-align: center;
-}
-
-.carouselControl {
-  cursor: pointer;
+  background: var(--ion-color-medium);
 }
 
 .carouselBody {
   display: flex;
+
 }

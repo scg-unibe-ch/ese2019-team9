@@ -41,10 +41,10 @@ export class CarouselComponent implements OnInit {
   selectCarouselItems(carouselSize, startingIndex) {
     this.itemsToDisplay = [];
     /* checks for amount of carousel categories,
-    true: all categories are displayed,
-    false: 3 categories get chosen to be displayed
+        if true: all categories are displayed,
+        if false: 3 categories get chosen to be displayed
      */
-    if (this.itemsToDisplay.length < carouselSize) {
+    if (this.subCategories.length < carouselSize) {
       this.itemsToDisplay = this.subCategories;
     } else {
       for (let i = startingIndex; i < (carouselSize + startingIndex); i++) {
