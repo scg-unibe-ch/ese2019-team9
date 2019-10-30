@@ -1,14 +1,19 @@
 <ion-card>
-  <ion-toolbar>
-    <ion-title class="carouselTitle" >
+  <ion-toolbar color="medium" >
+    <ion-title class="carouselTitle">
       {{ categoryName }}
     </ion-title>
   </ion-toolbar>
-  <ion-card-content class="carouselBody" >
-    <ion-icon class="carouselControl" slot="start" name="arrow-dropleft" (click)="selectPreviousItem()" ></ion-icon>
+  <ion-card-content class="carouselBody ion-justify-content-center ion-align-items-center" >
+      <ion-button size="large" fill="empty" slot="start" (click)="selectPreviousItem()" >
+          <ion-icon name="arrow-dropleft"  ></ion-icon>
+      </ion-button>
       <span *ngFor="let cat of itemsToDisplay" >
         <app-carousel-item [subCatName]="cat.name"></app-carousel-item>
       </span>
-    <ion-icon class="carouselControl" slot="end" name="arrow-dropright" (click)="selectNextItem()" ></ion-icon>
+      <ion-button size="large" fill="empty" slot="end" (click)="selectNextItem()">
+          <ion-icon name="arrow-dropright"></ion-icon>
+      </ion-button>
   </ion-card-content>
 </ion-card>
+

@@ -66,10 +66,8 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {
-                   if (data.status === 200 ) {
-                       this.popoverService.dismissPopover();
-                       this.loginForm.reset();
-                  }
+                  this.popoverService.dismissPopover();
+                  this.loginForm.reset();
               },
               error => {
                   this.messageReceived = true;
