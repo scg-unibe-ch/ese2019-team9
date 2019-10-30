@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 import {AuthService} from '../../services/authService/auth.service';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,6 +19,8 @@ export class ForgotPasswordComponent implements OnInit {
     ]
   };
   forgotEmailSent = false;
+  messageReceived = false;
+  message;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -37,9 +40,20 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.forgotPasswordForm.invalid) {
       return;
     }
-    /*
-    Insert code that handles API request, once backend implemented their side of the request.
-     */
+    const val = this.forgotPasswordForm.value;
+    this.authService.forgotPassword(val.email)
+        .pipe(first())
+        .subscribe(data => {
+          if (data.status === 200 ) {
+            this.forgotPasswordForm.reset();
+            this.forgotEmailSent = true;
+        }
+            }, error => {
+          if (error.status === 500) {
+            this.messageReceived = true;
+            this.forgotPasswordForm.reset();
+            this.message = 'Have you entered the correct address?';
+          }
+        });
   }
-
 }

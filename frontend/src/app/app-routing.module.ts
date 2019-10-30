@@ -5,7 +5,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { path: 'verify', loadChildren: './pages/verify/verify.module#VerifyPageModule' },
-  { path: 'registered', loadChildren: './pages/registered/registered.module#RegisteredPageModule' },
+  { path: 'registered', loadChildren: './pages/registered/registered.module#RegisteredPageModule' },  { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' },
+
 
 ];
 
