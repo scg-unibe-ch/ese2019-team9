@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: 'verify', loadChildren: './pages/verify/verify.module#VerifyPageModule' },
   { path: 'registered', loadChildren: './pages/registered/registered.module#RegisteredPageModule' },
   { path: 'subcategory', loadChildren: './pages/subcategory/subcategory.module#SubcategoryPageModule' },
-
+  { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' },
 ];
 
 @NgModule({
