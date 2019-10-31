@@ -10,6 +10,9 @@ const transport = nodemailer.createTransport({
 	}
 });
 
+/**
+ * Send an email with instructions to verify user email address
+ */
 exports.sendVerification = (token, userEmail) => {
 	return new Promise((resolve, reject) => {
 		const url = process.env.PUBLIC_DOMAIN + "/verify?token=" + token;
