@@ -9,6 +9,11 @@
     </ion-header>
     <ion-content>
       <ion-list>
+          <ion-menu-toggle auto-hide="false">
+          <ion-item *ngIf="auth.isLoggedIn() && auth.isAdmin()" routerLink="/admin" [routerDirection]="'root'">
+            <ion-icon name="settings" slot="start"></ion-icon>
+            <ion-label>Admin</ion-label>
+          </ion-item>
         <ion-item lines="none" routerLink="/">
           <ion-icon name="business" slot="start"></ion-icon>
           <ion-label>Real Estate</ion-label>
@@ -33,6 +38,7 @@
           <ion-icon name="wallet" slot="start"></ion-icon>
           <ion-label>Become a Seller</ion-label>
         </ion-item>
+        </ion-menu-toggle>
       </ion-list>
     </ion-content>
   </ion-menu>
