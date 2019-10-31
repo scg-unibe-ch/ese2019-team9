@@ -449,7 +449,7 @@
                   <tr>
                     <td class="content-cell">
                       <div class="f-fallback">
-                        <p>We received a request to reset the password to access MOLN with your email address ({{email_address}}) from a {{operating_system}} device using {{browser_name}}, but we were unable to find an account associated with this address.</p>
+                        <p>We received a request to reset the password to access MOLN with your email address (<%= emailAddress %>) from a <%= operatingSystem %> device using <%= browserName %>, but we were unable to find an account associated with this address.</p>
                         <p>If you use MOLN and were expecting this email, consider trying to request a password reset using the email address associated with your account.</p>
                         <!-- Action -->
                         <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
@@ -460,14 +460,14 @@
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
                                   <td align="center">
-                                    <a href="{{action_url}}" class="f-fallback button button--blue" target="_blank">Try a different email</a>
+                                    <a href="<%= actionURL %>" class="f-fallback button button--blue" target="_blank">Try a different email</a>
                                   </td>
                                 </tr>
                               </table>
                             </td>
                           </tr>
                         </table>
-                        <p>If you do not use MOLN or did not request a password reset, please ignore this email or <a href="{{support_url}}">contact support</a> if you have questions.</p>
+                        <p>If you do not use MOLN or did not request a password reset, please ignore this email or <a href="<%= supportURL %>">contact support</a> if you have questions.</p>
                         <p>Thanks,
                           <br>The MOLN Team</p>
                         <!-- Sub copy -->
@@ -475,7 +475,7 @@
                           <tr>
                             <td>
                               <p class="f-fallback sub">If you’re having trouble with the button above, copy and paste the URL below into your web browser.</p>
-                              <p class="f-fallback sub">{{action_url}}</p>
+                              <p class="f-fallback sub"><%= actionURL %></p>
                             </td>
                           </tr>
                         </table>

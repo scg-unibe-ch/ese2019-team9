@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Email = require('../methods/mail.js');
+const useragent = require('express-useragent');
 
+const Email = require('../methods/mail.js');
 const User = require('../models/user');
 
+/**
+ * Get user data by id
+ * @param req has to contain userId
+ */
 exports.getUserById = (req, res, next) => {
     const id = req.params.userId;
     User.findById(id)
@@ -13,15 +18,19 @@ exports.getUserById = (req, res, next) => {
         if(doc) {
             res.status(200).json(doc);
         } else {
-            res.status(404).json({ message:'No valid entry found for provided user ID' });
+            res.status(404).json({ message: 'No valid entry found for provided user ID' });
         }
     }).catch(err => {
-        res.status(500).json({ error:err });
+        res.status(500).json({ error: err });
     });
 };
 
+/**
+ * Creates a new user and sends verification email
+ * @param req has to contain email and password
+ */
 exports.signUp = (req, res, next) => {
-    User.find({ email:req.body.email })
+    User.find({ email: req.body.email })
     .exec()
     .then(user => {
         if(user.length > 0)
@@ -48,7 +57,7 @@ exports.signUp = (req, res, next) => {
                     .then(result => {
                         const token = jwt.sign(
                             { 
-                                id:user._id
+                                id: user._id
                             }, 
                             process.env.JWT_KEY, 
                             {
@@ -62,11 +71,11 @@ exports.signUp = (req, res, next) => {
                             });
                         })
                         .catch((err) => {
-                            res.status(500).json({ error:err });
+                            res.status(500).json({ error: err });
                         });
                         
                     }).catch(err => {
-                        res.status(500).json({ error:err });
+                        res.status(500).json({ error: err });
                     });
                 }
             });
@@ -74,6 +83,11 @@ exports.signUp = (req, res, next) => {
     });
 };
 
+/**
+ * Log the given user in and get login token
+ * @param req has to contain email and password
+ * @returns token
+ */
 exports.login = (req, res, next) => {
     User.find({ email:req.body.email })
     .exec()
@@ -100,59 +114,69 @@ exports.login = (req, res, next) => {
             if(result) {
                 const token = jwt.sign(
                     { 
-                        email:user[0].email, 
-                        userId:user[0]._id,
-                        admin:user[0].admin,
-                        _flag:1
+                        email: user[0].email, 
+                        userId: user[0]._id,
+                        admin: user[0].admin,
+                        _flag: 1
                     }, 
                     process.env.JWT_KEY, 
                     {
-                        expiresIn:"3h"
+                        expiresIn: "3h"
                     }   
                 );
                 return res.status(200).json({
-                    message:'Authentication successful',
-                    token:token,
-                    id:user[0]._id
+                    message: 'Authentication successful',
+                    token: token,
+                    id: user[0]._id
                 });
             }else{
                 if(!user[0].verifiedEmail) {
                     return res.status(307).json({
-                        message:'Email not verified',
-                        id:user[0].id
+                        message: 'Email not verified',
+                        id: user[0].id
                     });
                 }else{
                     // wrong password
                     res.status(401).json({
-                        message:'Authentication failed'
+                        message: 'Authentication failed'
                     });
                 }
             }
         });
     })
     .catch(err => {
-        res.status(500).json({ error:err });
+        res.status(500).json({ error: err });
     });
 };
 
+/**
+ * Updates given fields for given user
+ * @param req has to contain userId and fields to update in the body
+ * 
+ * @example JSON -> { "userId":"asd", "field":"value1", "field2":"value2" }
+ */
 exports.updateUser = (req, res, next) => {
     const id = req.params.userId;
     const udpateFields = {};
 
-    for(const ops of req.body) {
-        udpateFields[ops.propName] = ops.value;
+    for(const [propName, value] of Object.entries(req.body)) {
+        udpateFields[propName] = value;
     }
 
-    User.update({ _id:id }, { $set:udpateFields })
+    User.update({ _id:id }, { $set: udpateFields })
     .exec()
     .then(result => {
         res.status(200).json(result);
     })
     .catch(err => { 
-        res.status(500).json({ error:err })
+        res.status(500).json({ error: err })
     });
 };
 
+/**
+ * Delete given user
+ * @param req has to contain id in the body
+ */
 exports.deleteUser = (req, res, next) => {
     const id = req.userData.id;
 
@@ -161,16 +185,20 @@ exports.deleteUser = (req, res, next) => {
             message:'Access denied'
         });
 
-    User.deleteOne({ _id:id })
+    User.deleteOne({ _id: id })
     .exec()
     .then(result => {
-        res.status(200).json({ message:'User deleted' });
+        res.status(200).json({ message: 'User deleted' });
     })
     .catch(err => {
-        res.status(500).json({ error:err })
+        res.status(500).json({ error: err })
     });
 };
 
+/**
+ * Verify email address of given user
+ * @param req has to contain token in the body
+ */
 exports.verifyUser = (req, res, next) => {
     try{
         const token = jwt.verify(req.body.token, process.env.JWT_KEY);
@@ -178,98 +206,106 @@ exports.verifyUser = (req, res, next) => {
         .exec()
         .then(user => {
             if(user.verifiedEmail){
-                res.status(500).json({ message:'Email already verified' });
+                res.status(500).json({ message: 'Email already verified' });
             }
             user.verifiedEmail = true;
             user.save();
-            res.status(200).json({ message:'Email successfully verified' });
+            res.status(200).json({ message: 'Email successfully verified' });
         })
         .catch(err => {
             res.status(500).json({ message: err });
         });
     }catch(err){
-        res.status(500).json({message: 'token invalid'});
+        res.status(500).json({ message: 'token invalid' });
     }
 };
 
 /**
- * @param request has to contain a Json with _id and email of the user
- * @param result
- * @param next is the next function
+ * Resend email verification link
+ * @param req has to contain email and id in the body
  */
-
 exports.resendVerification = (req, res, next) => {
-    const id = req.body._id;
+    const id = req.body.id;
     const userMail = req.body.email;
-    const verifyToken = jwt.sign({id:id}, process.env.JWT_KEY,{});
+    const verifyToken = jwt.sign({ id: id }, process.env.JWT_KEY,{});
 
     Email.sendVerification(verifyToken, userMail)
     .then(()=>{
-        res.status(200).json({message: 'Verification successfully resent'});
+        res.status(200).json({ message: 'Verification successfully resent' });
     })
     .catch((err) => {
-        res.status(500).json({message: err});
+        res.status(500).json({ message: err });
     });
 };
 
 /**
- * @param request contains the email of the user
+ * If user requests to change password, send an email to given email. If email is registered,
+ * send link to reset password, else send email notification that someone tried to reset password.
+ * @param req has to contain email in the body
  */
-
  exports.forgotPassword = (req, res, next) => {
     const usermail = req.body.email;
+    const source = req.headers['user-agent'];
+    const ua = useragent.parse(source);
 
-    //user gave existing email
-    if(User.exists({email: usermail})){
-        User.findOne({email: usermail})
-        .exec()
-        .then((user) =>{
-            const token = jwt.sign({id: user._id}, process.env.JWT_KEY, {expiresIn: "1h"});
-            Email.sendResetLink(token, usermail)
+    const browser = ua.browser;
+    const operatingSystem = ua.operatingSystem;
+    
+    User.findOne({ email: usermail })
+    .exec()
+    .then((user) =>{
+        //user gave existing email
+        if(user) {
+            const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, { expiresIn: "1h" });
+            Email.sendResetLink(token, usermail, browser, operatingSystem)
             .then(() =>{
-                res.status(200).json({message: 'Reset-link sent'});
+                res.status(200).json({ message: 'Reset-link sent' });
             })
             .catch((err) => {
-                res.status(500).json({message: err});
+                res.status(500).json({ message: err });
             });
-         })
-        .catch((err) => {
-            res.status(500).json({message: err});
-        });
-    }else{//user gave wrong email
-        Email.sendEmailNotRegistered(usermail)
-        .then(() => {
-            res.status(200).json({message: 'Reset-link sent'});
-        })
-        .catch((err) => {
-            res.status(500).json({message: err});
-        });
-    }
+        } else {
+            // email is not yet registered
+            Email.sendEmailNotRegistered(usermail, browser, operatingSystem)
+            .then(() => {
+                res.status(200).json({ message: 'Reset-link sent' });
+            })
+            .catch((err) => {
+                res.status(500).json({ message: err });
+            });
+        }
+    })
+    .catch((err) => {
+        res.status(500).json({ message: err });
+    });
  };
 
- exports.newPassword = (req, res, next)=>{
+ /**
+  * Save new password for given user
+  * @param req has to contain token and password in the body
+  */
+ exports.newPassword = (req, res, next) => {
     const token = req.body.token;
     const password = req.body.password;
-    try{
+    try {
         const decoded = jwt.verify(token, process.env.JWT_KEY);
         const id = decoded.id;
         User.findById(id).exec()
         .then((user) => {
             bcrypt.hash(password, 10, (err, hash) =>{
                 if(err){
-                    res.status(500).json({message: err});
+                    res.status(500).json({ message: err });
                 }else{
                     user.password = hash;
                     user.save()
-                    res.status(200).json({message:'password-reset successful'});
+                    res.status(200).json({ message: 'password-reset successful' });
                 }
             });
         })
         .catch((err) => {
-            console.log(err);
-            res.status(500).json({message: err});
+            res.status(500).json({ message: err });
         })
-    }catch(err){
-        res.status(500).json({message: 'token invalid'})
+    } catch(err) {
+        res.status(500).json({ message: 'token invalid' });
     } 
  };

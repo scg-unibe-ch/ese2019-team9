@@ -148,8 +148,9 @@ exports.deleteCategory = (req, res, next) => {
 exports.updateCategory = (req, res, next) => {
     const updateFields = {};
 
-    for(const ops of req.body)
-        updateFields[ops.propName] = ops.value;
+    for(const [propName, value] of Object.entries(req.body)) {
+        udpateFields[propName] = value;
+    }
 
     Category.update({ _id:req.params.categoryId }, { $set:updateFields })
     .exec()
