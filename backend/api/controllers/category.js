@@ -52,7 +52,8 @@ exports.addCategory = (req, res, next) => {
             _id:new mongoose.Types.ObjectId(),
             slug:req.body.slug,
             name:req.body.name,
-            parent:req.body.parent
+            parent:req.body.parent,
+            products:[]
         });
 
         if(!req.body.parent)

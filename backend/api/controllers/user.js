@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const useragent = require('express-useragent');
+const browserDetect = require('browser-detect');
 
 const Email = require('../methods/mail.js');
 const User = require('../models/user');
@@ -243,11 +243,10 @@ exports.resendVerification = (req, res, next) => {
  */
  exports.forgotPassword = (req, res, next) => {
     const usermail = req.body.email;
-    const source = req.headers['user-agent'];
-    const ua = useragent.parse(source);
+    const source = browserDetect(req.headers['user-agent']);
 
-    const browser = ua.browser;
-    const operatingSystem = ua.operatingSystem;
+    const browser = source.name;
+    const operatingSystem = source.os;
     
     User.findOne({ email: usermail })
     .exec()
