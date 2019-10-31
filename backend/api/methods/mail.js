@@ -12,62 +12,49 @@ const transport = nodemailer.createTransport({
 
 exports.sendVerification = function(token, userEmail){
   return new Promise((resolve, reject)=>{
-
+    const subject = 'MOLN account verification';
     const url = process.env.PUBLIC_DOMAIN + "/verify?token=" + token;
     const placeholders = { tokenPlaceholder:url };
     const template = fs.readFileSync('api/templates/email_verification.html', { encoding:'utf-8' });
     const body = ejs.render(template, placeholders);
-    
-    const mail = {
-        from:"no-reply@moln.ch",
-        to: userEmail,
-        subject:"MOLN account email verification",
-        text:"Please follow this link to verify your email address: " + url,
-        html:body
-    };
-  
-    transport.sendMail(mail, (error, info) => {
-        resolve(error);
-    });
+    send(body,subject ,userEmail, url).then(()=>{resolve()}).catch(err=>{reject(err);});
   });
 }
 
 exports.sendResetLink = function(token, userEmail){
   return new Promise((resolve,reject) => {
+    const subject = 'MOLN password reset'
     const url = process.env.PUBLIC_DOMAIN + '/reset?token=' + token;
     const placeholders = {tokenPlaceholder:url };
     const template = fs.readFileSync('api/templates/email_resetLink.html', {encoding: 'utf-8'});
     const body = ejs.render(template, placeholders);
     
-    const mail = {
-      from:'no-reply@moln.ch',
-      to: userEmail,
-      subject:'MOLN password-reset',
-      text: 'please follow this link to reset your password: ' + url,
-      html: body
-    };
-    transport.sendMail(mail, (error, info) => {
-      resolve(error);
-    });
+    send(body,subject ,userEmail, url).then(()=>{resolve()}).catch(err=>{reject(err);});
   });
 }
 
 exports.sendEmailNotRegistered = function(userEmail){
   return new Promise((resolve,reject) => {
+    const subject = 'MOLN password reset';
     const url = process.env.PUBLIC_DOMAIN + '/signup'
     const placeholders = {tokenPlaceholder:url };
     const template = fs.readFileSync('api/templates/email_noEmailRegistered.html', {encoding: 'utf-8'});
     const body = ejs.render(template, placeholders);
     
+    send(body,subject ,userEmail, url).then(()=>{resolve()}).catch(err=>{reject(err);});
+  });
+}
+
+
+function send(body, subject, userEmail, url){
+  return new Promise((resolve,reject) =>{
     const mail = {
       from:'no-reply@moln.ch',
       to: userEmail,
-      subject:'MOLN password-reset',
+      subject: subject,
       text: 'You are not registered. To regisered yet follow this link:' + url,
       html: body
     };
-    transport.sendMail(mail, (error, info) => {
-      resolve(error);
-    });
+    transport.sendMail(mail).then(()=>{resolve();}).catch((err)=>{reject(err);});
   });
 }

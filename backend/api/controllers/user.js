@@ -92,9 +92,6 @@ exports.login = (req, res, next) => {
                     message:'Authentication failed'
                 });
             } 
-
-            // check if email adress is verified
-            
                 
             // correct password - create and send access token
             if(result) {
@@ -116,6 +113,7 @@ exports.login = (req, res, next) => {
                     id:user[0]._id
                 });
             }else{
+                //check whether email is verified
                 if(!user[0].verifiedEmail) {
                     return res.status(307).json({
                         message:'Email not verified',
