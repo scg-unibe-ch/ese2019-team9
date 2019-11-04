@@ -156,22 +156,29 @@ exports.updateCategory = (req, res, next) => {
 exports.getSingleCategory = (req, res, next) => {
     Category.find({ _id:req.params.categoryId })
     .exec()
-    .then((docs) => {
-        const response = {
-            count:docs.length,
-            categories:docs.map(doc => {
-                return {
-                    _id:doc._id,
-                    name:doc.name,
-                    slug:doc.slug,
-                    subcategories:doc.subcategories,
-                    request: {
-                        type:'GET',
-                        url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
-                    }
+    .then(async (docs) => {
+        const categories = await Promise.map(docs, async doc => {
+            const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
+
+            return {
+                _id:doc._id,
+                name:doc.name,
+                slug:doc.slug,
+                subcategories:subs,
+                parent:doc.parent,
+                path:doc.path,
+                request: {
+                    type:'GET',
+                    url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
                 }
-            })
-        }
+            }
+        });
+
+        const response = {
+            count:docs.count,
+            categories:categories
+        };
+
         return res.status(200).json(response);
     }).catch(err => {
         res.status(500).json(err);

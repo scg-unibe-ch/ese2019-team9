@@ -8,4 +8,4 @@ const categorySchema = mongoose.Schema({
     slug:{ type:String }
 });
 
-module.exports = mongoose.model('Category2', categorySchema);
+module.exports = mongoose.model('Category', categorySchema);
