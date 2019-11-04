@@ -59,7 +59,7 @@ exports.addCategory = (req, res, next) => {
     .exec()
     .then(category => {
         if(category.length > 0)
-            Promise.reject('Category with same name/slug already exists');
+            throw new Error('Category with same name/slug already exists');
 
         return category;
     })
