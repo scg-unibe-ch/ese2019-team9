@@ -1,4 +1,14 @@
 .carouselItemBody {
-  min-height: 50px;
-  min-width: 50px;
+  min-height: 75px;
+  @media (max-width: 768px) {
+    width: 18vw;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+  }
+  @media (min-width: 768px) {
+    width: 11vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
+  }
+  cursor: pointer;
 }

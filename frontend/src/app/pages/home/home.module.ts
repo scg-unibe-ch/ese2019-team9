@@ -4,12 +4,12 @@ import { IonicModule } from '@ionic/angular';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {HeaderModule} from '../core/header.module';
-import { AuthModule } from '../core/auth.module';
-import { CarouselModule } from '../shared/carousel.module';
+import {HeaderModule} from '../../core/header.module';
+import { AuthModule } from '../../core/auth.module';
+import { CarouselModule } from '../../shared/carousel.module';
 
 import { HomePage } from './home.page';
-import {FooterComponent} from '../core/footer/footer.component';
+import {FooterComponent} from '../../core/footer/footer.component';
 
 
 @NgModule({

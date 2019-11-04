@@ -44,11 +44,13 @@ export class ResetPage implements OnInit {
     this.activatedRoute.queryParamMap.subscribe(queryParams => {
       this.authService.resetPassword(queryParams.get('token'), val.password)
           .subscribe(data => {
+            this.messageReceived = true;
             if (data.status === 200 ) {
-              this.message = data.statusText;
+              this.message = 'Your password was reset';
             }
           }, error => {
             this.isErrorMessage = true;
+            this.messageReceived = true;
             if (error.status === 500 && error.error.message === 'token invalid') {
               this.message = 'Invalid request';
             } else {
