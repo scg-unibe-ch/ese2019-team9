@@ -172,19 +172,24 @@ exports.login = (req, res, next) => {
  */
 exports.updateUser = (req, res, next) => {
     const id = req.params.userId;
-    const udpateFields = {};
+    const updateFields = {};
+
+    if(id != req.userData.userId && !req.userData.admin)
+        return res.status(501).json({ error:"Access forbidden" });
 
     for(const [propName, value] of Object.entries(req.body)) {
-        udpateFields[propName] = value;
+        updateFields[propName] = value;
     }
 
-    User.update({ _id:id }, { $set: udpateFields })
+    console.log(updateFields);
+
+    User.update({ _id:id }, { $set: updateFields })
     .exec()
     .then(result => {
         res.status(200).json(result);
     })
     .catch(err => { 
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: err.message })
     });
 };
 
@@ -193,9 +198,9 @@ exports.updateUser = (req, res, next) => {
  * @param req has to contain id in the body
  */
 exports.deleteUser = (req, res, next) => {
-    const id = req.userData.id;
+    const id = req.params.userId;
 
-    if(req.userData.id != req.params.userId || !req.userData.admin)
+    if(req.userData.userId != req.params.userId && !req.userData.admin)
         return res.status(401).json({
             message:'Access denied'
         });

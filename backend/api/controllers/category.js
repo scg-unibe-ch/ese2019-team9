@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Category = require('../models/category');
+const Product = require('../models/product');
 const Promise = require('bluebird');
 
 /**
@@ -30,7 +31,7 @@ exports.getCategories = (req, res, next) => {
             });
 
             const response = {
-                count:docs.count,
+                count:docs.length,
                 categories:categories
             };
             
@@ -150,33 +151,38 @@ exports.updateCategory = (req, res, next) => {
  * Get detailed information about a single category
  */
 exports.getSingleCategory = (req, res, next) => {
-    Category.find({ slug:req.params.slug })
-    .exec()
-    .then(async (docs) => {
-        const categories = await Promise.map(docs, async doc => {
-            const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
+    try {
+        Category.find({ slug:req.params.slug })
+        .exec()
+        .then(async docs => {
+            const categories = await Promise.map(docs, async doc => {
+                    const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
+                    const products = await Product.find( { categoryId:doc._id });
+                    return {
+                        _id:doc._id,
+                        name:doc.name,
+                        slug:doc.slug,
+                        subcategories:subs,
+                        parent:doc.parent,
+                        products:products,
+                        path:doc.path,
+                        request: {
+                            type:'GET',
+                            url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
+                        }
+                    }
+            });
 
-            return {
-                _id:doc._id,
-                name:doc.name,
-                slug:doc.slug,
-                subcategories:subs,
-                parent:doc.parent,
-                path:doc.path,
-                request: {
-                    type:'GET',
-                    url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
-                }
-            }
+            const response = {
+                count:docs.length,
+                categories:categories
+            };
+            
+            return res.status(200).json(response);
+        }).catch(err => {
+            res.status(500).json(err);
         });
-
-        const response = {
-            count:docs.count,
-            categories:categories
-        };
-
-        return res.status(200).json(response);
-    }).catch(err => {
+    } catch (err) {
         res.status(500).json(err);
-    });
+    }
 }

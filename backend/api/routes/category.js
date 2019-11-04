@@ -3,15 +3,16 @@ const router = express.Router();
 
 const CategoryController = require('../controllers/category');
 const checkAuth = require('../mware/check-auth');
+const checkAdmin = require('../mware/check-admin');
 
 router.get('/', CategoryController.getCategories);
 
 router.get('/:slug', CategoryController.getSingleCategory)
 
-router.post('/add', CategoryController.addCategory);
+router.post('/add', checkAdmin, CategoryController.addCategory);
 
-router.delete('/:categoryId', CategoryController.deleteCategory);
+router.delete('/:categoryId', checkAdmin, CategoryController.deleteCategory);
 
-router.patch('/:categoryId', CategoryController.updateCategory);
+router.patch('/:categoryId', checkAdmin, CategoryController.updateCategory);
 
 module.exports = router;

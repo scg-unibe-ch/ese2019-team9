@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Product = require('../models/product');
-const Category = require('../models/category')
+const Category = require('../models/category');
+const User = require('../models/user');
 const Promise = require('bluebird');
 
 /**
@@ -13,23 +14,39 @@ exports.getProducts = (req, res, next) => {
         if(products.length == 0)
             return res.status(200).json({});
         
-        console.log(products);
-        const productList = await Promise.map(products, async p => {
-            const categoryName = await Category.findOne( { _id:p.categoyId } );
-            
-            return {
-                name:p.name,
-                _id:p._id,
-                category:categoryName,
-                price:p.price,
-                description:p.description, 
-                location:p.location
-            }
-        });
+        try {
+            const productList = await Promise.map(products, async p => {
+                const categoryName = await Category.findById(p.categoyId);
+                const seller = await User.findById(p.sellerId);
 
-        return res.status(200).json(productList);
+                return {
+                    name:p.name,
+                    _id:p._id,
+                    category:categoryName,
+                    price:p.price,
+                    description:p.description, 
+                    location:p.location,
+                    sellerId:p.sellerId,
+                    seller:{
+                        id:seller._id,
+                        name:seller.name,
+                        email:seller.email,
+                        address:seller.address,
+                        country:seller.country,
+                        website:seller.website,
+                        sex:seller.sex,
+                        phone:seller.phone
+                    }
+                }
+            });
+            return res.status(200).json(productList);
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }).catch(err => {
-        res.status(500).json(err);
+        res.status(500).json({
+            error:err.message
+        });
     });
 }
 
@@ -43,16 +60,23 @@ exports.updateProduct = (req, res, next) => {
     const udpateFields = {};
 
     for(const [propName, value] of Object.entries(req.body)) {
-        udpateFields[propName] = value;
+        if(propName != 'verified' || req.userData.admin)
+            udpateFields[propName] = value;
     }
 
-    Product.update({ _id:id }, { $set: udpateFields })
+    Product.findOne({ _id:id })
     .exec()
+    .then(result => {
+        if(result.sellerId != req.userData.userId && !req.userData.admin)
+            throw new Error("Access forbidden");
+
+        return Product.update({ _id:id }, { $set: udpateFields });
+    })
     .then(result => {
         res.status(200).json(result);
     })
     .catch(err => { 
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: err.message })
     });
 }
 
@@ -69,8 +93,15 @@ exports.addProduct = (req, res, next) => {
         });
 
     try {
-        Category.findOne({ slug:req.body.categorySlug })
+        User.findById(req.userData.userId)
         .exec()
+        .then(result => {
+            console.log(result);
+            if(!result.name || !result.address || !result.country || !result)
+                throw new Error("You first have to add your name, address and country to your profile in order to create a product");
+
+            return Category.findOne({ slug:req.body.categorySlug });
+        })
         .then(category => {
             if(!category)
                 throw new Error("Given category could not be found");
@@ -83,7 +114,8 @@ exports.addProduct = (req, res, next) => {
                 description:req.body.description,
                 price:req.body.price,
                 categoryId:category._id,
-                location:req.body.location
+                location:req.body.location,
+                sellerId:req.userData.userId
             });
 
             return newProduct.save();
@@ -97,7 +129,8 @@ exports.addProduct = (req, res, next) => {
                     category:categoryName,
                     price:result.price,
                     description:result.description, 
-                    location:result.location
+                    location:result.location,
+                    sellerId:result.sellerId
                 }
             });
         })
@@ -108,7 +141,7 @@ exports.addProduct = (req, res, next) => {
         });
     } catch (err) {
         res.status(500).json({
-            error:err
+            error:err.message
         });
     }
 }
@@ -119,13 +152,9 @@ exports.addProduct = (req, res, next) => {
 exports.deleteProduct = (req, res, next) => {
     Product.findOne({ _id:req.params.productId })
     .then(result => {
-        if(!result)
-            throw new Error("Product not found");
-
+        if(req.userData.userId != result.sellerId && !req.userData.admin)
+            throw new Error("Access forbidden");
         return result;
-    })
-    .then(result => {
-        return Category.deleteOne({ _id:req.params.productId });
     })
     .then(result => {
         res.status(200).json({
