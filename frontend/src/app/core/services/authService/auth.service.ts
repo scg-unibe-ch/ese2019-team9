@@ -3,12 +3,12 @@ import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from '../../../models/user';
 import { Router } from '@angular/router';
+import  decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor(private httpClient: HttpClient,
               private router: Router) {}
 
@@ -77,6 +77,21 @@ export class AuthService {
   }
 
   public isLoggedIn() {
-    return !!localStorage.getItem('token');
+    if (!Boolean(localStorage.getItem('token'))){
+      return false;
+    }
+    const payload = decode(localStorage.getItem('token'));
+    const expiration = payload.exp;
+    const dateNow: number = Math.floor(Date.now()/1000);
+    const expired = expiration - dateNow < 0;
+    if (expired) {
+        localStorage.removeItem('token');
+    }
+    return !expired;
+  }
+
+  public isAdmin():boolean{
+    const payload = decode(localStorage.getItem('token'));
+    return payload.admin;
   }
 }

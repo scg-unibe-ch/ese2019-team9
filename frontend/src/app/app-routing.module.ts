@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RoleguardService } from './core/services/roleguardService/roleguard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -7,7 +8,9 @@ const routes: Routes = [
   { path: 'verify', loadChildren: './pages/verify/verify.module#VerifyPageModule' },
   { path: 'registered', loadChildren: './pages/registered/registered.module#RegisteredPageModule' },
   { path: 'subcategory', loadChildren: './pages/subcategory/subcategory.module#SubcategoryPageModule' },
-  { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' },
+  { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' }, 
+  { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule', canActivate: [RoleguardService], 
+  data: { expectedRole: 'admin' }}
 ];
 
 @NgModule({
