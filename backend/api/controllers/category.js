@@ -23,6 +23,7 @@ exports.getCategories = (req, res, next) => {
                         subcategories:subs,
                         parent:doc.parent,
                         path:doc.path,
+                        image:doc.image,
                         request: {
                             type:'GET',
                             url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
@@ -77,7 +78,8 @@ exports.addCategory = (req, res, next) => {
             slug:req.body.slug,
             name:req.body.name,
             path:path,
-            parent:parentSlug
+            parent:parentSlug,
+            image:req.file.path
         });
 
         return newCategory.save();
@@ -134,6 +136,9 @@ exports.updateCategory = (req, res, next) => {
         updateFields[propName] = value;
     }
 
+    if(req.file.path)
+        updateFields['image'] = req.file.path;
+
     Category.update({ _id:req.params.categoryId }, { $set:updateFields })
     .exec()
     .then(result => {
@@ -166,6 +171,7 @@ exports.getSingleCategory = (req, res, next) => {
                         parent:doc.parent,
                         products:products,
                         path:doc.path,
+                        image:doc.image,
                         request: {
                             type:'GET',
                             url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id

@@ -181,7 +181,8 @@ exports.updateUser = (req, res, next) => {
         updateFields[propName] = value;
     }
 
-    console.log(updateFields);
+    if(req.file.path)
+        updateFields['image'] = req.file.path;
 
     User.update({ _id:id }, { $set: updateFields })
     .exec()

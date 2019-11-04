@@ -9,7 +9,8 @@ const productSchema = mongoose.Schema({
     sellerId:{ type:mongoose.Schema.Types.ObjectId },
     description:{ type:String, required:true },
     location:{ type:String },
-    rating:{ type:Number, default:0 }
+    rating:{ type:Number, default:0 },
+    image:{ type:String }
 });
 
 module.exports = mongoose.model('Product', productSchema);

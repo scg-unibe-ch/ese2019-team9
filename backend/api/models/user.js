@@ -16,7 +16,8 @@ const userSchema = mongoose.Schema({
     country: { type:String },
     website: { type:String },
     phone: { type:String },
-    sex: { type:String }
+    sex: { type:String },
+    image: { type: String }
 });
 
 module.exports = mongoose.model('User', userSchema);

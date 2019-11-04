@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const Product = require('../models/product');
 const Category = require('../models/category');
 const User = require('../models/user');
@@ -27,6 +28,7 @@ exports.getProducts = (req, res, next) => {
                     description:p.description, 
                     location:p.location,
                     sellerId:p.sellerId,
+                    image:p.image,
                     seller:{
                         id:seller._id,
                         name:seller.name,
@@ -64,6 +66,9 @@ exports.updateProduct = (req, res, next) => {
             udpateFields[propName] = value;
     }
 
+    if(req.file.path)
+        updateFields['image'] = req.file.path;
+        
     Product.findOne({ _id:id })
     .exec()
     .then(result => {
@@ -87,9 +92,9 @@ exports.updateProduct = (req, res, next) => {
 exports.addProduct = (req, res, next) => {
     let categoryName = "";
 
-    if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
+    if(!req.body.name || !req.file.path || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
         return res.status(500).json({
-            message:"Please specify name, categorySlug, price, location and description for the product"
+            message:"Please specify image, name, categorySlug, price, location and description for the product"
         });
 
     try {
@@ -115,7 +120,8 @@ exports.addProduct = (req, res, next) => {
                 price:req.body.price,
                 categoryId:category._id,
                 location:req.body.location,
-                sellerId:req.userData.userId
+                sellerId:req.userData.userId,
+                image:req.file.path
             });
 
             return newProduct.save();

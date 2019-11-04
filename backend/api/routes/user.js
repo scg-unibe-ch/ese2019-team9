@@ -4,6 +4,7 @@ const router = express.Router();
 const UserController = require('../controllers/user');
 const checkAuth = require('../mware/check-auth');
 const checkAdmin = require('../mware/check-admin');
+const imageUpload = require('../mware/image-upload');
 
 // verify user
 router.patch('/verify', UserController.verifyUser);
@@ -30,7 +31,7 @@ router.get('/:userId', checkAuth ,UserController.getUserById);
 router.get('', checkAdmin, UserController.getAllUsers);
 
 // update existing user
-router.patch('/:userId', checkAuth, UserController.updateUser);
+router.patch('/:userId', checkAuth, imageUpload, UserController.updateUser);
 
 // delete existing user
 router.delete('/:userId', checkAuth, UserController.deleteUser);
