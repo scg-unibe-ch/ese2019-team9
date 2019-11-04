@@ -6,7 +6,7 @@ const checkAuth = require('../mware/check-auth');
 
 router.get('/', CategoryController.getCategories);
 
-router.get('/:categoryId', CategoryController.getSingleCategory)
+router.get('/:slug', CategoryController.getSingleCategory)
 
 router.post('/add', CategoryController.addCategory);
 

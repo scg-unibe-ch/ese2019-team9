@@ -150,7 +150,7 @@ exports.updateCategory = (req, res, next) => {
  * Get detailed information about a single category
  */
 exports.getSingleCategory = (req, res, next) => {
-    Category.find({ _id:req.params.categoryId })
+    Category.find({ slug:req.params.slug })
     .exec()
     .then(async (docs) => {
         const categories = await Promise.map(docs, async doc => {
