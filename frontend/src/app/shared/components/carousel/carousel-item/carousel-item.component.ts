@@ -7,16 +7,12 @@ import {Router} from '@angular/router';
   styleUrls: ['./carousel-item.component.scss'],
 })
 export class CarouselItemComponent implements OnInit {
-  @Input() subCatName: string;
-  @Input() subCatSlug: string;
+  @Input() name: string;
+  @Input() slug: string;
 
   constructor(
       private router: Router
   ) { }
 
   ngOnInit() {}
-
-  redirectToSubcategory() {
-    this.router.navigate(['subcategory/', this.subCatSlug]);
-  }
 }

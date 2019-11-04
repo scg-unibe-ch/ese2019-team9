@@ -41,6 +41,7 @@ export class CarouselComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.prepareCarousel();
     this.platform.resize.subscribe(async () => {
       this.prepareCarousel();

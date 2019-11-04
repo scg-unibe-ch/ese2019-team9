@@ -9,7 +9,7 @@
           <ion-icon name="arrow-dropleft" slot="end" ></ion-icon>
       </ion-button>
       <span *ngFor="let cat of itemsToDisplay">
-        <app-carousel-item [subCatName]="cat.name" [subCatSlug]="cat.slug" ></app-carousel-item>
+        <app-carousel-item [name]="cat.name" [slug]="cat.slug" ></app-carousel-item>
       </span>
       <ion-button size="large" fill="empty" slot="end" (click)="selectNextItem()">
           <ion-icon name="arrow-dropright" slot="start" ></ion-icon>
