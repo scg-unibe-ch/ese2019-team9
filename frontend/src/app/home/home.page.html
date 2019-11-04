@@ -7,8 +7,12 @@
     <app-middle-header></app-middle-header>
     <ion-grid>
         <ion-row>
-            <ion-col *ngFor="let cat of categories" offset="2" size="8" >
-                <app-carousel [categoryName]="cat.name" [categorySubCategories] = "[cat.subcategories]" ></app-carousel>
+            <ion-col *ngFor="let cat of categories" offset="0" size="12" offset-md="1" size-md="10" >
+                <app-carousel
+                        [categoryName]="cat.name"
+                        [categorySubCategories] = "[cat.subcategories]"
+                        [categorySlug] ="cat.slug" >
+                </app-carousel>
             </ion-col>
         </ion-row>
     </ion-grid>

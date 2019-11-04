@@ -6,13 +6,13 @@
   </ion-toolbar>
   <ion-card-content class="carouselBody ion-justify-content-center ion-align-items-center" >
       <ion-button size="large" fill="empty" slot="start" (click)="selectPreviousItem()" >
-          <ion-icon name="arrow-dropleft"  ></ion-icon>
+          <ion-icon name="arrow-dropleft" slot="end" ></ion-icon>
       </ion-button>
-      <span *ngFor="let cat of itemsToDisplay" >
-        <app-carousel-item [subCatName]="cat.name"></app-carousel-item>
+      <span *ngFor="let cat of itemsToDisplay">
+        <app-carousel-item [subCatName]="cat.name" [subCatSlug]="cat.slug" ></app-carousel-item>
       </span>
       <ion-button size="large" fill="empty" slot="end" (click)="selectNextItem()">
-          <ion-icon name="arrow-dropright"></ion-icon>
+          <ion-icon name="arrow-dropright" slot="start" ></ion-icon>
       </ion-button>
   </ion-card-content>
 </ion-card>
