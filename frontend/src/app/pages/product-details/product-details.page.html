@@ -21,6 +21,7 @@
 					<ion-item>Price: <span slot="end">{{ product.price || 'not specified'}}</span></ion-item>
 					<ion-item>Verified: <span slot="end">{{ product.verified }}</span></ion-item>
 					<ion-item>Category: <span slot="end">{{ product.categoryName || product.category }}</span></ion-item>
+					<ion-item>Location: <span slot="end">{{ product.location || 'nowhere'}}</span></ion-item>
 					<ion-button [href]="createMailLink()">Contact</ion-button>
 				</ion-list>
 			</ion-col>
