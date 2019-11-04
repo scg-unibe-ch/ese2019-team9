@@ -12,9 +12,6 @@ exports.getCategories = (req, res, next) => {
         Category.find({ parent:'' })
         .exec()
         .then(async docs => {
-            if (!docs)
-                throw new Error("Category not found");
-
             const categories = await Promise.map(docs, async doc => {
                     const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
 
@@ -39,7 +36,6 @@ exports.getCategories = (req, res, next) => {
             
             return res.status(200).json(response);
         }).catch(err => {
-            console.log("Error catched: " + err)
             res.status(500).json(err);
         });
     } catch (err) {
@@ -63,7 +59,7 @@ exports.addCategory = (req, res, next) => {
     .exec()
     .then(category => {
         if(category.length > 0)
-            throw new Error('Category with same name/slug already exists');
+            Promise.reject('Category with same name/slug already exists');
 
         return category;
     })

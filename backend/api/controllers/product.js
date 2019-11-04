@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Product = require('../models/product');
 const Category = require('../models/category')
+const Promise = require('bluebird');
 
 /**
  * Get all products
@@ -8,10 +9,14 @@ const Category = require('../models/category')
 exports.getProducts = (req, res, next) => {
     Product.find()
     .exec()
-    .then(async (products) => {
-
+    .then(async products => {
+        if(products.length == 0)
+            return res.status(200).json({});
+        
+        console.log(products);
         const productList = await Promise.map(products, async p => {
             const categoryName = await Category.findOne( { _id:p.categoyId } );
+            
             return {
                 name:p.name,
                 _id:p._id,
@@ -63,43 +68,49 @@ exports.addProduct = (req, res, next) => {
             message:"Please specify name, categorySlug, price, location and description for the product"
         });
 
-    Category.findOne({ slug:req.body.categorySlug })
-    .exec()
-    .then(category => {
-        if(!category)
-            throw new Error("Given category could not be found");
+    try {
+        Category.findOne({ slug:req.body.categorySlug })
+        .exec()
+        .then(category => {
+            if(!category)
+                throw new Error("Given category could not be found");
 
-        categoryName = category.name;
+            categoryName = category.name;
 
-        console.log("reached");
+            newProduct = new Product({
+                _id:new mongoose.Types.ObjectId,
+                name:req.body.name,
+                description:req.body.description,
+                price:req.body.price,
+                categoryId:category._id,
+                location:req.body.location
+            });
 
-        return newProduct = new Product({
-            _id:new mongoose.Types.ObjectId,
-            name:req.body.name,
-            description:req.body.description,
-            price:req.body.price,
-            categoryId:category._id,
-            location:req.body.location
+            return newProduct.save();
+        })
+        .then(result => {
+            res.status(200).json({
+                message:"Product created",
+                createdProduct:{
+                    name:result.name,
+                    _id:result._id,
+                    category:categoryName,
+                    price:result.price,
+                    description:result.description, 
+                    location:result.location
+                }
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error:err.message
+            });
         });
-    })
-    .then(result => {
-        res.status(200).json({
-            message:"Product created",
-            createdProduct:{
-                name:result.name,
-                _id:result._id,
-                category:categoryName,
-                price:result.price,
-                description:result.description, 
-                location:result.location
-            }
-        });
-    })
-    .catch(err => {
+    } catch (err) {
         res.status(500).json({
             error:err
         });
-    });
+    }
 }
 
 /**

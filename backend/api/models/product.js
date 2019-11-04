@@ -6,7 +6,7 @@ const productSchema = mongoose.Schema({
     categoryId:{ type:String, index:true, required:true },
     price:{ type:Number, required:true },
     verified:{ type:Boolean, default:false },
-    sellerId:{ type:mongoose.Schema.Types.ObjectId, required:true },
+    sellerId:{ type:mongoose.Schema.Types.ObjectId },
     description:{ type:String, required:true },
     location:{ type:String },
     rating:{ type:Number, default:0 }
