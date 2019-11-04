@@ -12,4 +12,4 @@ const productSchema = mongoose.Schema({
     rating:{ type:Number, default:0 }
 });
 
-module.exports = mongoose.model('Product1', productSchema);
+module.exports = mongoose.model('Product', productSchema);
