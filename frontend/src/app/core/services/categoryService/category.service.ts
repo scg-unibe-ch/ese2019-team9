@@ -1,25 +1,31 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
-import {map} from 'rxjs/operators';
-
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
+import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: "root"
 })
 export class CategoryService {
+	constructor(private httpClient: HttpClient, private router: Router) {}
 
-  constructor(
-      private httpClient: HttpClient,
-      private router: Router
-  ) { }
+	getCategoriesEndpoint = "https://moln-api.herokuapp.com/category";
 
-  getCategoriesEndpoint = 'https://moln-api.herokuapp.com/category';
+	getCategories() {
+		return this.httpClient.get(this.getCategoriesEndpoint).pipe(
+			map(res => {
+				return res;
+			})
+		);
+	}
 
-  getCategories() {
-   return this.httpClient.get(this.getCategoriesEndpoint)
-       .pipe(map(res => {
-         return res;
-       }));
-  }
+	getSingleCategoryFromId(categoryId: any) {
+		return this.httpClient
+			.get(this.getCategoriesEndpoint + `/${categoryId}`)
+			.pipe(
+				map(res => {
+					return res;
+				})
+			);
+	}
 }

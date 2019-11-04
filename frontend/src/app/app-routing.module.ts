@@ -10,7 +10,9 @@ const routes: Routes = [
   { path: 'subcategory', loadChildren: './pages/subcategory/subcategory.module#SubcategoryPageModule' },
   { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' }, 
   { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule', canActivate: [RoleguardService], 
-  data: { expectedRole: 'admin' }}
+  data: { expectedRole: 'admin' }},
+  { path: 'product-details', loadChildren: './pages/product-details/product-details.module#ProductDetailsPageModule' }
+
 ];
 
 @NgModule({
