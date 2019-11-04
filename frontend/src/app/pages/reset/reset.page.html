@@ -7,14 +7,14 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col offset="2">
+      <ion-col>
         <ion-title class="pageTitle ion-no-padding" >
           Reset your password!
         </ion-title>
       </ion-col>
     </ion-row>
     <ion-row>
-     <ion-col offset="2" size="4">
+     <ion-col offset="4" size="4">
        <form [formGroup]="resetForm" (ngSubmit)="onSubmitReset()">
          <ion-card class="formElement" >
            <app-input-form
@@ -24,7 +24,7 @@
          </ion-card>
          <ion-item *ngIf="messageReceived && isErrorMessage" class="invalid-feedback"> {{ message }}</ion-item>
          <ion-item *ngIf="messageReceived && !isErrorMessage" class="feedback" > {{ message }}</ion-item>
-         <ion-button class="formButton" expand="block" type="submit"> Reset Email </ion-button>
+         <ion-button class="formButton" expand="block" type="submit"> Reset Password </ion-button>
        </form>
      </ion-col>
     </ion-row>

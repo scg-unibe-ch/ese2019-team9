@@ -72,10 +72,8 @@ export class LoginComponent implements OnInit {
               error => {
                   this.messageReceived = true;
                   if (error.status === 401 && error.error.message === 'Authentication failed') {
-                      this.messageReceived = true;
                       this.message = error.error.message;
                   } else if (error.status === 401 && error.error.message === 'Email not verified') {
-                      this.messageReceived = true;
                       this.showResendButton = true;
                       this.message = error.error.message;
                   } else {
