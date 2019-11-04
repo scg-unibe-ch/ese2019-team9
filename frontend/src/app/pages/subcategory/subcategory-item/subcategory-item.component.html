@@ -1,0 +1,33 @@
+<ion-content>
+    <ion-card [routerLink]="['/product-details/', id]">
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col>
+                                <ion-title class="ion-no-padding">{{ name }}</ion-title>
+                            </ion-col>
+                            <ion-col>
+                                <ion-text float-right>{{ price }}</ion-text>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <div class="line"></div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <ion-text>Rating</ion-text>
+                            </ion-col>
+                            <ion-col>
+                                <ion-text float-right>{{ location }}</ion-text>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+</ion-content>

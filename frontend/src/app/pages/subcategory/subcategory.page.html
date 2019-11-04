@@ -1,151 +1,45 @@
 <ion-header>
-  <ion-toolbar>
-    <app-header></app-header>
-  </ion-toolbar>
+    <ion-toolbar>
+        <app-header></app-header>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-card class="backgroundGradient cardMargin">
-    <ion-grid>
-      <ion-row  class="ion-align-items-center">
-        <ion-col>
-          <ion-title class="ion-no-padding bigTitle">Barbecue</ion-title>
-          <ion-text>Pieces of beef, fowl, fish, or the like, roasted over an open hearth,
-            especially when basted in a barbecue sauce.</ion-text>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-title  class="ion-no-padding mediumTitle">Our Top 5 Picks:</ion-title>
-          <ion-card color="dark">
-            <img src="/assets/images/homeSection1.jpeg">
-            <ion-title  class="ion-no-padding mediumTitle">Name</ion-title>
-          </ion-card>
+    <ion-card *ngIf="subcategory" class="backgroundGradient cardMargin">
+        <ion-grid>
+            <ion-row class="ion-align-items-center">
+                <ion-col>
+                    <ion-title class="ion-no-padding bigTitle">{{ subcategory.name }}</ion-title>
+                    <ion-text> {{ subcategory.parent }}</ion-text>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-title class="ion-no-padding mediumTitle">Our Top 5 Picks:</ion-title>
+                    <ion-card color="dark">
+                        <img src="/assets/images/homeSection1.jpeg">
+                        <ion-title class="ion-no-padding mediumTitle">Top Picks Name</ion-title>
+                    </ion-card>
 
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card>
-  <ion-card class="cardMargin">
-    <ion-title class="ion-no-padding">Filter by:</ion-title>
-    <ion-button size="small" fill="empty">Rating<ion-icon name="star" slot="start"></ion-icon></ion-button>
-    <ion-button size="small" fill="empty">Location<ion-icon name="pin" slot="start"></ion-icon></ion-button>
-    <ion-button size="small" fill="empty">Price<ion-icon name="card" slot="start"></ion-icon></ion-button>
-  </ion-card>
-
-  <ion-card>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-card>
-            <img src="/assets/images/homeSection2.png" class="pic-square">
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <ion-title class="ion-no-padding">Title</ion-title>
-              </ion-col>
-              <ion-col>
-                <ion-text float-right>Price</ion-text>
-              </ion-col>
+                </ion-col>
             </ion-row>
-            <ion-row>
-              <ion-col>
-                <div class="line"></div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <ion-text>Rating</ion-text>
-              </ion-col>
-              <ion-col>
-                <ion-text float-right>Location</ion-text>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card>
-
-  <ion-card>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-card>
-            <img src="/assets/images/homeSection2.png" class="pic-square">
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <ion-title class="ion-no-padding">Title</ion-title>
-              </ion-col>
-              <ion-col>
-                <ion-text float-right>Price</ion-text>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <div class="line"></div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <ion-text>Rating</ion-text>
-              </ion-col>
-              <ion-col>
-                <ion-text float-right>Location</ion-text>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card>
-
-  <ion-card>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-card>
-            <img src="/assets/images/homeSection2.png" class="pic-square">
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <ion-title class="ion-no-padding">Title</ion-title>
-              </ion-col>
-              <ion-col>
-                <ion-text float-right>Price</ion-text>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <div class="line"></div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <ion-text>Rating</ion-text>
-              </ion-col>
-              <ion-col>
-                <ion-text float-right>Location</ion-text>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card>
+        </ion-grid>
+    </ion-card>
+    <ion-card class="cardMargin">
+        <ion-title class="ion-no-padding">Filter by:</ion-title>
+        <ion-button size="small" fill="empty">Rating
+            <ion-icon name="star" slot="start"></ion-icon>
+        </ion-button>
+        <ion-button size="small" fill="empty">Location
+            <ion-icon name="pin" slot="start"></ion-icon>
+        </ion-button>
+        <ion-button size="small" fill="empty">Price
+            <ion-icon name="card" slot="start"></ion-icon>
+        </ion-button>
+    </ion-card>
+    <span *ngFor="let product of products">
+     <app-subcategory-item
+       [name]="product.name"
+       [id]="product._id">
+     </app-subcategory-item>
+    </span>
 </ion-content>
