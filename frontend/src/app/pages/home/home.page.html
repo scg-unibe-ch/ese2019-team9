@@ -9,9 +9,10 @@
         <ion-row>
             <ion-col *ngFor="let cat of categories" offset="0" size="12" offset-md="1" size-md="10" >
                 <app-carousel
-                        [categoryName]="cat.name"
-                        [categorySubCategories] = "[cat.subcategories]"
-                        [categorySlug] ="cat.slug" >
+                        [carouselName]="cat.name"
+                        [categoryCarousel]= "[cat.subcategories]"
+                        [carouselSlug] ="cat.slug"
+                        [startingCarouselSize]="5">
                 </app-carousel>
             </ion-col>
         </ion-row>

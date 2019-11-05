@@ -8,11 +8,21 @@ import {Router} from '@angular/router';
 })
 export class CarouselItemComponent implements OnInit {
   @Input() name: string;
-  @Input() slug: string;
+  @Input() slug?: string;
+  @Input() id?: number;
+  @Input() link: string;
+
+  completeLink: string;
 
   constructor(
       private router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.slug) {
+      this.completeLink = this.link.concat(this.slug);
+    } else if (this.id) {
+      this.completeLink = this.link.concat(this.id.toString());
+    }
+  }
 }

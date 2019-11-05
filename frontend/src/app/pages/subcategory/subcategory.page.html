@@ -3,23 +3,19 @@
         <app-header></app-header>
     </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content class="ion-no-padding" >
     <ion-card *ngIf="subcategory" class="backgroundGradient cardMargin">
         <ion-grid>
             <ion-row class="ion-align-items-center">
                 <ion-col>
                     <ion-title class="ion-no-padding bigTitle">{{ subcategory.name }}</ion-title>
                     <ion-text> {{ subcategory.parent }}</ion-text>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <ion-title class="ion-no-padding mediumTitle">Our Top 5 Picks:</ion-title>
-                    <ion-card color="dark">
-                        <img src="/assets/images/homeSection1.jpeg">
-                        <ion-title class="ion-no-padding mediumTitle">Top Picks Name</ion-title>
-                    </ion-card>
-
+                    <app-carousel class="ion-float-right"
+                            [carouselName]="'Featured products'"
+                            [carouselSlug]="'featured'"
+                            [productCarousel]="this.featuredProducts"
+                            [startingCarouselSize]="1">
+                    </app-carousel>
                 </ion-col>
             </ion-row>
         </ion-grid>
@@ -33,13 +29,25 @@
             <ion-icon name="pin" slot="start"></ion-icon>
         </ion-button>
         <ion-button size="small" fill="empty">Price
-            <ion-icon name="card" slot="start"></ion-icon>
+            <ion-icon name="pricetags" slot="start"></ion-icon>
         </ion-button>
     </ion-card>
-    <span *ngFor="let product of products">
-     <app-subcategory-item
-       [name]="product.name"
-       [id]="product._id">
-     </app-subcategory-item>
-    </span>
+    <ion-grid>
+        <ion-row>
+            <ion-col *ngFor="let product of products" size="12" size-md="6" size-xl="4">
+                <app-subcategory-item
+                        [verified]="product.verified"
+                        [rating]="product.rating"
+                        [id]="product._id"
+                        [name]="product.name"
+                        [price]="product.price"
+                        [location]="product.location" >
+                </app-subcategory-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
+
+
+
+

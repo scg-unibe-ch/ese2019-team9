@@ -1,32 +1,11 @@
 <ion-toolbar>
     <ion-grid>
         <ion-row>
-            <ion-col>
-                <ion-buttons>
+            <ion-col class="ion-justify-content-center" *ngFor="let category of categories">
+                <ion-buttons class="ion-justify-content-center" >
                     <ion-button fill="clear">
-                        <ion-icon name="beer"></ion-icon>
-                        Food and Beverage
+                        {{ category.name }}
                     </ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear"><ion-icon name="bonfire"></ion-icon>Infrastructure</ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear"><ion-icon name="microphone"></ion-icon>Services</ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear"><ion-icon name="cog"></ion-icon>Equipment</ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col>
-                <ion-buttons>
-                    <ion-button fill="clear"><ion-icon name="home"></ion-icon>Real Estate</ion-button>
                 </ion-buttons>
             </ion-col>
         </ion-row>
