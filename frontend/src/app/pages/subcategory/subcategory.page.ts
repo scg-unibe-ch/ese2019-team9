@@ -21,18 +21,16 @@ export class SubcategoryPage implements OnInit {
                 private categoryService: CategoryService) {
     }
 
+    /*
+    The url-slug is saved and used for a request. The request fetches details of the subcategory and the
+    products of this subcategory from the backend.
+     */
     ngOnInit() {
         const slug = this.route.snapshot.paramMap.get('subcategorySlug');
-        this.categoryService.getCategories().pipe(first()).subscribe(data => {
-            this.subcategory = (data as any).categories[0].subcategories[0];
+        this.categoryService.getSingleCategoryFromSlug(slug).pipe(first()).subscribe(data => {
+            this.subcategory = (data as any).categories[0];
+            // filter for verification, only verified products are displayed
+            this.products = this.subcategory.products.filter(prod => prod.verified);
         });
-
-        this.productService.getAllProducts().pipe(first()).subscribe(data => {
-            this.products = data;
-            console.log(this.products);
-        });
-
-
-
     }
 }
