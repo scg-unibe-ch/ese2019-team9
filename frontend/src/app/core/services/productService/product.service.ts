@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AuthService } from '../authService/auth.service';
 
 
 @Injectable({
@@ -12,7 +13,8 @@ export class ProductService {
 
   constructor(
       private httpClient: HttpClient,
-      private router: Router
+      private router: Router,
+      private authService: AuthService
   ) { }
 
   productsEndpoint = 'https://moln-api.herokuapp.com/product';
@@ -32,14 +34,18 @@ export class ProductService {
   }
 
   deleteProduct(productId: string){
-    return this.httpClient.delete(this.productsEndpoint+`/${productId}`)
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+    return this.httpClient.delete(this.productsEndpoint+`/${productId}`, {headers: headers})
        .pipe(map(res => {
          return res;
        }));
   }
 
   verifyProduct(productId: string){
-    return this.httpClient.patch(this.productsEndpoint+`/${productId}`, {verified: true})
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+    return this.httpClient.patch(this.productsEndpoint+`/${productId}`, {verified: true}, {headers: headers})
     .pipe(map(res => {
       return res;
     }))

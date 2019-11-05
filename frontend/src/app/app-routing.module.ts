@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RoleguardService } from './core/services/roleguardService/roleguard.service';
-import {SubcategoryPage} from './pages/subcategory/subcategory.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -12,7 +11,7 @@ const routes: Routes = [
 
   { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' },
   { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule', canActivate: [RoleguardService],
-  data: { expectedRole: 'admin' }}
+  data: { expectedRole: 'admin' }},
   { path: 'product-details', loadChildren: './pages/product-details/product-details.module#ProductDetailsPageModule' }
 ];
 

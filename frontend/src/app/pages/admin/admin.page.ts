@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/core/services/productService/product.service';
 import { first } from 'rxjs/operators';
-import { resolve } from 'url';
+import { ToastController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-admin',
@@ -12,8 +12,10 @@ export class AdminPage implements OnInit {
 
   private selectedTab;
   private listOfOffers;
+  private listOfAllOffers;
+  private showVerified = true;
 
-    constructor(private productService: ProductService) {
+    constructor(private productService: ProductService,public toastController: ToastController, public loadingController: LoadingController) {
     }
 
     ngOnInit() {
@@ -46,45 +48,40 @@ export class AdminPage implements OnInit {
           resolve(data);
         },
         err => {
+          this.presentToast('Products could not be loaded', 2000, "danger");
           reject(err);
         }
       );
     });
   }
 
-  testAddNewProduct(){
-    this.productService.addNewProduct('Hans-jakobs Wein Service', "5db9ab508c45eb001776c479", 42069).pipe(first()).subscribe(
-      data => {
-        this.updateProducts();
-        console.log(data);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
   deleteOffer(productId: string) {
-    console.log('Deleted product: '+ productId);
+    this.presentLoading('Loading...');
     this.productService.deleteProduct(productId).pipe(first()).subscribe(
       data => {
-        console.log(data);
+        this.loadingController.dismiss();
+        this.presentToast('Product deleted', 2000);
         this.updateProducts();
       },
       err => {
+        this.loadingController.dismiss();
+        this.presentToast('Product could not be verified', 2000, "danger");
         console.log(err);
       }, 
     );
   }
 
   verifyOffer(productId: string) {
-    console.log('Verified product: '+ productId);
+    this.presentLoading('Loading...');
     this.productService.verifyProduct(productId).pipe(first()).subscribe(
       data => {
+        this.loadingController.dismiss();
+        this.presentToast('Product verified', 2000);
         this.updateProducts();
-        console.log(data);
       },
       err => {
+        this.loadingController.dismiss();
+        this.presentToast('Product could not be verified', 2000, "danger");
         console.log(err);
       }
     );
@@ -92,10 +89,47 @@ export class AdminPage implements OnInit {
 
   updateProducts(){
     this.getAllProducts().then(data => {
-      this.listOfOffers = data;
+      this.listOfAllOffers = data;
+      if (this.showVerified) this.listOfOffers = this.listOfAllOffers;
+      if (!this.showVerified) this.listOfOffers = filter(this.listOfAllOffers);
       console.log(data);
     }, err => {
       console.log(err);
     });
+  }
+
+  async presentToast(message: string, duration: number, color?: string) {
+    const toastColor = (color) ?  color :"primary";
+    const toast = await this.toastController.create({
+      message: message,
+      duration: duration,
+      color: toastColor,
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+        }
+      ]   
+    });
+    toast.present();
+  }
+
+  async presentLoading(message: string){
+    const loading = await this.loadingController.create({
+      message: message
+    });
+    await loading.present();
+  }
+
+  onToggleShowVerified(event){
+    if (event.target.checked){
+      this.listOfOffers = this.listOfAllOffers;
+    }else{
+      this.listOfOffers = this.filter(this.listOfAllOffers);
+    }
+  }
+
+  filter(array: []) {
+    return array.filter(product => !(product as any).verified);
   }
 }
