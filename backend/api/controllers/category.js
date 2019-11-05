@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Category = require('../models/category');
+const Product = require('../models/product');
 const Promise = require('bluebird');
 
 /**
@@ -22,6 +23,7 @@ exports.getCategories = (req, res, next) => {
                         subcategories:subs,
                         parent:doc.parent,
                         path:doc.path,
+                        image:doc.image,
                         request: {
                             type:'GET',
                             url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
@@ -30,7 +32,7 @@ exports.getCategories = (req, res, next) => {
             });
 
             const response = {
-                count:docs.count,
+                count:docs.length,
                 categories:categories
             };
             
@@ -59,7 +61,7 @@ exports.addCategory = (req, res, next) => {
     .exec()
     .then(category => {
         if(category.length > 0)
-            Promise.reject('Category with same name/slug already exists');
+            throw new Error('Category with same name/slug already exists');
 
         return category;
     })
@@ -76,7 +78,8 @@ exports.addCategory = (req, res, next) => {
             slug:req.body.slug,
             name:req.body.name,
             path:path,
-            parent:parentSlug
+            parent:parentSlug,
+            image:req.file.path
         });
 
         return newCategory.save();
@@ -133,6 +136,9 @@ exports.updateCategory = (req, res, next) => {
         updateFields[propName] = value;
     }
 
+    if(req.file.path)
+        updateFields['image'] = req.file.path;
+
     Category.update({ _id:req.params.categoryId }, { $set:updateFields })
     .exec()
     .then(result => {
@@ -150,33 +156,39 @@ exports.updateCategory = (req, res, next) => {
  * Get detailed information about a single category
  */
 exports.getSingleCategory = (req, res, next) => {
-    Category.find({ _id:req.params.categoryId })
-    .exec()
-    .then(async (docs) => {
-        const categories = await Promise.map(docs, async doc => {
-            const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
+    try {
+        Category.find({ slug:req.params.slug })
+        .exec()
+        .then(async docs => {
+            const categories = await Promise.map(docs, async doc => {
+                    const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
+                    const products = await Product.find( { categoryId:doc._id });
+                    return {
+                        _id:doc._id,
+                        name:doc.name,
+                        slug:doc.slug,
+                        subcategories:subs,
+                        parent:doc.parent,
+                        products:products,
+                        path:doc.path,
+                        image:doc.image,
+                        request: {
+                            type:'GET',
+                            url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
+                        }
+                    }
+            });
 
-            return {
-                _id:doc._id,
-                name:doc.name,
-                slug:doc.slug,
-                subcategories:subs,
-                parent:doc.parent,
-                path:doc.path,
-                request: {
-                    type:'GET',
-                    url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
-                }
-            }
+            const response = {
+                count:docs.length,
+                categories:categories
+            };
+            
+            return res.status(200).json(response);
+        }).catch(err => {
+            res.status(500).json(err);
         });
-
-        const response = {
-            count:docs.count,
-            categories:categories
-        };
-
-        return res.status(200).json(response);
-    }).catch(err => {
+    } catch (err) {
         res.status(500).json(err);
-    });
+    }
 }

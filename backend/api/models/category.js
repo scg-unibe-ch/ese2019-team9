@@ -5,7 +5,8 @@ const categorySchema = mongoose.Schema({
     name:{ type:String, required:true },
     parent:{ type:String, index:true },
     path:{ type:String, index:true },
-    slug:{ type:String }
+    slug:{ type:String },
+    image:{ type:String }
 });
 
 module.exports = mongoose.model('Category', categorySchema);
