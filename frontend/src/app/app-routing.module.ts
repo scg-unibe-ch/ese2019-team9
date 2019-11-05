@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RoleguardService } from './core/services/roleguardService/roleguard.service';
-import {SubcategoryPage} from './pages/subcategory/subcategory.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
