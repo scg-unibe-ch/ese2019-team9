@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {CategoryService} from '../../services/categoryService/category.service';
 
 @Component({
   selector: 'app-bottom-header',
@@ -6,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bottom-header.component.scss'],
 })
 export class BottomHeaderComponent implements OnInit {
+  categories = [];
 
-  constructor() { }
+  constructor(
+      private categoryService: CategoryService
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.categoryService.getCategories().subscribe(data => {
+      // @ts-ignore
+      this.categories = data.categories;
+    });
+  }
 
 }

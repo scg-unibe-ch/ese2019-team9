@@ -12,6 +12,7 @@ import {CategoryService} from '../../core/services/categoryService/category.serv
 export class SubcategoryPage implements OnInit {
 
     private products = [];
+    private featuredProducts = [];
 
     private subcategory;
     private paramMap: any;
@@ -31,6 +32,11 @@ export class SubcategoryPage implements OnInit {
             this.subcategory = (data as any).categories[0];
             // filter for verification, only verified products are displayed
             this.products = this.subcategory.products.filter(prod => prod.verified);
+            this.selectFeaturedProducts();
         });
+    }
+    // Select products that are to be displayed in featureProductsCarousel
+    selectFeaturedProducts() {
+        this.featuredProducts = this.products.slice(0, 4);
     }
 }

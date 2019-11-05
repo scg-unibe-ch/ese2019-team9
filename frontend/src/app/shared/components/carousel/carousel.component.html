@@ -1,15 +1,15 @@
 <ion-card>
   <ion-toolbar color="medium" >
     <ion-title class="carouselTitle">
-      {{ categoryName }}
+      {{ carouselName }}
     </ion-title>
   </ion-toolbar>
   <ion-card-content class="carouselBody ion-justify-content-center ion-align-items-center" >
       <ion-button size="large" fill="empty" slot="start" (click)="selectPreviousItem()" >
           <ion-icon name="arrow-dropleft" slot="end" ></ion-icon>
       </ion-button>
-      <span *ngFor="let cat of itemsToDisplay">
-        <app-carousel-item [name]="cat.name" [slug]="cat.slug" ></app-carousel-item>
+      <span *ngFor="let item of itemsToDisplay">
+        <app-carousel-item [name]="item.name" [slug]="item.slug" ></app-carousel-item>
       </span>
       <ion-button size="large" fill="empty" slot="end" (click)="selectNextItem()">
           <ion-icon name="arrow-dropright" slot="start" ></ion-icon>

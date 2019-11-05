@@ -10,6 +10,12 @@
                 <ion-col>
                     <ion-title class="ion-no-padding bigTitle">{{ subcategory.name }}</ion-title>
                     <ion-text> {{ subcategory.parent }}</ion-text>
+                    <app-carousel class="ion-float-right"
+                            [carouselName]="'Featured products'"
+                            [carouselSlug]="'featured'"
+                            [productCarousel]="this.featuredProducts"
+                            [startingCarouselSize]="1">
+                    </app-carousel>
                 </ion-col>
             </ion-row>
         </ion-grid>
