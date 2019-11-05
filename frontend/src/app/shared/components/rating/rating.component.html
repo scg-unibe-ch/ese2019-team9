@@ -1,0 +1,6 @@
+<span *ngFor="let rating of ' '.repeat(rating).split(''), let x = index">
+  <ion-icon class="rating" name="star"></ion-icon>
+</span>
+<span *ngFor="let rating of ' '.repeat(5 - rating).split(''), let x = index">
+  <ion-icon class="rating" name="star-outline"></ion-icon>
+</span>

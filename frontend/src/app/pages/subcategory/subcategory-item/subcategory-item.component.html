@@ -6,7 +6,7 @@
             </ion-col>
             <ion-col>
                 <ion-text float-right>
-                    <ion-icon name="logo-usd"></ion-icon>: {{ price }}</ion-text>
+                    <ion-icon name="pricetags"></ion-icon> {{ price }}.-</ion-text>
             </ion-col>
         </ion-row>
         <ion-row>
@@ -16,11 +16,11 @@
         </ion-row>
         <ion-row>
             <ion-col>
-                <ion-text>Rating: {{ rating }} of 5</ion-text>
+                <app-rating [rating]="rating"></app-rating>
             </ion-col>
             <ion-col>
                 <ion-text float-right>
-                    <ion-icon name="flag"></ion-icon>{{ location }}</ion-text>
+                    <ion-icon name="pin"></ion-icon> {{ location }}</ion-text>
             </ion-col>
         </ion-row>
     </ion-grid>
