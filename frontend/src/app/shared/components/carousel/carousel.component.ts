@@ -22,6 +22,8 @@ export class CarouselComponent implements OnInit {
   carouselStartingIndex = 0;
   carouselSize;
   itemsToDisplay = [];
+  // Designated link if clicked on carouselItem
+  routerLink: string;
 
   /*
       Select the size of the categoryCarousel based on screen size
@@ -41,6 +43,7 @@ export class CarouselComponent implements OnInit {
     // checks if the carousel should be a category carousel and prepares it
     if (this.categoryCarousel && this.categoryCarousel.length >= 0) {
       this.selectCarouselSize();
+      this.routerLink = '/subcategory/';
       for (let i = 0; i < this.categoryCarousel.length; i++) {
         for (let j = 0; j < this.categoryCarousel[i].length; j++) {
           this.carouselItems.push(this.categoryCarousel[i][j]);
@@ -53,6 +56,7 @@ export class CarouselComponent implements OnInit {
     if (this.productCarousel && this.productCarousel.length >= 0) {
       // Set the carouselSize directly since this will not change relative to screen size
       this.carouselSize = this.startingCarouselSize;
+      this.routerLink = '/product-details/';
       for (let i = 0; i < this.productCarousel.length; i++) {
         this.carouselItems.push(this.productCarousel[i]);
       }
