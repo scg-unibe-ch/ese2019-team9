@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+
 const Product = require('../models/product');
-const Category = require('../models/category')
+const Category = require('../models/category');
+const User = require('../models/user');
+const Promise = require('bluebird');
 
 /**
  * Get all products
@@ -8,87 +11,145 @@ const Category = require('../models/category')
 exports.getProducts = (req, res, next) => {
     Product.find()
     .exec()
-    .then((products) => {
-        return res.status(200).json(products);
+    .then(async products => {
+        if(products.length == 0)
+            return res.status(200).json({});
+        
+        try {
+            const productList = await Promise.map(products, async p => {
+                const categoryName = await Category.findById(p.categoyId);
+                const seller = await User.findById(p.sellerId);
+
+                return {
+                    name:p.name,
+                    _id:p._id,
+                    category:categoryName,
+                    price:p.price,
+                    description:p.description, 
+                    location:p.location,
+                    sellerId:p.sellerId,
+                    image:p.image,
+                    seller:{
+                        id:seller._id,
+                        name:seller.name,
+                        email:seller.email,
+                        address:seller.address,
+                        country:seller.country,
+                        website:seller.website,
+                        sex:seller.sex,
+                        phone:seller.phone
+                    }
+                }
+            });
+            return res.status(200).json(productList);
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }).catch(err => {
-        res.status(500).json(err);
+        res.status(500).json({
+            error:err.message
+        });
     });
 }
 
 /**
  * Update given properties of specific product
  * @param req has to contain productId and fields to update as well as values
- * @example { "productId":"asd", "categoryId":"asdasd" } updates categoryId of product with id 'asd'
+ * @example { "productId":"asd", "path":"asdasd" } updates path of product with id 'asd'
  */
 exports.updateProduct = (req, res, next) => {
     const id = req.params.productId;
     const udpateFields = {};
 
     for(const [propName, value] of Object.entries(req.body)) {
-        udpateFields[propName] = value;
+        if(propName != 'verified' || req.userData.admin)
+            udpateFields[propName] = value;
     }
 
-    Product.update({ _id:id }, { $set: udpateFields })
+    if(req.file.path)
+        updateFields['image'] = req.file.path;
+        
+    Product.findOne({ _id:id })
     .exec()
+    .then(result => {
+        if(result.sellerId != req.userData.userId && !req.userData.admin)
+            throw new Error("Access forbidden");
+
+        return Product.update({ _id:id }, { $set: udpateFields });
+    })
     .then(result => {
         res.status(200).json(result);
     })
     .catch(err => { 
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: err.message })
     });
-};
+}
 
 /**
  * Add product to database and push to products array of category
- * @param req has to include name and categoryId inside the body
+ * @param req has to include name, price, location, description and categorySlug inside the body
  */
 exports.addProduct = (req, res, next) => {
-    if(!req.body.name || !req.body.categoryId)
+    let categoryName = "";
+
+    if(!req.body.name || !req.file.path || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
         return res.status(500).json({
-            message:"Please give a name and categoryId for the product"
+            message:"Please specify image, name, categorySlug, price, location and description for the product"
         });
 
-    Product.find({ name:req.body.name })
-    .exec()
-    .then(result => {
-        if(result.length > 0) {
-            throw new Error("Product with same name already exists");
-        }
-        return newProduct = new Product({
-            _id:new mongoose.Types.ObjectId,
-            name:req.body.name,
-            category:req.body.categoryId
-        });
-    })
-    .then(async newProduct => {
-        try {
-            await Category.updateOne(
-                { _id:newProduct.category }, 
-                { $push: { products:newProduct } 
+    try {
+        User.findById(req.userData.userId)
+        .exec()
+        .then(result => {
+            console.log(result);
+            if(!result.name || !result.address || !result.country || !result)
+                throw new Error("You first have to add your name, address and country to your profile in order to create a product");
+
+            return Category.findOne({ slug:req.body.categorySlug });
+        })
+        .then(category => {
+            if(!category)
+                throw new Error("Given category could not be found");
+
+            categoryName = category.name;
+
+            newProduct = new Product({
+                _id:new mongoose.Types.ObjectId,
+                name:req.body.name,
+                description:req.body.description,
+                price:req.body.price,
+                categoryId:category._id,
+                location:req.body.location,
+                sellerId:req.userData.userId,
+                image:req.file.path
             });
 
-            await newProduct.save();
-        } catch (err) {
-            throw new Error(err);
-        }
-
-        return newProduct;
-    })
-    .then(result => {
-        res.status(200).json({
-            message:"Product created",
-            createdProduct:{
-                name:result.name,
-                _id:result._id,
-                categoryId:result.categoryId
-            }
+            return newProduct.save();
+        })
+        .then(result => {
+            res.status(200).json({
+                message:"Product created",
+                createdProduct:{
+                    name:result.name,
+                    _id:result._id,
+                    category:categoryName,
+                    price:result.price,
+                    description:result.description, 
+                    location:result.location,
+                    sellerId:result.sellerId
+                }
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error:err.message
+            });
         });
-    })
-    .catch(err => {
+    } catch (err) {
         res.status(500).json({
-            error:err
+            error:err.message
         });
-    });
+    }
 }
 
 /**
@@ -97,26 +158,9 @@ exports.addProduct = (req, res, next) => {
 exports.deleteProduct = (req, res, next) => {
     Product.findOne({ _id:req.params.productId })
     .then(result => {
-        if(!result)
-            throw new Error("Product not found");
-
+        if(req.userData.userId != result.sellerId && !req.userData.admin)
+            throw new Error("Access forbidden");
         return result;
-    })
-    .then(async result => {
-        // delete from category products array
-        if(result.category) {
-            await Category.updateOne({ '_id':result.category }, { 
-                $pull: { "products": { '_id':result._id }}}, 
-            );
-
-            const s = await Category.findOne( { '_id':result.category } );
-        }
-
-        return result;
-    })
-    .then(result => {
-        // now delete product itself
-        return Category.deleteOne({ _id:req.params.productId });
     })
     .then(result => {
         res.status(200).json({

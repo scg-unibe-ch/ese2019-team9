@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RoleguardService } from './core/services/roleguardService/roleguard.service';
+import {SubcategoryPage} from './pages/subcategory/subcategory.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
+  { path: 'home', loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)},
   { path: 'verify', loadChildren: './pages/verify/verify.module#VerifyPageModule' },
   { path: 'registered', loadChildren: './pages/registered/registered.module#RegisteredPageModule' },
   { path: 'subcategory', loadChildren: './pages/subcategory/subcategory.module#SubcategoryPageModule' },
-  { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' }, 
-  { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule', canActivate: [RoleguardService], 
-  data: { expectedRole: 'admin' }}
+
+  { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' },
+  { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule', canActivate: [RoleguardService],
+  data: { expectedRole: 'admin' }},
+  { path: 'product-details', loadChildren: './pages/product-details/product-details.module#ProductDetailsPageModule' }
 ];
+
 
 @NgModule({
   imports: [
@@ -19,4 +23,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+
+export class AppRoutingModule {
+
+}

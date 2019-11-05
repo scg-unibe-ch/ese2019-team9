@@ -1,39 +1,55 @@
 const mongoose = require('mongoose');
 const Category = require('../models/category');
+const Product = require('../models/product');
+const Promise = require('bluebird');
 
 /**
  * Return a json object containing all categories in the database
  * and provide a link to get detailed information about each category
  */
 exports.getCategories = (req, res, next) => {
-    Category.find( { parent:null })
-    .exec()
-    .then((docs) => {
-        const response = {
-            count:docs.length,
-            categories:docs.map(doc => {
-                return {
-                    _id:doc._id,
-                    name:doc.name,
-                    slug:doc.slug,
-                    subcategories:doc.subcategories,
-                    parent:doc.parent,
-                    request: {
-                        type:'GET',
-                        url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
+    let cat = {};
+    try {
+        Category.find({ parent:'' })
+        .exec()
+        .then(async docs => {
+            const categories = await Promise.map(docs, async doc => {
+                    const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
+
+                    return {
+                        _id:doc._id,
+                        name:doc.name,
+                        slug:doc.slug,
+                        subcategories:subs,
+                        parent:doc.parent,
+                        path:doc.path,
+                        image:doc.image,
+                        request: {
+                            type:'GET',
+                            url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
+                        }
                     }
-                }
-            })
-        }
-        return res.status(200).json(response);
-    }).catch(err => {
+            });
+
+            const response = {
+                count:docs.length,
+                categories:categories
+            };
+            
+            return res.status(200).json(response);
+        }).catch(err => {
+            res.status(500).json(err);
+        });
+    } catch (err) {
         res.status(500).json(err);
-    });
+    }
 }
 
 /**
  * Check if category with same name/slug already exists and if not add the new category to database
  * If category has a parent, update the subcategories array of the parent
+ * 
+ * @param req.body has to contain slug, name and parentSlug
  */
 exports.addCategory = (req, res, next) => {
     if(!req.body.slug || !req.body.name)
@@ -46,27 +62,26 @@ exports.addCategory = (req, res, next) => {
     .then(category => {
         if(category.length > 0)
             throw new Error('Category with same name/slug already exists');
+
+        return category;
     })
-    .then(async () => {
+    .then(docs => {
+        return Category.find({ slug:req.body.parentSlug });
+    })
+    .then( parent => {
+        console.log(parent);
+        const path = parent.length == 0 ? '' : parent[0].path + '/' + parent[0].slug;
+        const parentSlug = parent.length == 0 ? '' : parent[0].slug;
+
         const newCategory = new Category({
             _id:new mongoose.Types.ObjectId(),
             slug:req.body.slug,
             name:req.body.name,
-            parent:req.body.parent,
-            products:[]
+            path:path,
+            parent:parentSlug,
+            image:req.file.path
         });
 
-        if(!req.body.parent)
-            return newCategory;
-
-        await Category.updateOne(
-            { _id:req.body.parent }, 
-            { $push: { subcategories:newCategory } 
-        });
-
-        return newCategory;
-    })
-    .then(newCategory => {
         return newCategory.save();
     })
     .then(result => {
@@ -76,6 +91,8 @@ exports.addCategory = (req, res, next) => {
                 name:result.name,
                 slug:result.slug,
                 _id:result.id,
+                path:result.path,
+                parent:result.parent,
                 request:{
                     type:"GET",
                     url:process.env.PUBLIC_DOMAIN_API + "/category/" + result._id
@@ -96,41 +113,7 @@ exports.addCategory = (req, res, next) => {
  * If category has subcategories, delete subcategories too
  */
 exports.deleteCategory = (req, res, next) => {
-    Category.findOne({ _id:req.params.categoryId })
-    .then(result => {
-        if(!result)
-            throw new Error("Category not found");
-
-        return result;
-    })
-    .then(async result => {
-        // if category has parent, delete reference to subcategory
-        if(result.parent) {
-            await Category.updateOne({ '_id':result.parent }, { 
-                $pull: { "subcategories": { "_id":result._id }}}, 
-            );
-        }
-
-        return result;
-    })
-    .then(async result => {
-        let subs = [];
-        // delete subcategories
-        if(result.subcategories.length > 0) {
-            for(let i in result.subcategories) {
-                subs.push(result.subcategories[i]._id);
-            }
-        } 
-
-        if(subs.length > 0)
-            await Category.deleteMany({ _id:subs });
-
-        return result;
-    })
-    .then(result => {
-        // now delete category itself
-        return Category.deleteOne({ _id:req.params.categoryId });
-    })
+    Category.deleteOne({ _id:req.params.categoryId })
     .then(result => {
         res.status(200).json({
             message: "Category deleted"
@@ -147,11 +130,14 @@ exports.deleteCategory = (req, res, next) => {
  * Update category
  */
 exports.updateCategory = (req, res, next) => {
-    const updateFields = {};
+    let updateFields = {};
 
     for(const [propName, value] of Object.entries(req.body)) {
-        udpateFields[propName] = value;
+        updateFields[propName] = value;
     }
+
+    if(req.file.path)
+        updateFields['image'] = req.file.path;
 
     Category.update({ _id:req.params.categoryId }, { $set:updateFields })
     .exec()
@@ -170,26 +156,39 @@ exports.updateCategory = (req, res, next) => {
  * Get detailed information about a single category
  */
 exports.getSingleCategory = (req, res, next) => {
-    Category.find({ _id:req.params.categoryId })
-    .exec()
-    .then((docs) => {
-        const response = {
-            count:docs.length,
-            categories:docs.map(doc => {
-                return {
-                    _id:doc._id,
-                    name:doc.name,
-                    slug:doc.slug,
-                    subcategories:doc.subcategories,
-                    request: {
-                        type:'GET',
-                        url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
+    try {
+        Category.find({ slug:req.params.slug })
+        .exec()
+        .then(async docs => {
+            const categories = await Promise.map(docs, async doc => {
+                    const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
+                    const products = await Product.find( { categoryId:doc._id });
+                    return {
+                        _id:doc._id,
+                        name:doc.name,
+                        slug:doc.slug,
+                        subcategories:subs,
+                        parent:doc.parent,
+                        products:products,
+                        path:doc.path,
+                        image:doc.image,
+                        request: {
+                            type:'GET',
+                            url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
+                        }
                     }
-                }
-            })
-        }
-        return res.status(200).json(response);
-    }).catch(err => {
+            });
+
+            const response = {
+                count:docs.length,
+                categories:categories
+            };
+            
+            return res.status(200).json(response);
+        }).catch(err => {
+            res.status(500).json(err);
+        });
+    } catch (err) {
         res.status(500).json(err);
-    });
+    }
 }

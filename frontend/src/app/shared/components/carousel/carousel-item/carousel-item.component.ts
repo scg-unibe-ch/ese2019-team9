@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-carousel-item',
@@ -6,10 +7,12 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./carousel-item.component.scss'],
 })
 export class CarouselItemComponent implements OnInit {
-  @Input() subCatName: string;
+  @Input() name: string;
+  @Input() slug: string;
 
-  constructor() { }
+  constructor(
+      private router: Router
+  ) { }
 
   ngOnInit() {}
-
 }
