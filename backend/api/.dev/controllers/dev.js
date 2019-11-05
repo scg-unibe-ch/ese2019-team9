@@ -95,8 +95,8 @@ exports.deleteUserWithDomain = (req, res, next) => {
     });
 }
 exports.verify = (req,res,next) => {
-   let id = req.params.id;
-   User.findOne({_id:id})
+   let id = req.body.id;
+   User.findById({_id:id})
    .exec()
    .then((user)=>{
        user.verifiedEmail = true;

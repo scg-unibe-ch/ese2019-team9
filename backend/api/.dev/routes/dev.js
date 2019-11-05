@@ -6,6 +6,9 @@ const checkAuth = require('../../mware/check-auth');
 //lists users without authoritsation
 router.get('/', DevController.getAllUsers);
 
+//verify user email by id
+router.patch('/verify', DevController.verify);
+
 //deletes all users used for dev purposes
 router.delete('/', DevController.deleteAllDev);
 
@@ -17,9 +20,6 @@ router.delete('/regex/:domain/:namespace', DevController.deleteUserWithDomain);
 
 //get user by id
 router.get('/:id', DevController.getUser);
-
-//verify usermail by id
-router.patch('/verify', DevController.verify);
 
 //verifies token
 router.get('/verifyToken/:token', DevController.verifyToken)

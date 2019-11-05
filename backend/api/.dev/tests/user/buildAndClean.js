@@ -1,6 +1,11 @@
-const request = require("request");
+const request = require('request');
 const dev = 'http://localhost:8080/dev/'
-const url = 'http://localhost:8080/user/'
+const app = 'http://localhost:8080/user'
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+chai.use(chaiHttp);
+const requestUser = chai.request(app).keepOpen();
+const requestDev = chai.request(dev).keepOpen();
 
 exports.clean = (id) => {
     let del = dev + id;
@@ -9,31 +14,27 @@ exports.clean = (id) => {
     });
 };
 
-exports.signupAndVerify = () => {
+exports.cleanWithChai = (id) => {
+    let del = dev + id;
+    req
+}
+
+exports.signupAndVerify = async function (){
     return new Promise((resolve, reject) => {
         //make a user
         let pw = 'unsicher';
         let email = Math.floor(Math.random() * 100000) + '@fs.ch';
         let signup = {'email': email, 'pw': pw};
         let id;
-        let login;
-        request({
-            method: 'POST',
-            uri: url +'signup',
-            json:true,
-            body: signup
-        }, (err, res, body) => {
-            login = {'email': body.createdUser.email, 'id': body.createdUser.id};
-            id = login.id;
-            //verify email
-            request({
-                method: 'PATCH',
-                uri: dev + 'verify',
-                json: true,
-                body: {'id':id}
-            }, (err,res,body) => {
-                resolve(login)
-            });
+        let loginData;
+        requestUser.post('signup')
+        .set('Content-Type','application/json')
+        .send(signup)
+        .then((res)=>{
+            //verify user
+            //and resolve
+        }).catch((err) => {
+            reject(err);
         });
     });
 };

@@ -94,7 +94,8 @@ exports.sendEmailNotRegistered = (userEmail, browser, operatingSystem) => {
 /**
  * Fill given template with placeholders and send email to given address
  */
-sendEmail = async (userEmail, placeholders, templateName, subject, text) => {
+async function sendEmail(userEmail, placeholders, templateName, subject, text){
+
 	const template = fs.readFileSync('api/templates/' + templateName, { encoding: 'utf-8' });
 	const body = ejs.render(template, placeholders);
 
@@ -105,6 +106,5 @@ sendEmail = async (userEmail, placeholders, templateName, subject, text) => {
 		text: text,
 		html: body
 	};
-
 	await transport.sendMail(mail);
 }

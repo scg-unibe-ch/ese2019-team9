@@ -151,7 +151,7 @@ exports.login = (req, res, next) => {
  * Updates given fields for given user
  * @param req has to contain userId and fields to update in the body
  * 
- * @example JSON -> { "userId":"asd", "field":"value1", "field2":"value2" }
+ * @example JSON -> { "userId":"asd", "field1":"value1", "field2":"value2" }
  */
 exports.updateUser = (req, res, next) => {
     const id = req.params.userId;
