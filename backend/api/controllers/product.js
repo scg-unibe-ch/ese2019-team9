@@ -29,6 +29,7 @@ exports.getProducts = (req, res, next) => {
                     location:p.location,
                     sellerId:p.sellerId,
                     image:p.image,
+                    verified:p.verified,
                     seller:{
                         id:seller._id,
                         name:seller.name,
@@ -62,13 +63,14 @@ exports.updateProduct = (req, res, next) => {
     const udpateFields = {};
 
     for(const [propName, value] of Object.entries(req.body)) {
+        console.log(propName);
         if(propName != 'verified' || req.userData.admin)
             udpateFields[propName] = value;
     }
 
-    if(req.file.path)
+    if(req.file)
         updateFields['image'] = req.file.path;
-        
+
     Product.findOne({ _id:id })
     .exec()
     .then(result => {
@@ -160,7 +162,8 @@ exports.deleteProduct = (req, res, next) => {
     .then(result => {
         if(req.userData.userId != result.sellerId && !req.userData.admin)
             throw new Error("Access forbidden");
-        return result;
+
+        return Product.deleteOne({ _id:req.params.productId });
     })
     .then(result => {
         res.status(200).json({
