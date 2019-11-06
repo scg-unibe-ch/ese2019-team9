@@ -1,64 +1,25 @@
 <ion-header>
-  <ion-toolbar>
-    <app-header></app-header>
-  </ion-toolbar>
+    <ion-toolbar>
+        <app-header></app-header>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
-
-  <ion-button (click)="testAddNewProduct()">Test</ion-button>
-
-<ion-segment (ionChange)="onTabSwitch($event)">
-        <ion-segment-button value=0 checked>
+    <ion-segment (ionChange)="onTabSwitch($event)">
+        <ion-segment-button value="0" checked>
             <ion-label>Delete Offers</ion-label>
         </ion-segment-button>
-        <ion-segment-button value=1>
+        <ion-segment-button value="1">
             <ion-label>Manage Users</ion-label>
         </ion-segment-button>
     </ion-segment>
 
     <!-- Tab 0: Delete Offers -->
-    <ng-container *ngIf="selectedTab === 0">
-        <ion-list>
-            <ion-grid>
-                <ion-row class="list-header">
-                    <ion-col>Name</ion-col>
-                    <ion-col>Category</ion-col>
-                    <ion-col>Subcategory</ion-col>
-                    <ion-col>Verified</ion-col>
-                </ion-row>
-                <ion-row *ngFor="let offer of listOfOffers">
-                    <ion-item-sliding>
-                        <ion-item>
-                            <ion-col>
-                                {{ offer.name }}
-                            </ion-col>
-                            <ion-col>
-                                {{ offer.category }}
-                            </ion-col>
-                            <ion-col>
-                                {{ offer.subcategory }}
-                            </ion-col>
-                            <ion-col>
-                              <ion-icon size="large" class="verified" *ngIf="offer.verified" name="checkmark-circle"></ion-icon>
-                              <ion-icon size="large" class="nonverified" *ngIf="!offer.verified" name="close-circle"></ion-icon>
-                            </ion-col>
-                        </ion-item>
-                        <ion-item-options side="end">
-                            <ion-item-option color="danger" (click)="deleteOffer(offer._id)">Decline</ion-item-option>
-                        </ion-item-options>
-                        <ion-item-options side="start">
-                            <ion-item-option color="success" (click)="verifyOffer(offer._id)">Accept</ion-item-option>
-                        </ion-item-options>
-                    </ion-item-sliding>
-                </ion-row>
-            </ion-grid>
-        </ion-list>
-    </ng-container> <!-- End of: Tab 0: Delete Offers -->
+
+        <app-delete-offers *ngIf="selectedTab === 0"></app-delete-offers>
+
+    <!-- End of: Tab 0: Delete Offers -->
 
     <!-- Tab 1: Manage Users -->
-    <ng-container *ngIf="selectedTab === 1">
-
-    </ng-container> <!-- End of: Tab 1: Manage Users -->
-
+    <ng-container *ngIf="selectedTab === 1"> </ng-container>
+    <!-- End of: Tab 1: Manage Users -->
 </ion-content>
-

@@ -7,8 +7,9 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class SubcategoryItemComponent implements OnInit {
   @Input() name: string;
-  @Input() id: string;
+  @Input() verified: string;
   @Input() location: string;
+  @Input() id: number;
   @Input() rating: number;
   @Input() price: number;
 

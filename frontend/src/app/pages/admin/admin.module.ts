@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 
 import {HeaderModule} from "../../core/header.module";
 import { AdminPage } from './admin.page';
+import { DeleteOffersComponent } from './delete-offers/delete-offers.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,6 @@ const routes: Routes = [
     HeaderModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AdminPage]
+  declarations: [AdminPage, DeleteOffersComponent]
 })
 export class AdminPageModule {}

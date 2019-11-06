@@ -1,0 +1,26 @@
+.verified {
+	color: var(--ion-color-success);
+}
+
+.nonverified {
+	color: var(--ion-color-danger);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.scroll {
+    overflow: auto;
+    overflow-wrap: normal;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+@media (max-width: 576px) {
+	.hide-sm {
+		display: none !important;
+	}
+}

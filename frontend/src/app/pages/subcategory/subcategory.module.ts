@@ -8,6 +8,8 @@ import {IonicModule} from '@ionic/angular';
 import {SubcategoryPage} from './subcategory.page';
 import {HeaderModule} from '../../core/header.module';
 import {SubcategoryItemComponent} from './subcategory-item/subcategory-item.component';
+import {SharedModule} from '../../shared/shared.module';
+import {CarouselModule} from '../../shared/carousel.module';
 
 const routes: Routes = [
     {path: '', component: SubcategoryPage},
@@ -20,7 +22,9 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         RouterModule.forChild(routes),
-        HeaderModule
+        HeaderModule,
+        SharedModule,
+        CarouselModule
     ],
     declarations: [SubcategoryPage, SubcategoryItemComponent]
 })

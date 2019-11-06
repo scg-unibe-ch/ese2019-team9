@@ -63,10 +63,6 @@ export class AuthService {
   }
 
   private setUser(registrationResult) {
-
-    console.log(registrationResult.createdUser.email);
-    console.log(registrationResult.createdUser._id);
-
     localStorage.setItem('id', registrationResult.createdUser._id);
     localStorage.setItem('email', registrationResult.createdUser.email);
   }
@@ -77,10 +73,10 @@ export class AuthService {
   }
 
   public isLoggedIn() {
-    if (!Boolean(localStorage.getItem('token'))){
+    if (!Boolean(this.getToken())){
       return false;
     }
-    const payload = decode(localStorage.getItem('token'));
+    const payload = decode(this.getToken());
     const expiration = payload.exp;
     const dateNow: number = Math.floor(Date.now()/1000);
     const expired = expiration - dateNow < 0;
@@ -91,7 +87,11 @@ export class AuthService {
   }
 
   public isAdmin():boolean{
-    const payload = decode(localStorage.getItem('token'));
+    const payload = decode(this.getToken());
     return payload.admin;
+  }
+
+  public getToken(): string {
+    return localStorage.getItem('token');
   }
 }
