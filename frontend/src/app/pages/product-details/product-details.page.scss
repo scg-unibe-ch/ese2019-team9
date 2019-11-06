@@ -2,8 +2,8 @@
     font-weight: bold;
 }
 
-.product-image {
-    max-height: 300px;
+:host ion-thumbnail {
+    --size: 300px;
 }
 
 :host ion-item {
