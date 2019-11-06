@@ -2,6 +2,10 @@
     font-weight: bold;
 }
 
+.product-image {
+    max-height: 300px;
+}
+
 :host ion-item {
     --padding-bottom: 20px;
     --min-height: 0px;

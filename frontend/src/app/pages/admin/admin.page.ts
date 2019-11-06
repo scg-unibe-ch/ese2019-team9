@@ -91,7 +91,7 @@ export class AdminPage implements OnInit {
     this.getAllProducts().then(data => {
       this.listOfAllOffers = data;
       if (this.showVerified) this.listOfOffers = this.listOfAllOffers;
-      if (!this.showVerified) this.listOfOffers = filter(this.listOfAllOffers);
+      if (!this.showVerified) this.listOfOffers = this.filter(this.listOfAllOffers);
       console.log(data);
     }, err => {
       console.log(err);

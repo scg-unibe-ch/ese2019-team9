@@ -50,17 +50,6 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 		this.getProductFromBackend(productId).then(
 			data => {
 				this.productInformation = data;
-				const categoryId = (data as any).category;
-
-				this.getCategoryNameFromId(categoryId).then(
-					data => {
-						this.productInformation.categoryName = data;
-					},
-
-					err => {
-						console.log(err);
-					}
-				);
 			},
 
 			err => {
@@ -89,22 +78,6 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 
 					err => {
 						reject(err);
-					}
-				);
-		});
-	}
-
-	getCategoryNameFromId(id: any) {
-		return new Promise((resolve, reject) => {
-			this.categoryService
-				.getSingleCategoryFromId(id)
-				.pipe(first())
-				.subscribe(
-					data => {
-						resolve((data as any).categories[0].name);
-					},
-					err => {
-						resolve(err);
 					}
 				);
 		});
