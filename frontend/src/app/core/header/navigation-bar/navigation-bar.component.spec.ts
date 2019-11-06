@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MiddleHeaderComponent } from './middle-header.component';
+import { NavigationBarComponent } from './navigation-bar.component';
 
-describe('MiddleHeaderComponent', () => {
-  let component: MiddleHeaderComponent;
-  let fixture: ComponentFixture<MiddleHeaderComponent>;
+describe('BottomHeaderComponent', () => {
+  let component: NavigationBarComponent;
+  let fixture: ComponentFixture<NavigationBarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MiddleHeaderComponent ],
+      declarations: [ NavigationBarComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MiddleHeaderComponent);
+    fixture = TestBed.createComponent(NavigationBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

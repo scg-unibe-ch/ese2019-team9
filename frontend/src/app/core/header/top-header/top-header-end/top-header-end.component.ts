@@ -5,6 +5,7 @@ import {AuthService} from '../../../services/authService/auth.service';
 import {PopoverService} from '../../../services/popoverService/popover.service';
 import {LoginComponent} from '../../../authentication/login/login.component';
 import {RegistrationComponent} from '../../../authentication/registration/registration.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-top-header-end',
@@ -16,7 +17,8 @@ export class TopHeaderEndComponent implements OnInit {
   constructor(
       private popoverController: PopoverController,
       private authService: AuthService,
-      private popoverService: PopoverService) { }
+      private popoverService: PopoverService,
+      private router: Router) { }
 
   ngOnInit() {}
 
