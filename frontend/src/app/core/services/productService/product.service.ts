@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AuthService } from '../authService/auth.service';
@@ -13,7 +12,6 @@ export class ProductService {
 
   constructor(
       private httpClient: HttpClient,
-      private router: Router,
       private authService: AuthService
   ) { }
 

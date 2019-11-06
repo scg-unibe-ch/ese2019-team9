@@ -1,0 +1,24 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthService } from '../authService/auth.service';
+import { map } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+
+  constructor(private httpClient: HttpClient, private authService: AuthService) { }
+
+  productsEndpoint = 'https://moln-api.herokuapp.com/user';
+
+  getAllUsers(): Observable<[]>{
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+    return this.httpClient.get<[]>(this.productsEndpoint, {headers: headers})
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+}
