@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoryService} from '../../services/categoryService/category.service';
 
 @Component({
@@ -8,6 +8,8 @@ import {CategoryService} from '../../services/categoryService/category.service';
 })
 export class NavigationBarComponent implements OnInit {
   categories = [];
+  menuVisible = false;
+  currentMenuSubcategories;
 
   constructor(
       private categoryService: CategoryService
@@ -20,4 +22,27 @@ export class NavigationBarComponent implements OnInit {
     });
   }
 
+  segmentChanged(ev: any) {
+    this.categoryService.getSingleCategoryFromSlug(ev.detail.value)
+        .subscribe(data => {
+          // @ts-ignore
+          this.currentMenuSubcategories = data.categories[0].subcategories.sort((a, b) => a.name.localeCompare(b.name));
+        });
+    this.menuVisible = true;
+  }
+
+  dismissMenu() {
+    this.menuVisible = false;
+  }
+
+  /*
+  const popover = await this.popoverController.create({
+      component: CategoryMenuComponent,
+      componentProps: { subcategories: this.currentMenuSubcategories},
+      translucent: true,
+      backdropDismiss: true,
+      cssClass: 'subcategoryMenuPopover'
+    });
+    return await popover.present();
+   */
 }
