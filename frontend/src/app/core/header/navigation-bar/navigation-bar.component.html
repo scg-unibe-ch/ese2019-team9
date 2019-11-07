@@ -1,15 +1,16 @@
-<ion-toolbar>
+<ion-toolbar (mouseleave)="dismissMenu()" >
     <ion-grid>
         <ion-row>
-            <ion-col class="ion-justify-content-center" *ngFor="let category of categories">
-                <ion-buttons class="ion-justify-content-center" >
-                    <ion-button fill="clear">
-                        {{ category.name }}
-                    </ion-button>
-                </ion-buttons>
+            <ion-col class="ion-justify-content-center">
+                <ion-segment (ionChange)="segmentChanged($event)">
+                    <ion-segment-button *ngFor="let category of categories" value="{{ category.slug }}" fill="clear" >
+                        <ion-label> {{ category.name }}</ion-label>
+                    </ion-segment-button>
+                </ion-segment>
             </ion-col>
         </ion-row>
     </ion-grid>
+    <app-category-menu [subcategories]="currentMenuSubcategories" *ngIf="menuVisible"></app-category-menu>
 </ion-toolbar>
 
 
