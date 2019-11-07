@@ -1,3 +1,5 @@
-require('./user/login.js');
-require('./user/signup.js');
-require('./user/userRequest.js');
+require('./user/login');
+require('./user/signup');
+require('./user/userRequest');
+require('./categories/test');
+require('./products/test');
