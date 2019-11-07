@@ -181,7 +181,7 @@ exports.updateUser = (req, res, next) => {
         updateFields[propName] = value;
     }
 
-    if(req.file.path)
+    if(req.file)
         updateFields['image'] = req.file.path;
 
     User.update({ _id:id }, { $set: updateFields })
@@ -190,7 +190,7 @@ exports.updateUser = (req, res, next) => {
         res.status(200).json(result);
     })
     .catch(err => { 
-        res.status(500).json({ error: err.message })
+        res.status(500).json({ error: err.message });
     });
 };
 
@@ -212,7 +212,7 @@ exports.deleteUser = (req, res, next) => {
         res.status(200).json({ message: 'User deleted' });
     })
     .catch(err => {
-        res.status(500).json({ error: err })
+        res.status(500).json({ message: err })
     });
 };
 
@@ -312,15 +312,19 @@ exports.resendVerification = (req, res, next) => {
         const id = decoded.id;
         User.findById(id).exec()
         .then((user) => {
-            bcrypt.hash(password, 10, (err, hash) =>{
-                if(err){
-                    res.status(500).json({ message: err });
-                }else{
-                    user.password = hash;
-                    user.save()
-                    res.status(200).json({ message: 'password-reset successful' });
-                }
-            });
+            if(user){
+                bcrypt.hash(password, 10, (err, hash) =>{
+                    if(err){
+                        res.status(500).json({ message: err });
+                    }else{
+                        user.password = hash;
+                        user.save()
+                        res.status(200).json({ message: 'password-reset successful' });
+                    }
+                });
+            }else{
+                res.status(500).json({message: 'no user found'});
+            }
         })
         .catch((err) => {
             res.status(500).json({ message: err });

@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const User = require('./buildAndClean.js');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -35,8 +36,7 @@ describe("Test requests for userId", () =>{
        .then((res)=>{
            assert.equal(res.status, 200);
            assert.hasAnyKeys(res.body, 
-            ['_v','_id','email','password','verifiedEmail',
-            'admin','name','address','country','website',
+            ['email','name','admin','address','country','website',
             'phone','sex','image']);
             assert.isBoolean(res.body.admin);
             assert.isBoolean(res.body.verifiedEmail);
@@ -53,8 +53,7 @@ describe("Test requests for userId", () =>{
         .then((res)=>{
             assert.equal(res.status, 200);
             assert.hasAnyKeys(res.body, 
-                ['_v','_id','email','password','verifiedEmail',
-                'admin','name','address','country','website',
+                ['name','address','country','website',
                 'phone','sex','image']);
             done();
         })
@@ -62,37 +61,125 @@ describe("Test requests for userId", () =>{
             done(err);
         })
    });
-   it.skip('resending email', (done)=>{
-
+   /**
+    * we cannot test if email is sent and if the generated link works
+    */
+   it('resending email', (done)=>{
+       request.post('/resend')
+       .set('Content-Type','application/json')
+       .send({'email':user.email,'id':user.id})
+       .then((res)=>{
+           assert.equal(res.status, 200);
+           done();
+       })
+       .catch((err)=>{
+           done(err);
+       });
    });
-   it.skip('forgot password', (done)=>{
-
+   /**
+    * we cannot test if email is sent and if the generated link works
+    */
+   it('forgot password', (done)=>{
+       request.post('/forgot')
+       .set('Content-Type','application/json')
+       .set('user-agent', 'Mozilla/5.0')
+       .send({'email':user.email})
+       .then((res) => {
+           assert.equal(res.status, 200);
+           done();
+       })
+       .catch((err)=>{
+           done(err);
+       });
    });
    /**
     * can not test this with token generated from email. But should work with session token because the
     * user might want to change password while logged in.
     *    
     */
-   it.skip('reset password', (done)=>{
-       let newpw = {'token':user.token, 'password':'gengnounsicher'};
+   it('reset password', (done)=>{
+       let newpw = 'gengnounsicher';
+       let token = jwt.sign({id: user.id},"7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/", {expiresIn: "1h" });
        request.patch('/reset')
        .set('Content-Type','application/json')
-       .send(newpw)
+       .send({'token':token, 'password':newpw})
        .then((res)=>{
            assert.equal(res.status, 200);
-           done(err);
+           request.post('/login')
+           .set('Content-Type','application/json')
+           .send({'email': user.email, 'password': newpw})
+           .then((res)=>{
+               assert.equal(res.status,200, 'new password must work');
+               done();
+           })
+           .catch((err)=>{
+               done(err)
+           });
        })
        .catch((err) =>{
            done(err);
        });
    });
-   it.skip('change fields', (done)=>{
+   it('change fields', (done)=>{
+       request.patch('/' + user.id)
+       .set('Content-Type','application/json')
+       .set('Authorization','Bearer ' + user.token)
+       .send({'userData': {'admin':true, 'userId': user.id}, 'sex': 'gender fluid'})
+       .then((res)=>{
+           assert.equal(res.status, 200);
+           request.get('/'+user.id)
+           .set('Authorization','Bearer ' + user.token)
+           .then((res1)=>{
+               assert.equal(res1.status, 200);
+               assert.equal(res1.body.sex, 'gender fluid', 'should have updated field');
+               done();
+           })   
+           .catch((err) =>{
+               done(err);
+           });
+       })
+       .catch((err) =>{
+           done(err);
+       });
+   });
+   it('delete account', (done)=>{
+       request.delete('/' + user.id)
+       .set('Authorization', 'Bearer ' + user.token)
+       .then((res)=>{
+           assert.equal(res.status, 200, 'deletion should succeed');
+           request.get('/' + user.id)
+           .set('Authorization' , 'Bearer ' + user.token)
+           .then((res1) => {
+               assert.equal(res1.status, 404, 'user should not be found');
+               user = User.loggedInAndVerified();
+               done();
+           })
+           .catch((err) =>{
+               done(err);
+           });
+       })
+       .catch((err)=>{
+           done(err);
+       });
 
    });
-   it.skip('delete account', (done)=>{
-
-   });
-   it.skip('delete others account', (done) => {
-
+   it('delete others account', (done) => {
+       request.delete('/' + other.id)
+        .set('Authorization', 'Bearer ' + user.token)
+        .then((res)=>{
+            assert.equal(res.status, 401, 'deletion should not succeed');
+            request.get('/' + other.id)
+            .set('Authorization' , 'Bearer ' + other.token)
+            .then((res1) => {
+                assert.equal(res1.status, 200, 'user should be found');
+                done();
+            })
+            .catch((err) =>{
+                done(err);
+            });
+        })
+        .catch((err)=>{
+            done(err);
+        });
    });
 });
