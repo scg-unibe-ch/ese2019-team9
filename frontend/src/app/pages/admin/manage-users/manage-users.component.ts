@@ -11,6 +11,9 @@ import {
 import {
 	ProgressIndicatorService
 } from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
+import {
+	isUndefined
+} from 'util';
 
 @Component({
 	selector: 'app-manage-users',
@@ -19,16 +22,21 @@ import {
 })
 export class ManageUsersComponent implements OnInit {
 
-	constructor(private userService: UserService, private progressIndicatorService: ProgressIndicatorService) {}
+	constructor(private userService: UserService, private progressIndicatorService: ProgressIndicatorService) { }
 
 	private userList = [];
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.getAllUsers();
+	}
 
 	getAllUsers() {
 		this.progressIndicatorService.presentLoading('Loading...');
-		this.userService.getAllUsers().pipe(first()).subscribe(
+		this.userService.getAllUsers().subscribe(
 			data => {
+				data.sort((a, b) => {
+					return (b as any).admin - (a as any).admin
+				});
 				this.userList = data;
 				this.progressIndicatorService.dismissLoadingIndicator();
 			},
@@ -40,5 +48,23 @@ export class ManageUsersComponent implements OnInit {
 		);
 	}
 
+	isUndefined(obj: any) {
+		return isUndefined(obj);
+	}
 
+	deleteUser(id: String) {
+		this.progressIndicatorService.presentLoading("Deleting User!");
+		this.userService.deleteUser(id).subscribe(
+			data => {
+				this.progressIndicatorService.dismissLoadingIndicator();
+				this.progressIndicatorService.presentToast("Deleted User. (Take that stup*d user)", 2000);
+				this.getAllUsers();
+			},
+			err => {
+				this.progressIndicatorService.dismissLoadingIndicator();
+				this.progressIndicatorService.presentToast("Deleting failed", 2000, "danger");
+				console.log(err);
+			}
+		);
+	}
 }

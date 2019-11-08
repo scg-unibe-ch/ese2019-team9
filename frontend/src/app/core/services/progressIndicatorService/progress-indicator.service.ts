@@ -26,7 +26,8 @@ export class ProgressIndicatorService {
   
   async presentLoading(message: string){
     const loading = await this.loadingController.create({
-      message: message
+      message: message,
+      backdropDismiss: true
     });
     await loading.present();
   }
