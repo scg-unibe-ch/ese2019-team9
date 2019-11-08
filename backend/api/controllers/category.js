@@ -11,6 +11,7 @@ exports.getCategories = (req, res, next) => {
     let cat = {};
     try {
         Category.find({ parent:'' })
+        .select("-__v")
         .exec()
         .then(async docs => {
             const categories = await Promise.map(docs, async doc => {
@@ -30,13 +31,8 @@ exports.getCategories = (req, res, next) => {
                         }
                     }
             });
-
-            const response = {
-                count:docs.length,
-                categories:categories
-            };
             
-            return res.status(200).json(response);
+            return res.status(200).json(categories);
         }).catch(err => {
             res.status(500).json(err);
         });
@@ -158,19 +154,18 @@ exports.updateCategory = (req, res, next) => {
 exports.getSingleCategory = (req, res, next) => {
     try {
         Category.find({ slug:req.params.slug })
+        .select("-__v")
         .exec()
         .then(async docs => {
             const categories = await Promise.map(docs, async doc => {
                     const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
-                    const products = await Product.find( { categoryId:doc._id });
+                    const products = await Product.find( { category:doc._id });
                     return {
                         _id:doc._id,
                         name:doc.name,
                         slug:doc.slug,
                         subcategories:subs,
                         parent:doc.parent,
-                        products:products,
-                        path:doc.path,
                         image:doc.image,
                         request: {
                             type:'GET',
@@ -178,17 +173,12 @@ exports.getSingleCategory = (req, res, next) => {
                         }
                     }
             });
-
-            const response = {
-                count:docs.length,
-                categories:categories
-            };
             
-            return res.status(200).json(response);
+            return res.status(200).json(categories);
         }).catch(err => {
-            res.status(500).json(err);
+            res.status(500).json(err.message);
         });
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json(err.message);
     }
 }

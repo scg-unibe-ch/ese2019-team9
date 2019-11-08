@@ -13,7 +13,7 @@ const User = require('../models/user');
 exports.getUserById = (req, res, next) => {
     const id = req.params.userId;
     User.findById(id)
-    .exec()
+    .select(req.userData.admin ? '-__v' : '-__v -password -email')
     .then(doc => {
         if(doc) {
             res.status(200).json(doc);
@@ -30,6 +30,7 @@ exports.getUserById = (req, res, next) => {
  */
 exports.getAllUsers = (req, res, next) => {
     User.find()
+    .select("-__v")
     .exec()
     .then(doc => {
         if(doc) {
