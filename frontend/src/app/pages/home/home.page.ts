@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
   loadCategories() {
     this.categoryService.getCategories().subscribe(data => {
       // @ts-ignore
-      this.categories = data.categories;
+      this.categories = data;
     });
   }
 }

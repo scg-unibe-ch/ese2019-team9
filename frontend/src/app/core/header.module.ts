@@ -17,11 +17,12 @@ import {HomeBannerComponent} from '../pages/home/home-banner/home-banner.compone
 import {LoginComponent} from './authentication/login/login.component';
 import {RegistrationComponent} from './authentication/registration/registration.component';
 import {ForgotPasswordComponent} from './authentication/forgot-password/forgot-password.component';
+import {CategoryMenuComponent} from "./header/navigation-bar/category-menu/category-menu.component";
 
 
 @NgModule({
-  declarations: [HeaderComponent, TopHeaderComponent, TopHeaderEndComponent,
-    NavigationBarComponent, LogoComponent, HomeBannerComponent],
+    declarations: [HeaderComponent, TopHeaderComponent, TopHeaderEndComponent,
+        NavigationBarComponent, LogoComponent, HomeBannerComponent, CategoryMenuComponent],
   imports: [
     CommonModule,
     IonicModule,

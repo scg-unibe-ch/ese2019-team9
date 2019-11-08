@@ -30,6 +30,10 @@
   --heigth: 50vh;
 }
 
+.subcategoryMenuPopover {
+  --width: 100vw;
+}
+
 .invalid-feedback {
   color: var(--ion-color-danger);
   font-size: 12px;
