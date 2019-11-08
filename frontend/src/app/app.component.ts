@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -12,7 +12,10 @@ import {CategoryService} from './core/services/categoryService/category.service'
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+  @ViewChild('menu', {static: false}) menu;
+
   categories = [];
+  currentMenuSubcategories = [];
 
   constructor(
     private platform: Platform,
@@ -34,7 +37,25 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.categoryService.getCategories().subscribe(data => {
       // @ts-ignore
-      this.categories = data.categories;
+      this.categories = data;
     });
+  }
+
+  showSubMenu(category) {
+    const slug = category.slug;
+    if (category.showMenu) {
+      category.showMenu = false;
+      this.currentMenuSubcategories = [];
+    } else if (!category.showMenu) {
+      this.currentMenuSubcategories = this.categories.filter(cat => cat.slug === slug)[0].subcategories
+          .sort((a, b) => a.name.localeCompare(b.name));
+      category.showMenu = true;
+    }
+  }
+
+  subMenuItemClicked(category) {
+    this.currentMenuSubcategories = [];
+    category.showMenu = false;
+    this.menu.close();
   }
 }

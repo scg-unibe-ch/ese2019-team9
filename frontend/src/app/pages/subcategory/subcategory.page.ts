@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ProductService} from '../../core/services/productService/product.service';
-import {first} from 'rxjs/operators';
 import {CategoryService} from '../../core/services/categoryService/category.service';
 
 @Component({
@@ -15,7 +14,7 @@ export class SubcategoryPage implements OnInit {
     private featuredProducts = [];
 
     private subcategory;
-    private paramMap: any;
+    private carouselIsReady = false;
 
     constructor(private route: ActivatedRoute,
                 private productService: ProductService,
@@ -28,15 +27,20 @@ export class SubcategoryPage implements OnInit {
      */
     ngOnInit() {
         const slug = this.route.snapshot.paramMap.get('subcategorySlug');
-        this.categoryService.getSingleCategoryFromSlug(slug).pipe(first()).subscribe(data => {
-            this.subcategory = (data as any).categories[0];
-            // filter for verification, only verified products are displayed
-            this.products = this.subcategory.products.filter(prod => prod.verified);
-            this.selectFeaturedProducts();
+        this.categoryService.getSingleCategoryFromSlug(slug).subscribe(data => {
+            this.subcategory = data[0];
+            // fetch products of the selected subcategory from backend
+            this.productService.getProductsById(data[0]._id).then(products => {
+                // @ts-ignore
+                this.products = products;
+                this.selectFeaturedProducts();
+            });
         });
     }
-    // Select products that are to be displayed in featureProductsCarousel
+
+    // Select featured products for product-carousel
     selectFeaturedProducts() {
-        this.featuredProducts = this.products.slice(0, 4);
+        this.featuredProducts = this.products.slice(0, 2);
+        this.carouselIsReady = true;
     }
 }
