@@ -8,7 +8,15 @@ const reqUser = chai.request(app).keepOpen();
 const reqDev = chai.request(dev).keepOpen();
 
 exports.clean = (id) => {
-    reqDev.del('/' + id).end();
+    return new Promise((resolve, reject) => {
+        reqDev.del('/' + id)
+        .then((res) =>{
+            resolve(res);
+        })
+        .catch((err) =>{
+            reject(err);
+        });
+    });
 }
 
 exports.signup= () => {

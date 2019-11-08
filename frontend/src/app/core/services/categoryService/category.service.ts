@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -16,11 +15,7 @@ export class CategoryService {
     @Return: Array of all categories and their details
      */
     getCategories() {
-        return this.httpClient.get(this.getCategoriesEndpoint).pipe(
-            map(res => {
-                return res;
-            })
-        );
+        return this.httpClient.get(this.getCategoriesEndpoint);
     }
 
     /*
@@ -29,10 +24,6 @@ export class CategoryService {
     @Return: Array of requested category or subcategory and their details
      */
     getSingleCategoryFromSlug(categorySlug: any) {
-        return this.httpClient.get(this.getCategoriesEndpoint + `/${categorySlug}`).pipe(
-            map(res => {
-                return res;
-            })
-        );
+        return this.httpClient.get(this.getCategoriesEndpoint + `/${categorySlug}`);
     }
 }
