@@ -1,0 +1,3 @@
+<ion-list *ngFor="let subcategory of subcategories">
+  <ion-item [routerLink]="['/subcategory/', subcategory.slug]" > {{ subcategory.name }} </ion-item>
+</ion-list>

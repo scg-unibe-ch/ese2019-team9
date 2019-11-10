@@ -10,42 +10,30 @@ const Promise = require('bluebird');
  */
 exports.getProducts = (req, res, next) => {
     Product.find()
+    .populate("seller", "-password -email -__v")
+    .populate("category", "name")
+    .select("-__v")
     .exec()
-    .then(async products => {
-        if(products.length == 0)
-            return res.status(200).json({});
-        
-        try {
-            const productList = await Promise.map(products, async p => {
-                const categoryName = await Category.findById(p.categoyId);
-                const seller = await User.findById(p.sellerId);
+    .then(products => {
+        return res.status(200).json(products); 
+    }).catch(err => {
+        res.status(500).json({
+            error:err.message
+        });
+    });
+}
 
-                return {
-                    name:p.name,
-                    _id:p._id,
-                    category:categoryName,
-                    price:p.price,
-                    description:p.description, 
-                    location:p.location,
-                    sellerId:p.sellerId,
-                    image:p.image,
-                    verified:p.verified,
-                    seller:{
-                        id:seller._id,
-                        name:seller.name,
-                        email:seller.email,
-                        address:seller.address,
-                        country:seller.country,
-                        website:seller.website,
-                        sex:seller.sex,
-                        phone:seller.phone
-                    }
-                }
-            });
-            return res.status(200).json(productList);
-        } catch (err) {
-            throw new Error(err.message);
-        }
+/**
+ * Get all products
+ */
+exports.getProductById = (req, res, next) => {
+    Product.findById(req.params.productId)
+    .populate("seller", "-password -email -__v")
+    .populate("category", "name")
+    .select("-__v")
+    .exec()
+    .then(products => {
+        return res.status(200).json(products); 
     }).catch(err => {
         res.status(500).json({
             error:err.message
@@ -74,7 +62,7 @@ exports.updateProduct = (req, res, next) => {
     Product.findOne({ _id:id })
     .exec()
     .then(result => {
-        if(result.sellerId != req.userData.userId && !req.userData.admin)
+        if(result.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access forbidden");
 
         return Product.update({ _id:id }, { $set: udpateFields });
@@ -120,9 +108,9 @@ exports.addProduct = (req, res, next) => {
                 name:req.body.name,
                 description:req.body.description,
                 price:req.body.price,
-                categoryId:category._id,
+                category:category._id,
                 location:req.body.location,
-                sellerId:req.userData.userId,
+                seller:req.userData.userId,
                 image:req.file.path
             });
 
@@ -138,7 +126,7 @@ exports.addProduct = (req, res, next) => {
                     price:result.price,
                     description:result.description, 
                     location:result.location,
-                    sellerId:result.sellerId
+                    seller:result.sellerId
                 }
             });
         })
@@ -160,7 +148,7 @@ exports.addProduct = (req, res, next) => {
 exports.deleteProduct = (req, res, next) => {
     Product.findOne({ _id:req.params.productId })
     .then(result => {
-        if(req.userData.userId != result.sellerId && !req.userData.admin)
+        if(req.userData.userId != result.seller && !req.userData.admin)
             throw new Error("Access forbidden");
 
         return Product.deleteOne({ _id:req.params.productId });

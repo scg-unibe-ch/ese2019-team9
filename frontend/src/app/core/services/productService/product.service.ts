@@ -18,14 +18,26 @@ export class ProductService {
   productsEndpoint = 'https://moln-api.herokuapp.com/product';
 
   getAllProducts(): Observable<[]> {
-   return this.httpClient.get<[]>(this.productsEndpoint)
-       .pipe(map(res => {
-         return res;
-       }));
+   return this.httpClient.get<[]>(this.productsEndpoint);
+  }
+
+  getProductsById(id: string) {
+      let products = [];
+      return new Promise((resolve, reject) => {
+          this.getAllProducts().subscribe(data => {
+              // filter allProducts so only the verified products of the respective category are presented
+              // @ts-ignore
+              products = data.filter(prod => prod.category._id === id).filter(prod => prod.verified);
+              resolve(products);
+          },
+              error => {
+              reject(error);
+              });
+      });
   }
 
   addNewProduct(name: string, category: string, price: number) {
-    return this.httpClient.post(this.productsEndpoint+'/add', {name, category, price})
+    return this.httpClient.post(this.productsEndpoint + '/add', {name, category, price})
        .pipe(map(res => {
          return res;
        }));
