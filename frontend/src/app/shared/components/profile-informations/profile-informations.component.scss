@@ -1,0 +1,35 @@
+.row {
+	border-bottom: 1px solid var(--ion-color-medium-shade);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+ion-input {
+    --padding-top:0;
+    --padding-bottom:0;
+    border: 1px solid black;
+}
+
+.warning {
+    border: 4px solid var(--ion-color-warning);
+}
+
+.success {
+    border: 4px solid var(--ion-color-success);
+}
+
+.error {
+    border: 4px solid var(--ion-color-danger);
+}
+
+:host {
+    ion-input {
+        --padding-top: 0;
+    }
+}

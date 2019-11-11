@@ -1,0 +1,13 @@
+.admin-user {
+    --background: var(--ion-color-medium-shade);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+@media (max-width: 576px) {
+	.hide-sm {
+		display: none !important;
+	}
+}

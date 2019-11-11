@@ -9,6 +9,8 @@ import { IonicModule } from '@ionic/angular';
 import {HeaderModule} from "../../core/header.module";
 import { AdminPage } from './admin.page';
 import { DeleteOffersComponent } from './delete-offers/delete-offers.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   {
@@ -23,8 +25,9 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     HeaderModule,
+    SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AdminPage, DeleteOffersComponent]
+  declarations: [AdminPage, DeleteOffersComponent, ManageUsersComponent]
 })
 export class AdminPageModule {}
