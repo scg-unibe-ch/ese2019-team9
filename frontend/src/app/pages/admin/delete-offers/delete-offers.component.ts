@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { ProductService } from 'src/app/core/services/productService/product.service';
 import { ProgressIndicatorService } from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-delete-offers',
@@ -85,6 +86,7 @@ updateProducts(){
   }
 
   filter(array: []) {
+    if (isUndefined(array) || array.length == 0) return [];
     return array.filter(product => !(product as any).verified);
   }
 }

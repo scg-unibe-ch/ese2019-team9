@@ -4,6 +4,7 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
+    "compodoc": "npx compodoc -p ./tsconfig.app.json -w -s",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
