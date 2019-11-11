@@ -127,7 +127,7 @@ exports.login = (req, res, next) => {
         }
 
         // check if provided password is correct
-        bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
             if(err) {
                 return res.status(401).json({
                     message:'Authentication failed'
