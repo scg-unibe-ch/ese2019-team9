@@ -54,8 +54,8 @@ export class RegistrationComponent implements OnInit {
             data => {
               this.messageReceived = true;
               this.registrationForm.reset();
-              this.popoverService.dismissPopover();
               this.router.navigate(['/registered']);
+              this.popoverService.dismissPopover();
             },
             error => {
               this.messageReceived = true;

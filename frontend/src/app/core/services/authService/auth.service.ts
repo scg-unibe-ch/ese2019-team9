@@ -94,4 +94,9 @@ export class AuthService {
   public getToken(): string {
     return localStorage.getItem('token');
   }
+
+  public getId(): string {
+    const payload = decode(this.getToken());
+    return payload.userId;
+  }
 }

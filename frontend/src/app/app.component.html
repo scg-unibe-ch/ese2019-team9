@@ -14,14 +14,14 @@
               <ion-label>Admin</ion-label>
           </ion-item>
           <span *ngFor="let category of categories">
-            <ion-item lines="none" (click)="showSubMenu(category)">
+            <ion-item (click)="showSubMenu(category)">
               <ion-label> {{ category.name }}</ion-label>
               <ion-icon *ngIf="!category.showMenu" name="arrow-dropdown"></ion-icon>
               <ion-icon *ngIf="category.showMenu" name="arrow-dropleft"></ion-icon>
             </ion-item>
             <div *ngIf="category.showMenu">
-                <ion-list *ngFor="let subcategory of currentMenuSubcategories">
-                    <ion-item (click)="subMenuItemClicked(category)" [routerLink]="['/subcategory/', subcategory.slug]" lines="none">
+                <ion-list class="subcategoryList" *ngFor="let subcategory of currentMenuSubcategories">
+                    <ion-item class="subcategoryListItem" (click)="subMenuItemClicked(category)" [routerLink]="['/subcategory/', subcategory.slug]" lines="none">
                         <ion-label> {{ subcategory.name }}</ion-label>
                     </ion-item>
                 </ion-list>
