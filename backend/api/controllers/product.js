@@ -9,7 +9,8 @@ const Promise = require('bluebird');
  * Get all products
  */
 exports.getProducts = (req, res, next) => {
-    Product.find()
+    const search = req.userData.admin ? {} : { verified:true };
+    Product.find(search)
     .populate("seller", "-admin -password -verifiedEmail -__v")
     .populate("category", "name")
     .select("-__v")
