@@ -176,6 +176,8 @@ exports.updateUser = (req, res, next) => {
     const id = req.params.userId;
     const updateFields = {};
 
+    console.log("asdasdsa");
+
     if(id != req.userData.userId && !req.userData.admin)
         return res.status(501).json({ error:"Access forbidden" });
 
@@ -183,6 +185,8 @@ exports.updateUser = (req, res, next) => {
         if(propName != 'admin' || req.userData.admin)
             updateFields[propName] = value;
     }
+
+    console.log(req.file);
 
     if(req.file)
         updateFields['image'] = req.file.path;
