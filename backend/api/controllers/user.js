@@ -12,7 +12,7 @@ const User = require('../models/user');
  */
 exports.getUserById = (req, res, next) => {
     const id = req.params.userId;
-    const fields = id == req.userData.userId ? '':'-password -__v -verifiedEmail -admin';
+    const fields = id != req.userData.userId && !req.userData.admin ? '-password -__v -admin -email -verifiedEmail -__v':'-password -__v';
     User.findById(id)
     .select(fields)
     .then(doc => {
@@ -30,8 +30,9 @@ exports.getUserById = (req, res, next) => {
  * Get all users
  */
 exports.getAllUsers = (req, res, next) => {
+    const fields = !req.userData.admin ? '-password -__v -admin -email -verifiedEmail -__v':'-password -__v';
     User.find()
-    .select("-__v")
+    .select(fields)
     .exec()
     .then(doc => {
         if(doc) {
@@ -108,13 +109,20 @@ exports.signUp = (req, res, next) => {
  * @returns token
  */
 exports.login = (req, res, next) => {
-    User.find({ email:req.body.email })
+    User.findOne({ email:req.body.email })
     .exec()
     .then(user => {
         if(user.length < 1) {
             // user not found
             return res.status(401).json({
                 message:'Authentication failed'
+            });
+        }
+
+        //check whether email is verified
+        if(!user.verifiedEmail) {
+            return res.status(307).json({
+                message: 'Email not verified'
             });
         }
 
@@ -130,9 +138,9 @@ exports.login = (req, res, next) => {
             if(result) {
                 const token = jwt.sign(
                     { 
-                        email: user[0].email, 
-                        userId: user[0]._id,
-                        admin: user[0].admin,
+                        email: user.email, 
+                        userId: user._id,
+                        admin: user.admin,
                         _flag: 1
                     }, 
                     process.env.JWT_KEY, 
@@ -143,21 +151,13 @@ exports.login = (req, res, next) => {
                 return res.status(200).json({
                     message: 'Authentication successful',
                     token: token,
-                    id: user[0]._id
+                    id: user._id
                 });
-            }else{
-                //check whether email is verified
-                if(!user[0].verifiedEmail) {
-                    return res.status(307).json({
-                        message: 'Email not verified',
-                        id: user[0].id
-                    });
-                }else{
-                    // wrong password
-                    res.status(401).json({
-                        message: 'Authentication failed'
-                    });
-                }
+            } else {
+                // wrong password
+                res.status(401).json({
+                    message: 'Authentication failed'
+                });
             }
         });
     })
