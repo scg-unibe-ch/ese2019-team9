@@ -61,4 +61,8 @@ export class AddProductsPage implements OnInit {
       return;
     }
   }
+
+  onImagePicked(imageData: string) {
+
+  }
 }

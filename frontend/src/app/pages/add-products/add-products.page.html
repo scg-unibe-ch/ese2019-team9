@@ -10,6 +10,7 @@
                 <ion-title>Add a product</ion-title>
                 <ion-card>
                     <ion-item>
+                        <app-image-picker (imagePick)="onImagePicked($event)"></app-image-picker>
                         <ion-button>
                             <ion-icon name="add"></ion-icon>
                             Add an image
