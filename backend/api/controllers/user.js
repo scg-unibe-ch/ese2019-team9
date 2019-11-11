@@ -17,12 +17,24 @@ exports.getUserById = (req, res, next) => {
     .select(fields)
     .then(doc => {
         if(doc) {
-            res.status(200).json(doc);
+            const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+            res.status(200).json({
+                id:doc._id,
+                admin:doc.admin,
+                verifiedEmail:doc.verifiedEmail,
+                name:doc.name,
+                address:doc.address,
+                country:doc.country,
+                website:doc.website,
+                phone:doc.phone,
+                sex:doc.sex,
+                image:imagePath
+            });
         } else {
             res.status(404).json({ message: 'No valid entry found for provided user ID' });
         }
     }).catch(err => {
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: err.message });
     });
 }
 
@@ -34,14 +46,28 @@ exports.getAllUsers = (req, res, next) => {
     User.find()
     .select(fields)
     .exec()
-    .then(doc => {
-        if(doc) {
-            res.status(200).json(doc);
+    .then(docs => {
+        if(docs) {
+            res.status(200).json(docs.map(doc => {
+                const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+                return {
+                    id:doc._id,
+                    admin:doc.admin,
+                    verifiedEmail:doc.verifiedEmail,
+                    name:doc.name,
+                    address:doc.address,
+                    country:doc.country,
+                    website:doc.website,
+                    phone:doc.phone,
+                    sex:doc.sex,
+                    image:imagePath
+                };
+            }));
         } else {
             res.status(404).json({ message: 'No valid entry found for provided user ID' });
         }
     }).catch(err => {
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: err.message });
     });
 }
 
@@ -176,8 +202,6 @@ exports.updateUser = (req, res, next) => {
     const id = req.params.userId;
     const updateFields = {};
 
-    console.log("asdasdsa");
-
     if(id != req.userData.userId && !req.userData.admin)
         return res.status(501).json({ error:"Access forbidden" });
 
@@ -185,8 +209,6 @@ exports.updateUser = (req, res, next) => {
         if(propName != 'admin' || req.userData.admin)
             updateFields[propName] = value;
     }
-
-    console.log(req.file);
 
     if(req.file)
         updateFields['image'] = req.file.path;

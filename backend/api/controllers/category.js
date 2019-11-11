@@ -16,6 +16,7 @@ exports.getCategories = (req, res, next) => {
         .then(async docs => {
             const categories = await Promise.map(docs, async doc => {
                     const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
+                    const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
 
                     return {
                         _id:doc._id,
@@ -24,7 +25,7 @@ exports.getCategories = (req, res, next) => {
                         subcategories:subs,
                         parent:doc.parent,
                         path:doc.path,
-                        image:doc.image,
+                        image:imagePath,
                         request: {
                             type:'GET',
                             url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
@@ -164,13 +165,15 @@ exports.getSingleCategory = (req, res, next) => {
             const categories = await Promise.map(docs, async doc => {
                     const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
                     const products = await Product.find( { category:doc._id });
+                    const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+
                     return {
                         _id:doc._id,
                         name:doc.name,
                         slug:doc.slug,
                         subcategories:subs,
                         parent:doc.parent,
-                        image:doc.image,
+                        image:imagePath,
                         request: {
                             type:'GET',
                             url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
