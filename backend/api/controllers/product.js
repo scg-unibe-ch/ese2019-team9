@@ -75,12 +75,11 @@ exports.getProductById = (req, res, next) => {
  */
 exports.updateProduct = (req, res, next) => {
     const id = req.params.productId;
-    const udpateFields = {};
+    const updateFields = {};
 
     for(const [propName, value] of Object.entries(req.body)) {
-        console.log(propName);
         if(propName != 'verified' || req.userData.admin)
-            udpateFields[propName] = value;
+            updateFields[propName] = value;
     }
 
     if(req.file)
@@ -92,7 +91,7 @@ exports.updateProduct = (req, res, next) => {
         if(result.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access forbidden");
 
-        return Product.update({ _id:id }, { $set: udpateFields });
+        return Product.update({ _id:id }, { $set: updateFields });
     })
     .then(result => {
         res.status(200).json(result);
