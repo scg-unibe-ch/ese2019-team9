@@ -10,7 +10,7 @@ const Promise = require('bluebird');
  */
 exports.getProducts = (req, res, next) => {
     Product.find()
-    .populate("seller", "-password -email -__v")
+    .populate("seller", "-admin -password -verifiedEmail -__v")
     .populate("category", "name")
     .select("-__v")
     .exec()
@@ -28,8 +28,8 @@ exports.getProducts = (req, res, next) => {
  */
 exports.getProductById = (req, res, next) => {
     Product.findById(req.params.productId)
-    .populate("seller", "-password -email -__v")
-    .populate("category", "name")
+    .populate("seller")
+    .populate("category", "-admin -password -verifiedEmail -__v")
     .select("-__v")
     .exec()
     .then(products => {

@@ -27,10 +27,10 @@ describe('Test products', ()=>{
             assert.hasAllKeys(res.body[0], 
                 ['name','_id','category'
                 ,'price', 'description', 'location',
-            'sellerId','verified','seller']);
+            'verified','seller', 'rating']);
             assert.isDefined(res.body[0].seller);
             assert.hasAllKeys(res.body[0].seller,[
-                'id','name','email','address',
+                '_id','name','email','address',
                 'country','website','sex','phone']);
             done();
         })

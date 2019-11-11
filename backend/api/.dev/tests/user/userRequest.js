@@ -52,9 +52,9 @@ describe("Test requests for userId", () =>{
         .set('Authorization', 'Bearer ' + user.token)
         .then((res)=>{
             assert.equal(res.status, 200);
-            assert.hasAnyKeys(res.body, 
-                ['name','address','country','website',
-                'phone','sex','image']);
+            assert.doesNotHaveAllKeys(res.body, [
+                'password','__v','admin','verifiedEmail'
+            ])
             done();
         })
         .catch((err)=>{

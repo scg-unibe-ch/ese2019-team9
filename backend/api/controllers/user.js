@@ -12,8 +12,9 @@ const User = require('../models/user');
  */
 exports.getUserById = (req, res, next) => {
     const id = req.params.userId;
+    const fields = id == req.userData.userId ? '':'-password -__v -verifiedEmail -admin';
     User.findById(id)
-    .select(req.userData.admin ? '-__v' : '-__v -password -email')
+    .select(fields)
     .then(doc => {
         if(doc) {
             res.status(200).json(doc);
