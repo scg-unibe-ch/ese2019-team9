@@ -9,8 +9,9 @@ const Promise = require('bluebird');
  * Get all products
  */
 exports.getProducts = (req, res, next) => {
-    Product.find()
-    .populate("seller", "-password -email -__v")
+    const search = req.userData.admin ? {} : { verified:true };
+    Product.find(search)
+    .populate("seller", "-admin -password -verifiedEmail -__v")
     .populate("category", "name")
     .select("-__v")
     .exec()
@@ -28,8 +29,8 @@ exports.getProducts = (req, res, next) => {
  */
 exports.getProductById = (req, res, next) => {
     Product.findById(req.params.productId)
-    .populate("seller", "-password -email -__v")
-    .populate("category", "name")
+    .populate("seller")
+    .populate("category", "-admin -password -verifiedEmail -__v")
     .select("-__v")
     .exec()
     .then(products => {
@@ -82,7 +83,7 @@ exports.updateProduct = (req, res, next) => {
 exports.addProduct = (req, res, next) => {
     let categoryName = "";
 
-    if(!req.body.name || !req.file.path || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
+    if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
         return res.status(500).json({
             message:"Please specify image, name, categorySlug, price, location and description for the product"
         });
@@ -103,6 +104,8 @@ exports.addProduct = (req, res, next) => {
 
             categoryName = category.name;
 
+            const file = req.file ? req.file.path : null;
+
             newProduct = new Product({
                 _id:new mongoose.Types.ObjectId,
                 name:req.body.name,
@@ -111,7 +114,7 @@ exports.addProduct = (req, res, next) => {
                 category:category._id,
                 location:req.body.location,
                 seller:req.userData.userId,
-                image:req.file.path
+                image:file
             });
 
             return newProduct.save();
@@ -161,6 +164,24 @@ exports.deleteProduct = (req, res, next) => {
     .catch(err => {
         res.status(500).json({
             error:err
+        });
+    });
+}
+
+/**
+ * Get products of specific user
+ */
+exports.getProductsOfUser = (req, res, next) => {
+    Product.find({ seller:req.params.userId })
+    .populate("seller")
+    .populate("category", "-admin -password -verifiedEmail -__v")
+    .select("-__v")
+    .exec()
+    .then(products => {
+        return res.status(200).json(products); 
+    }).catch(err => {
+        res.status(500).json({
+            error:err.message
         });
     });
 }
