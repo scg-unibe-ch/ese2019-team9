@@ -1,0 +1,81 @@
+<ion-header>
+    <ion-toolbar>
+        <app-header></app-header>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col offset="2" size="8">
+                <ion-title>Add a product</ion-title>
+                <ion-card>
+                    <ion-item>
+                        <ion-button>
+                            <ion-icon name="add"></ion-icon>
+                            Add an image
+                        </ion-button>
+                    </ion-item>
+                    <form [formGroup]="productForm" (ngSubmit)="onSubmitAddProduct()">
+                        <ion-card class="formElement">
+                            <app-input-form
+                                    [inputForm]="productForm" [givenName]="'title'" [text]="'Title*'"
+                                    [validationMessages]="validationMessages.title"
+                                    [type]="'text'" [inputMode]="'text'">
+                            </app-input-form>
+                        </ion-card>
+                        <ion-card class="formElement">
+                            <app-input-form
+                                    [inputForm]="productForm" [givenName]="'price'" [text]="'Price (in CHF)*'"
+                                    [validationMessages]="validationMessages.price"
+                                    [type]="'number'" [inputMode]="'number'">
+                            </app-input-form>
+                        </ion-card>
+                        <ion-card class="formElement">
+                            <app-input-form
+                                    [inputForm]="productForm" [givenName]="'location'" [text]="'Location: State, City*'"
+                                    [validationMessages]="validationMessages.location"
+                                    [type]="'text'" [inputMode]="'text'">
+                            </app-input-form>
+                        </ion-card>
+                        <ion-card>
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label>Category*</ion-label>
+                                    <ion-select placeholder="Select One" okText="Okay" cancelText="Dismiss">
+                                        <ion-select-option *ngFor="let category of categories">
+                                            <ion-label> {{ category.name }}</ion-label>
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-list>
+                        </ion-card>
+                        <ion-card>
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label>Subcategory*</ion-label>
+                                    <ion-select placeholder="Select One" okText="Okay" cancelText="Dismiss">
+                                        <ion-select-option *ngFor="let subcategory of chosenSubcategories">
+                                            <ion-label> {{ subcategory.name }}</ion-label>
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-list>
+                        </ion-card>
+                        <ion-card>
+                            <ion-item>
+                                <ion-label position="floating">Description</ion-label>
+                                <ion-textarea></ion-textarea>
+                            </ion-item>
+                        </ion-card>
+                        <ion-text>*mandatory fields</ion-text>
+                    </form>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col offset="2">
+                <ion-button>Upload product</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

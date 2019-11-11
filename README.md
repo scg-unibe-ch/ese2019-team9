@@ -1,8 +1,7 @@
 ## Open a working state of our project ##
 Open your desired browser and navigate to http://themoln.herokuapp.com .
 Here you will find the most recent, functional version of our project.
-We update this public domain at least once a week on wednesday afternoon.
-
+We update this public domain at least once a week on Wednesday afternoon.
 
 ## Backend setup ##
 Navigate to backend folder and run 'npm run dev'.
@@ -18,3 +17,6 @@ Delete all users that end in '@fs.ch': DELETE /dev/
 Delete a user by id: DELETE /dev/<id>
 List all users: GET /dev/
 get Json of specific user: GET /dev/<id>
+
+## Documentation ##
+To read our Compodoc documentation please run 'npm run compodoc' in the frontend folder
