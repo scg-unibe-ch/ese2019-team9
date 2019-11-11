@@ -109,7 +109,11 @@ exports.addCategory = (req, res, next) => {
  * If category has subcategories, delete subcategories too
  */
 exports.deleteCategory = (req, res, next) => {
-    Category.deleteOne({ _id:req.params.categoryId })
+    //first delete all products of that category
+    Product.deleteMany({ category:req.params.categoryId })
+    .then(result => {
+        return Category.deleteOne({ _id:req.params.categoryId });
+    })
     .then(result => {
         res.status(200).json({
             message: "Category deleted"
@@ -117,7 +121,7 @@ exports.deleteCategory = (req, res, next) => {
     })
     .catch(err => {
         res.status(500).json({
-            error:err
+            error:err.message
         });
     });
 }

@@ -83,7 +83,7 @@ exports.updateProduct = (req, res, next) => {
 exports.addProduct = (req, res, next) => {
     let categoryName = "";
 
-    if(!req.body.name || !req.file.path || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
+    if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
         return res.status(500).json({
             message:"Please specify image, name, categorySlug, price, location and description for the product"
         });
@@ -104,6 +104,8 @@ exports.addProduct = (req, res, next) => {
 
             categoryName = category.name;
 
+            const file = req.file ? req.file.path : null;
+
             newProduct = new Product({
                 _id:new mongoose.Types.ObjectId,
                 name:req.body.name,
@@ -112,7 +114,7 @@ exports.addProduct = (req, res, next) => {
                 category:category._id,
                 location:req.body.location,
                 seller:req.userData.userId,
-                image:req.file.path
+                image:file
             });
 
             return newProduct.save();
