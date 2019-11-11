@@ -180,7 +180,8 @@ exports.updateUser = (req, res, next) => {
         return res.status(501).json({ error:"Access forbidden" });
 
     for(const [propName, value] of Object.entries(req.body)) {
-        updateFields[propName] = value;
+        if(propName != 'admin' || req.userData.admin)
+            updateFields[propName] = value;
     }
 
     if(req.file)
