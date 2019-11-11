@@ -19,8 +19,9 @@ exports.getUserById = (req, res, next) => {
         if(doc) {
             const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
             res.status(200).json({
-                id:doc._id,
+                _id:doc._id,
                 admin:doc.admin,
+                email:doc.email,
                 verifiedEmail:doc.verifiedEmail,
                 name:doc.name,
                 address:doc.address,
@@ -51,8 +52,9 @@ exports.getAllUsers = (req, res, next) => {
             res.status(200).json(docs.map(doc => {
                 const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
                 return {
-                    id:doc._id,
+                    _id:doc._id,
                     admin:doc.admin,
+                    email:doc.email,
                     verifiedEmail:doc.verifiedEmail,
                     name:doc.name,
                     address:doc.address,
