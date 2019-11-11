@@ -15,4 +15,6 @@ router.patch('/:productId', checkAuth, imageUpload, ProductController.updateProd
 
 router.delete('/:productId', checkAuth, ProductController.deleteProduct);
 
+router.get('/user/:userId', ProductController.getProductsOfUser);
+
 module.exports = router;

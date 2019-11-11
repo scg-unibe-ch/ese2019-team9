@@ -167,3 +167,21 @@ exports.deleteProduct = (req, res, next) => {
         });
     });
 }
+
+/**
+ * Get products of specific user
+ */
+exports.getProductsOfUser = (req, res, next) => {
+    Product.find({ seller:req.params.userId })
+    .populate("seller")
+    .populate("category", "-admin -password -verifiedEmail -__v")
+    .select("-__v")
+    .exec()
+    .then(products => {
+        return res.status(200).json(products); 
+    }).catch(err => {
+        res.status(500).json({
+            error:err.message
+        });
+    });
+}
