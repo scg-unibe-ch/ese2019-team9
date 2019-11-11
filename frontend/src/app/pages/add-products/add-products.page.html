@@ -6,7 +6,7 @@
 <ion-content>
     <ion-grid>
         <ion-row>
-            <ion-col offset="2" size="8">
+            <ion-col offset="1" size="10">
                 <ion-title>Add a product</ion-title>
                 <ion-card>
                     <ion-item>
@@ -41,8 +41,8 @@
                             <ion-list>
                                 <ion-item>
                                     <ion-label>Category*</ion-label>
-                                    <ion-select placeholder="Select One" okText="Okay" cancelText="Dismiss">
-                                        <ion-select-option *ngFor="let category of categories">
+                                    <ion-select (ionChange)="displayChosenSubcategories($event)" placeholder="Select One" okText="Okay" cancelText="Dismiss">
+                                        <ion-select-option [value]="category.slug" *ngFor="let category of categories">
                                             <ion-label> {{ category.name }}</ion-label>
                                         </ion-select-option>
                                     </ion-select>
@@ -73,7 +73,7 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col offset="2">
+            <ion-col offset="1">
                 <ion-button>Upload product</ion-button>
             </ion-col>
         </ion-row>

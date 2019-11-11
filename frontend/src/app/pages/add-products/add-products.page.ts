@@ -50,9 +50,8 @@ export class AddProductsPage implements OnInit {
     });
   }
 
-  displayChosenSubcategories(category) {
-    const slug = category.slug;
-    this.chosenSubcategories = [];
+  displayChosenSubcategories(event) {
+    const slug = event.target.value;
     this.chosenSubcategories = this.categories.filter(cat => cat.slug === slug)[0].subcategories
         .sort((a, b) => a.name.localeCompare(b.name));
   }
