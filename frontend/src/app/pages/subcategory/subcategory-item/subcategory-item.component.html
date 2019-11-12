@@ -6,7 +6,10 @@
                     <img [src]="imageSrc">
                 </ion-thumbnail>
             </ion-col>
-            <ion-col>
+            <ion-col *ngIf="imageSrc" offset-sm="0">
+                    <ion-title class="ion-no-padding">{{ name }}</ion-title>
+                </ion-col>
+            <ion-col *ngIf="!imageSrc" offset-sm="2">
                 <ion-title class="ion-no-padding">{{ name }}</ion-title>
             </ion-col>
             <ion-col>
@@ -16,11 +19,6 @@
         </ion-row>
         <ion-row>
             <ion-col offset-sm="2">
-                <div class="line"></div>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
                 <app-rating [rating]="rating"></app-rating>
             </ion-col>
             <ion-col>
