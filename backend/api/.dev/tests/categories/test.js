@@ -5,6 +5,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const request = chai.request(app).keepOpen();
 const assert = chai.assert;
+const fs = require('fs');
 
 describe('Test categories', ()=>{
     let token;
@@ -16,20 +17,8 @@ describe('Test categories', ()=>{
     after(()=>{
 
     });
-    it('add category', (done)=>{
-        request.post('/add')
-        .set('Content-Type', 'application/json')
-        .set('Authorization', 'Bearer ' + token)
-        .send({slug:'üsewiiisch', name:'nogruusig'})
-        .attach('image/png',null, 'wein.png')
-        .then((res) =>{
-            assert.equal(res.status, 200, 'adding should work');
-            //check if category is added
-            done();
-        })
-        .catch((err)=>{
-            done(err);
-        });
+    it.skip('add category', (done)=>{
+        
     });
     it.skip('add subcategory', (done)=>{
 
@@ -37,8 +26,8 @@ describe('Test categories', ()=>{
     it('get all categories', (done)=>{
         request.get('/')
         .then((res) =>{
-            assert.equal(res.status,200,'should work');
-            assert.hasAnyKeys(res.body, ['count','category']);
+            assert.equal(res.status, 200,'should work');
+            assert.isArray(res.body);
             done();
         })
         .catch((err) => {
@@ -46,13 +35,18 @@ describe('Test categories', ()=>{
         });
     });
     it('get single category', (done)=>{
-        request.get('/' + 'foodbeverage')
+        const cat = 'foodbeverage';
+        request.get('/' + cat)
         .then((res) =>{
             assert.equal(res.status, 200, 'should work');
-            assert.hasAllKeys(res.body, ['count','categories']);
-            assert.isAbove(res.body.categories.length, 0, 'should contain more than zero categories');
-            for(let i = 0; i < res.body.categories.length; i++){
-                assert.equal(res.body.categories[i].slug, 'foodbeverage');
+            assert.isArray(res.body);
+            assert.hasAllKeys(res.body[0], [
+                '_id','name','slug','subcategories','parent','request']);
+            assert.isArray(res.body[0].subcategories);
+            assert.isObject(res.body[0].request);
+            assert.isAbove(res.body.length, 0, 'should contain more than zero categories');
+            for(let i = 0; i < res.body.length; i++){
+                assert.isObject(res.body[0].subcategories[i]);
             }
             done();
         })

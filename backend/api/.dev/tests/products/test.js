@@ -26,7 +26,7 @@ describe('Test products', ()=>{
             assert.isArray(res.body);
             assert.hasAllKeys(res.body[0], 
                 ['name','_id','category'
-                ,'price', 'description', 'location',
+                ,'price', 'description', 'location','image',
             'verified','seller', 'rating']);
             assert.isDefined(res.body[0].seller);
             assert.hasAllKeys(res.body[0].seller,[

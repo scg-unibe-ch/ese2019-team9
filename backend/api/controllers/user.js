@@ -149,7 +149,7 @@ exports.login = (req, res, next) => {
 
         //check whether email is verified
         if(!user.verifiedEmail) {
-            return res.status(307).json({
+            return res.status(406).json({
                 message: 'Email not verified'
             });
         }
