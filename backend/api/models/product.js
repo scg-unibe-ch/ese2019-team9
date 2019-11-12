@@ -9,8 +9,14 @@ const productSchema = mongoose.Schema({
     seller:{ type:mongoose.Schema.Types.ObjectId, ref:'User', index:true },
     description:{ type:String, required:true },
     location:{ type:String },
-    rating:{ type:Number, default:0 },
-    image:{ type:String }
+    image:{ type:String },
+    rating:{ type:Number, default:0 }
+});
+
+productSchema.virtual('reviews', {
+    ref: 'Review', // The model to use
+    localField: '_id', // Find people where `localField`
+    foreignField: 'product', // is equal to `foreignField`
 });
 
 module.exports = mongoose.model('Product', productSchema);
