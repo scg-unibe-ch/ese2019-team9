@@ -6,17 +6,13 @@
 <ion-content>
     <ion-grid>
         <ion-row>
-            <ion-col offset="1" size="10">
+            <ion-col>
                 <ion-title>Add a product</ion-title>
                 <ion-card>
+                    <form [formGroup]="productForm" (ngSubmit)="onSubmitAddProduct()">
                     <ion-item>
                         <app-image-picker (imagePick)="onImagePicked($event)"></app-image-picker>
-                        <ion-button>
-                            <ion-icon name="add"></ion-icon>
-                            Add an image
-                        </ion-button>
                     </ion-item>
-                    <form [formGroup]="productForm" (ngSubmit)="onSubmitAddProduct()">
                         <ion-card class="formElement">
                             <app-input-form
                                     [inputForm]="productForm" [givenName]="'title'" [text]="'Title*'"
@@ -74,7 +70,7 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col offset="1">
+            <ion-col>
                 <ion-button>Upload product</ion-button>
             </ion-col>
         </ion-row>

@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { AddProductsPage } from './add-products.page';
 import {HeaderModule} from '../../core/header.module';
 import {InputFormModule} from '../../shared/input-form.module';
+import { ImagePickerComponent } from './image-picker/image-picker.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  declarations: [ImagePickerComponent, AddProductsPage],
   imports: [
     CommonModule,
     FormsModule,
@@ -25,6 +27,8 @@ const routes: Routes = [
     HeaderModule,
     InputFormModule
   ],
-  declarations: [AddProductsPage]
+  exports: [ImagePickerComponent]
 })
 export class AddProductsPageModule {}
+
+

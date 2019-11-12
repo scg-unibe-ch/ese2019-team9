@@ -43,21 +43,21 @@ export class ProductService {
        }));
   }
 
-  deleteProduct(productId: string){
+  deleteProduct(productId: string) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.delete(this.productsEndpoint+`/${productId}`, {headers: headers})
-       .pipe(map(res => {
-         return res;
-       }));
+    return this.httpClient.delete(this.productsEndpoint+`/${productId}`, {headers: headers});
   }
 
-  verifyProduct(productId: string){
+  verifyProduct(productId: string) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.patch(this.productsEndpoint+`/${productId}`, {verified: true}, {headers: headers})
-    .pipe(map(res => {
-      return res;
-    }))
+    return this.httpClient.patch(this.productsEndpoint+`/${productId}`, {verified: true}, {headers: headers});
+  }
+
+  uploadImage(image: File) {
+      const uploadData = new FormData();
+      uploadData.append('image', image);
+      return this.http.post<{imageUrl: string, imagePath: string}>('https://', uploadData);
   }
 }
