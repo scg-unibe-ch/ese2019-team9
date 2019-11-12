@@ -215,8 +215,11 @@ exports.updateUser = (req, res, next) => {
             updateFields[propName] = value;
     }
 
-    if(req.file)
+    if(req.file) {
+        if(fs.existsSync(req.file.path))
+            unlinkAsync(req.file.path);
         updateFields['image'] = req.file.path;
+    }
 
     User.update({ _id:id }, { $set: updateFields })
     .exec()
@@ -243,7 +246,8 @@ exports.deleteUser = (req, res, next) => {
     User.findOneAndDelete({ _id: id })
     .exec()
     .then(async result => {
-        await unlinkAsync(result.image);
+        if(fs.existsSync(result.image))
+            await unlinkAsync(result.image);
         res.status(200).json({ message: 'User deleted' });
     })
     .catch(err => {

@@ -64,11 +64,14 @@ exports.getProductById = (req, res, next) => {
     .then(async doc => {
         if(!doc.verified && doc.seller != req.userData.userId && req.userData.admin != false)
             throw new Error("Access denied");
+
         const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
         const avg = await Review.aggregate([
             { $match: { product:new mongoose.Types.ObjectId(req.body.productId) }},
             { $group: { _id: null, rating: { $avg:"$rating" } } }
         ]);
+
+        const rating = !avg[0] ? 0 : avg[0].rating
 
         return res.status(200).json({
             _id:doc._id,
@@ -79,7 +82,7 @@ exports.getProductById = (req, res, next) => {
             seller:doc.seller,
             description:doc.description,
             location:doc.location,
-            rating:avg[0].rating,
+            rating:rating,
             reviews:doc.reviews,
             image:imagePath
         }); 
@@ -115,7 +118,7 @@ exports.updateProduct = (req, res, next) => {
             throw new Error("Access forbidden");
 
         // if image gets updated delete old image
-        if(req.file)
+        if(req.file && fs.existsSync(result.image))
             await unlinkAsync(result.image);
 
         return Product.update({ _id:id }, { $set: updateFields });
@@ -136,7 +139,7 @@ exports.addProduct = async (req, res, next) => {
     let categoryName = "";
 
     if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location) {
-        if(req.file)
+        if(req.file && fs.existsSync(req.file.path))
             await unlinkAsync(req.file.path);
         return res.status(500).json({
             message:"Please specify name, categorySlug, price, location and description for the product"
@@ -147,7 +150,7 @@ exports.addProduct = async (req, res, next) => {
         .exec()
         .then(async result => {
             if(!result.name || !result.address || !result.country || !result) {
-                if(req.file)
+                if(req.file && fs.existsSync(req.file.path))
                     await unlinkAsync(req.file.path);
                 throw new Error("You first have to add your name, address and country to your profile in order to create a product");
             }
@@ -156,7 +159,7 @@ exports.addProduct = async (req, res, next) => {
         })
         .then(async category => {
             if(!category) {
-                if(req.file)
+                if(req.file && fs.existsSync(req.file.path))
                     await unlinkAsync(req.file.path);
                 throw new Error("Given category could not be found");
             }
@@ -217,7 +220,8 @@ exports.deleteProduct = (req, res, next) => {
         return Product.findOneAndDelete({ _id:req.params.productId });
     })
     .then(async result => {
-        await unlinkAsync(result.image);
+        if(fs.existsSync(result.image))
+            await unlinkAsync(result.image);
         res.status(200).json({
             message: "Product deleted"
         });

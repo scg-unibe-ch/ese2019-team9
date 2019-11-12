@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const Category = require('../models/category');
 const Product = require('../models/product');
+const Review = require('../models/review');
 const Promise = require('bluebird');
+
 
 /**
  * Return a json object containing all categories in the database
@@ -27,7 +29,8 @@ const Promise = require('bluebird');
  */
 exports.getSingleCategory = (req, res, next) => {
     const populate = req.userData.admin == true ? { 
-        path:'products', populate:{ 
+        path:'products', 
+        populate:{ 
             path:'seller', 
             model:'User', 
             select:'name image'
@@ -40,13 +43,40 @@ exports.getSingleCategory = (req, res, next) => {
                 model:'User', 
                 select:'name image'
             }};
-    Category.find({ slug:req.params.slug })
+    Category.findOne({ slug:req.params.slug })
     .populate("subcategories", "-__v -id")
     .populate(populate)
     .select("-__v")
     .exec()
-    .then(docs => {
-        return res.status(200).json(docs);
+    .then(async doc => {
+        console.log(doc);
+        const products = await Promise.map(doc.products, async prod => {
+            const avg = await Review.aggregate([
+                { $match: { product:prod._id }},
+                { $group: { _id: null, rating: { $avg:"$rating" } } }
+            ]);
+
+            const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+            const rating = !avg[0] ? 0 : avg[0].rating;
+
+            return {
+                name:prod.name,
+                _id:prod._id,
+                description:prod.description,
+                image:imagePath,
+                rating:rating,
+                seller:prod.seller
+            };
+        });
+
+        return res.status(200).json([{
+            _id:doc.id,
+            name:doc.name,
+            parent:doc.parent,
+            image:doc.image,
+            subcategories:doc.subcategories,
+            products:products
+        }]);
     }).catch(err => {
         res.status(500).json(err.message);
     });
