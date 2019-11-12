@@ -7,8 +7,10 @@ const Promise = require('bluebird');
  * Return a json object containing all categories in the database
  * and provide a link to get detailed information about each category
  */
-exports.getCategories = (req, res, next) => {
+
+ exports.getCategories = (req, res, next) => {
     let cat = {};
+    
     try {
         Category.find({ parent:'' })
         .select("-__v")
@@ -17,28 +19,32 @@ exports.getCategories = (req, res, next) => {
             const categories = await Promise.map(docs, async doc => {
                     const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
                     const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+                    const subsWithImages = await Promise.map(subs, async sub => {
+                        const absolutePath = !sub.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + sub.image;
+                        return {
+                            _id:sub._id,
+                            name:sub.name,
+                            image:absolutePath,
+                            slug:sub.slug
+                        }
+                    });
+
 
                     return {
                         _id:doc._id,
                         name:doc.name,
                         slug:doc.slug,
-                        subcategories:subs,
-                        parent:doc.parent,
-                        path:doc.path,
+                        subcategories:subsWithImages,
                         image:imagePath,
-                        request: {
-                            type:'GET',
-                            url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
-                        }
                     }
             });
             
             return res.status(200).json(categories);
         }).catch(err => {
-            res.status(500).json(err);
+            res.status(500).json(err.message);
         });
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json(err.message);
     }
 }
 
@@ -167,11 +173,21 @@ exports.getSingleCategory = (req, res, next) => {
                     const products = await Product.find( { category:doc._id });
                     const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
 
+                    const subsWithImages = await Promise.map(subs, async sub => {
+                        const absolutePath = !sub.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + sub.image;
+                        return {
+                            _id:sub._id,
+                            name:sub.name,
+                            image:absolutePath,
+                            slug:sub.slug
+                        }
+                    });
+
                     return {
                         _id:doc._id,
                         name:doc.name,
                         slug:doc.slug,
-                        subcategories:subs,
+                        subcategories:subsWithImages,
                         parent:doc.parent,
                         image:imagePath,
                         request: {
