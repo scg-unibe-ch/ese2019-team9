@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
+const { promisify } = require('util')
+const unlinkAsync = promisify(fs.unlink);
 
 const Product = require('../models/product');
 const Category = require('../models/category');
@@ -82,14 +85,19 @@ exports.updateProduct = (req, res, next) => {
             updateFields[propName] = value;
     }
 
-    if(req.file)
+    if(req.file) {
         updateFields['image'] = req.file.path;
+    }
 
     Product.findOne({ _id:id })
     .exec()
-    .then(result => {
+    .then(async result => {
         if(result.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access forbidden");
+
+        // if image gets updated delete old image
+        if(req.file)
+            await unlinkAsync(result.image);
 
         return Product.update({ _id:id }, { $set: updateFields });
     })
@@ -105,27 +113,34 @@ exports.updateProduct = (req, res, next) => {
  * Add product to database and push to products array of category
  * @param req has to include name, price, location, description and categorySlug inside the body
  */
-exports.addProduct = (req, res, next) => {
+exports.addProduct = async (req, res, next) => {
     let categoryName = "";
 
-    if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
+    if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location) {
+        if(req.file)
+            await unlinkAsync(req.file.path);
         return res.status(500).json({
             message:"Please specify name, categorySlug, price, location and description for the product"
         });
-
+    }
     try {
         User.findById(req.userData.userId)
         .exec()
-        .then(result => {
-            console.log(result);
-            if(!result.name || !result.address || !result.country || !result)
+        .then(async result => {
+            if(!result.name || !result.address || !result.country || !result) {
+                if(req.file)
+                    await unlinkAsync(req.file.path);
                 throw new Error("You first have to add your name, address and country to your profile in order to create a product");
+            }
 
             return Category.findOne({ slug:req.body.categorySlug });
         })
-        .then(category => {
-            if(!category)
+        .then(async category => {
+            if(!category) {
+                if(req.file)
+                    await unlinkAsync(req.file.path);
                 throw new Error("Given category could not be found");
+            }
 
             categoryName = category.name;
 
@@ -154,7 +169,8 @@ exports.addProduct = (req, res, next) => {
                     price:result.price,
                     description:result.description, 
                     location:result.location,
-                    seller:result.sellerId
+                    seller:result.sellerId,
+                    image:result.image
                 }
             });
         })
@@ -179,16 +195,17 @@ exports.deleteProduct = (req, res, next) => {
         if(req.userData.userId != result.seller && !req.userData.admin)
             throw new Error("Access forbidden");
 
-        return Product.deleteOne({ _id:req.params.productId });
+        return Product.findOneAndDelete({ _id:req.params.productId });
     })
-    .then(result => {
+    .then(async result => {
+        await unlinkAsync(result.image);
         res.status(200).json({
             message: "Product deleted"
         });
     })
     .catch(err => {
         res.status(500).json({
-            error:err
+            error:err.message
         });
     });
 }

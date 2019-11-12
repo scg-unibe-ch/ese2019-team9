@@ -119,9 +119,10 @@ exports.deleteCategory = (req, res, next) => {
     //first delete all products of that category
     Product.deleteMany({ category:req.params.categoryId })
     .then(result => {
-        return Category.deleteOne({ _id:req.params.categoryId });
+        return Category.findOneAndDelete({ _id:req.params.categoryId });
     })
     .then(result => {
+        fs.unlink(result.image);
         res.status(200).json({
             message: "Category deleted"
         });

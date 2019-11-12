@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const browserDetect = require('browser-detect');
+const fs = require('fs');
+const { promisify } = require('util')
+const unlinkAsync = promisify(fs.unlink);
 
 const Email = require('../methods/mail.js');
 const User = require('../models/user');
@@ -237,9 +240,10 @@ exports.deleteUser = (req, res, next) => {
             message:'Access denied'
         });
 
-    User.deleteOne({ _id: id })
+    User.findOneAndDelete({ _id: id })
     .exec()
-    .then(result => {
+    .then(async result => {
+        await unlinkAsync(result.image);
         res.status(200).json({ message: 'User deleted' });
     })
     .catch(err => {
