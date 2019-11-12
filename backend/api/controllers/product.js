@@ -6,6 +6,7 @@ const unlinkAsync = promisify(fs.unlink);
 const Product = require('../models/product');
 const Category = require('../models/category');
 const User = require('../models/user');
+const Review = require('../models/review');
 const Promise = require('bluebird');
 
 /**
@@ -18,9 +19,17 @@ exports.getProducts = (req, res, next) => {
     .populate("category", "name")
     .select("-__v")
     .exec()
-    .then(products => {
-        return res.status(200).json(products.map(doc => {
+    .then(async products => {
+        const response = await Promise.map(products, async doc => {
+            const avg = await Review.aggregate([
+                { $match: { product:doc._id }},
+                { $group: { _id: null, rating: { $avg:"$rating" } } }
+            ]);
+
             const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+
+            const rating = !avg[0] ? 0 : avg[0].rating;
+
             return {
                 _id:doc._id,
                 name:doc.name,
@@ -30,10 +39,12 @@ exports.getProducts = (req, res, next) => {
                 seller:doc.seller,
                 description:doc.description,
                 location:doc.location,
-                rating:doc.rating,
+                rating:rating,
                 image:imagePath
             }
-        })); 
+        });
+
+        return res.status(200).json(response); 
     }).catch(err => {
         res.status(500).json({
             error:err.message
@@ -48,10 +59,16 @@ exports.getProductById = (req, res, next) => {
     Product.findById(req.params.productId)
     .populate("category", "name")
     .populate("seller", "-admin -password -verifiedEmail -__v")
+    .populate("reviews", "-__v")
     .select("-__v")
     .exec()
-    .then(doc => {
+    .then(async doc => {
         const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+        const avg = await Review.aggregate([
+            { $match: { product:new mongoose.Types.ObjectId(req.body.productId) }},
+            { $group: { _id: null, rating: { $avg:"$rating" } } }
+        ]);
+
         return res.status(200).json({
             _id:doc._id,
             name:doc.name,
@@ -61,7 +78,8 @@ exports.getProductById = (req, res, next) => {
             seller:doc.seller,
             description:doc.description,
             location:doc.location,
-            rating:doc.rating,
+            rating:avg[0].rating,
+            reviews:doc.reviews,
             image:imagePath
         }); 
     }).catch(err => {
