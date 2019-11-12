@@ -10,11 +10,8 @@ import {ProgressIndicatorService} from '../../../../core/services/progressIndica
 export class UserProductsInformationComponent implements OnInit {
   @Output() reloadEvent = new EventEmitter<string>();
   @Input() product;
-  keysToName: Map<string, string> = new Map([
-    ['_id', 'Id']
-  ]);
   productKeys = [];
-  valuesToHide = ['seller'];
+  valuesToHide = ['seller', '_id', 'image'];
 
   constructor(
       private productService: ProductService,
@@ -26,11 +23,15 @@ export class UserProductsInformationComponent implements OnInit {
   }
 
   getKeyString(key: string): string {
-    return (this.keysToName.has(key)) ? this.keysToName.get(key) : key.charAt(0).toUpperCase() + key.slice(1);
+    return key.charAt(0).toUpperCase() + key.slice(1);
   }
 
   getValueString(key: string) {
     return this.product[key.toString()];
+  }
+
+  getCategoryValue(key: string) {
+    return this.product[key].name;
   }
 
   onClickDeleteProduct(productId: string) {
