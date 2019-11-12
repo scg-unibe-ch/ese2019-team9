@@ -3,7 +3,7 @@ const Review = require('../models/review');
 const Product = require('../models/product');
 
 /**
- * Add new product review and save new average rating to product document
+ * Add new product review
  * @param req.body has to include rating and productId
  */
 exports.addReview = (req, res, next) => {
@@ -26,14 +26,6 @@ exports.addReview = (req, res, next) => {
         });
 
         return review.save();
-    })
-    .then(async result => {
-        const avg = await Review.aggregate([
-            { $match: { product:new mongoose.Types.ObjectId(req.body.productId) }},
-            { $group: { _id: null, rating: { $avg:"$rating" } } }
-        ]);
-
-        return Product.findByIdAndUpdate(req.body.productId, { rating:avg[0].rating });
     })
     .then(result => {
         return res.status(200).json({
@@ -70,7 +62,7 @@ exports.deleteReview = (req, res, next) => {
 }
 
 /**
- * Edit a given review and save new average rating inside product document
+ * Edit a given review
  * Only admins and the owner of the review can edit it
  * @param req.body has to include the fields to change
  */
@@ -82,21 +74,10 @@ exports.editReview = (req, res, next) => {
     }
     
     Review.updateOne({_id:req.params.reviewId}, { $set:updateFields })
-    .then(async result => {
-        if(req.body.rating) {
-            const avg = await Review.aggregate([
-                { $match: { product:new mongoose.Types.ObjectId(req.body.productId) }},
-                { $group: { _id: null, rating: { $avg:"$rating" } } }
-            ]);
-    
-            return Product.findByIdAndUpdate(req.body.productId, { rating:avg[0].rating });
-        }
-
-        return result;
-    })
     .then(result => {
         res.status(200).json({
-            message:"Review updated"
+            message:"Review updated",
+            updatedReview:result
         })
     })
     .catch(err => {

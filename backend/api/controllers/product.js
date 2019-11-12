@@ -27,7 +27,6 @@ exports.getProducts = (req, res, next) => {
             ]);
 
             const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
-
             const rating = !avg[0] ? 0 : avg[0].rating;
 
             return {
