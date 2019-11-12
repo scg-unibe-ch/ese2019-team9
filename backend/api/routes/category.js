@@ -10,10 +10,10 @@ router.get('/', CategoryController.getCategories);
 
 router.get('/:slug', CategoryController.getSingleCategory)
 
-router.post('/add', checkAdmin, imageUpload, CategoryController.addCategory);
+router.post('/add', checkAdmin, CategoryController.addCategory);
 
 router.delete('/:categoryId', checkAdmin, CategoryController.deleteCategory);
 
-router.patch('/:categoryId', checkAdmin, imageUpload, CategoryController.updateCategory);
+router.patch('/:categoryId', checkAdmin, CategoryController.updateCategory);
 
 module.exports = router;
