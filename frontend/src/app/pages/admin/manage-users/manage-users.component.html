@@ -27,7 +27,7 @@
 					</ion-item-options>
 			</ion-item-sliding>
 			<ion-col *ngIf="user.openDetail">
-					<app-profile-informations [user]="user" [changeable]="!user.admin"></app-profile-informations>
+					<app-profile-informations [user]="user" [changeable]="!user.admin" [valuesToHide]="valuesToHide" ></app-profile-informations>
 			</ion-col>
 		
 	  </ion-row>

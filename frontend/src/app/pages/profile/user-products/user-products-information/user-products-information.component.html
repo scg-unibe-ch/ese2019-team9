@@ -1,0 +1,11 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title> {{ product.name }} </ion-card-title>
+  </ion-card-header>
+  <ion-grid>
+    <ion-row *ngFor="let key of productKeys">
+      <ion-col> {{ getKeyString(key)}} </ion-col>
+      <ion-col> {{getValueString(key)}} </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

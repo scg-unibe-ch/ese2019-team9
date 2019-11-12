@@ -13,14 +13,14 @@
 		</ion-row>
 		<ion-row>
 			<ion-col class="product-image-container" size="12" size-md="6">
-				<ion-thumbnail class="product-image"><ion-img [src]="product.src || 'https://lorempixel.com/300/300/cats/'"></ion-img></ion-thumbnail>
+				<ion-thumbnail class="product-image"><ion-img [src]="product.image || 'https://lorempixel.com/300/300/cats/'"></ion-img></ion-thumbnail>
 			</ion-col>
 			<ion-col size="12" size-md="6">
 				<ion-list lines="none">
 					<ion-item class="ion-text-capitalize product-title">{{ product.name }}</ion-item>
 					<ion-item>Price: <span slot="end">{{ product.price || 'not specified'}}</span></ion-item>
 					<ion-item>Verified: <span slot="end">{{ product.verified }}</span></ion-item>
-					<ion-item>Category: <span slot="end">{{ product.category }}</span></ion-item>
+					<ion-item>Category: <span slot="end">{{ product.category.name }}</span></ion-item>
 					<ion-item>Seller: <span slot="end">{{ product.seller.name }}</span></ion-item>
 					<ion-item>Location: <span slot="end">{{ product.location || 'nowhere'}}</span></ion-item>
 					<ion-button [href]="createMailLink()">Contact</ion-button>
