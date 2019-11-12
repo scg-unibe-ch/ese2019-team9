@@ -5,15 +5,15 @@ const storage = multer.diskStorage({
         cb(null, './uploads/');
     },
     filename: function(req, file, cb) {
-        cb(null, new Date().now() + file.originalname)
+        cb(null, Date.now() + file.originalname.replace(/\s/g, ''))
     }
 });
 
 const fileFilter = (req, file, cb) => {
-    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' )
-        cb(null, true);
+    if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/))
+        cb(new Error("File type not supported"), false);
     else
-        cb(null, false);
+        cb(null, true);
 }
 
 module.exports = multer({ 

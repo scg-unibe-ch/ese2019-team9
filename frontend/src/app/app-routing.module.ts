@@ -12,8 +12,9 @@ const routes: Routes = [
   { path: 'reset', loadChildren: './pages/reset/reset.module#ResetPageModule' },
   { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule', canActivate: [RoleguardService],
   data: { expectedRole: 'admin' }},
-  { path: 'product-details', loadChildren: './pages/product-details/product-details.module#ProductDetailsPageModule' },  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' }
-
+  { path: 'product-details', loadChildren: './pages/product-details/product-details.module#ProductDetailsPageModule' },
+  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
+	{ path: 'add-products', loadChildren: './pages/add-products/add-products.module#AddProductsPageModule' }
 ];
 
 

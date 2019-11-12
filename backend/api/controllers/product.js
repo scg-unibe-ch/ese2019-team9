@@ -16,7 +16,21 @@ exports.getProducts = (req, res, next) => {
     .select("-__v")
     .exec()
     .then(products => {
-        return res.status(200).json(products); 
+        return res.status(200).json(products.map(doc => {
+            const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+            return {
+                _id:doc._id,
+                name:doc.name,
+                category:doc.category,
+                price:doc.price,
+                verified:doc.verified,
+                seller:doc.seller,
+                description:doc.description,
+                location:doc.location,
+                rating:doc.rating,
+                image:imagePath
+            }
+        })); 
     }).catch(err => {
         res.status(500).json({
             error:err.message
@@ -29,12 +43,24 @@ exports.getProducts = (req, res, next) => {
  */
 exports.getProductById = (req, res, next) => {
     Product.findById(req.params.productId)
-    .populate("seller")
-    .populate("category", "-admin -password -verifiedEmail -__v")
+    .populate("category", "name")
+    .populate("seller", "-admin -password -verifiedEmail -__v")
     .select("-__v")
     .exec()
-    .then(products => {
-        return res.status(200).json(products); 
+    .then(doc => {
+        const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+        return res.status(200).json({
+            _id:doc._id,
+            name:doc.name,
+            category:doc.category,
+            price:doc.price,
+            verified:doc.verified,
+            seller:doc.seller,
+            description:doc.description,
+            location:doc.location,
+            rating:doc.rating,
+            image:imagePath
+        }); 
     }).catch(err => {
         res.status(500).json({
             error:err.message
@@ -49,12 +75,11 @@ exports.getProductById = (req, res, next) => {
  */
 exports.updateProduct = (req, res, next) => {
     const id = req.params.productId;
-    const udpateFields = {};
+    const updateFields = {};
 
     for(const [propName, value] of Object.entries(req.body)) {
-        console.log(propName);
         if(propName != 'verified' || req.userData.admin)
-            udpateFields[propName] = value;
+            updateFields[propName] = value;
     }
 
     if(req.file)
@@ -66,7 +91,7 @@ exports.updateProduct = (req, res, next) => {
         if(result.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access forbidden");
 
-        return Product.update({ _id:id }, { $set: udpateFields });
+        return Product.update({ _id:id }, { $set: updateFields });
     })
     .then(result => {
         res.status(200).json(result);
@@ -85,7 +110,7 @@ exports.addProduct = (req, res, next) => {
 
     if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location)
         return res.status(500).json({
-            message:"Please specify image, name, categorySlug, price, location and description for the product"
+            message:"Please specify name, categorySlug, price, location and description for the product"
         });
 
     try {
@@ -173,8 +198,8 @@ exports.deleteProduct = (req, res, next) => {
  */
 exports.getProductsOfUser = (req, res, next) => {
     Product.find({ seller:req.params.userId })
-    .populate("seller")
-    .populate("category", "-admin -password -verifiedEmail -__v")
+    .populate("category", "name")
+    .populate("seller", "-admin -password -verifiedEmail -__v")
     .select("-__v")
     .exec()
     .then(products => {

@@ -31,6 +31,10 @@
               <ion-icon name="wallet" slot="start"></ion-icon>
               <ion-label>Become a Seller</ion-label>
           </ion-item>
+          <ion-item *ngIf="auth.isLoggedIn()" routerLink="/add-products" [routerDirection]="'root'">
+              <ion-icon name="add" slot="start"></ion-icon>
+              <ion-label>Add product</ion-label>
+          </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
