@@ -11,6 +11,7 @@ export class CarouselItemComponent implements OnInit {
   @Input() slug?: string;
   @Input() id?: number;
   @Input() link: string;
+  @Input() imageSrc?: string;
 
   completeLink: string;
 

@@ -16,6 +16,7 @@ export class ProductService {
   ) { }
 
   productsEndpoint = 'https://moln-api.herokuapp.com/product';
+  userProductsEndpoint = 'https://moln-api.herokuapp.com/product/user';
 
   getAllProducts(): Observable<[]> {
    return this.httpClient.get<[]>(this.productsEndpoint);
@@ -46,18 +47,18 @@ export class ProductService {
   deleteProduct(productId: string){
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.delete(this.productsEndpoint+`/${productId}`, {headers: headers})
-       .pipe(map(res => {
-         return res;
-       }));
+    return this.httpClient.delete(this.productsEndpoint+`/${productId}`, {headers: headers});
   }
 
-  verifyProduct(productId: string){
+  verifyProduct(productId: string) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.patch(this.productsEndpoint+`/${productId}`, {verified: true}, {headers: headers})
-    .pipe(map(res => {
-      return res;
-    }))
+    return this.httpClient.patch(this.productsEndpoint+`/${productId}`, {verified: true}, {headers: headers});
+  }
+
+  getProductsByUserId(userId: string) {
+      const token = this.authService.getToken();
+      const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+      return this.httpClient.get<[]>(this.userProductsEndpoint + `/${userId}`, { headers: headers});
   }
 }

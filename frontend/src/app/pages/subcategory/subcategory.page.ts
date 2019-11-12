@@ -1,7 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {PopoverController} from '@ionic/angular';
 import {ProductService} from '../../core/services/productService/product.service';
 import {CategoryService} from '../../core/services/categoryService/category.service';
+import {FilterRatingComponent} from './filter-rating/filter-rating.component';
+import {FilterLocationComponent} from './filter-location/filter-location.component';
+import {FilterPriceComponent} from './filter-price/filter-price.component';
+
 
 @Component({
     selector: 'app-subcategory',
@@ -18,7 +23,8 @@ export class SubcategoryPage implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private productService: ProductService,
-                private categoryService: CategoryService) {
+                private categoryService: CategoryService,
+                private popoverController: PopoverController) {
     }
 
     /*
@@ -42,5 +48,36 @@ export class SubcategoryPage implements OnInit {
     selectFeaturedProducts() {
         this.featuredProducts = this.products.slice(0, 2);
         this.carouselIsReady = true;
+    }
+
+    async openRatingPopover(ev: any) {
+        const popover = await this.popoverController.create({
+            component: FilterRatingComponent,
+            translucent: true,
+            event: ev,
+            backdropDismiss: true,
+        });
+        return await popover.present();
+    }
+
+    async openLocationPopover(ev: any) {
+        const popover = await this.popoverController.create({
+            component: FilterLocationComponent,
+            translucent: true,
+            event: ev,
+            backdropDismiss: true,
+        });
+        return await popover.present();
+    }
+
+    async openPricePopover(ev: any) {
+        const popover = await this.popoverController.create({
+            component: FilterPriceComponent,
+            translucent: true,
+            event: ev,
+            backdropDismiss: true,
+        });
+        return await popover.present();
+
     }
 }

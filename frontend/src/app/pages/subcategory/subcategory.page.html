@@ -24,10 +24,10 @@
     </ion-card>
     <ion-card class="cardMargin">
         <ion-title class="ion-no-padding">Filter by:</ion-title>
-        <ion-button size="small" fill="empty">Rating
+        <ion-button (click)="openRatingPopover($event)" size="small" fill="empty">Rating
             <ion-icon name="star" slot="start"></ion-icon>
         </ion-button>
-        <ion-button size="small" fill="empty">Location
+        <ion-button (click)="openLocationPopover($event)" size="small" fill="empty">Location
             <ion-icon name="pin" slot="start"></ion-icon>
         </ion-button>
         <ion-button size="small" fill="empty">Price
@@ -43,7 +43,8 @@
                         [id]="product._id"
                         [name]="product.name"
                         [price]="product.price"
-                        [location]="product.location" >
+                        [location]="product.location"
+                        [imageSrc]="product.image" >
                 </app-subcategory-item>
             </ion-col>
         </ion-row>

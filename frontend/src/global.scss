@@ -139,6 +139,16 @@
   margin-bottom: 10px;
 }
 
+.subcategoryListItem {
+  --min-height: 0px;
+  padding-left: 20px;
+}
+
+.subcategoryList {
+  padding-bottom: 1px;
+  padding-top: 1px;
+}
+
 @media only screen and (max-device-width: 768px) {
   .popover-style .popover-content { min-width: 250px; }
 }

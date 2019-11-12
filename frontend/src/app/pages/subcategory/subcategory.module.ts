@@ -10,6 +10,9 @@ import {HeaderModule} from '../../core/header.module';
 import {SubcategoryItemComponent} from './subcategory-item/subcategory-item.component';
 import {SharedModule} from '../../shared/shared.module';
 import {CarouselModule} from '../../shared/carousel.module';
+import {FilterRatingComponent} from './filter-rating/filter-rating.component';
+import {FilterLocationComponent} from './filter-location/filter-location.component';
+import {FilterPriceComponent} from './filter-price/filter-price.component';
 
 const routes: Routes = [
     {path: '', component: SubcategoryPage},
@@ -26,7 +29,8 @@ const routes: Routes = [
         SharedModule,
         CarouselModule
     ],
-    declarations: [SubcategoryPage, SubcategoryItemComponent]
+    declarations: [SubcategoryPage, SubcategoryItemComponent, FilterRatingComponent, FilterLocationComponent, FilterPriceComponent],
+    entryComponents: [FilterPriceComponent, FilterLocationComponent, FilterRatingComponent]
 })
 export class SubcategoryPageModule {
 }
