@@ -15,31 +15,6 @@ const Promise = require('bluebird');
     .populate("subcategories")
     .select("-__v")
     .then(async docs => {
-        /*
-        const categories = await Promise.map(docs, async doc => {
-                const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
-                const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
-                const subsWithImages = await Promise.map(subs, async sub => {
-                    const absolutePath = !sub.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + sub.image;
-                    return {
-                        _id:sub._id,
-                        name:sub.name,
-                        image:absolutePath,
-                        slug:sub.slug
-                    }
-                });
-
-
-                return {
-                    _id:doc._id,
-                    name:doc.name,
-                    slug:doc.slug,
-                    subcategories:subsWithImages,
-                    image:imagePath,
-                }
-                */
-        //});
-        
         return res.status(200).json(docs);
     }).catch(err => {
         res.status(500).json(err.message);
@@ -48,12 +23,27 @@ const Promise = require('bluebird');
 
 /**
  * Get detailed information about a single category
+ * Only display verified products to non admins
  */
 exports.getSingleCategory = (req, res, next) => {
+    const populate = req.userData.admin == true ? { 
+        path:'products', populate:{ 
+            path:'seller', 
+            model:'User', 
+            select:'name image'
+        }} : { 
+            path:'products', 
+            match:{ 
+                verified:true 
+            }, populate: { 
+                path:'seller', 
+                model:'User', 
+                select:'name image'
+            }};
     Category.find({ slug:req.params.slug })
-    .select("-__v")
     .populate("subcategories", "-__v -id")
-    .populate("products", "-__v")
+    .populate(populate)
+    .select("-__v")
     .exec()
     .then(docs => {
         return res.status(200).json(docs);

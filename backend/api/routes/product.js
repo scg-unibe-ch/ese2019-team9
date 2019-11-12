@@ -9,7 +9,7 @@ const imageUpload = require('../mware/image-upload');
 
 router.get('/', getUserInfo, ProductController.getProducts);
 
-router.get('/:productId', ProductController.getProductById);
+router.get('/:productId', getUserInfo, ProductController.getProductById);
 
 router.post('/add', checkAuth, imageUpload, ProductController.addProduct);
 

@@ -62,6 +62,8 @@ exports.getProductById = (req, res, next) => {
     .select("-__v")
     .exec()
     .then(async doc => {
+        if(!doc.verified && doc.seller != req.userData.userId && req.userData.admin != false)
+            throw new Error("Access denied");
         const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
         const avg = await Review.aggregate([
             { $match: { product:new mongoose.Types.ObjectId(req.body.productId) }},
