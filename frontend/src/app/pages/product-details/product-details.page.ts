@@ -27,8 +27,7 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
-		private productService: ProductService,
-		private categoryService: CategoryService
+		private productService: ProductService
 	) { }
 
 	get product() {
@@ -62,7 +61,6 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 		return new Promise((resolve, reject) => {
 			this.productService
 				.getAllProducts()
-				.pipe(first())
 				.subscribe(
 					data => {
 						const result = data.filter(

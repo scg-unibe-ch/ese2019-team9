@@ -1,4 +1,7 @@
 <ion-card class="carouselItemBody ion-text-center " [routerLink]="[completeLink]" >
+  <ion-thumbnail class="image">
+    <img *ngIf="imageSrc" [src]="imageSrc">
+  </ion-thumbnail>
   <ion-text>
     {{ name }}
   </ion-text>

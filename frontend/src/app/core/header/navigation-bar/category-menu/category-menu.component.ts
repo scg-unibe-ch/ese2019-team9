@@ -1,17 +1,24 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {CategoryService} from '../../../services/categoryService/category.service';
+import {Component, Input} from '@angular/core';
 
+/**
+ * The dropdown menu of the {@link NavigationBarComponent}
+ */
 @Component({
   selector: 'app-category-menu',
   templateUrl: './category-menu.component.html',
   styleUrls: ['./category-menu.component.scss'],
 })
-export class CategoryMenuComponent implements OnInit {
+export class CategoryMenuComponent {
+  /**
+   * An array with all given subcategories
+   */
   @Input() subcategories: [];
 
+  /**
+   * Auto injected Service
+   * @param categoryService auto injected `CategoryService`
+   */
   constructor(
-      private categoryService: CategoryService
   ) { }
 
-  ngOnInit() {}
 }

@@ -12,6 +12,7 @@ export class SubcategoryItemComponent implements OnInit {
   @Input() id: number;
   @Input() rating: number;
   @Input() price: number;
+  @Input() imageSrc: string; 
 
   constructor() { }
 

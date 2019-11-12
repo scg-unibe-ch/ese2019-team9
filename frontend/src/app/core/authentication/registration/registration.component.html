@@ -21,7 +21,7 @@
                             [type]= "'password'" [inputMode]="'password'">
                     </app-input-form>
                 </ion-card>
-                <div *ngIf="messageReceived" class="invalid-feedback"> {{ message }} </div>
+                <div *ngIf="errorMessage" class="invalid-feedback"> {{ errorMessage }} </div>
                 <ion-button class="formButton" expand="block" type="submit">Join now</ion-button>
             </form>
         </ion-col>
@@ -30,7 +30,7 @@
         <ion-toolbar color="medium">
             <ion-title class="popoverFooter">
                 Already a member?
-                <a href="" (click)="presentLoginPopover($event)"> Log in </a>
+                <a class="cursor-pointer" (click)="presentLoginPopover()"> Log in </a>
             </ion-title>
         </ion-toolbar>
     </ion-header>

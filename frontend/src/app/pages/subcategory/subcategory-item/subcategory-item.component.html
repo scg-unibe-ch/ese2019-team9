@@ -1,6 +1,11 @@
 <ion-card [routerLink]="['/product-details/', id]">
     <ion-grid>
         <ion-row>
+            <ion-col *ngIf="imageSrc" size="12" size-sm="2">
+                <ion-thumbnail>
+                    <img [src]="imageSrc">
+                </ion-thumbnail>
+            </ion-col>
             <ion-col>
                 <ion-title class="ion-no-padding">{{ name }}</ion-title>
             </ion-col>
@@ -10,7 +15,7 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col>
+            <ion-col offset-sm="2">
                 <div class="line"></div>
             </ion-col>
         </ion-row>
