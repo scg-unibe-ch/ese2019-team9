@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from '../../../models/user';
 import { Router } from '@angular/router';
-import  decode from 'jwt-decode';
+import decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -86,7 +86,7 @@ export class AuthService {
     return !expired;
   }
 
-  public isAdmin():boolean{
+  public isAdmin(): boolean {
     const payload = decode(this.getToken());
     return payload.admin;
   }

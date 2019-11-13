@@ -5,18 +5,18 @@
 </ion-header>
 <ion-content>
     <ion-grid>
-        <ion-row>
-            <ion-col>
-                <ion-title>Add a product</ion-title>
-                <ion-card>
-                    <form [formGroup]="productForm" (ngSubmit)="onSubmitAddProduct()">
-                    <ion-item>
-                        <app-image-picker (imagePick)="onImagePicked($event)"></app-image-picker>
-                    </ion-item>
+        <form [formGroup]="productForm" (ngSubmit)="onSubmitAddProduct()">
+            <ion-row>
+                <ion-col>
+                    <ion-title>Add a product</ion-title>
+                    <ion-card>
+                        <ion-item>
+                            <app-image-picker (imagePick)="onImagePicked($event)"></app-image-picker>
+                        </ion-item>
                         <ion-card class="formElement">
                             <app-input-form
-                                    [inputForm]="productForm" [givenName]="'title'" [text]="'Title*'"
-                                    [validationMessages]="validationMessages.title"
+                                    [inputForm]="productForm" [givenName]="'name'" [text]="'Title*'"
+                                    [validationMessages]="validationMessages.name"
                                     [type]="'text'" [inputMode]="'text'">
                             </app-input-form>
                         </ion-card>
@@ -38,7 +38,9 @@
                             <ion-list>
                                 <ion-item>
                                     <ion-label>Category*</ion-label>
-                                    <ion-select (ionChange)="displayChosenSubcategories($event)" placeholder="Select One" okText="Okay" cancelText="Dismiss">
+                                    <ion-select formControlName="category"
+                                                (ionChange)="displayChosenSubcategories($event)"
+                                                placeholder="Select One" okText="Okay" cancelText="Dismiss">
                                         <ion-select-option [value]="category.slug" *ngFor="let category of categories">
                                             <ion-label> {{ category.name }}</ion-label>
                                         </ion-select-option>
@@ -50,8 +52,10 @@
                             <ion-list>
                                 <ion-item>
                                     <ion-label>Subcategory*</ion-label>
-                                    <ion-select placeholder="Select One" okText="Okay" cancelText="Dismiss">
-                                        <ion-select-option *ngFor="let subcategory of chosenSubcategories">
+                                    <ion-select formControlName="categorySlug" placeholder="Select One" okText="Okay"
+                                                cancelText="Dismiss">
+                                        <ion-select-option [value]="subcategory.slug"
+                                                           *ngFor="let subcategory of chosenSubcategories">
                                             <ion-label> {{ subcategory.name }}</ion-label>
                                         </ion-select-option>
                                     </ion-select>
@@ -60,19 +64,20 @@
                         </ion-card>
                         <ion-card>
                             <ion-item>
-                                <ion-label position="floating">Description</ion-label>
-                                <ion-textarea></ion-textarea>
+                                <ion-label position="floating">Description*</ion-label>
+                                <ion-textarea formControlName="description"></ion-textarea>
                             </ion-item>
                         </ion-card>
                         <ion-text>*mandatory fields</ion-text>
-                    </form>
-                </ion-card>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <ion-button>Upload product</ion-button>
-            </ion-col>
-        </ion-row>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-button type="submit"> Upload product</ion-button>
+                </ion-col>
+            </ion-row>
+        </form>
     </ion-grid>
 </ion-content>
+
