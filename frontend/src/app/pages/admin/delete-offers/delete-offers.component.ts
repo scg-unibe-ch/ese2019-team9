@@ -20,7 +20,7 @@ export class DeleteOffersComponent implements OnInit {
 
   getAllProducts(){
     return new Promise((resolve, reject)=>{
-      this.productService.getAllProducts().pipe(first()).subscribe(
+      this.productService.getAllProducts().subscribe(
       data => {
         resolve(data);
       },
@@ -67,6 +67,7 @@ verifyOffer(productId: string) {
 updateProducts(){
   this.progressIndicatorService.presentLoading('Updating Products...');
   this.getAllProducts().then(data => {
+    console.log(data);
     this.listOfAllOffers = data;
     if (this.showVerified) this.listOfOffers = this.listOfAllOffers;
     if (!this.showVerified) this.listOfOffers = this.filter(this.listOfAllOffers);

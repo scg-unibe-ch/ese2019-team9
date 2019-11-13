@@ -18,8 +18,10 @@ export class ProductService {
   productsEndpoint = 'https://moln-api.herokuapp.com/product';
   userProductsEndpoint = 'https://moln-api.herokuapp.com/product/user';
 
-  getAllProducts(): Observable<[]> {
-   return this.httpClient.get<[]>(this.productsEndpoint);
+  getAllProducts() {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+   return this.httpClient.get(this.productsEndpoint, {headers: headers});
   }
 
   getProductsById(id: string) {
@@ -36,6 +38,12 @@ export class ProductService {
               });
       });
   }
+
+  getSingleProduct(productId: any) {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+		  return this.httpClient.get(this.productsEndpoint + `/${productId}`, {headers: headers})
+	}
 
   addNewProduct(name: string, category: string, price: number) {
     return this.httpClient.post(this.productsEndpoint + '/add', {name, category, price})
