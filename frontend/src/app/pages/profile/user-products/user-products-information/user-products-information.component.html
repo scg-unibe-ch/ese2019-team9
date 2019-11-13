@@ -1,11 +1,17 @@
 <ion-card>
-  <ion-card-header>
-    <ion-card-title> {{ product.name }} </ion-card-title>
-  </ion-card-header>
-  <ion-grid>
-    <ion-row *ngFor="let key of productKeys">
-      <ion-col> {{ getKeyString(key)}} </ion-col>
-      <ion-col> {{getValueString(key)}} </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-card-header>
+        <ion-card-title> {{ product.name }}
+            <ion-button class="greyButton ion-float-end" color="danger" (click)="onClickDeleteProduct(product._id)">
+                <ion-icon name="close"></ion-icon>
+                Delete
+            </ion-button>
+        </ion-card-title>
+    </ion-card-header>
+    <ion-grid>
+        <ion-row class="row" *ngFor="let key of productKeys">
+            <ion-col> {{ getKeyString(key)}} </ion-col>
+            <ion-col *ngIf="!(getKeyString(key) === 'Category')"> {{getValueString(key)}} </ion-col>
+            <ion-col *ngIf="getKeyString(key) === 'Category'"> {{getCategoryValue(key)}} </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-card>

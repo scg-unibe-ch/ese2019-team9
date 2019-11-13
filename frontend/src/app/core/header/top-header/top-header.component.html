@@ -1,24 +1,24 @@
 <div>
-        <ion-grid>
-                <ion-row class="ion-align-items-center">
-                        <ion-col size="1">
-                                <div class="ion-hide-lg-up" position="relative">
-                                        <ion-buttons slot="start">
-                                                <ion-menu-button menu="m1">
-                                                </ion-menu-button>
-                                        </ion-buttons>
-                                </div>
-                        </ion-col>
-                        <ion-col size="6">
-                                <div class="navigateHome" [routerLink]="['/home']">
-                                        <img padding="20px" src="assets/images/logoFont6.png" >
-                                </div>
-                        </ion-col>
-                        <ion-col>
-                        </ion-col>
-                        <ion-col size="4">
-                                <app-top-header-end></app-top-header-end>
-                        </ion-col>
-                </ion-row>
-        </ion-grid>
+    <ion-grid>
+        <ion-row class="ion-align-items-center">
+            <ion-col size="1">
+                <div class="ion-hide-lg-up" position="relative">
+                    <ion-buttons slot="start">
+                        <ion-menu-button menu="m1">
+                        </ion-menu-button>
+                    </ion-buttons>
+                </div>
+            </ion-col>
+            <ion-col size="4" size-sm="3">
+                <span class="navigateHome ion-align-items-center" [routerLink]="['/home']">
+                    <img class="headerImg" src="assets/images/logoFont7.png" >
+                </span>
+            </ion-col>
+            <ion-col class="ion-hide-md-down" size="0" size-md="1" size-lg="3">
+            </ion-col>
+            <ion-col>
+                <app-top-header-end></app-top-header-end>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </div>

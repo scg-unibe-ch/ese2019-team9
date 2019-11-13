@@ -24,12 +24,12 @@ export class ProfileInformationsComponent implements OnInit {
         ['_id', 'Id'],
         ['email', 'E-Mail address'],
         ['verifiedEmail', 'E-Mail verified'],
-        ['country', 'Country'],
+        ['country', 'Country*'],
         ['phone', 'Phone number'],
         ['website', 'Website'],
         ['sex', 'Sex'],
-        ['name', 'Name'],
-        ['address', 'Address']
+        ['name', 'Name*'],
+        ['address', 'Address*']
     ]);
 
     valuesToName: Map<boolean, string> = new Map([
