@@ -27,8 +27,7 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
-		private productService: ProductService,
-		private categoryService: CategoryService
+		private productService: ProductService
 	) { }
 
 	get product() {
@@ -47,7 +46,9 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 	}
 
 	displayProductInformation(productId: any) {
-		this.getProductFromBackend(productId).then(
+		this.productService
+		.getSingleProduct(productId)
+		.subscribe(
 			data => {
 				this.productInformation = data;
 			},
@@ -56,31 +57,6 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 				console.log(err);
 			}
 		);
-	}
-
-	getProductFromBackend(productId) {
-		return new Promise((resolve, reject) => {
-			this.productService
-				.getAllProducts()
-				.pipe(first())
-				.subscribe(
-					data => {
-						const result = data.filter(
-							product => (product as any)._id === productId
-						);
-
-						if (result.length === 1) {
-							resolve(result[0]);
-						} else {
-							reject('No such product found');
-						}
-					},
-
-					err => {
-						reject(err);
-					}
-				);
-		});
 	}
 
 	createMailLink() {

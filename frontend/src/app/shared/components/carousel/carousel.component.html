@@ -9,7 +9,7 @@
           <ion-icon name="arrow-dropleft" slot="end" ></ion-icon>
       </ion-button>
       <span *ngFor="let item of itemsToDisplay">
-        <app-carousel-item [name]="item.name" [slug]="item.slug" [id]="item._id" [link]="routerLink" ></app-carousel-item>
+        <app-carousel-item [imageSrc]="item.image ? item.image : undefined" [name]="item.name" [slug]="item.slug" [id]="item._id" [link]="routerLink" ></app-carousel-item>
       </span>
       <ion-button size="large" fill="empty" slot="end" (click)="selectNextItem()">
           <ion-icon name="arrow-dropright" slot="start" ></ion-icon>

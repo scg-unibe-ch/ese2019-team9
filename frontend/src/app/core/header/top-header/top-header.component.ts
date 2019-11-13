@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 
+/**
+ * Header Component. 
+ */
 @Component({
   selector: 'app-top-header',
   templateUrl: './top-header.component.html',
   styleUrls: ['./top-header.component.scss'],
 })
-export class TopHeaderComponent implements OnInit {
+export class TopHeaderComponent  {
 
-  constructor(
-      private router: Router) { }
+  /**
+   * @ignore
+   */
+  constructor() { }
 
-  ngOnInit() {}
-
-  navigateHome() {
-    this.router.navigate(['/home']);
-  }
 }

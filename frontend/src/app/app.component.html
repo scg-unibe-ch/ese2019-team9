@@ -1,42 +1,41 @@
 <ion-app>
-  <ion-menu side="start" #menu menuId="m1">
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>
-          Menu
-        </ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-          <ion-item *ngIf="auth.isLoggedIn() && auth.isAdmin()" routerLink="/admin" [routerDirection]="'root'">
-              <ion-icon name="settings" slot="start"></ion-icon>
-              <ion-label>Admin</ion-label>
-          </ion-item>
-          <span *ngFor="let category of categories">
-            <ion-item lines="none" (click)="showSubMenu(category)">
+    <ion-menu side="start" #menu menuId="m1">
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-title>
+                    Menu
+                </ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <ion-list>
+                <ion-item *ngIf="authService.isLoggedIn() && authService.isAdmin()" (click)="dismissMenu()"
+                          routerLink="/admin" [routerDirection]="'root'">
+                    <ion-icon name="settings" slot="start"></ion-icon>
+                    <ion-label>Admin</ion-label>
+                </ion-item>
+                <span *ngFor="let category of categories">
+            <ion-item (click)="showSubMenu(category)">
               <ion-label> {{ category.name }}</ion-label>
               <ion-icon *ngIf="!category.showMenu" name="arrow-dropdown"></ion-icon>
               <ion-icon *ngIf="category.showMenu" name="arrow-dropleft"></ion-icon>
             </ion-item>
             <div *ngIf="category.showMenu">
-                <ion-list *ngFor="let subcategory of currentMenuSubcategories">
-                    <ion-item (click)="subMenuItemClicked(category)" [routerLink]="['/subcategory/', subcategory.slug]" lines="none">
+                <ion-list class="subcategoryList" *ngFor="let subcategory of currentMenuSubcategories">
+                    <ion-item class="subcategoryListItem" (click)="subMenuItemClicked(category)"
+                              [routerLink]="['/subcategory/', subcategory.slug]" lines="none">
                         <ion-label> {{ subcategory.name }}</ion-label>
                     </ion-item>
                 </ion-list>
             </div>
           </span>
-          <ion-item routerLink="/">
-              <ion-icon name="wallet" slot="start"></ion-icon>
-              <ion-label>Become a Seller</ion-label>
-          </ion-item>
-          <ion-item *ngIf="auth.isLoggedIn()" routerLink="/add-products" [routerDirection]="'root'">
-              <ion-icon name="add" slot="start"></ion-icon>
-              <ion-label>Add product</ion-label>
-          </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-  <ion-router-outlet main></ion-router-outlet>
+                <ion-item *ngIf="authService.isLoggedIn()" (click)="dismissMenu()" routerLink="/add-products"
+                          [routerDirection]="'root'">
+                    <ion-icon name="add" slot="start"></ion-icon>
+                    <ion-label>Add product</ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
 </ion-app>

@@ -24,7 +24,8 @@ export class PopoverService {
     return popover;
   }
 
-  dismissPopover() {
+  dismissPopover(data? :any) {
+    if (data) return this.popoverController.dismiss(data);
     this.popoverController.dismiss();
   }
 }

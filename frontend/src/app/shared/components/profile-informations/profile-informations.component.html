@@ -1,7 +1,7 @@
 <ion-card>
 	<ion-card-header>
 			<ion-avatar>
-					<img [src]="user.image || 'https://api.adorable.io/avatars/128/'+ user._id">
+					<img [src]="user.image ? user.image : 'https://api.adorable.io/avatars/128/'+ user._id">
 				</ion-avatar>
 		<ion-card-title>{{ user.email }}</ion-card-title>
 	</ion-card-header>
@@ -23,6 +23,5 @@
 			</ion-row>
 		</ion-grid>
 		<ion-button #updateButton color="warning" class="hidden ion-float-right" (click)="onClickSave()">Update</ion-button>
-		
 	</ion-card-content>
 </ion-card>
