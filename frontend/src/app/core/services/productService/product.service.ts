@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AuthService } from '../authService/auth.service';
-
+import {User} from '../../../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class ProductService {
   ) { }
 
   productsEndpoint = 'https://moln-api.herokuapp.com/product';
+  addProductsEndpoint = 'https://moln-api.herokuapp.com/product/add';
   userProductsEndpoint = 'https://moln-api.herokuapp.com/product/user';
 
   getAllProducts() {
@@ -52,7 +53,7 @@ export class ProductService {
        }));
   }
 
-  deleteProduct(productId: string){
+  deleteProduct(productId: string) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
     return this.httpClient.delete(this.productsEndpoint+`/${productId}`, {headers: headers});
@@ -61,7 +62,22 @@ export class ProductService {
   verifyProduct(productId: string) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.patch(this.productsEndpoint+`/${productId}`, {verified: true}, {headers: headers});
+    return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {verified: true}, {headers});
+  }
+
+  addProduct(val: any, img: any) {
+      const formData = new FormData();
+      const token = this.authService.getToken();
+      const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+      headers.set('Content-Type', null);
+      headers.set('Accept', "multipart/form-data");
+      Object.keys(val).forEach(key => {
+          formData.append(key, val[key]);
+      });
+      console.log(img);
+      formData.append('image', img);
+      console.log(formData);
+      return this.httpClient.post(this.addProductsEndpoint, formData, {headers});
   }
 
   getProductsByUserId(userId: string) {

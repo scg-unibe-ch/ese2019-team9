@@ -17,7 +17,7 @@ import {HomeBannerComponent} from '../pages/home/home-banner/home-banner.compone
 import {LoginComponent} from './authentication/login/login.component';
 import {RegistrationComponent} from './authentication/registration/registration.component';
 import {ForgotPasswordComponent} from './authentication/forgot-password/forgot-password.component';
-import {CategoryMenuComponent} from "./header/navigation-bar/category-menu/category-menu.component";
+import {CategoryMenuComponent} from './header/navigation-bar/category-menu/category-menu.component';
 
 
 @NgModule({

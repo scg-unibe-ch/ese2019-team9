@@ -8,6 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { AddProductsPage } from './add-products.page';
 import {HeaderModule} from '../../core/header.module';
 import {InputFormModule} from '../../shared/input-form.module';
+import {SharedModule} from '../../shared/shared.module';
+
 
 const routes: Routes = [
   {
@@ -17,14 +19,17 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  declarations: [AddProductsPage],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
     HeaderModule,
+    SharedModule,
     InputFormModule
-  ],
-  declarations: [AddProductsPage]
+  ]
 })
 export class AddProductsPageModule {}
+
+
