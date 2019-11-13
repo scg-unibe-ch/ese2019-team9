@@ -17,11 +17,42 @@ describe('Test categories', ()=>{
     after(()=>{
 
     });
-    it.skip('add category', (done)=>{
-        
+    it.only('add category', (done)=>{
+        request.post('/add')
+        .type('form')
+        .set('Accept', 'multipart/form-data')
+        .set('Authorization','Bearer ' + token)
+        .attach('image',fs.readFileSync('./api/.dev/tests/categories/wein.png'), 'wein.png')
+        .field('slug','testslug')
+        .field('name','dinimer')
+        .field('parentSlug','/foodbeverage')
+        .then((res) => {
+            assert.equal(res.status, 201);
+            done();
+        })
+        .catch((err) =>{
+            done(err)
+        })
     });
     it.skip('add subcategory', (done)=>{
-
+        request.post('/add')
+        .type('form')
+        .set('Accept', 'multipart/form-data')
+        .set('Authorization','Bearer ' + token)
+        .attach('image',fs.readFileSync('./api/.dev/tests/categories/wein.png'), 'wein.png')
+        .field('slug','testslug')
+        .field('name','dinimer')
+        .field('parentSlug','foodbeverage')
+        .then((res) => {
+            assert.equal(res.status, 201);
+            done();
+        })
+        .catch((err) =>{
+            done(err)
+        })
+    });
+    it.skip('delete subcategory', (done) =>{
+        
     });
     it('get all categories', (done)=>{
         request.get('/')

@@ -55,11 +55,11 @@ const Promise = require('bluebird');
  * @param req.body has to contain slug, name and parentSlug
  */
 exports.addCategory = (req, res, next) => {
-    if(!req.body.slug || !req.body.name)
+    if(!req.body.slug || !req.body.name){
         return res.status(500).json({
             message:"Please specify name and slug"
         });
-
+    }
     Category.find({ $or: [{ name:req.body.name }, { slug:req.body.slug }] })
     .exec()
     .then(category => {
