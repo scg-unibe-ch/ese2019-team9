@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProductDetailsPage } from './product-details.page';
 import { HeaderModule } from 'src/app/core/header.module';
+import {ProductReviewComponent} from "./product-review/product-review.component";
+import {SharedModule} from "../../shared/shared.module";
 
 const routes: Routes = [
   {  path: '',  component: ProductDetailsPage },
@@ -14,13 +16,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    HeaderModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [ProductDetailsPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        HeaderModule,
+        RouterModule.forChild(routes),
+        SharedModule
+    ],
+    declarations: [ProductDetailsPage, ProductReviewComponent]
 })
 export class ProductDetailsPageModule {}
