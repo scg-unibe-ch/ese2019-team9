@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-carousel-item',
@@ -15,9 +14,7 @@ export class CarouselItemComponent implements OnInit {
 
   completeLink: string;
 
-  constructor(
-      private router: Router
-  ) { }
+  constructor() { }
 
   ngOnInit() {
     if (this.slug) {

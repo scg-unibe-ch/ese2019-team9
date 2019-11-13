@@ -1,6 +1,9 @@
-<span *ngFor="let rating of ' '.repeat(rating).split(''), let x = index">
+<span *ngFor="let rating of ' '.repeat(flooredRating - (flooredRating % 1)).split(''), let x = index">
   <ion-icon class="rating" name="star"></ion-icon>
 </span>
-<span *ngFor="let rating of ' '.repeat(5 - rating).split(''), let x = index">
+<span *ngIf="!((flooredRating % 1) === 0)">
+  <ion-icon class="rating" name="star-half"></ion-icon>
+</span>
+<span *ngFor="let rating of ' '.repeat(5 - ceiledRating).split(''), let x = index">
   <ion-icon class="rating" name="star-outline"></ion-icon>
 </span>
