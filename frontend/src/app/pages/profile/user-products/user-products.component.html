@@ -1,7 +1,3 @@
-<ion-card>
-  <ion-card-content>
-    <span *ngFor="let product of products">
-      <app-user-products-information [product]="product"></app-user-products-information>
-    </span>
-  </ion-card-content>
-</ion-card>
+<span *ngFor="let product of products">
+  <app-user-products-information [product]="product" (reloadEvent)="reloadProducts($event)" ></app-user-products-information>
+</span>

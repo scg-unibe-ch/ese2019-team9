@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const Category = require('../models/category');
 const Product = require('../models/product');
+const Review = require('../models/review');
 const Promise = require('bluebird');
+
 
 /**
  * Return a json object containing all categories in the database
@@ -11,53 +13,86 @@ const Promise = require('bluebird');
  exports.getCategories = (req, res, next) => {
     let cat = {};
     
-    try {
-        Category.find({ parent:'' })
-        .select("-__v")
-        .exec()
-        .then(async docs => {
-            const categories = await Promise.map(docs, async doc => {
-                    const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
-                    const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
-                    const subsWithImages = await Promise.map(subs, async sub => {
-                        const absolutePath = !sub.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + sub.image;
-                        return {
-                            _id:sub._id,
-                            name:sub.name,
-                            image:absolutePath,
-                            slug:sub.slug
-                        }
-                    });
-
-
-                    return {
-                        _id:doc._id,
-                        name:doc.name,
-                        slug:doc.slug,
-                        subcategories:subsWithImages,
-                        image:imagePath,
-                    }
-            });
-            
-            return res.status(200).json(categories);
-        }).catch(err => {
-            res.status(500).json(err.message);
-        });
-    } catch (err) {
+    Category.find({ parent:null })
+    .populate("subcategories")
+    .select("-__v")
+    .then(async docs => {
+        return res.status(200).json(docs);
+    }).catch(err => {
         res.status(500).json(err.message);
-    }
+    });
+}
+
+/**
+ * Get detailed information about a single category
+ * Only display verified products to non admins
+ */
+exports.getSingleCategory = (req, res, next) => {
+    const populate = req.userData.admin == true ? { 
+        path:'products', 
+        populate:{ 
+            path:'seller', 
+            model:'User', 
+            select:'name image'
+        }} : { 
+            path:'products', 
+            match:{ 
+                verified:true 
+            }, populate: { 
+                path:'seller', 
+                model:'User', 
+                select:'name image'
+            }};
+    Category.findOne({ slug:req.params.slug })
+    .populate("subcategories", "-__v -id")
+    .populate(populate)
+    .select("-__v")
+    .exec()
+    .then(async doc => {
+        const products = await Promise.map(doc.products, async prod => {
+            const avg = await Review.aggregate([
+                { $match: { product:prod._id }},
+                { $group: { _id: null, rating: { $avg:"$rating" } } }
+            ]);
+
+            const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+            const rating = !avg[0] ? 0 : avg[0].rating;
+
+            return {
+                name:prod.name,
+                _id:prod._id,
+                description:prod.description,
+                image:imagePath,
+                rating:rating,
+                seller:prod.seller
+            };
+        });
+
+        return res.status(200).json([{
+            _id:doc.id,
+            name:doc.name,
+            parent:doc.parent,
+            image:doc.image,
+            subcategories:doc.subcategories,
+            products:products
+        }]);
+    }).catch(err => {
+        res.status(500).json(err.message);
+    });
 }
 
 /**
  * Check if category with same name/slug already exists and if not add the new category to database
  * If category has a parent, update the subcategories array of the parent
  * 
- * @param req.body has to contain slug, name and parentSlug
+ * @param req.body has to contain slug, image and name (optional parentId)
  */
 exports.addCategory = (req, res, next) => {
-    if(!req.body.slug || !req.body.name){
+
+    if(!req.body.slug || !req.body.name || !req.body.image){
+        console.log(req.body);
         return res.status(500).json({
-            message:"Please specify name and slug"
+            message:"Please specify name, image and slug"
         });
     }
     Category.find({ $or: [{ name:req.body.name }, { slug:req.body.slug }] })
@@ -69,20 +104,20 @@ exports.addCategory = (req, res, next) => {
         return category;
     })
     .then(docs => {
-        return Category.find({ slug:req.body.parentSlug });
+        return Category.findOne({ slug:req.body.parentSlug });
     })
-    .then( parent => {
-        console.log(parent);
-        const path = parent.length == 0 ? '' : parent[0].path + '/' + parent[0].slug;
-        const parentSlug = parent.length == 0 ? '' : parent[0].slug;
+    .then( doc => {
+        if(req.body.parentId && !doc)
+            throw new Error("Wrong parent category id");
+
+        const parent = !doc ? null : doc._id;
 
         const newCategory = new Category({
             _id:new mongoose.Types.ObjectId(),
             slug:req.body.slug,
             name:req.body.name,
-            path:path,
-            parent:parentSlug,
-            image:req.file.path
+            parent:parent,
+            image:req.body.image
         });
 
         return newCategory.save();
@@ -94,12 +129,8 @@ exports.addCategory = (req, res, next) => {
                 name:result.name,
                 slug:result.slug,
                 _id:result.id,
-                path:result.path,
                 parent:result.parent,
-                request:{
-                    type:"GET",
-                    url:process.env.PUBLIC_DOMAIN_API + "/category/" + result._id
-                }
+                image:result.image
             }
         });
     })
@@ -116,10 +147,10 @@ exports.addCategory = (req, res, next) => {
  * If category has subcategories, delete subcategories too
  */
 exports.deleteCategory = (req, res, next) => {
-    //first delete all products of that category
+    //First delete all products of that category
     Product.deleteMany({ category:req.params.categoryId })
     .then(result => {
-        return Category.deleteOne({ _id:req.params.categoryId });
+        return Category.findOneAndDelete({ _id:req.params.categoryId });
     })
     .then(result => {
         res.status(200).json({
@@ -140,11 +171,8 @@ exports.updateCategory = (req, res, next) => {
     let updateFields = {};
 
     for(const [propName, value] of Object.entries(req.body)) {
-        updateFields[propName] = value;
+        updateFields[propName] = propName == 'parent' && value == '' ? null : value;
     }
-
-    if(req.file.path)
-        updateFields['image'] = req.file.path;
 
     Category.update({ _id:req.params.categoryId }, { $set:updateFields })
     .exec()
@@ -157,51 +185,4 @@ exports.updateCategory = (req, res, next) => {
             error:err
         });
     });
-}
-
-/**
- * Get detailed information about a single category
- */
-exports.getSingleCategory = (req, res, next) => {
-    try {
-        Category.find({ slug:req.params.slug })
-        .select("-__v")
-        .exec()
-        .then(async docs => {
-            const categories = await Promise.map(docs, async doc => {
-                    const subs = await Category.find( { parent: new RegExp("^" + doc.slug + "$")} );
-                    const products = await Product.find( { category:doc._id });
-                    const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
-
-                    const subsWithImages = await Promise.map(subs, async sub => {
-                        const absolutePath = !sub.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + sub.image;
-                        return {
-                            _id:sub._id,
-                            name:sub.name,
-                            image:absolutePath,
-                            slug:sub.slug
-                        }
-                    });
-
-                    return {
-                        _id:doc._id,
-                        name:doc.name,
-                        slug:doc.slug,
-                        subcategories:subsWithImages,
-                        parent:doc.parent,
-                        image:imagePath,
-                        request: {
-                            type:'GET',
-                            url:process.env.PUBLIC_DOMAIN_API + "/category/" + doc._id
-                        }
-                    }
-            });
-            
-            return res.status(200).json(categories);
-        }).catch(err => {
-            res.status(500).json(err.message);
-        });
-    } catch (err) {
-        res.status(500).json(err.message);
-    }
 }

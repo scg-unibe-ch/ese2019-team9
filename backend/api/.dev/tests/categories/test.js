@@ -9,29 +9,31 @@ const fs = require('fs');
 
 describe('Test categories', ()=>{
     let token;
+    let id;
     before(()=>{
         //make a token
         token = jwt.sign({admin:true},"7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/");
         //add a testcategory
     });
     after(()=>{
-
+        
     });
     it.only('add category', (done)=>{
+        let formdata = {'slug':'testslug','name':'testname','image':'image'};
         request.post('/add')
         .type('form')
         .set('Accept', 'multipart/form-data')
         .set('Authorization','Bearer ' + token)
         .attach('image',fs.readFileSync('./api/.dev/tests/categories/wein.png'), 'wein.png')
         .field('slug','testslug')
-        .field('name','dinimer')
-        .field('parentSlug','/foodbeverage')
-        .then((res) => {
-            assert.equal(res.status, 201);
-            done();
-        })
-        .catch((err) =>{
-            done(err)
+        .field('name','testname')
+        .then((res)=>{
+            try{
+                assert.equal(res.status, 200);
+                done();
+            }catch(err){
+                done(new Error(res.text));
+            }
         })
     });
     it.skip('add subcategory', (done)=>{
@@ -52,6 +54,12 @@ describe('Test categories', ()=>{
         })
     });
     it.skip('delete subcategory', (done) =>{
+        
+    }); 
+    it.skip('bad request image', (done) =>{
+        
+    });
+    it.skip('delete image of subcategory', (done) =>{
         
     });
     it('get all categories', (done)=>{

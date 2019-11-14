@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private auth: AuthService,
+    private authService: AuthService,
     private categoryService: CategoryService
   ) {
     this.initializeApp();
@@ -56,6 +56,10 @@ export class AppComponent implements OnInit {
   subMenuItemClicked(category) {
     this.currentMenuSubcategories = [];
     category.showMenu = false;
+    this.dismissMenu();
+  }
+
+  dismissMenu() {
     this.menu.close();
   }
 }

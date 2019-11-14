@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const browserDetect = require('browser-detect');
+const fs = require('fs');
+const { promisify } = require('util')
+const unlinkAsync = promisify(fs.unlink);
 
 const Email = require('../methods/mail.js');
 const User = require('../models/user');
@@ -212,8 +215,11 @@ exports.updateUser = (req, res, next) => {
             updateFields[propName] = value;
     }
 
-    if(req.file)
+    if(req.file) {
+        if(fs.existsSync(req.file.path))
+            unlinkAsync(req.file.path);
         updateFields['image'] = req.file.path;
+    }
 
     User.update({ _id:id }, { $set: updateFields })
     .exec()
@@ -237,9 +243,11 @@ exports.deleteUser = (req, res, next) => {
             message:'Access denied'
         });
 
-    User.deleteOne({ _id: id })
+    User.findOneAndDelete({ _id: id })
     .exec()
-    .then(result => {
+    .then(async result => {
+        if(fs.existsSync(result.image))
+            await unlinkAsync(result.image);
         res.status(200).json({ message: 'User deleted' });
     })
     .catch(err => {

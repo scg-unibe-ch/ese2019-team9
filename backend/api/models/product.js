@@ -9,8 +9,13 @@ const productSchema = mongoose.Schema({
     seller:{ type:mongoose.Schema.Types.ObjectId, ref:'User', index:true },
     description:{ type:String, required:true },
     location:{ type:String },
-    rating:{ type:Number, default:0 },
     image:{ type:String }
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true }});
+
+productSchema.virtual('reviews', {
+    ref: 'Review',
+    localField: '_id',
+    foreignField: 'product', 
 });
 
 module.exports = mongoose.model('Product', productSchema);
