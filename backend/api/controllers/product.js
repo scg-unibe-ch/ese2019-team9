@@ -62,7 +62,7 @@ exports.getProductById = (req, res, next) => {
     .select("-__v")
     .exec()
     .then(async doc => {
-        if(!doc.verified && doc.seller != req.userData.userId && req.userData.admin != false)
+        if(!doc.verified && doc.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access denied");
 
         const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;

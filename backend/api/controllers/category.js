@@ -90,7 +90,6 @@ exports.getSingleCategory = (req, res, next) => {
 exports.addCategory = (req, res, next) => {
 
     if(!req.body.slug || !req.body.name || !req.body.image){
-        console.log(req.body);
         return res.status(500).json({
             message:"Please specify name, image and slug"
         });
@@ -98,8 +97,10 @@ exports.addCategory = (req, res, next) => {
     Category.find({ $or: [{ name:req.body.name }, { slug:req.body.slug }] })
     .exec()
     .then(category => {
-        if(category.length > 0)
+        if(category.length > 0){
+            console.log(category);
             throw new Error('Category with same name/slug already exists');
+        }
 
         return category;
     })
@@ -136,7 +137,7 @@ exports.addCategory = (req, res, next) => {
     })
     .catch(err => {
         res.status(500).json({
-            error:err
+            error: err.message
         });
     });;
 }

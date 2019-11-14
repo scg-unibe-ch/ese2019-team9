@@ -10,57 +10,69 @@ const fs = require('fs');
 describe('Test categories', ()=>{
     let token;
     let id;
+    let subid;
+
     before(()=>{
-        //make a token
+        //make admin token
         token = jwt.sign({admin:true},"7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/");
-        //add a testcategory
     });
-    after(()=>{
-        
-    });
-    it.only('add category', (done)=>{
+    it('add category', (done)=>{
         let formdata = {'slug':'testslug','name':'testname','image':'image'};
         request.post('/add')
-        .type('form')
-        .set('Accept', 'multipart/form-data')
         .set('Authorization','Bearer ' + token)
-        .attach('image',fs.readFileSync('./api/.dev/tests/categories/wein.png'), 'wein.png')
-        .field('slug','testslug')
-        .field('name','testname')
+        .send(formdata)
         .then((res)=>{
-            try{
-                assert.equal(res.status, 200);
-                done();
-            }catch(err){
-                done(new Error(res.text));
-            }
-        })
-    });
-    it.skip('add subcategory', (done)=>{
-        request.post('/add')
-        .type('form')
-        .set('Accept', 'multipart/form-data')
-        .set('Authorization','Bearer ' + token)
-        .attach('image',fs.readFileSync('./api/.dev/tests/categories/wein.png'), 'wein.png')
-        .field('slug','testslug')
-        .field('name','dinimer')
-        .field('parentSlug','foodbeverage')
-        .then((res) => {
             assert.equal(res.status, 201);
-            done();
+            assert.isObject(res.body);
+            assert.isDefined(res.body.createdCategory._id);
+            id = res.body.createdCategory._id;
+            request.get('/' + 'testslug')
+            .then((res) => {
+                assert.isDefined(res.body);
+                assert.isArray(res.body);
+                assert.lengthOf(res.body,1);
+                assert.hasAllKeys(res.body[0], ['subcategories','image','parent','_id','name','products']);
+                done();
+            }).catch((err) =>{
+                done(err);
+            });
         })
-        .catch((err) =>{
-            done(err)
+        .catch((err)=>{
+            done(err);
+        });
+    });
+    /**
+     * this test depends on 'add category' test since, we will need this category to add a subcategory to it. 
+     */
+    it('add subcategory', (done)=>{
+        let subform = {'name':'subtestname','parentId': id, 'image':'subtestimage','parentSlug':'testslug','slug':'subtestslug'};
+        request.post('/add')
+        .set('authorization', 'B ' + token)
+        .send(subform)
+        .then((res) => {
+            assert.equal(res.status, 201, 'should have added new category');
+            assert.isDefined(res.body.createdCategory);
+            assert.hasAllKeys(res.body.createdCategory, ['slug','_id','name','parent','image']);//should probably be parentId or similar
+            assert.isDefined(res.body.createdCategory._id);
+            assert.equal(res.body.createdCategory.slug, 'subtestslug');
+            subid = res.body.createdCategory._id;
+
+            request.get('/' + 'testslug')
+            .then((res) => {
+                assert.equal(res.status, 200, 'should get new subcategory');
+                assert.isArray(res.body[0].subcategories);
+                assert.lengthOf(res.body[0].subcategories, 1);
+                let subcat = res.body[0].subcategories[0];
+                assert.hasAllKeys(subcat, ['slug','id','_id','name','parent','image']);
+                assert.equal(subcat.name, 'subtestname');
+                done();
+            }).catch((err) => {
+                done(err);
+            });
         })
-    });
-    it.skip('delete subcategory', (done) =>{
-        
-    }); 
-    it.skip('bad request image', (done) =>{
-        
-    });
-    it.skip('delete image of subcategory', (done) =>{
-        
+        .catch((err)=>{
+            done(err);
+        });
     });
     it('get all categories', (done)=>{
         request.get('/')
@@ -80,9 +92,8 @@ describe('Test categories', ()=>{
             assert.equal(res.status, 200, 'should work');
             assert.isArray(res.body);
             assert.hasAllKeys(res.body[0], [
-                '_id','name','slug','subcategories','parent','request']);
+                'name','subcategories','_id','products']);
             assert.isArray(res.body[0].subcategories);
-            assert.isObject(res.body[0].request);
             assert.isAbove(res.body.length, 0, 'should contain more than zero categories');
             for(let i = 0; i < res.body.length; i++){
                 assert.isObject(res.body[0].subcategories[i]);
@@ -93,10 +104,52 @@ describe('Test categories', ()=>{
             done(err);
         });
     });
-    it.skip('delete single category',(done)=>{
+    it('change category', (done)=>{
+        request.patch('/' + id)
+        .set('authorization', 'b ' + token)
+        .send({
+            'name':'newtestslug'
+        })
+        .then((res) =>{ 
+            assert.equal(res.status, 200);
 
+            request.get('/' + 'testslug')
+            .then((res)=>{
+                assert.equal(res.status, 200);
+                assert.equal(res.body[0].name, 'newtestslug');
+                done();
+            }).catch((err) =>{
+                done(err);
+            })
+        })
+        .catch((err) => {
+            done(err);
+        });
     });
-    it.skip('change category', (done)=>{
-
-    })
+    it('delete subcategory', (done) =>{
+        request.delete('/' + subid)
+        .set('authorization', 'Bearer ' + token)
+        .then((res) =>{
+            assert.equal(res.status, 200);
+            request.get('/' + 'subtestslug')
+            .then((res) =>{
+                assert.equal(res.status, 500);
+                done();
+            }).catch((err) =>{
+                done(err);
+            })
+        }).catch(err=>{
+            done(err);
+        });
+    }); 
+    it('delete category', (done)=>{
+        request.delete('/' + id)
+        .set('authorization', 'Bearer ' + token)
+        .then((res) =>{
+            assert.equal(res.status, 200);
+            done();
+        }).catch(err=>{
+            done(err);
+        });
+    });
 })
