@@ -1,0 +1,28 @@
+<ion-card *ngIf="user" >
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        Name: {{ user.name }}
+      </ion-col>
+      <ion-col>
+        <app-rating class="ion-float-end" [rating]="review.rating"></app-rating>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        Email: {{ user.email }}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        Comment
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col *ngIf="review.comment">
+        <ng-container *ngIf="review.comment"> {{ review.comment }}</ng-container>
+        <ng-container *ngIf="!(review.comment)"> The review does not have a comment.</ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>
