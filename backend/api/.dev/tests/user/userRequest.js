@@ -120,6 +120,7 @@ describe("Test requests for userId", () =>{
            done(err);
        });
    });
+   
    it('change fields', (done)=>{
        request.patch('/' + user.id)
        .set('Content-Type','application/json')

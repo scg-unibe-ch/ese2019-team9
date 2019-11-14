@@ -5,40 +5,80 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const request = chai.request(app).keepOpen();
 const assert = chai.assert;
+const fs = require('fs');
 
 describe('Test categories', ()=>{
     let token;
-    before(()=>{
-        //make a token
-        token = jwt.sign({admin:true},"7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/");
-        //add a testcategory
-    });
-    after(()=>{
+    let id;
+    let subid;
 
+    before(()=>{
+        //make admin token
+        token = jwt.sign({admin:true},"7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/");
     });
     it('add category', (done)=>{
+        let formdata = {'slug':'testslug','name':'testname','image':'image'};
         request.post('/add')
-        .set('Content-Type', 'application/json')
-        .set('Authorization', 'Bearer ' + token)
-        .send({slug:'üsewiiisch', name:'nogruusig'})
-        .attach('image/png',null, 'wein.png')
-        .then((res) =>{
-            assert.equal(res.status, 200, 'adding should work');
-            //check if category is added
-            done();
+        .set('Authorization','Bearer ' + token)
+        .send(formdata)
+        .then((res)=>{
+            assert.equal(res.status, 201);
+            assert.isObject(res.body);
+            assert.isDefined(res.body.createdCategory._id);
+            id = res.body.createdCategory._id;
+            request.get('/' + 'testslug')
+            .then((res) => {
+                assert.isDefined(res.body);
+                assert.isArray(res.body);
+                assert.lengthOf(res.body,1);
+                assert.hasAllKeys(res.body[0], ['subcategories','image','parent','_id','name','products']);
+                done();
+            }).catch((err) =>{
+                done(err);
+            });
         })
         .catch((err)=>{
             done(err);
         });
     });
-    it.skip('add subcategory', (done)=>{
+    /**
+     * this test depends on 'add category' test since, we will need this category to add a subcategory to it. 
+     */
+    it('add subcategory', (done)=>{
+        let subform = {'name':'subtestname','parentId': id, 'image':'subtestimage','parentSlug':'testslug','slug':'subtestslug'};
+        request.post('/add')
+        .set('authorization', 'B ' + token)
+        .send(subform)
+        .then((res) => {
+            assert.equal(res.status, 201, 'should have added new category');
+            assert.isDefined(res.body.createdCategory);
+            assert.hasAllKeys(res.body.createdCategory, ['slug','_id','name','parent','image']);//should probably be parentId or similar
+            assert.isDefined(res.body.createdCategory._id);
+            assert.equal(res.body.createdCategory.slug, 'subtestslug');
+            subid = res.body.createdCategory._id;
 
+            request.get('/' + 'testslug')
+            .then((res) => {
+                assert.equal(res.status, 200, 'should get new subcategory');
+                assert.isArray(res.body[0].subcategories);
+                assert.lengthOf(res.body[0].subcategories, 1);
+                let subcat = res.body[0].subcategories[0];
+                assert.hasAllKeys(subcat, ['slug','id','_id','name','parent','image']);
+                assert.equal(subcat.name, 'subtestname');
+                done();
+            }).catch((err) => {
+                done(err);
+            });
+        })
+        .catch((err)=>{
+            done(err);
+        });
     });
     it('get all categories', (done)=>{
         request.get('/')
         .then((res) =>{
-            assert.equal(res.status,200,'should work');
-            assert.hasAnyKeys(res.body, ['count','category']);
+            assert.equal(res.status, 200,'should work');
+            assert.isArray(res.body);
             done();
         })
         .catch((err) => {
@@ -46,13 +86,17 @@ describe('Test categories', ()=>{
         });
     });
     it('get single category', (done)=>{
-        request.get('/' + 'foodbeverage')
+        const cat = 'foodbeverage';
+        request.get('/' + cat)
         .then((res) =>{
             assert.equal(res.status, 200, 'should work');
-            assert.hasAllKeys(res.body, ['count','categories']);
-            assert.isAbove(res.body.categories.length, 0, 'should contain more than zero categories');
-            for(let i = 0; i < res.body.categories.length; i++){
-                assert.equal(res.body.categories[i].slug, 'foodbeverage');
+            assert.isArray(res.body);
+            assert.hasAllKeys(res.body[0], [
+                'name','subcategories','_id','products']);
+            assert.isArray(res.body[0].subcategories);
+            assert.isAbove(res.body.length, 0, 'should contain more than zero categories');
+            for(let i = 0; i < res.body.length; i++){
+                assert.isObject(res.body[0].subcategories[i]);
             }
             done();
         })
@@ -60,10 +104,52 @@ describe('Test categories', ()=>{
             done(err);
         });
     });
-    it.skip('delete single category',(done)=>{
+    it('change category', (done)=>{
+        request.patch('/' + id)
+        .set('authorization', 'b ' + token)
+        .send({
+            'name':'newtestslug'
+        })
+        .then((res) =>{ 
+            assert.equal(res.status, 200);
 
+            request.get('/' + 'testslug')
+            .then((res)=>{
+                assert.equal(res.status, 200);
+                assert.equal(res.body[0].name, 'newtestslug');
+                done();
+            }).catch((err) =>{
+                done(err);
+            })
+        })
+        .catch((err) => {
+            done(err);
+        });
     });
-    it.skip('change category', (done)=>{
-
-    })
+    it('delete subcategory', (done) =>{
+        request.delete('/' + subid)
+        .set('authorization', 'Bearer ' + token)
+        .then((res) =>{
+            assert.equal(res.status, 200);
+            request.get('/' + 'subtestslug')
+            .then((res) =>{
+                assert.equal(res.status, 500);
+                done();
+            }).catch((err) =>{
+                done(err);
+            })
+        }).catch(err=>{
+            done(err);
+        });
+    }); 
+    it('delete category', (done)=>{
+        request.delete('/' + id)
+        .set('authorization', 'Bearer ' + token)
+        .then((res) =>{
+            assert.equal(res.status, 200);
+            done();
+        }).catch(err=>{
+            done(err);
+        });
+    });
 })
