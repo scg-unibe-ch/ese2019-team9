@@ -26,13 +26,15 @@ export class ProgressIndicatorService {
   
   async presentLoading(message: string){
     const loading = await this.loadingController.create({
-      message: message,
-      backdropDismiss: true
+      message: '<img class="custom-spinner" src="../../../assets/images/logo.png">' + message,
+      backdropDismiss: true,
+      spinner: null,
+      cssClass: "loadingSpinner"
     });
     await loading.present();
   }
 
   dismissLoadingIndicator() {
-    this.loadingController.dismiss();
+    // this.loadingController.dismiss();
   }
 }

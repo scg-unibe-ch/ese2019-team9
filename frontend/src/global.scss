@@ -149,6 +149,22 @@
   padding-top: 1px;
 }
 
+.custom-spinner{
+  width: 100px;
+  height: auto;
+  animation: spin 2s infinite linear;
+  display: block;
+  padding: 20px;
+  transform-origin: 60% 40%;
+}
+
+@keyframes spin {
+  from {-webkit-transform: rotate(0deg);
+    transform: rotate(0deg);}
+  to { -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);}
+}
+
 @media only screen and (max-device-width: 768px) {
   .popover-style .popover-content { min-width: 250px; }
 }
