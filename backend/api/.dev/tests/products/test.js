@@ -9,7 +9,7 @@ const request = chai.request(app).keepOpen();
 const catrequest = chai.request(catapp).keepOpen();
 const assert = chai.assert;
 
-describe.only('Test products', ()=>{
+describe('Test products', ()=>{
     let token;
     let id;
     let catid;
