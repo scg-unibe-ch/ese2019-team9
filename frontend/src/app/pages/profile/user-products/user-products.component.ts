@@ -11,7 +11,7 @@ import {ProgressIndicatorService} from '../../../core/services/progressIndicator
 export class UserProductsComponent implements OnInit {
   userId;
   products = [];
-  valuesToHide = ['_id', 'id', 'category', 'seller', 'reviews', 'verified', 'image', 'rating'];
+  valuesToHide = ['_id', 'id', 'category', 'seller', 'reviews', 'verified', 'image'];
   additionalValues = ['category', 'verified', 'rating'];
 
   constructor(
