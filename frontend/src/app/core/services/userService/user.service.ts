@@ -27,8 +27,8 @@ export class UserService {
     body = JSON.parse(body);
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.patch(this.productsEndpoint+`/${id}`, body, {headers: headers});
-	}
+    return this.httpClient.patch(this.productsEndpoint +`/${id}`, body, {headers: headers});
+  }
 
   getSingleUser(id) {
     const token = this.authService.getToken();

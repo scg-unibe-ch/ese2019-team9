@@ -1,27 +1,49 @@
 <ion-card>
-	<ion-card-header>
-			<ion-avatar>
-					<img [src]="user.image ? user.image : 'https://api.adorable.io/avatars/128/'+ user._id">
-				</ion-avatar>
-		<ion-card-title>{{ user.email }}</ion-card-title>
-	</ion-card-header>
-	<ion-card-content>
-		<ion-grid #grid>
-			<ion-row class="row" *ngFor="let key of userData">
-				<ion-col>{{ getKeyString(key) }}</ion-col>
-				<ion-col>{{ getValueString(key) }} </ion-col>
-				<ion-col *ngIf="changeable" size="1">
-					<ion-icon class="cursor-pointer" name="create" (click)=onClickEdit()></ion-icon>
-				</ion-col>
-				<ion-col *ngIf="changeable" class="hidden">
-					<ion-input [value]="user[key]" (ionChange)="onChangedInput()"></ion-input>
-				</ion-col>
-				<ion-col *ngIf="changeable" class="hidden" size="1">
-						<ion-icon class="cursor-pointer" name="save" (click)=onClickSave()></ion-icon>
-				</ion-col>
-				<ion-col class="hidden"size="0">{{key}}</ion-col>
-			</ion-row>
-		</ion-grid>
-		<ion-button #updateButton color="warning" class="hidden ion-float-right" (click)="onClickSave()">Update</ion-button>
-	</ion-card-content>
+    <ion-card-header>
+        <ion-grid>
+            <ion-row>
+                <ion-avatar>
+                    <img [src]="profileItem.image ? profileItem.image : 'https://api.adorable.io/avatars/128/'+ profileItem._id">
+                </ion-avatar>
+                <ion-button *ngIf="typeOfProfileItem === typeOfProduct" class="greyButton deleteProductButton"
+                            color="danger" (click)="onClickDeleteProduct(profileItem._id)">
+                    <ion-icon name="close"></ion-icon>
+                    Delete
+                </ion-button>
+            </ion-row>
+            <ion-row>
+                <ion-card-title *ngIf="typeOfProfileItem === typeOfUser">{{ profileItem.email }}</ion-card-title>
+                <ion-card-title *ngIf="typeOfProfileItem === typeOfProduct">{{ profileItem.name }}</ion-card-title>
+            </ion-row>
+        </ion-grid>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid #grid>
+            <ion-row class="row" *ngFor="let key of profileItemData">
+                <ion-col>{{ getKeyString(key) }}</ion-col>
+                <ion-col>{{ getValueString(key) }} </ion-col>
+                <ion-col *ngIf="changeable" size="1">
+                    <ion-icon class="cursor-pointer" name="create" (click)=onClickEdit()></ion-icon>
+                </ion-col>
+                <ion-col *ngIf="changeable" class="hidden">
+                    <ion-input [value]="profileItem[key]" (ionChange)="onChangedInput()"></ion-input>
+                </ion-col>
+                <ion-col *ngIf="changeable" class="hidden" size="1">
+                    <ion-icon class="cursor-pointer" name="save" (click)=onClickSave()></ion-icon>
+                </ion-col>
+                <ion-col class="hidden" size="0">{{key}}</ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-grid *ngIf="additionalValues">
+            <ion-row class="additionalInformation"  > Additional information</ion-row>
+            <ion-row class="row" *ngFor="let key of additionalInformation">
+                <ion-col> {{ getKeyString(key)}} </ion-col>
+                <ion-col *ngIf="!(getKeyString(key) === 'Category')"> {{getValueString(key)}}</ion-col>
+                <ion-col *ngIf="getKeyString(key) === 'Category'"> {{getCategoryValue(key)}}</ion-col>
+                <ion-col size="1"></ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-button #updateButton color="warning" class="hidden ion-float-right" (click)="onClickSave()">Update
+        </ion-button>
+    </ion-card-content>
 </ion-card>

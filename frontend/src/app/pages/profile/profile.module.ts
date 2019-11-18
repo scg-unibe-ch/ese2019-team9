@@ -10,7 +10,6 @@ import {HeaderModule} from '../../core/header.module';
 import {SharedModule} from '../../shared/shared.module';
 import {UserInformationComponent} from './user-information/user-information.component';
 import {UserProductsComponent} from './user-products/user-products.component';
-import {UserProductsInformationComponent} from "./user-products/user-products-information/user-products-information.component";
 
 const routes: Routes = [
   {
@@ -28,6 +27,6 @@ const routes: Routes = [
     HeaderModule,
     SharedModule,
   ],
-    declarations: [ProfilePage, UserInformationComponent, UserProductsComponent, UserProductsInformationComponent]
+    declarations: [ProfilePage, UserInformationComponent, UserProductsComponent]
 })
 export class ProfilePageModule {}

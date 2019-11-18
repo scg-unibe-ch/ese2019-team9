@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, ViewChild, Output, EventEmitter} from '@angular/core';
 import {UserService} from 'src/app/core/services/userService/user.service';
 import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
+import {ProductService} from '../../../core/services/productService/product.service';
 
 @Component({
     selector: 'app-profile-informations',
@@ -10,9 +11,12 @@ import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorS
 export class ProfileInformationsComponent implements OnInit {
     @ViewChild('grid', {static: false}) grid;
     @ViewChild('updateButton', {static: false}) updateButton;
-    @Input() user;
+    @Output() reloadEvent = new EventEmitter<string>();
+    @Input() profileItem;
+    @Input() additionalValues?;
     @Input() changeable: boolean = false;
     @Input() valuesToHide: [];
+    @Input('type') typeOfProfileItem;
     hasChanged = false;
     KEYSTRINGS_COLUMN = 0;
     VALUES_COLUMN = 1;
@@ -37,15 +41,25 @@ export class ProfileInformationsComponent implements OnInit {
         [false, 'No']
     ]);
 
-    userData = [];
+    profileItemData = [];
+    additionalInformation = [];
+    typeOfUser = 'user';
+    typeOfProduct = 'product';
 
-    constructor(private userService: UserService, private progressIndicatorService: ProgressIndicatorService) {
+    constructor(
+        private userService: UserService,
+        private productService: ProductService,
+        private progressIndicatorService: ProgressIndicatorService) {
     }
 
     ngOnInit() {
         // @ts-ignore
-        this.userData = Object.keys(this.user).filter(value => this.valuesToHide.indexOf(value) === -1);
-        this.userData.sort();
+        this.profileItemData = Object.keys(this.profileItem).filter(value => this.valuesToHide.indexOf(value) === -1);
+        this.profileItemData.sort();
+        if (this.additionalValues) {
+            this.additionalInformation = Object.keys(this.profileItem).filter(value => this.additionalValues.indexOf(value) !== -1);
+            this.additionalInformation.sort();
+        }
     }
 
     getKeyString(key: string): string {
@@ -53,8 +67,22 @@ export class ProfileInformationsComponent implements OnInit {
     }
 
     getValueString(key: string) {
-        const value = this.user[key.toString()];
+        const value = this.profileItem[key.toString()];
         return (typeof value === 'boolean') ? this.valuesToName.get(value) : value;
+    }
+
+    getCategoryValue(key: string) {
+        return this.profileItem[key].name;
+    }
+
+    onClickDeleteProduct(productId: string) {
+        this.productService.deleteProduct(productId).subscribe(data => {
+            this.progressIndicatorService.presentToast('Product successfully deleted', 2000, 'success');
+            this.reloadEvent.next('reload');
+        }, err => {
+            console.log(err);
+            this.progressIndicatorService.presentToast('Product could not be deleted', 2000, 'danger');
+        });
     }
 
     onClickEdit() {
@@ -78,22 +106,38 @@ export class ProfileInformationsComponent implements OnInit {
     onClickSave() {
         const body = this.getAllChangedRows();
         this.progressIndicatorService.presentLoading('Updating...');
-        this.userService.updateUser(this.user._id, body).subscribe((data) => {
-            this.displaySuccessSignifiers();
-            this.updateComponent();
-        }, (err) => {
-            this.displayFailureSignifiers();
-            console.log(err);
-        });
+        if (this.typeOfProfileItem === this.typeOfUser) {
+            this.userService.updateUser(this.profileItem._id, body).subscribe((data) => {
+                this.displaySuccessSignifiers(this.typeOfProfileItem);
+                this.updateComponent();
+            }, (err) => {
+                this.displayFailureSignifiers(this.typeOfProfileItem);
+                console.log(err);
+            });
+        } else if (this.typeOfProfileItem === this.typeOfProduct) {
+            this.productService.updateProduct(this.profileItem._id, body).subscribe(data => {
+                this.displaySuccessSignifiers(this.typeOfProfileItem);
+                this.updateComponent();
+            }, (err) => {
+                this.displayFailureSignifiers(this.typeOfProfileItem);
+                console.log(err);
+            });
+        }
     }
 
     getAllChangedRows(): string {
         const allRows = this.grid.el.children;
-        let body = `{"userId":"${this.user._id}"`;
+        let body = '';
+        if (this.typeOfProfileItem === this.typeOfUser) {
+            body = `{"userId":"${this.profileItem._id}"`;
+        }
+        if (this.typeOfProfileItem === this.typeOfProduct) {
+            body = `{"productId":"${this.profileItem._id}"`;
+        }
         for (let i = 0; i < allRows.length; i++) {
             const columns = allRows[i].children;
             const key = columns[this.KEYS_COLUMN].innerText.trim();
-            const oldValue = this.user[key];
+            const oldValue = this.profileItem[key];
             const newValue = columns[this.INPUT_COLUMN].firstElementChild.value.trim();
             if (oldValue !== newValue) {
                 body += `,"${key}":"${newValue}"`;
@@ -103,9 +147,9 @@ export class ProfileInformationsComponent implements OnInit {
         return body;
     }
 
-    displaySuccessSignifiers() {
+    displaySuccessSignifiers(typeOfProfileItem: string) {
         this.progressIndicatorService.dismissLoadingIndicator();
-        this.progressIndicatorService.presentToast('User was updated', 2000);
+        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' was updated', 2000);
         this.grid.el.classList.remove('warning');
         this.grid.el.classList.add('success');
         this.updateButton.el.classList.add('hidden');
@@ -114,9 +158,9 @@ export class ProfileInformationsComponent implements OnInit {
         }, 1500);
     }
 
-    displayFailureSignifiers() {
+    displayFailureSignifiers(typeOfProfileItem: string) {
         this.progressIndicatorService.dismissLoadingIndicator();
-        this.progressIndicatorService.presentToast('User could not be updated :(', 2000, 'danger');
+        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' could not be updated :(', 2000, 'danger');
         this.grid.el.classList.remove('warning');
         this.grid.el.classList.add('error');
         setTimeout(() => {
@@ -125,7 +169,7 @@ export class ProfileInformationsComponent implements OnInit {
     }
 
     updateComponent() {
-        this.retrieveNewUserInformation();
+        this.retrieveNewProfileInformation();
         const allRows = this.grid.el.children;
         for (let i = 0; i < allRows.length; i++) {
             allRows[i].children[this.VALUES_COLUMN].classList.remove('hidden');
@@ -135,17 +179,32 @@ export class ProfileInformationsComponent implements OnInit {
         }
     }
 
-    retrieveNewUserInformation() {
-        this.userService.getSingleUser(this.user._id).subscribe(
-            (data) => {
-                this.user = data;
-                // @ts-ignore
-                this.userData = Object.keys(this.user).filter(value => this.valuesToHide.indexOf(value) === -1);
-                this.userData.sort();
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
+    retrieveNewProfileInformation() {
+        if (this.typeOfProfileItem === this.typeOfUser) {
+            this.userService.getSingleUser(this.profileItem._id).subscribe(
+                (data) => {
+                    this.profileItem = data;
+                    // @ts-ignore
+                    this.profileItemData = Object.keys(this.profileItem).filter(value => this.valuesToHide.indexOf(value) === -1);
+                    this.profileItemData.sort();
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        }
+        if (this.typeOfProfileItem === this.typeOfProduct) {
+            this.productService.getSingleProduct(this.profileItem._id).subscribe(
+                (data) => {
+                    this.profileItem = data;
+                    // @ts-ignore
+                    this.profileItemData = Object.keys(this.profileItem).filter(value => this.valuesToHide.indexOf(value) === -1);
+                    this.profileItemData.sort();
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        }
     }
 }
