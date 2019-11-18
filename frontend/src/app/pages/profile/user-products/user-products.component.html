@@ -1,3 +1,5 @@
 <span *ngFor="let product of products">
-  <app-user-products-information [product]="product" (reloadEvent)="reloadProducts($event)" ></app-user-products-information>
+  <app-profile-informations [profileItem]="product" [changeable]="true" [type]="'product'"
+                            [valuesToHide]="valuesToHide"
+                            [additionalValues]="additionalValues" (reloadEvent)="reloadProducts($event)" ></app-profile-informations>
 </span>

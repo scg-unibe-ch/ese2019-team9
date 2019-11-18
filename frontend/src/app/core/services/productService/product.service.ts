@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { AuthService } from '../authService/auth.service';
-import {User} from '../../../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +41,8 @@ export class ProductService {
   getSingleProduct(productId: any) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-		  return this.httpClient.get(this.productsEndpoint + `/${productId}`, {headers: headers})
-	}
+    return this.httpClient.get(this.productsEndpoint + `/${productId}`, {headers: headers})
+  }
 
   addNewProduct(name: string, category: string, price: number) {
     return this.httpClient.post(this.productsEndpoint + '/add', {name, category, price})
@@ -57,6 +55,13 @@ export class ProductService {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
     return this.httpClient.delete(this.productsEndpoint+`/${productId}`, {headers: headers});
+  }
+
+  updateProduct(productId: string, body: string) {
+      body = JSON.parse(body);
+      const token = this.authService.getToken();
+      const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+      return this.httpClient.patch(this.productsEndpoint+`/${productId}`, body, {headers: headers});
   }
 
   verifyProduct(productId: string) {
