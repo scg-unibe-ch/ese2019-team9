@@ -26,7 +26,7 @@
                 </span>
             </ion-list>
             <ion-toolbar class="burgerMenuToolbar">
-                <ion-item *ngIf="authService.isLoggedIn() && authService.isAdmin()" (click)="dismissMenu()"
+                <ion-item class="burgerMenuAdmin" *ngIf="authService.isLoggedIn() && authService.isAdmin()" (click)="dismissMenu()"
                           routerLink="/admin" [routerDirection]="'root'">
                     <ion-icon name="settings" slot="start"></ion-icon>
                     <ion-label>Admin</ion-label>
