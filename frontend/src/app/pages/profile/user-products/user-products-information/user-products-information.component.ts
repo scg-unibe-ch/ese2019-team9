@@ -11,7 +11,7 @@ export class UserProductsInformationComponent implements OnInit {
   @Output() reloadEvent = new EventEmitter<string>();
   @Input() product;
   productKeys = [];
-  valuesToHide = ['seller', '_id', 'image'];
+  valuesToHide = ['seller', '_id', 'id', 'image'];
 
   constructor(
       private productService: ProductService,
@@ -19,6 +19,7 @@ export class UserProductsInformationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.product);
     this.productKeys = Object.keys(this.product).filter(value => this.valuesToHide.indexOf(value) === -1);
   }
 
