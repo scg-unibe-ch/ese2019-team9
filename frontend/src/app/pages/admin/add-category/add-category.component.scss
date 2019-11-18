@@ -1,0 +1,17 @@
+.grid {
+    border-bottom: 1px solid var(--ion-color-dark);
+}
+
+:host ion-button {
+    max-width: 100%;
+}
+
+.image {
+        width: 50%;
+        height: 20rem;
+        max-height: 30vh;
+        border: 2px solid var(--ion-color-primary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}

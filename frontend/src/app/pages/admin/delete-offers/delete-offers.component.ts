@@ -67,7 +67,6 @@ verifyOffer(productId: string) {
 updateProducts(){
   this.progressIndicatorService.presentLoading('Updating Products...');
   this.getAllProducts().then(data => {
-    console.log(data);
     this.listOfAllOffers = data;
     if (this.showVerified) this.listOfOffers = this.listOfAllOffers;
     if (!this.showVerified) this.listOfOffers = this.filter(this.listOfAllOffers);

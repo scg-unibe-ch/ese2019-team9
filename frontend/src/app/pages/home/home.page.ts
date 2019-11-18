@@ -19,7 +19,6 @@ export class HomePage implements OnInit {
 
   loadCategories() {
     this.categoryService.getCategories().subscribe(data => {
-      console.log(data);
       // @ts-ignore
       this.categories = data;
     });

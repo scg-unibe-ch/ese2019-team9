@@ -74,9 +74,7 @@ export class ProductService {
       Object.keys(val).forEach(key => {
           formData.append(key, val[key]);
       });
-      console.log(img);
       formData.append('image', img);
-      console.log(formData);
       return this.httpClient.post(this.addProductsEndpoint, formData, {headers});
   }
 
