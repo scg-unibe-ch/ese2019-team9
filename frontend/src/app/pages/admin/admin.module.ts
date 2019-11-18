@@ -11,6 +11,9 @@ import { AdminPage } from './admin.page';
 import { DeleteOffersComponent } from './delete-offers/delete-offers.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AddCategoryComponent } from './add-category/add-category.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputFormModule } from 'src/app/shared/input-form.module';
 
 const routes: Routes = [
   {
@@ -26,8 +29,10 @@ const routes: Routes = [
     IonicModule,
     HeaderModule,
     SharedModule,
+    InputFormModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AdminPage, DeleteOffersComponent, ManageUsersComponent]
+  declarations: [AdminPage, DeleteOffersComponent, ManageUsersComponent, AddCategoryComponent]
 })
 export class AdminPageModule {}

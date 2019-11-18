@@ -7,20 +7,14 @@
         <ion-segment-button value="1">
             <ion-label>Manage Users</ion-label>
         </ion-segment-button>
+        <ion-segment-button value="2">
+            <ion-label>Add Categories</ion-label>
+        </ion-segment-button>
     </ion-segment>
     </ion-toolbar>
 </ion-header>
 <ion-content>
-
-
-    <!-- Tab 0: Delete Offers -->
-
-        <app-delete-offers *ngIf="selectedTab === 0"></app-delete-offers>
-
-    <!-- End of: Tab 0: Delete Offers -->
-
-    <!-- Tab 1: Manage Users -->
+    <app-delete-offers *ngIf="selectedTab === 0"></app-delete-offers>
     <app-manage-users *ngIf="selectedTab === 1"></app-manage-users>
-
-    <!-- End of: Tab 1: Manage Users -->
+    <app-add-category *ngIf="selectedTab === 2"></app-add-category>
 </ion-content>

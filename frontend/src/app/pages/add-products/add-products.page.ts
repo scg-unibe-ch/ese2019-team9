@@ -88,9 +88,9 @@ export class AddProductsPage implements OnInit {
   }
 
   onSubmitAddProduct() {
-    /*if (this.productForm.invalid) {
+    if (this.productForm.invalid) {
       return;
-    }*/
+    }
     const val = this.productForm.value;
     console.log(val);
     this.productService.addProduct(val, this.imageFile).subscribe(data => {console.log(data); }, error => {console.log(error); });

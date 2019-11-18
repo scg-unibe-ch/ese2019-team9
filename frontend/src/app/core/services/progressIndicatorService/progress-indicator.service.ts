@@ -35,6 +35,6 @@ export class ProgressIndicatorService {
   }
 
   dismissLoadingIndicator() {
-    // this.loadingController.dismiss();
+    this.loadingController.dismiss();
   }
 }
