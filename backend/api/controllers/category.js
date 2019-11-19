@@ -29,7 +29,7 @@ const env = process.env;
                         _id:sub._id,
                         name:sub.name,
                         slug:sub.slug,
-                        image:!sub.image ? process.env.FILE_STORAGE + "/rsc/no-image.jpg" : process.env.PUBLIC_DOMAIN_API + "/" + sub.image
+                        image:!sub.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + sub.image
                     }
                 }),
                 slug:doc.slug
