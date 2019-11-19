@@ -190,6 +190,31 @@ describe.only('Test products', ()=>{
             done(err);
         });
     })
+    it('set revise flag, verified false', (done)=>{
+        request.patch('/' + id)
+        .set('authorization', 'B ' + token)
+        .send({toRevise: true})
+        .then((res) => {
+            try{
+                assert.equal(res.status, 200, 'should update product');
+                request.get('/' + id)
+                .set('authorization', 'B ' + token)
+                .then((res) => {
+                    assert.equal(res.status,200, 'should return updated product');
+                    assert.isTrue(res.body.toRevise);
+                    assert.isFalse(res.body.verified);
+                    done();
+                }).catch((err) =>{
+                    done(err);
+                });
+            }catch(err){
+                done(new Error(res.text));
+            }
+        })
+        .catch((err)=>{
+            done(err);
+        });
+    });
     it('get prod from subcategroy', (done)=>{
         catrequest.get('/' + subcatslug)
         .then((res) => {
