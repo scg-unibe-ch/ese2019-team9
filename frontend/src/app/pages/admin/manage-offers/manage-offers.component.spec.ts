@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteOffersComponent } from './delete-offers.component';
+import { ManageOffersComponent } from './manage-offers.component';
 
 describe('DeleteOffersComponent', () => {
-  let component: DeleteOffersComponent;
-  let fixture: ComponentFixture<DeleteOffersComponent>;
+  let component: ManageOffersComponent;
+  let fixture: ComponentFixture<ManageOffersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeleteOffersComponent ],
+      declarations: [ ManageOffersComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeleteOffersComponent);
+    fixture = TestBed.createComponent(ManageOffersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
