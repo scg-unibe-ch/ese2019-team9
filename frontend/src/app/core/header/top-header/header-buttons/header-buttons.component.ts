@@ -16,10 +16,10 @@ import { AuthService } from 'src/app/core/services/authService/auth.service';
  */
 @Component({
   selector: 'app-top-header-end',
-  templateUrl: './top-header-end.component.html',
-  styleUrls: ['./top-header-end.component.scss']
+  templateUrl: './header-buttons.component.html',
+  styleUrls: ['./header-buttons.component.scss']
 })
-export class TopHeaderEndComponent {
+export class HeaderButtonsComponent {
 
   /**
    * Assign new private variables `popoverController` and `authService`
