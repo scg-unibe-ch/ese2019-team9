@@ -43,13 +43,13 @@ module.exports = async (req, res, next) => {
             await request.post({
                 url: process.env.FILE_STORAGE,
                 formData: formData
-            }, function optionalCallback(err, httpResponse, body) {
+            }, async function optionalCallback(err, httpResponse, body) {
                 body = JSON.parse(body);
                 if (err || httpResponse.statusCode != 200) {
                     throw new Error(err || body.message)
                 }
 
-                fs.unlink(req.file.path);
+                await unlinkAsync(req.file.path);
                 req.file = body.filename;
                 next();
             });
