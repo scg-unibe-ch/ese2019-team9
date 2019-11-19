@@ -4,11 +4,11 @@ const jwt = require('jsonwebtoken');
 const browserDetect = require('browser-detect');
 const fs = require('fs');
 const { promisify } = require('util')
-const unlinkAsync = promisify(fs.unlink);
 const env = process.env;
 
-const Email = require('../methods/mail.js');
+const Email = require('../methods/mail');
 const User = require('../models/user');
+const deleteFile = requre('../methods/delete-file');
 
 /**
  * Get user data by id
@@ -217,9 +217,8 @@ exports.updateUser = async (req, res, next) => {
     }
 
     if(req.file) {
-        if(fs.existsSync(req.file.path))
-            await unlinkAsync(req.file.path);
-        updateFields['image'] = req.file.path;
+        deleteFile(req.file);
+        updateFields['image'] = req.file;
     }
 
     User.update({ _id:id }, { $set: updateFields })
@@ -247,8 +246,7 @@ exports.deleteUser = (req, res, next) => {
     User.findOneAndDelete({ _id: id })
     .exec()
     .then(async result => {
-        if(fs.existsSync(result.image))
-            await unlinkAsync(result.image);
+        if(deleteFile(result.image))
         res.status(200).json({ message: 'User deleted' });
     })
     .catch(err => {

@@ -5,7 +5,7 @@ const Review = require('../models/review');
 const Promise = require('bluebird');
 const fs = require('fs');
 const { promisify } = require('util')
-const unlinkAsync = promisify(fs.unlink);
+const deleteFile = require('../methods/delete-file');
 const env = process.env;
 
 /**
@@ -108,6 +108,8 @@ exports.getSingleCategory = (req, res, next) => {
  */
 exports.addCategory = (req, res, next) => {
     if(!req.body.slug || !req.body.name || !req.file) {
+        if(req.file)
+            deleteFile(req.file);
         return res.status(500).json({
             message:"Please specify name, image and slug"
         });
@@ -116,7 +118,8 @@ exports.addCategory = (req, res, next) => {
     .exec()
     .then(category => {
         if(category.length > 0){
-            console.log(category);
+            if(req.file)
+                deleteFile(req.file);
             throw new Error('Category with same name/slug already exists');
         }
 
@@ -126,8 +129,11 @@ exports.addCategory = (req, res, next) => {
         return Category.findOne({ slug:req.body.parentSlug });
     })
     .then( doc => {
-        if(req.body.parentSlug && !doc)
+        if(req.body.parentSlug && !doc) {
+            if(req.file)
+                deleteFile(req.file);
             throw new Error("Wrong parent category slug");
+        }
 
         const parent = !doc ? null : doc._id;
 
@@ -171,7 +177,7 @@ exports.deleteCategory = (req, res, next) => {
     .then(async result => {
         for(let i in result) {
             if(result[i].image)
-                await unlinkAsync(result[i].image);
+                deleteFile(result[i].image);
         }
 
         return Product.deleteMany({ category:req.params.categoryId });
@@ -181,7 +187,7 @@ exports.deleteCategory = (req, res, next) => {
     })
     .then(async result => {
         if(result.image)
-            await unlinkAsync(result.image);
+            deleteFile(result.image);
         res.status(200).json({
             message: "Category deleted"
         });
@@ -204,13 +210,12 @@ exports.updateCategory = (req, res, next) => {
     }
 
     if(req.file) 
-        updateFields["image"] = req.file.path;
-    
+        updateFields["image"] = req.file;
 
     Category.findById(req.params.categoryId)
     .then(async result => {
         if(result.image && req.file)
-            await unlinkAsync(result.image);
+            deleteFile(req.file);
         return Category.update({ _id:req.params.categoryId }, { $set:updateFields });
     })
     .then(result => {

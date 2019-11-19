@@ -1,10 +1,8 @@
 const request = require('request');
 
-
-/*
-
-      */
-
+/**
+ * Deletes a file on the file storage server
+ */
 module.exports = (filename) => {
     request({
         method: 'DELETE',

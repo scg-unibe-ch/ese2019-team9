@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 const { promisify } = require('util');
-const unlinkAsync = promisify(fs.unlink);
 
 const env = process.env;
 
@@ -10,6 +9,7 @@ const Category = require('../models/category');
 const User = require('../models/user');
 const Review = require('../models/review');
 const Promise = require('bluebird');
+const deleteFile = requre('../methods/delete-file');
 
 /**
  * Get all products
@@ -55,12 +55,7 @@ exports.getProducts = (req, res, next) => {
 }
 
 /**
-<<<<<<< HEAD
  * Get a single product by given id
-=======
- * 
- * Get product by id
->>>>>>> 1782349bf7d0a849be455af31b7eaadd63303649
  */
 exports.getSingleProduct = (req, res, next) => {
     Product.findById(req.params.productId)
@@ -70,14 +65,10 @@ exports.getSingleProduct = (req, res, next) => {
     .select("-__v")
     .exec()
     .then(async doc => {
-<<<<<<< HEAD
         if(!doc)
             throw new Error("Product doesn't exist");
 
         if(!doc.verified && doc.seller != req.userData.userId && req.userData.admin != false)
-=======
-        if(!doc.verified && doc.seller != req.userData.userId && !req.userData.admin)
->>>>>>> 1782349bf7d0a849be455af31b7eaadd63303649
             throw new Error("Access denied");
 
         const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + doc.image;
@@ -125,7 +116,7 @@ exports.updateProduct = (req, res, next) => {
     }
 
     if(req.file) {
-        updateFields['image'] = req.file.path;
+        updateFields['image'] = req.file;
     }
 
     Product.findOne({ _id:id })
@@ -140,8 +131,8 @@ exports.updateProduct = (req, res, next) => {
             throw new Error("Access forbidden");
 
         // if image gets updated delete old image
-        if(req.file && fs.existsSync(result.image))
-            await unlinkAsync(result.image);
+        if(req.file)
+            deleteFile(result.image);
 
         return Product.update({ _id:id }, { $set: updateFields });
     })
@@ -161,8 +152,8 @@ exports.addProduct = async (req, res, next) => {
     let categoryName = "";
 
     if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location) {
-        if(req.file && fs.existsSync(req.file.path))
-            await unlinkAsync(req.file.path);
+        if(req.file)
+            deleteFile(req.file);
         return res.status(500).json({
             message:"Please specify name, categorySlug, price, location and description for the product"
         });
@@ -172,8 +163,8 @@ exports.addProduct = async (req, res, next) => {
         .exec()
         .then(async result => {
             if(!result.name || !result.address || !result.country || !result) {
-                if(req.file && fs.existsSync(req.file.path))
-                    await unlinkAsync(req.file.path);
+                if(req.file)
+                    deleteFile(req.file);
                 throw new Error("You first have to add your name, address and country to your profile in order to create a product");
             }
 
@@ -181,14 +172,14 @@ exports.addProduct = async (req, res, next) => {
         })
         .then(async category => {
             if(!category) {
-                if(req.file && fs.existsSync(req.file.path))
-                    await unlinkAsync(req.file.path);
+                if(req.file)
+                    deleteFile(req.file);
                 throw new Error("Given category could not be found");
             }
 
             categoryName = category.name;
 
-            const file = req.file ? req.file.path : null;
+            const file = req.file ? req.file : null;
 
             newProduct = new Product({
                 _id:new mongoose.Types.ObjectId,
@@ -242,8 +233,8 @@ exports.deleteProduct = (req, res, next) => {
         return Product.findOneAndDelete({ _id:req.params.productId });
     })
     .then(async result => {
-        if(fs.existsSync(result.image))
-            await unlinkAsync(result.image);
+        if(result.image)
+            deleteFile(result.image);
         res.status(200).json({
             message: "Product deleted"
         });
