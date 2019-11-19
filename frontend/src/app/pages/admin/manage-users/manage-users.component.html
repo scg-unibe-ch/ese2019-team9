@@ -1,35 +1,36 @@
 <ion-list>
-  <ion-grid class="ion-padding-start">
-	  <ion-row *ngFor="let user of userList">
-			<ion-item-sliding >
-				<ion-item class="ion-no-padding cursor-pointer {{ user.admin ? 'admin-user' : '' }}" (click)="user.openDetail = !user.openDetail">
-					<ion-col size="2" class="hide-sm">
-						<ion-avatar>
-							<img *ngIf="!isUndefined(user.image)" src="{{ user.image }}">
-							<img *ngIf="isUndefined(user.image)" src="https://api.adorable.io/avatars/128/{{user._id}}">
-						</ion-avatar>
-					</ion-col>
-					<ion-col size="11"  size-sm="8" offset-sm="1">
-						{{ user.email }}
-					</ion-col>
-					<ion-col size="1">
-							<ion-icon [name]="
+    <ion-grid class="ion-padding-start">
+        <ion-row *ngFor="let user of userList">
+            <ion-item-sliding>
+                <ion-item class="ion-no-padding cursor-pointer {{ user.admin ? 'admin-user' : '' }}"
+                          (click)="user.openDetail = !user.openDetail">
+                    <ion-col size="2" class="hide-sm">
+                        <ion-avatar>
+                            <img *ngIf="!isUndefined(user.image)" src="{{ user.image }}">
+                            <img *ngIf="isUndefined(user.image)" src="https://api.adorable.io/avatars/128/{{user._id}}">
+                        </ion-avatar>
+                    </ion-col>
+                    <ion-col size="11" size-sm="8" offset-sm="1">
+                        {{ user.email }}
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-icon [name]="
 							user.openDetail
 							  ? 'ios-arrow-up'
 							  : 'ios-arrow-down'
 						  "></ion-icon>
-					</ion-col>
-				</ion-item>
-				<ion-item-options side="end">
-						<ion-item-option color="danger" (click)="deleteUser(user._id)">
-							Delete
-						</ion-item-option>
-					</ion-item-options>
-			</ion-item-sliding>
-			<ion-col *ngIf="user.openDetail">
-					<app-profile-informations [user]="user" [changeable]="!user.admin" [valuesToHide]="valuesToHide" ></app-profile-informations>
-			</ion-col>
-		
-	  </ion-row>
-  </ion-grid>
+                    </ion-col>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option color="danger" (click)="deleteUser(user._id)">
+                        Delete
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+            <ion-col *ngIf="user.openDetail">
+                <app-profile-informations [profileItem]="user" [changeable]="!user.admin"
+                                          [valuesToHide]="valuesToHide" [type]="'user'" ></app-profile-informations>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-list>

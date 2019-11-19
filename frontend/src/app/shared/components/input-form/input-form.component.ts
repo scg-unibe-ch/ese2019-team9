@@ -13,6 +13,7 @@ export class InputFormComponent implements OnInit {
   @Input() text: string;
   @Input() type = 'text';
   @Input() inputMode = 'text';
+  @Input() async: {pendingText: string, validText: string};
 
   isPassword = false;
   showingPassword = false;

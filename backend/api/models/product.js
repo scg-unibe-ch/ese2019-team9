@@ -9,7 +9,8 @@ const productSchema = mongoose.Schema({
     seller:{ type:mongoose.Schema.Types.ObjectId, ref:'User', index:true },
     description:{ type:String, required:true },
     location:{ type:String },
-    image:{ type:String }
+    image:{ type:String },
+    toRevise:{type: Boolean, default:false}
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true }});
 
 productSchema.virtual('reviews', {

@@ -33,3 +33,14 @@ ion-input {
         --padding-top: 0;
     }
 }
+
+.deleteProductButton {
+    position: absolute;
+    right: 20px;
+}
+
+.additionalInformation {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 5px;
+}

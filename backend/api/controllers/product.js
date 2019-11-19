@@ -41,7 +41,8 @@ exports.getProducts = (req, res, next) => {
                 description:doc.description,
                 location:doc.location,
                 rating:rating,
-                image:imagePath
+                image:imagePath,
+                toRevise:doc.toRevise
             }
         });
 
@@ -54,7 +55,12 @@ exports.getProducts = (req, res, next) => {
 }
 
 /**
+<<<<<<< HEAD
  * Get a single product by given id
+=======
+ * 
+ * Get product by id
+>>>>>>> 1782349bf7d0a849be455af31b7eaadd63303649
  */
 exports.getSingleProduct = (req, res, next) => {
     Product.findById(req.params.productId)
@@ -64,10 +70,14 @@ exports.getSingleProduct = (req, res, next) => {
     .select("-__v")
     .exec()
     .then(async doc => {
+<<<<<<< HEAD
         if(!doc)
             throw new Error("Product doesn't exist");
 
         if(!doc.verified && doc.seller != req.userData.userId && req.userData.admin != false)
+=======
+        if(!doc.verified && doc.seller != req.userData.userId && !req.userData.admin)
+>>>>>>> 1782349bf7d0a849be455af31b7eaadd63303649
             throw new Error("Access denied");
 
         const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + doc.image;
@@ -90,7 +100,8 @@ exports.getSingleProduct = (req, res, next) => {
             location:doc.location,
             rating:rating,
             reviews:doc.reviews,
-            image:imagePath
+            image:imagePath,
+            toRevise: doc.toRevise
         }); 
     }).catch(err => {
         res.status(500).json({
@@ -119,6 +130,11 @@ exports.updateProduct = (req, res, next) => {
 
     Product.findOne({ _id:id })
     .exec()
+    .then(result => {
+        if(result.seller != req.userData.userId && !req.userData.admin)
+            throw new Error("Access forbidden");
+        return Product.update({_id:id}, {$set: {verified:false, toRevise:false}})
+    })
     .then(async result => {
         if(result.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access forbidden");

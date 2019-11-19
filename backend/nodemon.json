@@ -5,7 +5,8 @@
         "PUBLIC_DOMAIN": "themoln.herokuapp.com",
         "MAIL_SERVICE": "gmail",
         "SUPPORT_MAIL_PW": "molnunibe19",
-        "SUPPORT_MAIL":"noah.schmid@gym.spiritus.ch",
-        "PUBLIC_DOMAIN_API":"http://moln-api.herokuapp.com"
+        "SUPPORT_MAIL":"themolnplatform@gmail.com",
+        "PUBLIC_DOMAIN_API":"http://moln-api.herokuapp.com",
+        "FILE_STORAGE":"http://d3t3rm1n4nt3.bplaced.net/fileStorage/"
     }
 }

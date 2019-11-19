@@ -149,6 +149,28 @@
   padding-top: 1px;
 }
 
+.custom-spinner{
+  width: 100px;
+  height: auto;
+  animation: spin 2s infinite linear;
+  display: block;
+  padding: 20px;
+  transform-origin: 60% 40%;
+}
+
+@keyframes spin {
+ 0%{
+    -webkit-transform: rotate(0deg) scale(1.1);
+    transform: rotate(0deg) scale(1.1);
+  }
+
+
+    100% {
+      -webkit-transform: rotate(0deg) scale(0.9);
+      transform: rotate(1080deg) scale(0.9);
+    }
+}
+
 @media only screen and (max-device-width: 768px) {
   .popover-style .popover-content { min-width: 250px; }
 }

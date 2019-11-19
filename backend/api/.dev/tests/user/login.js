@@ -32,20 +32,19 @@ describe('Test login', ()=>{
         .send(login)
         .then((res) =>{
             try{
-                assert.equal(res.status, 307);
+                assert.equal(res.status, 406);
                 done();
             }catch(err){
                 done(err);
             }
         }
         ).catch((err) => {
-            throw new Error(err);
+            done(err);
         });
     });
 
-    it('login verified', (done) => {
-        BuildAndClean.verify(id);
-        
+    it('login verified', async() => {
+        await BuildAndClean.verify(id);
         request.post('/login')
         .set('Content-Type', 'application/json')
         .send(login)
@@ -56,13 +55,12 @@ describe('Test login', ()=>{
                 assert.isDefined(res.body.token, 'response has session token');
                 assert.isDefined(res.body.id, 'id is defined');
                 assert.isString(res.body.id, 'id has to be a String');
-                done();
             }catch(err){
-                done(err);
+                return err;
             }
         })
         .catch((err)=>{
-            done(err);
+            return err;
         })
     });
 })

@@ -1,4 +1,4 @@
-<ion-item [formGroup]= "inputForm">
+<ion-item *ngIf="inputForm" [formGroup]= "inputForm">
   <ion-label position="floating"> {{ text }} </ion-label>
   <ion-input [type]= "type" [formControlName] = "givenName"  [inputmode] = "inputMode" ></ion-input>
   <ng-container *ngIf="isPassword">
@@ -6,6 +6,8 @@
     <ion-icon *ngIf="showingPassword" name="eye-off" slot="end" (click)="showPassword(false)"></ion-icon>
   </ng-container>
   <div>
+    <div class="pending feedback" *ngIf="async && inputForm.get(givenName).pending"><ion-icon class="icon" name="sync"></ion-icon> {{ async.pendingText }}</div>
+    <div class="valid feedback" *ngIf="async && inputForm.get(givenName).valid"> {{ async.validText }} </div>
     <div *ngFor="let validation of validationMessages">
       <div class="invalid-feedback" *ngIf="inputForm.get(givenName).hasError(validation.type) && (inputForm.get(givenName).dirty || inputForm.get(givenName).touched)">
         {{ validation.message + "\n"}}

@@ -107,17 +107,18 @@ exports.getSingleCategory = (req, res, next) => {
  * @param req.body has to contain slug, image and name (optional parentSlug)
  */
 exports.addCategory = (req, res, next) => {
-    console.log(req.file);
-    if(!req.body.slug || !req.body.name || !req.file)
+    if(!req.body.slug || !req.body.name || !req.file) {
         return res.status(500).json({
             message:"Please specify name, image and slug"
         });
-
+    }
     Category.find({ $or: [{ name:req.body.name }, { slug:req.body.slug }] })
     .exec()
     .then(category => {
-        if(category.length > 0)
+        if(category.length > 0){
+            console.log(category);
             throw new Error('Category with same name/slug already exists');
+        }
 
         return category;
     })
@@ -156,7 +157,7 @@ exports.addCategory = (req, res, next) => {
         res.status(500).json({
             error:err.message
         });
-    });;
+    });
 }
 
 /**

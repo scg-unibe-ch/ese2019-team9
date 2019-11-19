@@ -1,0 +1,12 @@
+.pending {
+    color: var(--ion-color-warning);
+    .icon {
+        animation: spin 2s infinite reverse linear;
+    }
+
+
+}
+
+.valid {
+    color: var(--ion-color-success);
+}
