@@ -38,6 +38,7 @@ const devRoutes = require('./api/.dev/routes/dev');
 const categoryRoutes = require('./api/routes/category');
 const productRoutes = require('./api/routes/product');
 const reviewRoutes = require('./api/routes/review');
+const notifications = require('./api/routes/notifications');
 
 app.use('/user', userRoutes);
 app.use('/dev', devRoutes);

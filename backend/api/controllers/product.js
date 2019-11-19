@@ -39,7 +39,8 @@ exports.getProducts = (req, res, next) => {
                 description:doc.description,
                 location:doc.location,
                 rating:rating,
-                image:imagePath
+                image:imagePath,
+                toRevise:doc.toRevise
             }
         });
 
@@ -52,7 +53,8 @@ exports.getProducts = (req, res, next) => {
 }
 
 /**
- * Get all products
+ * 
+ * Get product by id
  */
 exports.getProductById = (req, res, next) => {
     Product.findById(req.params.productId)
@@ -84,7 +86,8 @@ exports.getProductById = (req, res, next) => {
             location:doc.location,
             rating:rating,
             reviews:doc.reviews,
-            image:imagePath
+            image:imagePath,
+            toRevise: doc.toRevise
         }); 
     }).catch(err => {
         res.status(500).json({
@@ -113,6 +116,11 @@ exports.updateProduct = (req, res, next) => {
 
     Product.findOne({ _id:id })
     .exec()
+    .then(result => {
+        if(result.seller != req.userData.userId && !req.userData.admin)
+            throw new Error("Access forbidden");
+        return Product.update({_id:id}, {$set: {verified:false, toRevise:false}})
+    })
     .then(async result => {
         if(result.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access forbidden");

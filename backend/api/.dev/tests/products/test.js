@@ -9,7 +9,7 @@ const request = chai.request(app).keepOpen();
 const catrequest = chai.request(catapp).keepOpen();
 const assert = chai.assert;
 
-describe('Test products', ()=>{
+describe.only('Test products', ()=>{
     let token;
     let id;
     let catid;
@@ -73,7 +73,7 @@ describe('Test products', ()=>{
             assert.hasAllKeys(res.body[0], 
                 ['name','_id','category'
                 ,'price', 'description', 'location','image',
-            'verified','seller', 'rating']);
+            'verified','seller','toRevise', 'rating']);
             assert.isDefined(res.body[0].seller);
             assert.hasAllKeys(res.body[0].seller,[
                 '_id','name','email','address',
@@ -126,6 +126,7 @@ describe('Test products', ()=>{
                 .then((res) => {
                     assert.equal(res.status,200, 'should return updated product');
                     assert.equal(res.body.name, 'newTestProdName');
+                    assert.isFalse(res.body.verified);
                     done();
                 }).catch((err) =>{
                     done(err);
@@ -138,6 +139,57 @@ describe('Test products', ()=>{
             done(err);
         });
     });
+    it('update verified flag (true)', (done) => {
+        request.patch('/' + id)
+        .set('authorization', 'B ' + token)
+        .send({verified: true})
+        .then((res) => {
+            try{
+                assert.equal(res.status, 200, 'should update product');
+                request.get('/' + id)
+                .set('authorization', 'B ' + token)
+                .then((res) => {
+                    assert.equal(res.status,200, 'should return updated product');
+                    assert.equal(res.body.name, 'newTestProdName');
+                    assert.isTrue(res.body.verified);
+                    done();
+                }).catch((err) =>{
+                    done(err);
+                });
+            }catch(err){
+                done(new Error(res.text));
+            }
+        })
+        .catch((err)=>{
+            done(err);
+        });
+    });
+    it('update revise flag', (done) => {
+        request.patch('/' + id)
+        .set('authorization', 'B ' + token)
+        .send({toRevise: true})
+        .then((res) => {
+            try{
+                assert.equal(res.status, 200, 'should update product');
+                request.get('/' + id)
+                .set('authorization', 'B ' + token)
+                .then((res) => {
+                    assert.equal(res.status,200, 'should return updated product');
+                    assert.equal(res.body.name, 'newTestProdName');
+                    assert.isFalse(res.body.verified);
+                    assert.isTrue(res.body.toRevise);
+                    done();
+                }).catch((err) =>{
+                    done(err);
+                });
+            }catch(err){
+                done(new Error(res.text));
+            }
+        })
+        .catch((err)=>{
+            done(err);
+        });
+    })
     it('get prod from subcategroy', (done)=>{
         catrequest.get('/' + subcatslug)
         .then((res) => {
