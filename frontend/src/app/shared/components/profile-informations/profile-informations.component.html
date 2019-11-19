@@ -34,16 +34,22 @@
                 <ion-col class="hidden" size="0">{{key}}</ion-col>
             </ion-row>
         </ion-grid>
+        <ion-grid>
+            <ion-row class="ion-justify-content-end">
+                <ion-button #updateButton color="warning" class="hidden" (click)="onClickSave()">Update
+                </ion-button>
+            </ion-row>
+        </ion-grid>
         <ion-grid *ngIf="additionalValues">
-            <ion-row class="additionalInformation"  > Additional information</ion-row>
+            <ion-row class="additionalInformation"> Additional information</ion-row>
             <ion-row class="row" *ngFor="let key of additionalInformation">
                 <ion-col> {{ getKeyString(key)}} </ion-col>
                 <ion-col *ngIf="!(getKeyString(key) === 'Category')"> {{getValueString(key)}}</ion-col>
                 <ion-col *ngIf="getKeyString(key) === 'Category'"> {{getCategoryValue(key)}}</ion-col>
+                <ion-col *ngIf="(getKeyString(key) === 'Revise') && (profileItem[key] === true)"
+                         color="warning">{{ getValueString(key)}}</ion-col>
                 <ion-col size="1"></ion-col>
             </ion-row>
         </ion-grid>
-        <ion-button #updateButton color="warning" class="hidden ion-float-right" (click)="onClickSave()">Update
-        </ion-button>
     </ion-card-content>
 </ion-card>

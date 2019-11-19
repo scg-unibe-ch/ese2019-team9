@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TopHeaderEndComponent } from './top-header-end.component';
+import { HeaderButtonsComponent } from './header-buttons.component';
 
 describe('TopHeaderEndComponent', () => {
-  let component: TopHeaderEndComponent;
-  let fixture: ComponentFixture<TopHeaderEndComponent>;
+  let component: HeaderButtonsComponent;
+  let fixture: ComponentFixture<HeaderButtonsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TopHeaderEndComponent ],
+      declarations: [ HeaderButtonsComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TopHeaderEndComponent);
+    fixture = TestBed.createComponent(HeaderButtonsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -33,7 +33,8 @@ export class ProfileInformationsComponent implements OnInit {
         ['website', 'Website'],
         ['sex', 'Sex'],
         ['name', 'Name*'],
-        ['address', 'Address*']
+        ['address', 'Address*'],
+        ['toRevise', 'Revise']
     ]);
 
     valuesToName: Map<boolean, string> = new Map([
