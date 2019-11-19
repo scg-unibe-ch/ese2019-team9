@@ -114,13 +114,17 @@ exports.addCategory = (req, res, next) => {
             message:"Please specify name, image and slug"
         });
     }
-    Category.find({ $or: [{ name:req.body.name }, { slug:req.body.slug }] })
+
+    if (!/[^a-zA-Z]/.test(req.body.slug))
+        return res.status(500).json({ message:"You are only allowed to use letters for the field 'slug'" });
+
+    Category.find({ slug:req.body.slug })
     .exec()
     .then(category => {
         if(category.length > 0){
             if(req.file)
                 deleteFile(req.file);
-            throw new Error('Category with same name/slug already exists');
+            throw new Error('Category with same slug already exists');
         }
 
         return category;

@@ -8,7 +8,7 @@ const env = process.env;
 
 const Email = require('../methods/mail');
 const User = require('../models/user');
-const deleteFile = requre('../methods/delete-file');
+const deleteFile = require('../methods/delete-file');
 
 /**
  * Get user data by id
@@ -21,7 +21,7 @@ exports.getUserById = (req, res, next) => {
     .select(fields)
     .then(doc => {
         if(doc) {
-            const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.jpg" : process.env.FILE_STORAGE + doc.image;
+            const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.image;
             res.status(200).json({
                 _id:doc._id,
                 admin:doc.admin,
@@ -54,7 +54,7 @@ exports.getAllUsers = (req, res, next) => {
     .then(docs => {
         if(docs) {
             res.status(200).json(docs.map(doc => {
-                const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.jpg" : process.env.FILE_STORAGE + doc.image;
+                const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.image;
                 return {
                     _id:doc._id,
                     admin:doc.admin,

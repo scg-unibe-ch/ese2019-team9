@@ -9,7 +9,7 @@ const Category = require('../models/category');
 const User = require('../models/user');
 const Review = require('../models/review');
 const Promise = require('bluebird');
-const deleteFile = requre('../methods/delete-file');
+const deleteFile = require('../methods/delete-file');
 
 /**
  * Get all products
