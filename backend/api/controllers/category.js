@@ -3,21 +3,40 @@ const Category = require('../models/category');
 const Product = require('../models/product');
 const Review = require('../models/review');
 const Promise = require('bluebird');
-
+const fs = require('fs');
+const { promisify } = require('util')
+const unlinkAsync = promisify(fs.unlink);
+const env = process.env;
 
 /**
  * Return a json object containing all categories in the database
  * and provide a link to get detailed information about each category
  */
-
  exports.getCategories = (req, res, next) => {
     let cat = {};
     
     Category.find({ parent:null })
     .populate("subcategories")
     .select("-__v")
-    .then(async docs => {
-        return res.status(200).json(docs);
+    .then(docs => {
+        const response = docs.map(doc => {
+            return {
+                _id:doc._id,
+                name:doc.name,
+                image:doc.image ? process.env.FILE_STORAGE + doc.image : process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg",
+                subcategories:doc.subcategories.map(sub => {
+                    return {
+                        _id:sub._id,
+                        name:sub.name,
+                        slug:sub.slug,
+                        image:!sub.image ? process.env.FILE_STORAGE + "/rsc/no-image.jpg" : process.env.PUBLIC_DOMAIN_API + "/" + sub.image
+                    }
+                }),
+                slug:doc.slug
+            };
+        });
+
+        return res.status(200).json(response);
     }).catch(err => {
         res.status(500).json(err.message);
     });
@@ -42,21 +61,20 @@ exports.getSingleCategory = (req, res, next) => {
                 path:'seller', 
                 model:'User', 
                 select:'name image'
-            }};
+        }};
     Category.findOne({ slug:req.params.slug })
     .populate("subcategories", "-__v -id")
     .populate(populate)
     .select("-__v")
     .exec()
     .then(async doc => {
-        console.log(doc);
         const products = await Promise.map(doc.products, async prod => {
             const avg = await Review.aggregate([
                 { $match: { product:prod._id }},
                 { $group: { _id: null, rating: { $avg:"$rating" } } }
             ]);
 
-            const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+            const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + doc.image;
             const rating = !avg[0] ? 0 : avg[0].rating;
 
             return {
@@ -73,7 +91,7 @@ exports.getSingleCategory = (req, res, next) => {
             _id:doc.id,
             name:doc.name,
             parent:doc.parent,
-            image:doc.image,
+            image:!doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + doc.image,
             subcategories:doc.subcategories,
             products:products
         }]);
@@ -86,10 +104,11 @@ exports.getSingleCategory = (req, res, next) => {
  * Check if category with same name/slug already exists and if not add the new category to database
  * If category has a parent, update the subcategories array of the parent
  * 
- * @param req.body has to contain slug, image and name (optional parentId)
+ * @param req.body has to contain slug, image and name (optional parentSlug)
  */
 exports.addCategory = (req, res, next) => {
-    if(!req.body.slug || !req.body.name || !req.body.image)
+    console.log(req.file);
+    if(!req.body.slug || !req.body.name || !req.file)
         return res.status(500).json({
             message:"Please specify name, image and slug"
         });
@@ -106,8 +125,8 @@ exports.addCategory = (req, res, next) => {
         return Category.findOne({ slug:req.body.parentSlug });
     })
     .then( doc => {
-        if(req.body.parentId && !doc)
-            throw new Error("Wrong parent category id");
+        if(req.body.parentSlug && !doc)
+            throw new Error("Wrong parent category slug");
 
         const parent = !doc ? null : doc._id;
 
@@ -116,7 +135,7 @@ exports.addCategory = (req, res, next) => {
             slug:req.body.slug,
             name:req.body.name,
             parent:parent,
-            image:req.body.image
+            image:req.file
         });
 
         return newCategory.save();
@@ -135,7 +154,7 @@ exports.addCategory = (req, res, next) => {
     })
     .catch(err => {
         res.status(500).json({
-            error:err
+            error:err.message
         });
     });;
 }
@@ -147,11 +166,21 @@ exports.addCategory = (req, res, next) => {
  */
 exports.deleteCategory = (req, res, next) => {
     //First delete all products of that category
-    Product.deleteMany({ category:req.params.categoryId })
+    Product.find({ category:req.params.categoryId})
+    .then(async result => {
+        for(let i in result) {
+            if(result[i].image)
+                await unlinkAsync(result[i].image);
+        }
+
+        return Product.deleteMany({ category:req.params.categoryId });
+    })
     .then(result => {
         return Category.findOneAndDelete({ _id:req.params.categoryId });
     })
-    .then(result => {
+    .then(async result => {
+        if(result.image)
+            await unlinkAsync(result.image);
         res.status(200).json({
             message: "Category deleted"
         });
@@ -173,15 +202,23 @@ exports.updateCategory = (req, res, next) => {
         updateFields[propName] = propName == 'parent' && value == '' ? null : value;
     }
 
-    Category.update({ _id:req.params.categoryId }, { $set:updateFields })
-    .exec()
+    if(req.file) 
+        updateFields["image"] = req.file.path;
+    
+
+    Category.findById(req.params.categoryId)
+    .then(async result => {
+        if(result.image && req.file)
+            await unlinkAsync(result.image);
+        return Category.update({ _id:req.params.categoryId }, { $set:updateFields });
+    })
     .then(result => {
         res.status(200).json({
             message:'Category updated'
         });
     }).catch(err => {
         res.status(500).json({
-            error:err
+            error:err.message
         });
     });
 }
