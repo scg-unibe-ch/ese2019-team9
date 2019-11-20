@@ -42,7 +42,8 @@ exports.getProducts = (req, res, next) => {
                 location:doc.location,
                 rating:rating,
                 image:imagePath,
-                toRevise:doc.toRevise
+                toRevise:doc.toRevise,
+                date:doc.date
             }
         });
 
@@ -68,7 +69,7 @@ exports.getSingleProduct = (req, res, next) => {
         if(!doc)
             throw new Error("Product doesn't exist");
 
-        if(!doc.verified && doc.seller != req.userData.userId && req.userData.admin != false)
+        if(!doc.verified && doc.seller != req.userData.userId && req.userData.admin == false)
             throw new Error("Access denied");
 
         const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + doc.image;
@@ -92,7 +93,8 @@ exports.getSingleProduct = (req, res, next) => {
             rating:rating,
             reviews:doc.reviews,
             image:imagePath,
-            toRevise: doc.toRevise
+            toRevise: doc.toRevise,
+            date:doc.date
         }); 
     }).catch(err => {
         res.status(500).json({
@@ -189,7 +191,8 @@ exports.addProduct = async (req, res, next) => {
                 category:category._id,
                 location:req.body.location,
                 seller:req.userData.userId,
-                image:file
+                image:file,
+                date:new Date()
             });
 
             return newProduct.save();
@@ -205,7 +208,8 @@ exports.addProduct = async (req, res, next) => {
                     description:result.description, 
                     location:result.location,
                     seller:result.sellerId,
-                    image:result.image
+                    image:result.image,
+                    date:result.date
                 }
             });
         })
@@ -275,7 +279,8 @@ exports.getProductsOfUser = (req, res, next) => {
                 description:doc.description,
                 location:doc.location,
                 rating:rating,
-                image:imagePath
+                image:imagePath,
+                date:doc.date
             }
         });
         return res.status(200).json(products); 
