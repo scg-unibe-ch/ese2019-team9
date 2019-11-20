@@ -5,7 +5,7 @@ import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorS
 import {isUndefined} from 'util';
 
 @Component({
-    selector: 'app-delete-offers',
+    selector: 'app-manage-offers',
     templateUrl: './manage-offers.component.html',
     styleUrls: ['./manage-offers.component.scss'],
 })

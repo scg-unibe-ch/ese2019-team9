@@ -6,7 +6,7 @@ import {RegistrationComponent} from '../../../authentication/registration/regist
 import { AuthService } from 'src/app/core/services/authService/auth.service';
 
 /**
- * Component containing the Buttons in the upper right corner. 
+ * Component containing the Buttons in the upper right corner.
  * Contains:
  *  - `Login` Button
  *  - `Join` Button to register
@@ -15,7 +15,7 @@ import { AuthService } from 'src/app/core/services/authService/auth.service';
  *  - `Profile` Button to get to the profile page
  */
 @Component({
-  selector: 'app-top-header-end',
+  selector: 'app-header-buttons',
   templateUrl: './header-buttons.component.html',
   styleUrls: ['./header-buttons.component.scss']
 })

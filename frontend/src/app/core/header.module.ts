@@ -36,7 +36,7 @@ import {CategoryMenuComponent} from './header/navigation-bar/category-menu/categ
             {path: 'forgotPassword', component: ForgotPasswordComponent}
         ])
     ],
-    exports: [HeaderComponent, TopHeaderComponent, HomeBannerComponent, NavigationBarComponent, LogoComponent]
+    exports: [HeaderComponent, TopHeaderComponent, HeaderButtonsComponent, HomeBannerComponent, NavigationBarComponent, LogoComponent]
 })
 export class HeaderModule {
 }
