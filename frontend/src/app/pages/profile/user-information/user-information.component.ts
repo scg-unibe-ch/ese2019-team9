@@ -12,7 +12,7 @@ export class UserInformationComponent implements OnInit {
   userId;
   user;
   keys = ['_id', 'email', 'address', 'name', 'website', 'country', 'phone', 'sex'];
-  valuesToHide = ['password', 'openDetail', 'admin', '_id', 'verifiedEmail'];
+  valuesToHide = ['password', 'openDetail', 'admin', '_id', 'verifiedEmail', 'image'];
 
   constructor(
       private userService: UserService,

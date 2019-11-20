@@ -4,10 +4,11 @@ const jwt = require('jsonwebtoken');
 const browserDetect = require('browser-detect');
 const fs = require('fs');
 const { promisify } = require('util')
-const unlinkAsync = promisify(fs.unlink);
+const env = process.env;
 
-const Email = require('../methods/mail.js');
+const Email = require('../methods/mail');
 const User = require('../models/user');
+const deleteFile = require('../methods/delete-file');
 
 /**
  * Get user data by id
@@ -20,7 +21,7 @@ exports.getUserById = (req, res, next) => {
     .select(fields)
     .then(doc => {
         if(doc) {
-            const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+            const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.image;
             res.status(200).json({
                 _id:doc._id,
                 admin:doc.admin,
@@ -53,7 +54,7 @@ exports.getAllUsers = (req, res, next) => {
     .then(docs => {
         if(docs) {
             res.status(200).json(docs.map(doc => {
-                const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+                const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.image;
                 return {
                     _id:doc._id,
                     admin:doc.admin,
@@ -110,7 +111,7 @@ exports.signUp = (req, res, next) => {
                             { 
                                 id: user._id
                             }, 
-                            process.env.JWT_KEY, 
+                            env.JWT_KEY, 
                             {
                             }
                         );
@@ -174,7 +175,7 @@ exports.login = (req, res, next) => {
                         admin: user.admin,
                         _flag: 1
                     }, 
-                    process.env.JWT_KEY, 
+                    env.JWT_KEY, 
                     {
                         expiresIn: "3h"
                     }   
@@ -203,7 +204,7 @@ exports.login = (req, res, next) => {
  * 
  * @example JSON -> { "userId":"asd", "field1":"value1", "field2":"value2" }
  */
-exports.updateUser = (req, res, next) => {
+exports.updateUser = async (req, res, next) => {
     const id = req.params.userId;
     const updateFields = {};
 
@@ -216,9 +217,8 @@ exports.updateUser = (req, res, next) => {
     }
 
     if(req.file) {
-        if(fs.existsSync(req.file.path))
-            unlinkAsync(req.file.path);
-        updateFields['image'] = req.file.path;
+        deleteFile(req.file);
+        updateFields['image'] = req.file;
     }
 
     User.update({ _id:id }, { $set: updateFields })
@@ -246,8 +246,7 @@ exports.deleteUser = (req, res, next) => {
     User.findOneAndDelete({ _id: id })
     .exec()
     .then(async result => {
-        if(fs.existsSync(result.image))
-            await unlinkAsync(result.image);
+        if(deleteFile(result.image))
         res.status(200).json({ message: 'User deleted' });
     })
     .catch(err => {
@@ -261,7 +260,7 @@ exports.deleteUser = (req, res, next) => {
  */
 exports.verifyUser = (req, res, next) => {
     try{
-        const token = jwt.verify(req.body.token, process.env.JWT_KEY);
+        const token = jwt.verify(req.body.token, env.JWT_KEY);
         User.findById(token.id)
         .exec()
         .then(user => {
@@ -287,7 +286,7 @@ exports.verifyUser = (req, res, next) => {
 exports.resendVerification = (req, res, next) => {
     const id = req.body.id;
     const userMail = req.body.email;
-    const verifyToken = jwt.sign({ id: id }, process.env.JWT_KEY,{});
+    const verifyToken = jwt.sign({ id: id }, env.JWT_KEY,{});
 
     Email.sendVerification(verifyToken, userMail)
     .then(()=>{
@@ -315,7 +314,7 @@ exports.resendVerification = (req, res, next) => {
     .then((user) =>{
         //user gave existing email
         if(user) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, { expiresIn: "1h" });
+            const token = jwt.sign({ id: user._id }, env.JWT_KEY, { expiresIn: "1h" });
             Email.sendResetLink(token, usermail, browser, operatingSystem)
             .then(() =>{
                 res.status(200).json({ message: 'Reset-link sent' });
@@ -347,7 +346,7 @@ exports.resendVerification = (req, res, next) => {
     const token = req.body.token;
     const password = req.body.password;
     try {
-        const decoded = jwt.verify(token, process.env.JWT_KEY);
+        const decoded = jwt.verify(token, env.JWT_KEY);
         const id = decoded.id;
         User.findById(id).exec()
         .then((user) => {

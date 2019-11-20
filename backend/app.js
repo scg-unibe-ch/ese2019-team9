@@ -5,17 +5,21 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'));
+app.use('/rsc', express.static('rsc'));
 app.use(bodyParser.urlencoded({ extended:false }));
 app.use(bodyParser.json());
 
 // connect to mongodb database
+try {
 mongoose.connect('mongodb+srv://moln:' + process.env.MONGO_ATLAS_PW + 
     '@ese2019-fmpbx.mongodb.net/test?retryWrites=true&w=majority', { 
         useUnifiedTopology: true, 
         useNewUrlParser: true,
         useCreateIndex:true
     });
+} catch (err) {
+    console.log(err.message);
+}
 
 // prevent CORS errors
 app.use((req, res, next) => {
@@ -38,6 +42,7 @@ const devRoutes = require('./api/.dev/routes/dev');
 const categoryRoutes = require('./api/routes/category');
 const productRoutes = require('./api/routes/product');
 const reviewRoutes = require('./api/routes/review');
+const notifications = require('./api/routes/notifications');
 
 app.use('/user', userRoutes);
 app.use('/dev', devRoutes);

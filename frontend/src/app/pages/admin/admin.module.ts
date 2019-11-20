@@ -6,9 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 
-import {HeaderModule} from "../../core/header.module";
+import {HeaderModule} from '../../core/header.module';
 import { AdminPage } from './admin.page';
-import { DeleteOffersComponent } from './delete-offers/delete-offers.component';
+import { ManageOffersComponent } from './manage-offers/manage-offers.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddCategoryComponent } from './add-category/add-category.component';
@@ -33,6 +33,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AdminPage, DeleteOffersComponent, ManageUsersComponent, AddCategoryComponent]
+  declarations: [AdminPage, ManageOffersComponent, ManageUsersComponent, AddCategoryComponent]
 })
 export class AdminPageModule {}

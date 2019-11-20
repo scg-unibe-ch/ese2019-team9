@@ -88,7 +88,7 @@ export class AddProductsPage implements OnInit {
         this.chosenSubcategories = this.categories.filter(cat => cat.slug === slug)[0].subcategories
             .sort((a, b) => a.name.localeCompare(b.name));
     }
-  
+
     onSubmitAddProduct() {
         if (this.productForm.invalid) {
           return;

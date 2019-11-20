@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { DeleteOffersComponent } from './delete-offers/delete-offers.component';
+import { ManageOffersComponent } from './manage-offers/manage-offers.component';
 import { isUndefined } from 'util';
 
 @Component({
@@ -11,7 +11,7 @@ export class AdminPage implements OnInit {
 
   private selectedTab = -1;
   private deleteOffersComponent;
-  @ViewChildren(DeleteOffersComponent) deleteOffersComponentQueryList: QueryList<DeleteOffersComponent>;
+  @ViewChildren(ManageOffersComponent) deleteOffersComponentQueryList: QueryList<ManageOffersComponent>;
 
     constructor() {
     }
@@ -20,7 +20,7 @@ export class AdminPage implements OnInit {
 
     ngAfterViewInit() {
       this.selectedTab = 0;
-      this.deleteOffersComponentQueryList.changes.subscribe((components: QueryList<DeleteOffersComponent>) => {
+      this.deleteOffersComponentQueryList.changes.subscribe((components: QueryList<ManageOffersComponent>) => {
         this.deleteOffersComponent = components.first;
         this.updateProducts();
       });

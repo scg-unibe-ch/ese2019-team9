@@ -39,6 +39,9 @@
             </ion-col>
         </ion-item>
         <ion-item-options side="end">
+            <ion-item-option color="warning" (click)="reviseOffer(offer._id)">
+                Revise
+            </ion-item-option>
             <ion-item-option color="danger" (click)="deleteOffer(offer._id)">
                 Decline
             </ion-item-option>
@@ -61,7 +64,7 @@
                         <ion-label><ion-icon name="pin"></ion-icon></ion-label>{{ offer.location }}
                     </ion-item>
                     <ion-item>
-                        <ion-label><ion-icon name="folder"></ion-icon></ion-label>{{ offer.category }}
+                        <ion-label><ion-icon name="folder"></ion-icon></ion-label>{{ offer.category.name }}
                     </ion-item>
                     <ion-item>
                         <ion-label><ion-icon name="person"></ion-icon></ion-label>{{ offer.seller.name }}
@@ -79,7 +82,8 @@
         </ion-card>
     </ion-col>
     <ion-col *ngIf="offer.openDetail" offset="0" size="12" offset-sm="6" size-sm="12">
-        <ion-button color="danger" (click)="deleteOffer(offer._id)">Decline</ion-button>
+        <ion-button color="danger" (click)="deleteOffer(offer._id)">Delete</ion-button>
+        <ion-button color="warning" (click)="reviseOffer(offer._id)">Revise</ion-button>
         <ion-button color="success" (click)="verifyOffer(offer._id)">Accept</ion-button>
     </ion-col>
 </ion-row>

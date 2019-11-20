@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
-const { promisify } = require('util')
-const unlinkAsync = promisify(fs.unlink);
+const { promisify } = require('util');
+
+const env = process.env;
 
 const Product = require('../models/product');
 const Category = require('../models/category');
 const User = require('../models/user');
 const Review = require('../models/review');
 const Promise = require('bluebird');
+const deleteFile = require('../methods/delete-file');
 
 /**
  * Get all products
@@ -26,7 +28,7 @@ exports.getProducts = (req, res, next) => {
                 { $group: { _id: null, rating: { $avg:"$rating" } } }
             ]);
 
-            const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+            const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + doc.image;
             const rating = !avg[0] ? 0 : avg[0].rating;
 
             return {
@@ -39,7 +41,8 @@ exports.getProducts = (req, res, next) => {
                 description:doc.description,
                 location:doc.location,
                 rating:rating,
-                image:imagePath
+                image:imagePath,
+                toRevise:doc.toRevise
             }
         });
 
@@ -52,26 +55,30 @@ exports.getProducts = (req, res, next) => {
 }
 
 /**
- * Get all products
+ * Get a single product by given id
  */
-exports.getProductById = (req, res, next) => {
+exports.getSingleProduct = (req, res, next) => {
     Product.findById(req.params.productId)
     .populate("category", "name")
     .populate("seller", "-admin -password -verifiedEmail -__v")
-    .populate("reviews", "-__v")
+    .populate({ path:"reviews", model:"Review", select:"-__v", populate:{ path:"user", model:"User", select:"name image" } })
     .select("-__v")
     .exec()
     .then(async doc => {
-        if(!doc.verified && doc.seller != req.userData.userId && !req.userData.admin)
+        if(!doc)
+            throw new Error("Product doesn't exist");
+
+        if(!doc.verified && doc.seller != req.userData.userId && req.userData.admin != false)
             throw new Error("Access denied");
 
-        const imagePath = !doc.image ? undefined : process.env.PUBLIC_DOMAIN_API + '/' + doc.image;
+        const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + doc.image;
+
         const avg = await Review.aggregate([
-            { $match: { product:new mongoose.Types.ObjectId(req.body.productId) }},
+            { $match: { product:new mongoose.Types.ObjectId(req.params.productId) }},
             { $group: { _id: null, rating: { $avg:"$rating" } } }
         ]);
 
-        const rating = !avg[0] ? 0 : avg[0].rating
+        const rating = !avg[0] ? 0 : avg[0].rating;
 
         return res.status(200).json({
             _id:doc._id,
@@ -84,7 +91,8 @@ exports.getProductById = (req, res, next) => {
             location:doc.location,
             rating:rating,
             reviews:doc.reviews,
-            image:imagePath
+            image:imagePath,
+            toRevise: doc.toRevise
         }); 
     }).catch(err => {
         res.status(500).json({
@@ -95,8 +103,8 @@ exports.getProductById = (req, res, next) => {
 
 /**
  * Update given properties of specific product
- * @param req has to contain productId and fields to update as well as values
- * @example { "productId":"asd", "path":"asdasd" } updates path of product with id 'asd'
+ * @param req has to contain fields to update as well as values
+ * @example { "name":"asd", "categoryId":"xyz"} updates category of product as well as the name
  */
 exports.updateProduct = (req, res, next) => {
     const id = req.params.productId;
@@ -108,18 +116,23 @@ exports.updateProduct = (req, res, next) => {
     }
 
     if(req.file) {
-        updateFields['image'] = req.file.path;
+        updateFields['image'] = req.file;
     }
 
     Product.findOne({ _id:id })
     .exec()
+    .then(result => {
+        if(result.seller != req.userData.userId && !req.userData.admin)
+            throw new Error("Access forbidden");
+        return Product.update({_id:id}, {$set: {verified:false, toRevise:false}})
+    })
     .then(async result => {
         if(result.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access forbidden");
 
         // if image gets updated delete old image
-        if(req.file && fs.existsSync(result.image))
-            await unlinkAsync(result.image);
+        if(req.file)
+            deleteFile(result.image);
 
         return Product.update({ _id:id }, { $set: updateFields });
     })
@@ -139,8 +152,8 @@ exports.addProduct = async (req, res, next) => {
     let categoryName = "";
 
     if(!req.body.name || !req.body.categorySlug || !req.body.price || !req.body.description || !req.body.location) {
-        if(req.file && fs.existsSync(req.file.path))
-            await unlinkAsync(req.file.path);
+        if(req.file)
+            deleteFile(req.file);
         return res.status(500).json({
             message:"Please specify name, categorySlug, price, location and description for the product"
         });
@@ -150,8 +163,8 @@ exports.addProduct = async (req, res, next) => {
         .exec()
         .then(async result => {
             if(!result.name || !result.address || !result.country || !result) {
-                if(req.file && fs.existsSync(req.file.path))
-                    await unlinkAsync(req.file.path);
+                if(req.file)
+                    deleteFile(req.file);
                 throw new Error("You first have to add your name, address and country to your profile in order to create a product");
             }
 
@@ -159,14 +172,14 @@ exports.addProduct = async (req, res, next) => {
         })
         .then(async category => {
             if(!category) {
-                if(req.file && fs.existsSync(req.file.path))
-                    await unlinkAsync(req.file.path);
+                if(req.file)
+                    deleteFile(req.file);
                 throw new Error("Given category could not be found");
             }
 
             categoryName = category.name;
 
-            const file = req.file ? req.file.path : null;
+            const file = req.file ? req.file : null;
 
             newProduct = new Product({
                 _id:new mongoose.Types.ObjectId,
@@ -220,8 +233,8 @@ exports.deleteProduct = (req, res, next) => {
         return Product.findOneAndDelete({ _id:req.params.productId });
     })
     .then(async result => {
-        if(fs.existsSync(result.image))
-            await unlinkAsync(result.image);
+        if(result.image)
+            deleteFile(result.image);
         res.status(200).json({
             message: "Product deleted"
         });
@@ -242,7 +255,29 @@ exports.getProductsOfUser = (req, res, next) => {
     .populate("seller", "-admin -password -verifiedEmail -__v")
     .select("-__v")
     .exec()
-    .then(products => {
+    .then(async products => {
+        const response = await Promise.map(products, async doc => {
+            const avg = await Review.aggregate([
+                { $match: { product:doc._id }},
+                { $group: { _id: null, rating: { $avg:"$rating" } } }
+            ]);
+
+            const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + doc.image;
+            const rating = !avg[0] ? 0 : avg[0].rating;
+
+            return {
+                _id:doc._id,
+                name:doc.name,
+                category:doc.category,
+                price:doc.price,
+                verified:doc.verified,
+                seller:doc.seller,
+                description:doc.description,
+                location:doc.location,
+                rating:rating,
+                image:imagePath
+            }
+        });
         return res.status(200).json(products); 
     }).catch(err => {
         res.status(500).json({
