@@ -115,7 +115,7 @@ exports.addCategory = (req, res, next) => {
         });
     }
 
-    if (!/[^a-zA-Z]/.test(req.body.slug))
+    if (/[^a-zA-Z]/.test(req.body.slug))
         return res.status(500).json({ message:"You are only allowed to use letters for the field 'slug'" });
 
     Category.find({ slug:req.body.slug })
