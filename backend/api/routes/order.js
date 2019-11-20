@@ -1,11 +1,16 @@
 const OrderController = require('../controllers/order');
+const checkAuth = require('../mware/check-auth');
 const express = require('express');
-const Router = express.Router();
+const router = express.Router();
 
-Router.get('', OrderController.getOrders);
+router.get('', checkAuth, OrderController.getOrders);
 
-Router.post('/add', OrderController.addOrder);
+router.post('/place', checkAuth, OrderController.placeOrder);
 
-Router.post('/confirm', OrderController.confirmOrder);
+router.patch('/accept', checkAuth, OrderController.acceptOrder);
 
-Router.post('/reject', OrderController.rejectOrder);
+router.patch('/reject', checkAuth, OrderController.rejectOrder);
+
+router.patch('/fulfill', checkAuth, OrderController.fulfillOrder);
+
+module.exports = router;
