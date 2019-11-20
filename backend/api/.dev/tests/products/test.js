@@ -26,20 +26,24 @@ describe.only('Test products', ()=>{
         .set('Authorization','Bearer ' + token)
         .send(formdata)
         .then((res)=>{
-            assert.equal(res.status, 201, 'should make category');
-            catid = res.body.createdCategory._id;
-
-             //make subcategory
-            catrequest.post('/add')
-            .set('authorization', 'B ' + token)
-            .send(subform)
-            .then((res) => {
-                assert.equal(res.status, 201, 'should make subcategory');
-                subcatid = res.body.createdCategory._id;
-            })
-            .catch((err)=>{
-                throw new Error(err);
-            });
+            try{
+                assert.equal(res.status, 201, 'should make category');
+                catid = res.body.createdCategory._id;
+    
+                 //make subcategory
+                catrequest.post('/add')
+                .set('authorization', 'B ' + token)
+                .send(subform)
+                .then((res) => {
+                    assert.equal(res.status, 201, 'should make subcategory');
+                    subcatid = res.body.createdCategory._id;
+                })
+                .catch((err)=>{
+                    throw new Error(err);
+                });
+            }catch(err){
+                throw new Error(res.text);
+            }
         })
         .catch((err)=>{
             throw new Error(err);

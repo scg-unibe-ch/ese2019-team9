@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "backend for ESE project",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha 'C:/UniBe/ese/team9/backend/api/.dev/tests/tests.js'",
     "start": "node index.js",
@@ -25,6 +25,7 @@
     "chai-http": "^4.3.0",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "index": "^0.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.4",
     "morgan": "^1.9.1",
