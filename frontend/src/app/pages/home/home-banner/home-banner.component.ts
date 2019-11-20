@@ -30,6 +30,7 @@ export class HomeBannerComponent implements OnInit {
 		}
 		if (searchableArray.length > 0) {
 			let searchResults = this.filterAndSearchService.searchUnique(searchableArray as Object[], value, undefined, false, ['id', '_id']);
+			console.log(searchResults);
 		}
 
 	}
@@ -59,6 +60,8 @@ export class HomeBannerComponent implements OnInit {
 		this.productService.getAllProducts().subscribe((data) => {
 			this.products = data as any;
 			this.lastPulled.set(this.products, new Date());
+			console.log(this.products);
+			console.log(this.filterAndSearchService.sort(this.products, "+price", "+name"));
 		},
 			(err) => {
 				console.log(err);

@@ -116,6 +116,6 @@ export class FilterAndSearchService {
 				keys.add(key);
 			});
 		});
-		return [...keys] as string[];
+		return Array.from(keys) as string[];
 	}
 }
