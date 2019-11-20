@@ -10,7 +10,7 @@
     </ion-row>
     <ion-row>
       <ion-col size="8" offset="2">
-        <ion-searchbar mode="md" class="ion-no-padding" type="search" placeholder="Search"></ion-searchbar>
+        <ion-searchbar mode="md" class="ion-no-padding" type="search" placeholder="Search" debounce="500" (ionChange)="onSearchbarChange($event)"></ion-searchbar>
       </ion-col>
     </ion-row>
   </ion-grid>
