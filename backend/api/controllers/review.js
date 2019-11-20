@@ -79,9 +79,11 @@ exports.deleteReview = (req, res, next) => {
  */
 exports.editReview = (req, res, next) => {
     let updateFields = {};
+    const validFields = ['comment', 'rating'];
     
     for(const [propName, value] of Object.entries(req.body)) {
-        updateFields[propName] = value;
+        if(validFields.includes(propName))
+            updateFields[propName] = value;
     }
     
     Review.updateOne({_id:req.params.reviewId}, { $set:updateFields })

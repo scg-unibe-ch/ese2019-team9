@@ -106,15 +106,26 @@ exports.getSingleProduct = (req, res, next) => {
 /**
  * Update given properties of specific product
  * @param req has to contain fields to update as well as values
- * @example { "name":"asd", "categoryId":"xyz"} updates category of product as well as the name
+ * @example { "name":"asd", "category":"xyz"} updates category of product as well as the name
  */
 exports.updateProduct = (req, res, next) => {
     const id = req.params.productId;
     const updateFields = {};
+    const validFields = [
+        'name', 
+        'description', 
+        'verified', 
+        'toRevise', 
+        'location', 
+        'price', 
+        'category'
+    ];
 
     for(const [propName, value] of Object.entries(req.body)) {
-        if(propName != 'verified' || req.userData.admin)
-            updateFields[propName] = value;
+        if(validFields.includes(propName)) {
+            if((propName != 'toRevise' && propName != 'verified' ) || req.userData.admin)
+                updateFields[propName] = value;
+        }
     }
 
     if(req.file) {
