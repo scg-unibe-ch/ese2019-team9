@@ -17,7 +17,7 @@ describe.only('Test products', ()=>{
     let catslug = 'prodtestslug';
     let subcatslug = 'prodtestsubcatslug'
     before(async()=>{
-        let formdata = {'slug':catslug,'name':'testname','image':'image'};
+        let formdata = {'slug':catslug,'name':'testname','image':'bug.png'};
         let subform = {'name':'subtestname','parentId': catid, 'image':'subtestimage','parentSlug':catslug,'slug':subcatslug};
         //make admintoken
         token = jwt.sign({admin:true, userId:'5dbaf977cfc8dc0017c0041b',_flag:1},"7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/");
@@ -79,9 +79,9 @@ describe.only('Test products', ()=>{
                 ,'price', 'description', 'location','image',
             'verified','seller','toRevise', 'rating']);
             assert.isDefined(res.body[0].seller);
-            assert.hasAllKeys(res.body[0].seller,[
+            assert.hasAnyKeys(res.body[0].seller,[
                 '_id','name','email','address',
-                'country','website','sex','phone']);
+                'country','image','website','sex','phone']);
             done();
         })
         .catch((err) => {
@@ -93,7 +93,7 @@ describe.only('Test products', ()=>{
         .type('form')
         .set('Authorization','Bearer ' + token)
         .set('Accept', 'multipart/form-data')
-        .attach('image',fs.readFileSync('./api/.dev/tests/products/bug.png'), 'bug.png')
+        .attach('image','./api/.dev/tests/products/bug.png', 'bug.png')
         .field('name','testproduct')
         .field('categorySlug', subcatslug)
         .field('price','999')

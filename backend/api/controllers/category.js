@@ -107,11 +107,11 @@ exports.getSingleCategory = (req, res, next) => {
  * @param req.body has to contain slug, image and name (optional parentSlug)
  */
 exports.addCategory = (req, res, next) => {
-    if(!req.body.slug || !req.body.name || !req.file) {
+    if(!req.body.slug || !req.body.name) {
         if(req.file)
             deleteFile(req.file);
         return res.status(500).json({
-            message:"Please specify name, image and slug"
+            message:"Please specify name, image and slug" + req.body.file
         });
     }
 
