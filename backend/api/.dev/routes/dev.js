@@ -24,4 +24,7 @@ router.get('/:id', DevController.getUser);
 //verifies token
 router.get('/verifyToken/:token', DevController.verifyToken)
 
+//gets token
+router.post('/token', DevController.getToken);
+
 module.exports = router;

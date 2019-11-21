@@ -4,6 +4,7 @@ const Notification = require('../models/notification');
 
 exports.getAllNotifications = (req, res, next)=>{
     Notification.find()
+    .select("-__v")
     .exec()
     .then((notifications)=>{
        return res.status(200).json(notifications);
@@ -12,29 +13,60 @@ exports.getAllNotifications = (req, res, next)=>{
         res.status(500).json(err.message);
     })
 }
-
-exports.broadcast = (req,res,next) => {
-    const mess = req.body.message;
-    const not = new Notification({
-        text: mess,
-        date: new Date(),
-        user: 'all'
-    });
-    try{
-        not.save();
-        res.status(201).json({message: 'Notification sent'});
-    }catch(err){
+exports.getNotification = (req, res, next) => {
+    Notification.findById(req.params.id)
+    .exec()
+    .then((notification) => {
+        if(notification)
+            res.status(200).json(notification);
+        else
+            res.status(500).json({message: 'no notification found'});
+    })
+    .catch((err) => {
         res.status(500).json({message: err});
-    }
+    });
 }
 
 exports.getNotificationsByUId = (req, res, next) => {
+    const uId = req.userData.userId;
+    Notification.find({user: uId})
+    .exec()
+    .then((notifications) =>{
+        res.status(200).json(notifications);
+    })  
+    .catch((err) => {
+        res.status.json({message: err});
+    })
+}
 
+exports.broadcast = (req, res, next) => {
+    res.status(501);
+}
+
+exports.setRead = (req, res, next) => {
+    const uId = req.userData.userId;
+    Notification.find({user: uId})
+    .exec()
+    .then((notifications) => {
+        notifications.forEach((notification) => {
+            try{
+                notification.read = true;
+                notification.save();
+            }catch(err){
+                res.status(500).json({message: err});
+            }
+        });
+        res.status(200).json({message: 'read flag set'})
+    })
+    .catch((err) => {
+        res.status(500).json({message: err});
+    })
 }
 
 exports.sendNotificationstoUser = (req, res, next)=> {
     const message = req.body.message;
-    const id = req.params.id;
+    const url = req.body.link;
+    const id = req.userData.userId;
     User.findById(id)
     .exec()
     .then((usr) => {
@@ -42,7 +74,8 @@ exports.sendNotificationstoUser = (req, res, next)=> {
             _id: new mongoose.Types.ObjectId(),
             user: usr._id,
             text: message,
-            date: new Date()
+            date: new Date(),
+            link: url
         });
         newNot.save()
         .then((savedNotification) => {
@@ -69,12 +102,12 @@ exports.deleteById = (req,res,err) => {
 };
 
 exports.deleteByUser = (req, res, err) => {
-    const uId = req.params.uId;
+    const uId = req.userData.userId;
     Notification.deleteMany({user:uId})
     .then((result)=>{
-        res.status(200).json({message: 'all notifications for '+ uId +' deleted'})
+        res.status(200).json({message: 'all notifications deleted'})
     })
     .catch((err) => {
-        res.status(500).json({message: err});
+        res.status(501).json({message: err});
     })
 }

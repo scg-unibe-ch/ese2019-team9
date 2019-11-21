@@ -54,8 +54,13 @@ exports.sendResetLink = (token, userEmail, browser, operatingSystem) => {
 			"24 hours: " + url + " Thanks, the MOLN team";
 
 		try {
-			sendEmail(userEmail, placeholders, templateName, title, text);
-			resolve("Email sent");
+			sendEmail(userEmail, placeholders, templateName, title, text)
+			.then((res) => {
+				resolve("Email sent");
+			})
+			.catch((err) => {
+				reject(err);
+			});
 		} catch (err) {
 			reject(err);
 		}
