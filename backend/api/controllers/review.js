@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Review = require('../models/review');
 const Product = require('../models/product');
-
+const Order = require('../models/order');
 /**
  * Add new product review
  * @param req.body has to include rating and productId
@@ -10,19 +10,30 @@ exports.addReview = (req, res, next) => {
     if(!req.body.rating || !req.body.productId)
         return res.status(500).json({
             message:"Please include productId and a rating (0-5)"
-        });
-    
+        });    
     Product.findById(req.body.productId)
     .then(doc => {
         if(!doc)
             throw new Error("Couldn't find product with given id");
-        
+
+        return Order.find({ 
+            $and:[
+                { product:req.body.productId }, 
+                { status:'fulfilled' }, 
+                { buyer:req.userData.userId } 
+            ]
+        });
+    })
+    .then(doc => {
+        if(doc.length == 0)
+            throw new Error("You have to buy the product first in order to write a review!");
+
         const review = new Review({
             _id:new mongoose.Types.ObjectId,
             rating:req.body.rating,
             comment:req.body.comment,
             user:req.userData.userId,
-            product:doc._id
+            product:req.body.productId
         });
 
         return review.save();
@@ -68,9 +79,11 @@ exports.deleteReview = (req, res, next) => {
  */
 exports.editReview = (req, res, next) => {
     let updateFields = {};
+    const validFields = ['comment', 'rating'];
     
     for(const [propName, value] of Object.entries(req.body)) {
-        updateFields[propName] = value;
+        if(validFields.includes(propName))
+            updateFields[propName] = value;
     }
     
     Review.updateOne({_id:req.params.reviewId}, { $set:updateFields })

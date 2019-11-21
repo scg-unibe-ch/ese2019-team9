@@ -207,17 +207,45 @@ exports.login = (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
     const id = req.params.userId;
     const updateFields = {};
+    const validFields = [
+        'name',
+        'email',
+        'admin',
+        'address',
+        'country',
+        'website',
+        'phone',
+        'sex',
+        'password'
+    ];
 
     if(id != req.userData.userId && !req.userData.admin)
         return res.status(501).json({ error:"Access forbidden" });
 
     for(const [propName, value] of Object.entries(req.body)) {
-        if(propName != 'admin' || req.userData.admin)
-            updateFields[propName] = value;
+        if(validFields.includes(propName)) {
+            switch(propName) {
+                case 'admin':
+                    if(req.userData.admin)
+                        updateFields[propName] = value;
+                    break;
+                case 'sex':
+                    if(['male', 'female'].includes(value))
+                        updateFields[propName] = value;
+                    break;
+
+                case 'password':
+                    await bcrypt.hash(req.body.password, 10, (err, hash) => {
+                        updateFields[propName] = hash;
+                    })
+                    break; 
+                default:
+                    updateFields[propName] = value;
+            }
+        }
     }
 
     if(req.file) {
-        deleteFile(req.file);
         updateFields['image'] = req.file;
     }
 

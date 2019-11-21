@@ -208,9 +208,11 @@ exports.deleteCategory = (req, res, next) => {
  */
 exports.updateCategory = (req, res, next) => {
     let updateFields = {};
+    const validFields = ['name', 'parent', 'slug'];
 
     for(const [propName, value] of Object.entries(req.body)) {
-        updateFields[propName] = propName == 'parent' && value == '' ? null : value;
+        if(validFields.includes(propName))
+            updateFields[propName] = propName == 'parent' && value == '' ? null : value;
     }
 
     if(req.file) 

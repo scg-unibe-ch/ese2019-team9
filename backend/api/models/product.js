@@ -10,7 +10,8 @@ const productSchema = mongoose.Schema({
     description:{ type:String, required:true },
     location:{ type:String },
     image:{ type:String },
-    toRevise:{type: Boolean, default:false}
+    toRevise:{type: Boolean, default:false},
+    date:{ type:Date }
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true }});
 
 productSchema.virtual('reviews', {
