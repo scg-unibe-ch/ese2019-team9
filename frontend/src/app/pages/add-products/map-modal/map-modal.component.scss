@@ -1,0 +1,12 @@
+.map {
+  position: absolute;
+  heigth: 100%;
+  width: 100%;
+  background-color: transparent;
+  opacity: 0;
+  transistion: opacity 150ms ease-in;
+}
+
+.map.visible {
+  opacity: 1;
+}
