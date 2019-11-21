@@ -42,13 +42,14 @@ const devRoutes = require('./api/.dev/routes/dev');
 const categoryRoutes = require('./api/routes/category');
 const productRoutes = require('./api/routes/product');
 const reviewRoutes = require('./api/routes/review');
-const notifications = require('./api/routes/notifications');
+const notificationRoutes = require('./api/routes/notifications');
 
 app.use('/user', userRoutes);
 app.use('/dev', devRoutes);
 app.use('/category', categoryRoutes);
 app.use('/product', productRoutes);
 app.use('/review', reviewRoutes);
+app.use('/notification', notificationRoutes)
 
 // invalid request
 app.use((req, res, next) => {

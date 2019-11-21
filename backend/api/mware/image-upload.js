@@ -44,28 +44,24 @@ module.exports = async (req, res, next) => {
                 url: process.env.FILE_STORAGE,
                 formData: formData
             }, async function optionalCallback(err, httpResponse, body) {
-                if(!req.file) {
-                    next();
-                } else {
-                    body = JSON.parse(body);
-                    console.log(body);
-                    if (err) {
-                        throw new Error(err)
-                    }
-
-                    if(httpResponse.statusCode != 200) {
-                        throw new Error(body.message)
-                    }
-
-                    await unlinkAsync(req.file.path);
-                    req.file = body.filename;
-                    next();
+                body = JSON.parse(body);
+                if (err || httpResponse.statusCode != 200) {
+                    throw new Error(err || body.message)
                 }
+
+                await unlinkAsync(req.file.path);
+                req.file = body.filename;
+                next();
             });
         });
     } catch (err) {
         console.log(err.message);
+        req.status(500).json({
+            error:err.message
+        });
         next();
+    } finally {
+        
     }
 }
 
