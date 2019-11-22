@@ -9,19 +9,16 @@ const NotificationController = require('../controllers/notifications');
 router.get('/', checkAdmin, NotificationController.getAllNotifications);
 
 //get userspecific notification
-router.get('/user', checkAuth, NotificationController.getNotification);
+router.get('/user', checkAuth, NotificationController.getNotificationsByUId);
 
 //send userspecific notification
-router.post('/user', checkAuth, NotificationController.sendNotificationstoUser);
+router.post('/:uId', checkAuth, NotificationController.sendNotificationstoUser);
 
 //delete all userspecific notifications (backend only?)
 router.delete('/user', checkAuth, NotificationController.deleteByUser);
 
 //set read flag of all notifications for user
 router.patch('/user', checkAuth, NotificationController.setRead);
-
-//send notifications to all
-router.post('/', checkAdmin, NotificationController.broadcast);
 
 //delete notification
 router.delete('/:notifId', checkAuth, NotificationController.deleteById);

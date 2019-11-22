@@ -13,19 +13,6 @@ exports.getAllNotifications = (req, res, next)=>{
         res.status(500).json(err.message);
     })
 }
-exports.getNotification = (req, res, next) => {
-    Notification.findById(req.params.id)
-    .exec()
-    .then((notification) => {
-        if(notification)
-            res.status(200).json(notification);
-        else
-            res.status(500).json({message: 'no notification found'});
-    })
-    .catch((err) => {
-        res.status(500).json({message: err});
-    });
-}
 
 exports.getNotificationsByUId = (req, res, next) => {
     const uId = req.userData.userId;
@@ -37,10 +24,6 @@ exports.getNotificationsByUId = (req, res, next) => {
     .catch((err) => {
         res.status.json({message: err});
     })
-}
-
-exports.broadcast = (req, res, next) => {
-    res.status(501);
 }
 
 exports.setRead = (req, res, next) => {
@@ -66,7 +49,7 @@ exports.setRead = (req, res, next) => {
 exports.sendNotificationstoUser = (req, res, next)=> {
     const message = req.body.message;
     const url = req.body.link;
-    const id = req.userData.userId;
+    const id = req.params.uId;
     User.findById(id)
     .exec()
     .then((usr) => {
@@ -89,7 +72,7 @@ exports.sendNotificationstoUser = (req, res, next)=> {
     });
 }
 
-exports.deleteById = (req,res,err) => {
+exports.deleteById = async (req,res,err) => {
     const id = req.params.notifId;
     Notification.deleteOne({_id:id})
     .exec()

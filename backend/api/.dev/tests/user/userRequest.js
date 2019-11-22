@@ -5,8 +5,9 @@ const chaiHttp = require('chai-http');
 const assert = chai.assert;
 chai.use(chaiHttp);
 const app = 'http://localhost:8080/user';
+const notification = 'http://localhost:8080/notification'
 const request = chai.request(app);
-
+const notifRequest = chai.request(notification);
 describe("Test requests for userId", () =>{
     let user;
     let other;
@@ -128,7 +129,7 @@ describe("Test requests for userId", () =>{
        .send({'userData': {'admin':true, 'userId': user.id}, 'sex': 'gender fluid'})
        .then((res)=>{
            assert.equal(res.status, 200);
-           request.get('/'+user.id)
+           request.get('/' + user.id)
            .set('Authorization','Bearer ' + user.token)
            .then((res1)=>{
                assert.equal(res1.status, 200);
@@ -152,7 +153,7 @@ describe("Test requests for userId", () =>{
            .set('Authorization' , 'Bearer ' + user.token)
            .then((res1) => {
                assert.equal(res1.status, 404, 'user should not be found');
-               user = User.loggedInAndVerified();
+               user = User.loggedInAndVerified().then();
                done();
            })
            .catch((err) =>{

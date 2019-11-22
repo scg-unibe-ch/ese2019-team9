@@ -6,7 +6,8 @@ const notificationSchema = mongoose.Schema({
     date:{ type:Date },
     user:{ type:mongoose.Schema.Types.ObjectId, ref:'User', index:true, required:true },
     read: {type:Boolean, default:false},
-    link: {type:String}
+    link: {type:String},
+    forall: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('Notification', notificationSchema);
