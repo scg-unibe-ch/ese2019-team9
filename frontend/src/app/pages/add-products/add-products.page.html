@@ -11,7 +11,10 @@
                     <ion-title>Add a product</ion-title>
                     <ion-card>
                         <ion-item>
-                            <app-image-picker (imagePick)="onImagePicked($event)"></app-image-picker>
+                            <app-image-picker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
+                        </ion-item>
+                        <ion-item>
+                            <app-map-picker class="imagePicker"></app-map-picker>
                         </ion-item>
                         <ion-card class="formElement">
                             <app-input-form
