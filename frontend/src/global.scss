@@ -178,3 +178,15 @@
 @media only screen and (max-device-width: 576px) {
   .popover-style .popover-content { min-width: 80vw; }
 }
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: textfield !important; 
+      appearance: textfield !important;
+      margin: 0 !important; 
+  }
+  input[type=number] {
+    -moz-appearance:textfield !important;
+    appearance: textfield !important;
+}
+

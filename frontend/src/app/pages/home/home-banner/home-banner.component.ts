@@ -60,8 +60,6 @@ export class HomeBannerComponent implements OnInit {
 		this.productService.getAllProducts().subscribe((data) => {
 			this.products = data as any;
 			this.lastPulled.set(this.products, new Date());
-			console.log(this.products);
-			console.log(this.filterAndSearchService.sort(this.products, "+price", "+name"));
 		},
 			(err) => {
 				console.log(err);

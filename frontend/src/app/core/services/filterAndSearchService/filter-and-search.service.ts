@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isDefined } from '@angular/compiler/src/util';
+import { isNullOrUndefined } from 'util';
 
 @Injectable({
 	providedIn: 'root'
@@ -92,7 +93,7 @@ export class FilterAndSearchService {
 		return array.sort(function (a,b) {
 			let result = 0;
 			for (let i = 0; i < args.length && result == 0; i++){
-				let currentArgument:string  = args[0];
+				let currentArgument:string  = args[i];
 				let sortOrder: boolean = currentArgument.slice(0,1) == "+" ? true : false;
 				let argument: string = args[i].substring(1);
 				if (typeof (a[argument]) == 'string' || typeof b[argument] == 'string'){
@@ -105,8 +106,54 @@ export class FilterAndSearchService {
 		});
 	}
 
-	filter() {
+	/**
+	 * Filters the array with the given parameter. Returns a copy of the original array.
+	 * @param array 
+	 * @param args argument in the type of ```'op;fieldname;value'``` where ```op``` is an operator of therse types:
+	 * ```>, <, =, !=, >=, <=, ^, $, inc, isNull, isNotNull``` ^ means starts with, $ means ends with, inc means includes
+	 */
+	filter(array: {}[], args: string) :{}[] {
+		let opMap = new Map<string, Function>([
+			['>',  (a,b) =>  a > b],
+			['<',  (a,b) =>  a < b],
+			['=',  (a,b) =>  a == b],
+			['!=',  (a,b) =>  a != b],
+			['>=',  (a,b) =>  a >= b],
+			['<=',  (a,b) =>  a <= b],
+			['^',  (a,b) =>  (a as string).startsWith(b as string)],
+			['$',  (a,b) =>  (a as string).endsWith(b as string)],
+			['inc',  (a,b) =>  (a as string).includes(b as string)],
+			['isNull',  (a,b) =>  isNullOrUndefined(a)],
+			['isNotNull',  (a,b) => !isNullOrUndefined(a)],
+		]);
+		const split = args.split(';');
+		if (split.length < 3) return [];
+		const op = split[0];
+		const fieldname = split[1];
+		const value = split[2];
+		return array.filter((obj) => {
+			return opMap.get(op)(obj[fieldname], value)
+		});
 
+	}
+
+	/**
+	 * Filters the array with the given parameters where it filters with an AND connection. Returns a copy of the original array. 
+	 * @param array 
+	 * @param args argument in the type of ```'op;fieldname;value'``` where ```op``` is an operator of therse types:
+	 * ```>, <, =, !=, >=, <=, ^, $, inc``` ^ means starts with, $ means ends with, inc means includes
+	 */
+	public filterComplex(array: {}[], args: string[]){
+		let allObjects: {}[][] = [];
+		args.forEach((arg) => {
+			allObjects.push(this.filter(array, arg));
+		});
+		allObjects.forEach((currArray) => {
+			allObjects[0] = allObjects[0].filter((element) => {
+				return currArray.includes(element)
+			});
+		});
+		return allObjects[0];
 	}
 
 	private getAllKeys(array: {}[]): string[] {
@@ -117,5 +164,10 @@ export class FilterAndSearchService {
 			});
 		});
 		return Array.from(keys) as string[];
+	}
+
+	public filterToObject(arg: string): {name: string, operator: string, value: string} {
+		const split = arg.split(';');
+		return {name: split[1], operator: split[0], value: split[2]};
 	}
 }

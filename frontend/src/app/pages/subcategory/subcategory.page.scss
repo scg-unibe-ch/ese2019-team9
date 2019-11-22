@@ -1,12 +1,12 @@
-.line{
+.line {
   border-bottom: 1px solid grey;
 }
 
-.bigTitle{
+.bigTitle {
   font-size: 50px;
 }
 
-.mediumTitle{
+.mediumTitle {
   text-align: center;
 }
 
@@ -16,11 +16,66 @@ img.pic-square {
   width: 200px;
 }
 
-.backgroundGradient{
+.backgroundGradient {
   background-image: linear-gradient(var(--ion-color-secondary), var(--ion-color-light));
 }
 
-.cardMargin{
+.cardMargin {
   margin: 0px;
   padding: 10px;
+}
+
+.filterPopover {
+  width: auto;
+  height: auto;
+  overflow: visible;
+}
+
+.rating {
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+:host {
+  ion-grid {
+    padding-top: 0px;
+    margin-top: 0px;
+  }
+
+  ion-range {
+    --bar-height: 4px;
+    --knob-size: 25px;
+    padding-top: 0px;
+    margin-top: 0px;
+  }
+}
+
+  
+.item {
+  margin-top: 0;
+}
+
+.filter-col {
+  border-right: 1px solid var(--ion-color-medium);
+  box-shadow: 1px 1px 2px 0px var(--ion-color-medium);
+}
+
+.filter-list {
+  min-height: 2rem;
+  padding-top: 0.5rem;
+  box-sizing: border-box;
+  background-color: var(--ion-color-medium);
+}
+
+app-filter {
+  max-width: 100%;
+
+  .filter-title {
+    font-size: 1.2em;
+    width: 100%;
+  }
+
+  .filter-input {
+    width: 100%;
+  }
 }

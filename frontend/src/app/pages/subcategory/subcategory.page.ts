@@ -3,9 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 import {PopoverController} from '@ionic/angular';
 import {ProductService} from '../../core/services/productService/product.service';
 import {CategoryService} from '../../core/services/categoryService/category.service';
-import {FilterRatingComponent} from './filter-rating/filter-rating.component';
-import {FilterLocationComponent} from './filter-location/filter-location.component';
-import {FilterPriceComponent} from './filter-price/filter-price.component';
+import { FilterAndSearchService } from 'src/app/core/services/filterAndSearchService/filter-and-search.service';
+import { ProgressIndicatorService } from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
 
 
 @Component({
@@ -15,16 +14,23 @@ import {FilterPriceComponent} from './filter-price/filter-price.component';
 })
 export class SubcategoryPage implements OnInit {
 
-    private products = [];
+    private allProducts: {}[] = [];
+    private products: {}[] = [];
     private featuredProducts = [];
+    private filledStars = 0;
+    private priceSpan: {lower: number, upper: number} = {lower: 0, upper: 1000};
 
+    private filterSettings: {rating: string, location: string, minPrice: string, maxPrice: string} = {rating: '', location: '', minPrice: '', maxPrice: ''};
+    private filterargs: string[] = [];
     private subcategory;
     private carouselIsReady = false;
 
     constructor(private route: ActivatedRoute,
                 private productService: ProductService,
                 private categoryService: CategoryService,
-                private popoverController: PopoverController) {
+                private popoverController: PopoverController,
+                private filterAndSearchService: FilterAndSearchService,
+                private progressIndicatorService: ProgressIndicatorService) {
     }
 
     /*
@@ -35,49 +41,73 @@ export class SubcategoryPage implements OnInit {
         const slug = this.route.snapshot.paramMap.get('subcategorySlug');
         this.categoryService.getSingleCategoryFromSlug(slug).subscribe(data => {
             this.subcategory = data[0];
-            // fetch products of the selected subcategory from backend
-            this.productService.getProductsById(data[0]._id).then(products => {
-                // @ts-ignore
-                this.products = products;
-                this.selectFeaturedProducts();
-            });
+            this.updateProducts();
         });
     }
 
     // Select featured products for product-carousel
     selectFeaturedProducts() {
-        this.featuredProducts = this.products.slice(0, 2);
+        this.featuredProducts = this.allProducts.slice(0, 2);
         this.carouselIsReady = true;
     }
 
-    async openRatingPopover(ev: any) {
-        const popover = await this.popoverController.create({
-            component: FilterRatingComponent,
-            translucent: true,
-            event: ev,
-            backdropDismiss: true,
+    updateProducts(){
+        return this.productService.getProductsById(this.subcategory._id).then(products => {
+            //@ts-ignore
+            this.allProducts = products;
+            this.products = this.applyFilters(this.allProducts);
+            this.selectFeaturedProducts();
         });
-        return await popover.present();
     }
 
-    async openLocationPopover(ev: any) {
-        const popover = await this.popoverController.create({
-            component: FilterLocationComponent,
-            translucent: true,
-            event: ev,
-            backdropDismiss: true,
+    applyFilters(products: {}[]) : {}[] {
+        this.filterargs = [];
+        Object.keys(this.filterSettings).forEach((key) => {
+            if (this.filterSettings[key] != ''){
+                this.filterargs.push(this.filterSettings[key]);
+            }
         });
-        return await popover.present();
-    }
-
-    async openPricePopover(ev: any) {
-        const popover = await this.popoverController.create({
-            component: FilterPriceComponent,
-            translucent: true,
-            event: ev,
-            backdropDismiss: true,
-        });
-        return await popover.present();
+        if (this.filterargs.length > 0)
+        return this.filterAndSearchService.filterComplex(products, this.filterargs);
+        return products;
 
     }
+
+    filterargsToDisplay(): {}[] {
+        let filterObjArray: {name: string, operator: string, value: string}[] = [];
+        this.filterargs.forEach((el)=> {
+            filterObjArray.push(this.filterAndSearchService.filterToObject(el));
+        });
+        return this.filterargsToDisplay();
+    }
+
+    displayLoading(promise: Promise<void>) {
+        this.progressIndicatorService.presentLoading("Updating products");
+        promise.then(() => {
+            this.progressIndicatorService.dismissLoadingIndicator();
+            this.progressIndicatorService.presentToast("Successfully updated products", 2000);
+        }, () => {
+            this.progressIndicatorService.dismissLoadingIndicator();
+            this.progressIndicatorService.presentToast("Products couldn't be updated", 2000, "danger");
+        });
+    }
+
+    onRatingFilterChanged(n: number) {
+        this.filterSettings.rating = `>;rating;${n}`;
+        let promise = this.updateProducts();
+        this.displayLoading(promise);
+    }
+    array(n: number) :number[] {
+        let arr = Array(n);
+        return [...arr.keys()].map(ind => ind+1);
+      }
+
+  fillTo(n: number) :void {
+    this.filledStars = n;
+  }
+
+  getPriceSpan(){
+
+  }
+
 }

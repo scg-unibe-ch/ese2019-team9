@@ -1,0 +1,10 @@
+<ion-grid class="grid">
+  <ion-row>
+    <ion-text class="ion-no-padding">
+      <ng-content select="[title]"></ng-content>
+    </ion-text>
+  </ion-row>
+  <ion-row>
+    <ng-content class="input" select="[input]"></ng-content>
+  </ion-row>
+</ion-grid>
