@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ActionSheetController, ModalController} from '@ionic/angular';
 import {MapModalComponent} from '../map-modal/map-modal.component';
 import {HttpClient} from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -14,13 +14,21 @@ import {of} from 'rxjs';
   styleUrls: ['./map-picker.component.scss'],
 })
 export class MapPickerComponent implements OnInit {
+  @Output() locationPick = new EventEmitter<PlaceMap>();
   selectedLocationImage: string;
   isLoading: boolean;
-  constructor(private modalCtrl: ModalController, private http: HttpClient) { }
+  constructor(private modalCtrl: ModalController, private http: HttpClient, private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {}
 
   onPickLocation() {
+    this.actionSheetCtrl.create({header: 'Please choose', buttons: [
+      {text: 'Auto-Locate', handler: () => {}},
+      {text: 'Pick on map', handler: () => {}},
+      {text: 'Cancel', role: 'cancel'}
+    ]}).then(actionSheetEl => {
+      actionSheetEl.present();
+    });
     this.modalCtrl.create({component: MapModalComponent}).then(modalEl => {
       modalEl.onDidDismiss().then(modalData => {
         if (!modalData.data) {
@@ -40,6 +48,7 @@ export class MapPickerComponent implements OnInit {
           pickedLocation.staticMapImageUrl = staticMapImageUrl;
           this.selectedLocationImage = staticMapImageUrl;
           this.isLoading = false;
+          this.locationPick.emit(pickedLocation);
         });
       });
       modalEl.present();
