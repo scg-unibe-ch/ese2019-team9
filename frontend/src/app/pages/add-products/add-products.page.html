@@ -14,7 +14,7 @@
                             <app-image-picker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
                         </ion-item>
                         <ion-item>
-                            <app-map-picker class="imagePicker"></app-map-picker>
+                            <app-map-picker class="imagePicker" (locationPick)="onLocationPicked($event)"></app-map-picker>
                         </ion-item>
                         <ion-card class="formElement">
                             <app-input-form

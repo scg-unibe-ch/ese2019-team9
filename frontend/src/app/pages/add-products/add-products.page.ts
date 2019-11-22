@@ -3,6 +3,7 @@ import {CategoryService} from '../../core/services/categoryService/category.serv
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../core/services/productService/product.service';
 import {ProgressIndicatorService} from '../../core/services/progressIndicatorService/progress-indicator.service';
+import {PlaceMap} from './map.model';
 
 function base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
@@ -79,7 +80,8 @@ export class AddProductsPage implements OnInit {
             location: ['', [Validators.required, Validators.maxLength(30)]],
             category: ['', [Validators.required]],
             categorySlug: ['', [Validators.required]],
-            description: ['', [Validators.required, Validators.maxLength(10000)]]
+            description: ['', [Validators.required, Validators.maxLength(10000)]],
+            map: ['', [Validators.required]]
         });
     }
 
@@ -94,7 +96,6 @@ export class AddProductsPage implements OnInit {
           return;
         }
         const val = this.productForm.value;
-        console.log(val);
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
             console.log(data);
             this.productForm.reset();
@@ -115,5 +116,9 @@ export class AddProductsPage implements OnInit {
         } else {
             this.imageFile = imageData;
         }
+    }
+
+    onLocationPicked(location: PlaceMap) {
+      this.productForm.patchValue({ map: location});
     }
 }
