@@ -9,11 +9,8 @@ module.exports = (filename) => {
         preambleCRLF: true,
         postambleCRLF: true,
         uri: process.env.FILE_STORAGE,
-        multipart: [
-          {
-            'content-type': 'application/json',
-            body: JSON.stringify({ filename: filename })
-          }
-        ]
+        json:{ "filename":filename }
+      }, function optionalCallback(err, httpResponse, body) {
+            console.log(body);
       });
 }
