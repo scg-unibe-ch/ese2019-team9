@@ -9,6 +9,8 @@ import { AddProductsPage } from './add-products.page';
 import {HeaderModule} from '../../core/header.module';
 import {InputFormModule} from '../../shared/input-form.module';
 import {SharedModule} from '../../shared/shared.module';
+import {MapPickerComponent} from './map-picker/map-picker.component';
+import {MapModalComponent} from './map-modal/map-modal.component';
 
 
 const routes: Routes = [
@@ -19,7 +21,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AddProductsPage],
+  declarations: [AddProductsPage, MapPickerComponent, MapModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -27,8 +29,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     HeaderModule,
     SharedModule,
-    InputFormModule
-  ]
+    InputFormModule,
+  ],
+  exports: [MapPickerComponent, MapModalComponent],
+  entryComponents: [MapModalComponent]
 })
 export class AddProductsPageModule {}
 
