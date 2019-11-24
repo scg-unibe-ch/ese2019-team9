@@ -23,8 +23,13 @@
     <ion-grid class="ion-padding-none">
         <ion-row class="filter-list">
             <ion-col size="0" size-sm="2"></ion-col>
-            <ion-col>
-
+            
+            <ion-col size="2" *ngFor="let filter of filterargsToDisplay">
+                <ion-card>
+                    <ion-card-content>{{ filter.displayName }} {{ filter.operator }} {{filter.value}}
+                        <ion-button size="small" (click)="removeFilter(filter)"><ion-icon name="close" slot="icon-only"></ion-icon></ion-button>
+                    </ion-card-content>
+                </ion-card>
             </ion-col>
         </ion-row>
         <ion-row>
@@ -40,9 +45,9 @@
                 <app-filter>
                     <div class="filter-title" title>Select your Price range:</div>
                     <div class="filter-input" input>
-                        <ion-range [min]="priceSpan.lower" [max]="priceSpan.upper" dualKnobs="true" pin="true" step="1" [value]="priceSpan" (ionChange)="onPriceSliderChange($event)">
+                        <ion-range id="priceRangeInput" [min]="priceSpan.lower" [max]="priceSpan.upper" debounce="500" dualKnobs="true" pin="true" step="1" [value]="priceSpan" (ionChange)="onPriceSliderChange($event)">
                         </ion-range>
-                        From: <ion-input id="minPriceInput" type="number" [value]="priceSpan.lower"></ion-input> to <ion-input id="maxPriceInput" type="number" [value]="priceSpan.upper"></ion-input>
+                        From: <ion-input id="minPriceInput" type="number" debounce="500" [value]="priceSpan.lower" (ionInput)="onMinPriceChange()"></ion-input> to <ion-input id="maxPriceInput" type="number" [value]="priceSpan.upper" (ionInput)="onMaxPriceChange(undefined)"></ion-input>
                     </div>
                 </app-filter>
 
