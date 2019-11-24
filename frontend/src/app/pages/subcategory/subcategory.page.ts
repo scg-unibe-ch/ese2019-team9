@@ -56,6 +56,7 @@ export class SubcategoryPage implements OnInit {
             //@ts-ignore
             this.allProducts = products;
             this.products = this.applyFilters(this.allProducts);
+            this.getPriceSpan();
             this.selectFeaturedProducts();
         });
     }
@@ -70,7 +71,6 @@ export class SubcategoryPage implements OnInit {
         if (this.filterargs.length > 0)
         return this.filterAndSearchService.filterComplex(products, this.filterargs);
         return products;
-
     }
 
     filterargsToDisplay(): {}[] {
@@ -97,6 +97,21 @@ export class SubcategoryPage implements OnInit {
         let promise = this.updateProducts();
         this.displayLoading(promise);
     }
+
+    onPriceSliderChange(evt) {
+        let newPrice: {lower: number, upper: number} = evt.detail.value;
+        this.onMinPriceChange(newPrice.lower, false);
+        this.onMaxPriceChange(newPrice.upper, false);
+    }
+
+    onMinPriceChange(n: number, updateProducts: boolean) {
+
+    }
+
+    onMaxPriceChange(n: number, updateProducts: boolean) {
+
+    }
+
     array(n: number) :number[] {
         let arr = Array(n);
         return [...arr.keys()].map(ind => ind+1);
@@ -107,7 +122,8 @@ export class SubcategoryPage implements OnInit {
   }
 
   getPriceSpan(){
-
+        let sorted = this.filterAndSearchService.sort([...this.products], "+price");
+        this.priceSpan = {lower: sorted[0]['price'], upper: sorted[sorted.length-1]['price']}
   }
 
 }

@@ -183,10 +183,12 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: textfield !important; 
       appearance: textfield !important;
-      margin: 0 !important; 
+      margin: 0 !important;
+      border: 1px solid black;
   }
   input[type=number] {
     -moz-appearance:textfield !important;
     appearance: textfield !important;
+    border: 1px solid blackS;
 }
 

@@ -29,7 +29,7 @@
         </ion-row>
         <ion-row>
             <ion-col size="12" size-md="2" class="filter-col ion-margin-top">
-                <app-filter (filterChanged)="onRatingFilterChanged($event)">
+                <app-filter>
                     <div class="filter-title" title>Select your Rating:</div>
                     <div class="filter-input" input>
                         <ion-icon *ngFor="let i of array(5)" class="rating"
@@ -37,12 +37,12 @@
                             (click)="onRatingFilterChanged(i)"></ion-icon> and more
                     </div>
                 </app-filter>
-                <app-filter (filterChanged)="onPriceFilterChanged($event)">
+                <app-filter>
                     <div class="filter-title" title>Select your Price range:</div>
                     <div class="filter-input" input>
-                        <ion-range [min]="priceSpan.lower" [max]="priceSpan.upper" dualKnobs="true" pin="true" step="1" [value]="priceSpan">
+                        <ion-range [min]="priceSpan.lower" [max]="priceSpan.upper" dualKnobs="true" pin="true" step="1" [value]="priceSpan" (ionChange)="onPriceSliderChange($event)">
                         </ion-range>
-                        From: <ion-input type="number" [value]="priceSpan.lower"></ion-input> to <ion-input type="number" [value]="priceSpan.upper"></ion-input>
+                        From: <ion-input id="minPriceInput" type="number" [value]="priceSpan.lower"></ion-input> to <ion-input id="maxPriceInput" type="number" [value]="priceSpan.upper"></ion-input>
                     </div>
                 </app-filter>
 
