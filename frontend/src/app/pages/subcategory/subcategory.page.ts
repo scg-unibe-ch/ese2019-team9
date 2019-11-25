@@ -6,6 +6,8 @@ import { FilterAndSearchService } from 'src/app/core/services/filterAndSearchSer
 import { ProgressIndicatorService } from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
 import { isUndefined } from 'util';
 import { IonRange } from '@ionic/angular';
+import { RangeValue } from '@ionic/core';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -70,9 +72,11 @@ export class SubcategoryPage implements OnInit {
                 this.filterargs.push(this.filterSettings[key]);
             }
         });
-        if (this.filterargs.length > 0 && !this.filterDidNotChange(this.filterargs, this.lastfilterargs)) {
+        if (this.filterargs.length > 0) {
+            this.lastfilterargs = this.filterargs;
             return this.filterAndSearchService.filterComplex(products, this.filterargs);
         }
+        this.lastfilterargs = this.filterargs;
         return products;
     }
 
@@ -87,29 +91,39 @@ export class SubcategoryPage implements OnInit {
     }
 
     get filterargsToDisplay(): { name: string, operator: string, value: string }[] {
-        const displayNames: Map<string, Map<string, string>> = new Map<string, Map<string, string>>(
-            [
-                ['price', new Map<string, string>(
-                    [
-                        ['>=', 'minPrice'],
-                        ['<=', 'maxPrice']
-                    ]
-                )]
-            ]
-        );
-        const filterObjArray: { name: string, operator: string, value: string, displayName: string }[] = [];
+        const detailNames: Map<string, Map<string, string>> = new Map<string, Map<string, string>>([
+            ['price', new Map<string, string>(
+                [
+                    ['>=', 'minPrice'],
+                    ['<=', 'maxPrice']
+                ]
+            )]
+        ]);
+        const filterObjArray: { name: string, operator: string, value: string, detailName: string }[] = [];
         this.filterargs.forEach((el) => {
             const filterObj = this.filterAndSearchService.filterToObject(el);
             const name = filterObj.name;
             const operator = filterObj.operator;
-            const map = (displayNames.has(name)) ? displayNames.get(name) : undefined;
-            const displayName = (map && map.get(operator)) ? map.get(operator) : filterObj.name;
-            filterObjArray.push({ name: filterObj.name, operator: filterObj.operator, value: filterObj.value, displayName });
+            const map = (detailNames.has(name)) ? detailNames.get(name) : undefined;
+            const detailName = (map && map.get(operator)) ? map.get(operator) : filterObj.name;
+            if (name == 'price'){
+                // Remove duplicate price
+                for (let i = 0; i < filterObjArray.length; i++){
+                    if (filterObjArray[i].name === 'price'){
+                        return;
+                    }
+                }
+            }
+            filterObjArray.push({ name: filterObj.name, operator: filterObj.operator, value: filterObj.value, detailName });
         });
         return filterObjArray;
     }
 
-    removeFilter(filter: { name: string, operator: string, value: string, displayName?: string }) {
+    get selectedPrice(): RangeValue {
+        return ((document.querySelector('#priceRangeInput') as unknown) as IonRange).value;
+    }
+
+    removeFilter(filter: { name: string, operator: string, value: string, detailName?: string }) {
         const resetFilterInput: Map<string, Function> = new Map<string, Function>(
             [
                 ['rating', () => { this.filledStars = 0; }],
@@ -125,16 +139,17 @@ export class SubcategoryPage implements OnInit {
                 }]
             ]
         );
-        if (!filter.displayName) {
-            filter.displayName = filter.name;
+        if (!filter.detailName) {
+            filter.detailName = filter.name;
         }
-        if (this.filterSettings[filter.displayName] !== '') {
-            this.filterSettings[filter.displayName] = '';
+        if (this.filterSettings[filter.detailName]){
+            this.filterSettings[filter.detailName] = '';
             this.products = this.applyFilters(this.allProducts);
-            if (resetFilterInput.has(filter.displayName)) {
-                resetFilterInput.get(filter.displayName)();
+            if (resetFilterInput.has(filter.detailName)) {
+                resetFilterInput.get(filter.detailName)();
             }
         }
+        
     }
 
     setRangeValueTo(lower: number, upper: number) {
@@ -142,21 +157,9 @@ export class SubcategoryPage implements OnInit {
         element.value = { lower, upper };
     }
 
-    displayLoading(promise: Promise<void>) {
-        this.progressIndicatorService.presentLoading('Updating products');
-        promise.then(() => {
-            this.progressIndicatorService.dismissLoadingIndicator();
-            this.progressIndicatorService.presentToast('Successfully updated products', 2000);
-        }, () => {
-            this.progressIndicatorService.dismissLoadingIndicator();
-            this.progressIndicatorService.presentToast('Products couldn\'t be updated', 2000, 'danger');
-        });
-    }
-
     onRatingFilterChanged(n: number) {
         this.filterSettings.rating = `>=;rating;${n}`;
-        const promise = this.updateProducts();
-        this.displayLoading(promise);
+        this.products = this.applyFilters(this.allProducts);
     }
 
     onPriceSliderChange(evt) {
@@ -166,18 +169,17 @@ export class SubcategoryPage implements OnInit {
     }
 
     onMinPriceChange(n?: number) {
-        console.log(n);
         const input: HTMLInputElement = document.querySelector('#minPriceInput');
         if (!isUndefined(n)) {
             if (input.value !== n.toString()) {
                 input.value = n.toString();
             }
-            const element = ((document.querySelector('#priceRangeInput') as unknown) as IonRange);
-            this.setRangeValueTo(n, (element.value as any).upper);
         } else {
             const newValue: number = Number(input.value);
             if (isNaN(newValue)) { return; }
             n = newValue;
+            const element = ((document.querySelector('#priceRangeInput') as unknown) as IonRange);
+            this.setRangeValueTo(n, (element.value as any).upper);
         }
         if (n === 0) {
             this.removeFilter({ name: 'minPrice', operator: '>=', value: '' });
@@ -193,12 +195,12 @@ export class SubcategoryPage implements OnInit {
             if (input.value !== n.toString()) {
                 input.value = n.toString();
             }
-            const element = ((document.querySelector('#priceRangeInput') as unknown) as IonRange);
-            this.setRangeValueTo((element.value as any).lower, n);
         } else {
             const newValue: number = Number(input.value);
             if (isNaN(newValue)) { return; }
             n = newValue;
+            const element = ((document.querySelector('#priceRangeInput') as unknown) as IonRange);
+            this.setRangeValueTo((element.value as any).lower, n);
         }
         if (n === this.priceSpan.upper) {
             this.removeFilter({ name: 'maxPrice', operator: '<=', value: '' });

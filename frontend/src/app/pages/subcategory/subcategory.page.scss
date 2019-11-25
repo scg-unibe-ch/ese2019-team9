@@ -64,7 +64,10 @@ img.pic-square {
   min-height: 2rem;
   padding-top: 0.5rem;
   box-sizing: border-box;
-  background-color: var(--ion-color-medium);
+  .button {
+    --border-color: var(--ion-color-secondary-shade);
+    --color: var(--ion-color-secondary-shade);
+  }
 }
 
 app-filter {
