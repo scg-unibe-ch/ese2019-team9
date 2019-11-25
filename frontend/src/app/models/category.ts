@@ -52,7 +52,6 @@ export class Category {
         this._parentSlug = value;
     }
     public toJSON() {
-        console.log(this.parentSlug);
         return JSON.parse(`{"name":"${this.name}", "slug":"${this.slug}" ${(this.id)? `,"id":"${this.id}"` : ""} ${(this.parentSlug)? `,"parentSlug":"${this.parentSlug}"` : ""}}`);
     }
 }

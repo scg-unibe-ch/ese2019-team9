@@ -192,3 +192,10 @@ input[type=number]::-webkit-outer-spin-button {
     border: 1px solid blackS;
 }
 
+ion-alert button.delete-button {
+  background-color:var(--ion-color-danger) !important;
+  color: var(--ion-color-danger-contrast) !important;
+}
+ion-alert button.cancel-button {
+  border: 1px solid var(--ion-color-primary) !important;
+}

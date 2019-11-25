@@ -62,7 +62,6 @@ export class MapPickerComponent implements OnInit {
         return null;
       }
       return geoData.results[0].formatted_address;
-      console.log(geoData);
     }));
   }
 

@@ -97,7 +97,6 @@ export class AddProductsPage implements OnInit {
         }
         const val = this.productForm.value;
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
-            console.log(data);
             this.productForm.reset();
             this.progressIndicatorService.presentToast('Product successfully created', 2000, 'success');
         }, error => {

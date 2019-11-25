@@ -31,7 +31,6 @@ export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
                 center: {lat: -34.397, lng: 150.644 },
                 zoom: 16
             });
-            console.log(map);
             this.googleMaps.event.addListenerOnce(map, 'idle', () => {
                 this.renderer.addClass(mapEl, 'visible');
             });

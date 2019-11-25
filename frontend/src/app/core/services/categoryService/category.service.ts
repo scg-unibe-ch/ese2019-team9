@@ -65,9 +65,14 @@ export class CategoryService {
         Object.keys(jsonBody).forEach(key => {
             formData.append(key, jsonBody[key]);
         });
-        console.log(jsonBody);
         if (image) formData.append('image', image);
-        return this.httpClient.patch(this.categoriesEndpoint + `/${id}`, formData ,{headers: headers});
+        return this.httpClient.patch(this.categoriesEndpoint + `/${id}`, formData ,{headers});
 
+    }
+
+    delteCategory(categoryId: string){
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        return this.httpClient.delete(this.categoriesEndpoint + `/${categoryId}`,{headers});
     }
 }
