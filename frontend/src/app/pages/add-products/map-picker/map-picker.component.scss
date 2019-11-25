@@ -5,11 +5,16 @@
 }
 
 .picker {
-  width: 50%;
   height: 20rem;
   max-height: 30vh;
-  border: 2px solid var(--ion-color-primary);
+  border: 1px solid var(--ion-color-primary);
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    width: 50%;
+  }
 }

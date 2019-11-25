@@ -76,8 +76,8 @@ export class AddProductsPage implements OnInit {
         });
         this.productForm = this.formBuilder.group({
             name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
-            price: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(6)]],
-            location: ['', [Validators.required, Validators.maxLength(30)]],
+            price: ['', [Validators.required, Validators.min(10), Validators.max(100000)]],
+            location: ['', [Validators.required, Validators.maxLength(256)]],
             category: ['', [Validators.required]],
             categorySlug: ['', [Validators.required]],
             description: ['', [Validators.required, Validators.maxLength(10000)]],
@@ -120,5 +120,8 @@ export class AddProductsPage implements OnInit {
 
     onLocationPicked(location: PlaceMap) {
       this.productForm.patchValue({ map: location});
+      console.log(document.getElementById('locationInput'));
+      (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;
+      console.log(location);
     }
 }
