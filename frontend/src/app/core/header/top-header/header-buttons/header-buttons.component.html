@@ -1,21 +1,24 @@
 <div class="ion-float-right">
+    <!-- Buttons to be displayed when the user is not logged in -->
     <ion-button *ngIf="!authService.isLoggedIn()" size="small" class="greyButton" fill="empty"
                 (click)="presentLoginPopover()">Login
     </ion-button>
     <ion-button *ngIf="!authService.isLoggedIn()" size="small" class="blueButton" fill="empty"
                 (click)="presentRegistrationPopover()">Join
     </ion-button>
-    <ion-button *ngIf="authService.isLoggedIn() && authService.isAdmin()" size="small"
-                class="greyButton ion-hide-md-down" fill="empty"
-                [routerLink]="['/admin']">Admin
-    </ion-button>
-    <ion-button *ngIf="authService.isLoggedIn()" size="small" class="greyButton ion-hide-md-down" fill="empty"
+
+    <!-- Buttons to be displayed when the user is logged in -->
+    <ion-button *ngIf="authService.isLoggedIn()" size="small" class="blueButton ion-hide-md-down" fill="empty"
                 [routerLink]="['/add-products']" [routerDirection]="'root'">
         <ion-icon name="add"></ion-icon>
-        Add
+        Products
     </ion-button>
     <ion-button *ngIf="authService.isLoggedIn()" size="small" class="greyButton" fill="empty"
                 (click)="authService.logout()"> Logout
+    </ion-button>
+    <ion-button *ngIf="authService.isLoggedIn() && authService.isAdmin()" size="small"
+                class="greyButton ion-hide-md-down" fill="empty"
+                [routerLink]="['/admin']">Admin
     </ion-button>
     <ion-button *ngIf="authService.isLoggedIn()" size="small" class="blueButton" fill="empty"
                 [routerLink]="['/profile']">

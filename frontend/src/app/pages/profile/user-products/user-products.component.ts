@@ -11,7 +11,7 @@ import {ProgressIndicatorService} from '../../../core/services/progressIndicator
 export class UserProductsComponent implements OnInit {
   userId;
   products = [];
-  valuesToHide = ['_id', 'id', 'category', 'seller', 'reviews', 'verified', 'image'];
+  valuesToHide = ['_id', 'id', 'category', 'seller', 'reviews', 'verified', 'image', 'toRevise', 'rating'];
   additionalValues = ['category', 'verified', 'rating', 'toRevise'];
 
   constructor(
@@ -34,9 +34,17 @@ export class UserProductsComponent implements OnInit {
     });
   }
 
-  reloadProducts(ev: any) {
-    if (ev === 'reload') {
-      this.getUserProducts();
-    }
+  deleteProduct(productId: string) {
+    this.productService.deleteProduct(productId).subscribe(data => {
+      this.progressIndicatorService.presentToast('Product successfully deleted', 2000, 'success');
+      this.reloadProducts();
+    }, err => {
+      console.log(err);
+      this.progressIndicatorService.presentToast('Product could not be deleted', 2000, 'danger');
+    });
+  }
+
+  reloadProducts() {
+    this.getUserProducts();
   }
 }
