@@ -1,5 +1,5 @@
 <ion-toolbar (mouseleave)="dismissMenu()">
-        <ion-segment (ionChange)="segmentChanged($event)">
+        <ion-segment mode="md" (ionChange)="segmentChanged($event)">
             <ion-segment-button *ngFor="let category of categories" value="{{ category.slug }}" fill="clear" >
                 <ion-label> {{ category.name }}</ion-label>
             </ion-segment-button>

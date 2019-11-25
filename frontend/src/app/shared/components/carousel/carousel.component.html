@@ -1,10 +1,10 @@
-<ion-card>
-  <ion-toolbar color="medium" >
+<ion-card class="carouselCard">
+  <ion-toolbar>
     <ion-title class="carouselTitle">
       {{ carouselName }}
     </ion-title>
   </ion-toolbar>
-  <ion-card-content class="carouselBody ion-justify-content-center ion-align-items-center" >
+  <ion-card-content class="line carouselBody ion-justify-content-center ion-align-items-center" >
       <ion-button size="large" fill="empty" slot="start" (click)="selectPreviousItem()" >
           <ion-icon name="arrow-dropleft" slot="end" ></ion-icon>
       </ion-button>
