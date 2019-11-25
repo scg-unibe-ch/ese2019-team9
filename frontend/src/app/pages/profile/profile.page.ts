@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {NotificationService} from '../../core/services/notificationService/notification.service';
+import {AuthService} from '../../core/services/authService/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,11 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePage implements OnInit {
   selectedTab;
+  notifications = [];
 
-  constructor() { }
+  constructor(
+      private notificationService: NotificationService,
+      private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.selectedTab = 0;
+    this.getNotifications();
+  }
+
+  getNotifications() {
+    this.notificationService.getSingleUsersNotifications().subscribe(
+        data => {
+          // @ts-ignore
+          this.notifications = data;
+          console.log(this.notifications);
+        }, err => {
+          console.log(err);
+        }
+    );
   }
 
   onTabSwitch(evt: CustomEvent) {

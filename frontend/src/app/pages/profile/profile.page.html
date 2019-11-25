@@ -27,10 +27,12 @@
       <ion-col size="2">
         <ion-card>
           <ion-card-title>
-            Messages
+            Notifications
           </ion-card-title>
-          <ion-card-content>
-
+          <ion-card-content *ngFor="let notification of notifications">
+            <ion-card class="ion-no-padding" >
+              {{ notification.text}}
+            </ion-card>
           </ion-card-content>
         </ion-card>
       </ion-col>

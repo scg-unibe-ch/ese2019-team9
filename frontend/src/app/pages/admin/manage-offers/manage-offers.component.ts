@@ -3,6 +3,7 @@ import {first} from 'rxjs/operators';
 import {ProductService} from 'src/app/core/services/productService/product.service';
 import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
 import {isUndefined} from 'util';
+import {NotificationService} from '../../../core/services/notificationService/notification.service';
 
 @Component({
     selector: 'app-manage-offers',
@@ -16,7 +17,8 @@ export class ManageOffersComponent implements OnInit {
 
     constructor(
         private productService: ProductService,
-        private progressIndicatorService: ProgressIndicatorService) {
+        private progressIndicatorService: ProgressIndicatorService,
+        private notificationService: NotificationService) {
     }
 
     ngOnInit() {
@@ -36,28 +38,30 @@ export class ManageOffersComponent implements OnInit {
         });
     }
 
-    deleteOffer(productId: string) {
+    deleteOffer(productId: string, productName: string, sellerId: string) {
         this.progressIndicatorService.presentLoading('Loading...');
         this.productService.deleteProduct(productId).pipe(first()).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Product deleted', 2000);
+                this.notifySeller(productId, productName, sellerId, 'delete');
                 this.updateProducts();
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product could not be verified', 2000, "danger");
+                this.progressIndicatorService.presentToast('Product could not be deleted', 2000, "danger");
                 console.log(err);
             },
         );
     }
 
-    verifyOffer(productId: string) {
+    verifyOffer(productId: string, productName: string, sellerId: string) {
         this.progressIndicatorService.presentLoading('Loading...');
         this.productService.verifyProduct(productId).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Product verified', 2000);
+                this.notifySeller(productId, productName, sellerId, 'verify');
                 this.updateProducts();
             },
             err => {
@@ -68,20 +72,21 @@ export class ManageOffersComponent implements OnInit {
         );
     }
 
-    reviseOffer(productId: string) {
-      this.progressIndicatorService.presentLoading('Loading...');
-      this.productService.reviseProduct(productId).subscribe(
-          data => {
-            this.progressIndicatorService.dismissLoadingIndicator();
-            this.progressIndicatorService.presentToast('Revision initialized', 2000);
-            this.updateProducts();
-          },
-          err => {
-            this.progressIndicatorService.dismissLoadingIndicator();
-            this.progressIndicatorService.presentToast('Revision could not be initialized', 2000, 'danger');
-            console.log(err);
-          }
-      );
+    reviseOffer(productId: string, productName: string, sellerId: string) {
+        this.progressIndicatorService.presentLoading('Loading...');
+        this.productService.reviseProduct(productId).subscribe(
+            data => {
+                this.progressIndicatorService.dismissLoadingIndicator();
+                this.progressIndicatorService.presentToast('Revision initialized', 2000);
+                this.notifySeller(productId, productName, sellerId, 'revise');
+                this.updateProducts();
+            },
+            err => {
+                this.progressIndicatorService.dismissLoadingIndicator();
+                this.progressIndicatorService.presentToast('Revision could not be initialized', 2000, 'danger');
+                console.log(err);
+            }
+        );
     }
 
     updateProducts() {
@@ -108,5 +113,33 @@ export class ManageOffersComponent implements OnInit {
     filter(array: []) {
         if (isUndefined(array) || array.length == 0) return [];
         return array.filter(product => !(product as any).verified);
+    }
+
+    notifySeller(productId: string, productName: string, sellerId: string, notificationType: string) {
+        let link = '/home';
+        let message = '';
+        if (notificationType === 'delete') {
+            message = 'Your product was deleted: ' + productName;
+            link = '/add-products';
+        } else if (notificationType === 'verify') {
+            message = 'Your product was verified: ' + productName;
+            link = `/product-details/${productId}`;
+        } else if (notificationType === 'revise') {
+            message = 'Your product needs revising: ' + productName;
+            link = `/product-details/${productId}`;
+        }
+        // remove this once backend removed text or message
+        const text = message;
+        // create the body for the backend request
+        const body = `{"text":"${text}", "message":"${message}", "userId":"${sellerId}", "link":"${link}"}`;
+        console.log(body);
+        this.notificationService.notifySingleUser(sellerId, body).subscribe(
+            data => {
+                this.progressIndicatorService.presentToast('Seller notified', 2000, 'success');
+            }, err => {
+                this.progressIndicatorService.presentToast('Seller not notified', 2000, 'danger');
+                console.log(err);
+            }
+        );
     }
 }
