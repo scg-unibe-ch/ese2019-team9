@@ -33,35 +33,45 @@ const upload = multer({
 module.exports = async (req, res, next) => {
     try {
         await upload(req, res, async (err) => {
-            if (err)
-                console.log(err.message);
+            try {
+                if (err) {
+                    throw new Error(err.message);
+                } else {
+                    if(!req.file) {
+                        next();
+                    } else {
+                        const formData = {
+                            // Pass data via Streams
+                            image: fs.createReadStream(req.file.path),
+                        };
+                        await request.post({
+                            url: process.env.FILE_STORAGE,
+                            formData: formData
+                        }, async function optionalCallback(err, httpResponse, body) {
+                            body = JSON.parse(body);
+                            console.log(body);
+                            if (err) {
+                                throw new Error(err)
+                            }
 
-            const formData = {
-                // Pass data via Streams
-                image: fs.createReadStream(req.file.path),
-            };
-            await request.post({
-                url: process.env.FILE_STORAGE,
-                formData: formData
-            }, async function optionalCallback(err, httpResponse, body) {
-                body = JSON.parse(body);
-                if (err || httpResponse.statusCode != 200) {
-                    throw new Error(err || body.message)
+                            if(httpResponse.statusCode != 200) {
+                                throw new Error(body.message)
+                            }
+
+                            await unlinkAsync(req.file.path);
+                            req.file = body.filename;
+                            next();
+                        });
+                    }
                 }
-
-                await unlinkAsync(req.file.path);
-                req.file = body.filename;
-                next();
-            });
+            } catch (err) {
+                console.log("Error: " + err.message);
+                return res.status(500).json({ error:err.message });
+            }
         });
     } catch (err) {
-        console.log(err.message);
-        req.status(500).json({
-            error:err.message
-        });
-        next();
-    } finally {
-        
+        console.log("Error: " + err.message);
+        return res.status(500).json({ error:err.message });
     }
 }
 

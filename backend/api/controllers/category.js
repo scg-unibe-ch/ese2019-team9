@@ -107,15 +107,15 @@ exports.getSingleCategory = (req, res, next) => {
  * @param req.body has to contain slug, image and name (optional parentSlug)
  */
 exports.addCategory = (req, res, next) => {
-    if(!req.body.slug || !req.body.name || !req.file) {
+    if(!req.body.slug || !req.body.name) {
         if(req.file)
             deleteFile(req.file);
         return res.status(500).json({
-            message:"Please specify name, image and slug"
+            message:"Please specify name, image and slug" + req.body.file
         });
     }
 
-    if (!/[^a-zA-Z]/.test(req.body.slug))
+    if (/[^a-zA-Z]/.test(req.body.slug))
         return res.status(500).json({ message:"You are only allowed to use letters for the field 'slug'" });
 
     Category.find({ slug:req.body.slug })
@@ -208,9 +208,11 @@ exports.deleteCategory = (req, res, next) => {
  */
 exports.updateCategory = (req, res, next) => {
     let updateFields = {};
+    const validFields = ['name', 'parent', 'slug'];
 
     for(const [propName, value] of Object.entries(req.body)) {
-        updateFields[propName] = propName == 'parent' && value == '' ? null : value;
+        if(validFields.includes(propName))
+            updateFields[propName] = propName == 'parent' && value == '' ? null : value;
     }
 
     if(req.file) 

@@ -72,6 +72,16 @@ exports.verifyToken = (req, res, next) => {
     }
 }
 
+exports.getToken = (req, res, next) => {
+    const token = req.body;
+    try{
+        const encoded = jwt.sign(token, process.enc.JWT_KEY);
+        res.status(200).json({token: encoded});
+    }catch (error){
+        res.status(500).json({message:error,wiso:'wiso'});
+    }
+}
+
 exports.deleteUserWithDomain = (req, res, next) => {
     const regex = req.params.domain + '\\.' + req.params.namespace;
       User.find()

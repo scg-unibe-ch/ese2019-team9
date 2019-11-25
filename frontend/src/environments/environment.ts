@@ -7,7 +7,8 @@
  * `ng build --prod`
  */
 export const environment = {
-  production: false
+  production: false,
+  googleMapsAPIKey: 'AIzaSyBzlGuLyMWhDpB8xc6_rO05evEBM7cumtE'
 };
 
 /*
