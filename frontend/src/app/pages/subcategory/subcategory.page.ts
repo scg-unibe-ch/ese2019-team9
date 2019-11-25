@@ -225,4 +225,8 @@ export class SubcategoryPage implements OnInit {
         this.priceSpan = { lower: sorted[0]['price'], upper: sorted[sorted.length - 1]['price'] };
     }
 
+    onSortChange(evt: Object){
+        this.filterAndSearchService.sort(this.products, (evt as any).target.value, '-date');
+    }
+
 }
