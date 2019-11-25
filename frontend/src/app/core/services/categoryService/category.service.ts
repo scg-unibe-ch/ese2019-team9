@@ -70,4 +70,10 @@ export class CategoryService {
         return this.httpClient.patch(this.categoriesEndpoint + `/${id}`, formData ,{headers: headers});
 
     }
+
+    deleteCategory(categoryId: string){
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        return this.httpClient.delete(this.categoriesEndpoint + `/${categoryId}` , {headers});
+    }
 }
