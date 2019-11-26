@@ -6,7 +6,7 @@
             <ion-item> *Note: If you want to become a seller, you need to specify your name, address and country</ion-item>
         </ion-col>
         <ion-col size="12" size-md="6" size-xl="3">
-            <ion-card>
+            <ion-card *ngIf="notifications" >
                 <ion-card-title class="notificationTitle ion-align-items-center">
                     Notifications
                 </ion-card-title>
