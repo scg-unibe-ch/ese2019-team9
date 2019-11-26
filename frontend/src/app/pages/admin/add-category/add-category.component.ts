@@ -102,7 +102,6 @@ export class AddCategoryComponent implements OnInit {
 			(data) => {
 				this.progressIndicatorService.dismissLoadingIndicator();
 				this.progressIndicatorService.presentToast('Category updated', 2000);
-				console.log(data);
 				this.categoryForm.reset();
 			}, reason => {
 				this.progressIndicatorService.dismissLoadingIndicator();

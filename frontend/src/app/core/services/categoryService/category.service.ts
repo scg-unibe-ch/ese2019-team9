@@ -45,7 +45,7 @@ export class CategoryService {
         formData.append(key, categoryAsJSON[key]);
         });
         formData.append('image', image);
-        return this.httpClient.post(this.categoriesEndpoint + `/add`, formData ,{headers: headers});
+        return this.httpClient.post(this.categoriesEndpoint + `/add`, formData ,{headers});
 
     }
 
@@ -70,7 +70,7 @@ export class CategoryService {
 
     }
 
-    delteCategory(categoryId: string){
+    deleteCategory(categoryId: string){
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.delete(this.categoriesEndpoint + `/${categoryId}`,{headers});

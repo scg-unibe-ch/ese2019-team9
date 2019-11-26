@@ -28,7 +28,6 @@ export class FilterAndSearchService {
 				skipFieldNames.indexOf(element) === -1
 			);
 		}
-
 		if (fieldnames.length < 1) return new Set();
 
 		let result = new Set<{ obj, key, indices }>();

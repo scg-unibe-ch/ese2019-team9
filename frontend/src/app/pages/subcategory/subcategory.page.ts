@@ -212,7 +212,7 @@ export class SubcategoryPage implements OnInit {
 
     array(n: number): number[] {
         const arr = Array(n);
-        return [...arr.keys()].map(ind => ind + 1);
+        return Array.from(arr.keys()).map(ind => ind + 1);
     }
 
     fillTo(n: number): void {
