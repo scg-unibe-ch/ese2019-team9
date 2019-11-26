@@ -10,6 +10,7 @@ import { CarouselModule } from '../../shared/carousel.module';
 
 import { HomePage } from './home.page';
 import {FooterComponent} from '../../core/footer/footer.component';
+import { SearchResultComponent } from './home-banner/search-result/search-result.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {FooterComponent} from '../../core/footer/footer.component';
     CarouselModule
   ],
   exports: [],
-  declarations: [HomePage, FooterComponent]
+  declarations: [HomePage, FooterComponent, SearchResultComponent],
+  entryComponents: [SearchResultComponent]
 })
 export class HomePageModule {}

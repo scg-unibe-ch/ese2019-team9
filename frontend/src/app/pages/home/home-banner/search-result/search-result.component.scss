@@ -1,0 +1,13 @@
+.list {
+    border-bottom: 1px solid black;
+    max-height: 90%;
+    overflow: auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    max-height: 100%;
+    overflow: hidden;
+}

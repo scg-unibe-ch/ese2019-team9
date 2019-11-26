@@ -35,8 +35,20 @@
             </ng-container>
             </ion-col>
          </ion-row>
+         <ion-row class="ion-justify-content-end">
+             <ion-col size="12" size-md="3" class="ion-justify-content-end">
+                    <ion-select placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
+                            <ion-select-option value="+price">Price ascending</ion-select-option>
+                            <ion-select-option value="-price">Price descending</ion-select-option>
+                            <ion-select-option value="+date">Date ascending</ion-select-option>
+                            <ion-select-option value="-date">Date descending</ion-select-option>
+                            <ion-select-option value="+rating">Rating ascending</ion-select-option>
+                            <ion-select-option value="-rating">Rating descending</ion-select-option>
+                        </ion-select>
+             </ion-col>
+         </ion-row>
         <ion-row>
-            <ion-col size="12" size-md="2" class="filter-col ion-margin-top">
+            <ion-col size="12" size-md="3" class="filter-col ion-margin-top">
                 <app-filter>
                     <div class="filter-title" title>Select your Rating:</div>
                     <div class="filter-input" input>
@@ -55,7 +67,7 @@
                 </app-filter>
 
             </ion-col>
-            <ion-col size="12" size-md="10">
+            <ion-col size="12" size-md="9">
                 <ion-grid>
                     <ion-row>
                         <ion-col *ngFor="let product of products" size="12" size-md="6" size-xl="4">

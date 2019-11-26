@@ -212,7 +212,7 @@ export class SubcategoryPage implements OnInit {
 
     array(n: number): number[] {
         const arr = Array(n);
-        return [...arr.keys()].map(ind => ind + 1);
+        return Array.from(arr.keys()).map(ind => ind + 1);
     }
 
     fillTo(n: number): void {
@@ -223,6 +223,10 @@ export class SubcategoryPage implements OnInit {
         const sorted = this.filterAndSearchService.sort([...this.products], '+price');
         if (sorted.length === 0) { return { lower: 0, upper: 1000 }; }
         this.priceSpan = { lower: sorted[0]['price'], upper: sorted[sorted.length - 1]['price'] };
+    }
+
+    onSortChange(evt: Object){
+        this.filterAndSearchService.sort(this.products, (evt as any).target.value, '-date');
     }
 
 }
