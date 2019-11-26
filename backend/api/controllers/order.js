@@ -18,7 +18,9 @@ exports.placeOrder = (req, res, next) => {
 
         const order = new Order({
             _id:new mongoose.Types.ObjectId(),
-            date:new Date(),
+            orderDate:new Date(),
+            startDate:new Date(req.startDate),
+            endDate:new Date(req.endDate),
             buyer:new mongoose.Types.ObjectId(req.userData.userId),
             product:new mongoose.Types.ObjectId(req.body.productId),
             seller:product.seller
@@ -133,6 +135,7 @@ exports.fulfillOrder = (req, res, next) => {
 exports.getOrders = (req, res, next) => {
     const searchFields = req.userData.admin && req.body.getAll ? null : { seller:req.userData.userId };
     Order.find()
+    .select("-__v")
     .then(docs => {
         res.status(200).json(docs);
     })

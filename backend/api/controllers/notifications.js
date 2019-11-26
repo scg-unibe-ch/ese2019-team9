@@ -14,7 +14,7 @@ exports.getAllNotifications = (req, res, next)=>{
     })
 }
 exports.getNotification = (req, res, next) => {
-    Notification.findById(req.params.id)
+    Notification.find({ user:new mongoose.Types.ObjectId(req.userData.userId) })
     .exec()
     .then((notification) => {
         if(notification)
@@ -29,7 +29,7 @@ exports.getNotification = (req, res, next) => {
 
 exports.getNotificationsByUId = (req, res, next) => {
     const uId = req.userData.userId;
-    Notification.find({user: uId})
+    Notification.find({ user:new mongoose.Types.ObjectId(userId)})
     .exec()
     .then((notifications) =>{
         res.status(200).json(notifications);

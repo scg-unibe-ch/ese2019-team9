@@ -1,8 +1,22 @@
 .carouselTitle {
   text-align: center;
-  background: var(--ion-color-medium);
+  text-transform: uppercase;
+  color: var(--ion-color-secondary-shade);
+  font-size: 3vw;
+  letter-spacing: 0.5em;
+  padding-top: 50px;
 }
 
 .carouselBody {
   display: flex;
+}
+
+.carouselCard {
+  padding: 0px;
+  margin: 0px;
+  box-shadow: none;
+}
+
+.line {
+  border-bottom: 1px solid var(--ion-color-secondary-shade);
 }
