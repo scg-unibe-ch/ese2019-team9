@@ -23,6 +23,7 @@
     <ion-button *ngIf="authService.isLoggedIn()" size="small" class="blueButton" fill="empty"
                 [routerLink]="['/profile']">
         <ion-icon name="person"></ion-icon>
+        <ion-badge color="danger" slot="end"></ion-badge>
     </ion-button>
 
 </div>
