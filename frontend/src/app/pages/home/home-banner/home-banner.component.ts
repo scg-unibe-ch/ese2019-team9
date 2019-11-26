@@ -96,7 +96,7 @@ export class HomeBannerComponent implements OnInit {
 		evt.target.value = (document.getElementById('searchbar') as HTMLIonInputElement).value;
 		this.onSearchbarChange(evt);	
 		(document.getElementById('searchbar') as HTMLIonInputElement).setFocus();
-		//this.popoverLock = false;
+		this.popoverLock = false;
 	}
 
 	closeSearchResultPopover(){

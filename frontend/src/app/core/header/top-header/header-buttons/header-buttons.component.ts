@@ -75,34 +75,4 @@ export class HeaderButtonsComponent {
         });
         return await popover.present();
     }
-
-    checkForNewNotifications() {
-        const unreadMessages = [];
-        let activateRequest = false;
-
-        setInterval(() => {
-            activateRequest = true;
-            console.log('activated');
-        }, 3000);
-
-        if (activateRequest) {
-            this.notificationService.getSingleUsersNotifications().subscribe(
-                data => {
-                    console.log(data);
-                    // tslint:disable-next-line:only-arrow-functions
-                    data.forEach(function(notification) {
-                        if (notification.read === false) {
-                            unreadMessages.push(notification);
-                        }
-                    });
-                    console.log(unreadMessages);
-                    return unreadMessages.length;
-                    activateRequest = false;
-                }, err => {
-                    console.log(err);
-                    activateRequest = false;
-                }
-            );
-        }
-    }
 }
