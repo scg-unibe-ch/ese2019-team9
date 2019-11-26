@@ -1,5 +1,55 @@
-<span *ngFor="let product of products">
-  <app-profile-informations [profileItem]="product" [changeable]="true" [type]="'product'"
-                            [valuesToHide]="valuesToHide"
-                            [additionalValues]="additionalValues" (reloadEvent)="reloadProducts($event)" ></app-profile-informations>
-</span>
+<ion-list>
+    <ion-grid class="ion-padding-start">
+        <ion-row>
+            <ion-col size="7" size-md="5" offset-md="2" size-lg="7">
+                Name
+            </ion-col>
+            <ion-col size="2" size-md="2" size-lg="1">
+                Verified
+            </ion-col>
+            <ion-col size="2" size-md="2" size-lg="1">
+                Revise
+            </ion-col>
+            <ion-col size="1"></ion-col>
+        </ion-row>
+        <ion-row *ngFor="let product of products">
+            <ion-item-sliding>
+                <ion-item class="profileProductsItem" (click)="product.openDetail = !product.openDetail">
+                    <ion-col size-md="2" class="ion-hide-sm-down">
+                        <ion-avatar>
+                            <img *ngIf="product.image" src="{{ product.image }}">
+                        </ion-avatar>
+                    </ion-col>
+                    <ion-col size="7" size-md="5" size-lg="7" >
+                        {{ product.name }}
+                    </ion-col>
+                    <ion-col size="2" size-md="2" size-lg="1" >
+                        <ion-icon size="large" [class]="product.verified ? 'verified' : 'notVerified'"
+                                  [name]="product.verified ? 'checkmark-circle' : 'close-circle'">
+                        </ion-icon>
+                    </ion-col>
+                    <ion-col size="2" size-md="2" size-lg="1" >
+                        <ion-icon size="large" [class]="product.toRevise ? 'toRevise' : 'verified'"
+                                  [name]="product.toRevise ? 'warning' : 'checkmark-circle'">
+                        </ion-icon>
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-icon [name]="product.openDetail ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+                    </ion-col>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option color="danger" (click)="deleteProduct(product._id)">
+                        Delete
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+            <ion-col *ngIf="product.openDetail">
+                <app-profile-informations (deleteEvent)="deleteProduct(product._id)" [profileItem]="product"
+                                          [changeable]="true" [type]="'product'"
+                                          [valuesToHide]="valuesToHide"
+                                          [additionalValues]="additionalValues">
+                </app-profile-informations>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-list>

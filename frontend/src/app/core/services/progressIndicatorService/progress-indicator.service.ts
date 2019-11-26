@@ -9,7 +9,7 @@ export class ProgressIndicatorService {
   constructor(private toastController: ToastController, private loadingController: LoadingController) { }
 
   async presentToast(message: string, duration: number, color?: string) {
-    const toastColor = (color) ?  color :"primary";
+    const toastColor = (color) ?  color :'success';
     const toast = await this.toastController.create({
       message: message,
       duration: duration,

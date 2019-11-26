@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../../core/services/userService/user.service';
 import {AuthService} from '../../../core/services/authService/auth.service';
 import {ProgressIndicatorService} from '../../../core/services/progressIndicatorService/progress-indicator.service';
+import {NotificationService} from '../../../core/services/notificationService/notification.service';
+import {FilterAndSearchService} from '../../../core/services/filterAndSearchService/filter-and-search.service';
 
 @Component({
   selector: 'app-user-information',
@@ -14,14 +16,30 @@ export class UserInformationComponent implements OnInit {
   keys = ['_id', 'email', 'address', 'name', 'website', 'country', 'phone', 'sex'];
   valuesToHide = ['password', 'openDetail', 'admin', '_id', 'verifiedEmail', 'image'];
 
+  notifications = [];
+
   constructor(
       private userService: UserService,
       private authService: AuthService,
-      private progressIndicatorService: ProgressIndicatorService
+      private progressIndicatorService: ProgressIndicatorService,
+      private notificationService: NotificationService,
+      private sortService: FilterAndSearchService
   ) { }
 
   ngOnInit() {
     this.getUserInformation();
+    this.getNotifications();
+  }
+
+  ionViewDidLeave(): void {
+    this.notificationService.setAllNotificationsToRead().subscribe(err => {
+      console.log(err);
+    });
+  }
+
+  ionViewDidEnter(): void {
+    this.getUserInformation();
+    this.getNotifications();
   }
 
   getUserInformation() {
@@ -44,5 +62,28 @@ export class UserInformationComponent implements OnInit {
         this.user[key] = '';
       }
     });
+  }
+
+  getNotifications() {
+    this.notificationService.getSingleUsersNotifications().subscribe(
+        data => {
+          // @ts-ignore
+          this.notifications = this.sortService.sort(data, '+read', '+date');
+        }, err => {
+          console.log(err);
+        }
+    );
+  }
+
+  deleteNotification(notificationId: string) {
+    this.notificationService.deleteNotification(notificationId).subscribe(
+        data => {
+          this.progressIndicatorService.presentToast('Notification deleted', 2000);
+          this.getNotifications();
+        }, err => {
+          this.progressIndicatorService.presentToast('Notification not deleted', 2000, 'danger');
+          console.log(err);
+        }
+    );
   }
 }

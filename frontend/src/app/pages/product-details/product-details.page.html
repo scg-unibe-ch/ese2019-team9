@@ -22,7 +22,7 @@
 					<ion-item>Category: <span slot="end">{{ product.category.name }}</span></ion-item>
 					<ion-item>Seller: <span slot="end">{{ product.seller.name }}</span></ion-item>
 					<ion-item>Location: <span slot="end">{{ product.location || 'nowhere'}}</span></ion-item>
-					<ion-button [href]="createMailLink()">Contact</ion-button>
+					<ion-button>Buy</ion-button>
 				</ion-list>
 			</ion-col>
 		</ion-row>
@@ -30,6 +30,7 @@
 			<ion-col size="12" size-md="6" >
 				<span class="product-title">Description</span><br/>
 				<ng-container *ngIf="product.description"> {{ product.description }} </ng-container>
+				<ng-container *ngIf="!product.description"> This product does not have a description</ng-container>
 			</ion-col>
 			<ion-col size="12" size-md="6">
 				<span class="product-title">Reviews</span>

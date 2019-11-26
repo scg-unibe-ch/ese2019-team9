@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
 
   categories = [];
   currentMenuSubcategories = [];
+  subMenuOpen = false;
 
   constructor(
     private platform: Platform,
@@ -42,6 +43,12 @@ export class AppComponent implements OnInit {
   }
 
   showSubMenu(category) {
+    if (this.subMenuOpen && !category.showMenu) {
+      for (let category of this.categories) {
+        category.showMenu = false;
+      }
+      this.subMenuOpen = false;
+    }
     const slug = category.slug;
     if (category.showMenu) {
       category.showMenu = false;
@@ -50,6 +57,7 @@ export class AppComponent implements OnInit {
       this.currentMenuSubcategories = this.categories.filter(cat => cat.slug === slug)[0].subcategories
           .sort((a, b) => a.name.localeCompare(b.name));
       category.showMenu = true;
+      this.subMenuOpen = true;
     }
   }
 

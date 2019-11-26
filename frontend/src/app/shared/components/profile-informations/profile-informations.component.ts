@@ -11,7 +11,7 @@ import {ProductService} from '../../../core/services/productService/product.serv
 export class ProfileInformationsComponent implements OnInit {
     @ViewChild('grid', {static: false}) grid;
     @ViewChild('updateButton', {static: false}) updateButton;
-    @Output() reloadEvent = new EventEmitter<string>();
+    @Output() deleteEvent = new EventEmitter<string>();
     @Input() profileItem;
     @Input() additionalValues?;
     @Input() changeable: boolean = false;
@@ -76,14 +76,8 @@ export class ProfileInformationsComponent implements OnInit {
         return this.profileItem[key].name;
     }
 
-    onClickDeleteProduct(productId: string) {
-        this.productService.deleteProduct(productId).subscribe(data => {
-            this.progressIndicatorService.presentToast('Product successfully deleted', 2000, 'success');
-            this.reloadEvent.next('reload');
-        }, err => {
-            console.log(err);
-            this.progressIndicatorService.presentToast('Product could not be deleted', 2000, 'danger');
-        });
+    onClickDeleteProduct() {
+        this.deleteEvent.next();
     }
 
     onClickEdit() {

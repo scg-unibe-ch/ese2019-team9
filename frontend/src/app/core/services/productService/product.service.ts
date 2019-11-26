@@ -82,7 +82,7 @@ export class ProductService {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         headers.set('Content-Type', null);
-        headers.set('Accept', "multipart/form-data");
+        headers.set('Accept', 'multipart/form-data');
         Object.keys(val).forEach(key => {
             formData.append(key, val[key]);
         });
@@ -93,6 +93,6 @@ export class ProductService {
     getProductsByUserId(userId: string) {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get<[]>(this.userProductsEndpoint + `/${userId}`, {headers: headers});
+        return this.httpClient.get<[]>(this.userProductsEndpoint + `/${userId}`, {headers});
     }
 }
