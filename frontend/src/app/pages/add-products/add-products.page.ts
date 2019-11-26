@@ -93,13 +93,16 @@ export class AddProductsPage implements OnInit {
 
     onSubmitAddProduct() {
         if (this.productForm.invalid) {
-          return;
+            return;
         }
         const val = this.productForm.value;
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
             this.productForm.reset();
-            this.progressIndicatorService.presentToast('Product successfully created', 2000, 'success');
+            this.progressIndicatorService.presentToast('Product successfully created', 2000);
         }, error => {
+            if (error.status === 500) {
+                this.progressIndicatorService.presentToast('You need to enter name, address and country in your profile', 5000, 'danger');
+            }
             console.log(error);
         });
     }
@@ -118,9 +121,9 @@ export class AddProductsPage implements OnInit {
     }
 
     onLocationPicked(location: PlaceMap) {
-      this.productForm.patchValue({ map: location});
-      console.log(document.getElementById('locationInput'));
-      (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;
-      console.log(location);
+        this.productForm.patchValue({map: location});
+        console.log(document.getElementById('locationInput'));
+        (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;
+        console.log(location);
     }
 }
