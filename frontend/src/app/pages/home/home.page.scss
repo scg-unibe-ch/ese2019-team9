@@ -1,3 +1,15 @@
 ion-card{
   margin: 0px;
+  box-shadow: none;
+  border-bottom: solid grey 0.5px;
 }
+
+.imageSize{
+  @media (max-width: 768px) {
+    width: 80vw;
+  }
+  @media (min-width: 768px) {
+    width: 50vw;
+  }
+}
+
