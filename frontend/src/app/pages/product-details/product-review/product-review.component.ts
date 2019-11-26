@@ -15,9 +15,7 @@ export class ProductReviewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.getSingleUser(this.review.user).subscribe(data => {
-      this.user = data;
-    });
+    this.user = this.review.user;
   }
 
 }
