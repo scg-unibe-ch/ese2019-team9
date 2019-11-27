@@ -1,0 +1,12 @@
+<div class="container">
+	<ion-list class="list ion-no-margin">
+		<ion-item *ngFor="let result of searchResults">
+			<ion-grid>
+				<ion-row>
+					<ion-col>{{ result.obj.name }}</ion-col><ion-col> {{ getAppOfResult(result.app) }} </ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-item>
+	</ion-list>
+	<div>Found {{ amountOfResults }} Elements</div>
+</div>

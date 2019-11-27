@@ -11,7 +11,7 @@ import {ProductService} from '../../../core/services/productService/product.serv
 export class ProfileInformationsComponent implements OnInit {
     @ViewChild('grid', {static: false}) grid;
     @ViewChild('updateButton', {static: false}) updateButton;
-    @Output() reloadEvent = new EventEmitter<string>();
+    @Output() deleteEvent = new EventEmitter<string>();
     @Input() profileItem;
     @Input() additionalValues?;
     @Input() changeable: boolean = false;
@@ -76,14 +76,8 @@ export class ProfileInformationsComponent implements OnInit {
         return this.profileItem[key].name;
     }
 
-    onClickDeleteProduct(productId: string) {
-        this.productService.deleteProduct(productId).subscribe(data => {
-            this.progressIndicatorService.presentToast('Product successfully deleted', 2000, 'success');
-            this.reloadEvent.next('reload');
-        }, err => {
-            console.log(err);
-            this.progressIndicatorService.presentToast('Product could not be deleted', 2000, 'danger');
-        });
+    onClickDeleteProduct() {
+        this.deleteEvent.next();
     }
 
     onClickEdit() {
@@ -150,7 +144,7 @@ export class ProfileInformationsComponent implements OnInit {
 
     displaySuccessSignifiers(typeOfProfileItem: string) {
         this.progressIndicatorService.dismissLoadingIndicator();
-        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' was updated', 2000);
+        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' was updated', 3500);
         this.grid.el.classList.remove('warning');
         this.grid.el.classList.add('success');
         this.updateButton.el.classList.add('hidden');
@@ -161,7 +155,7 @@ export class ProfileInformationsComponent implements OnInit {
 
     displayFailureSignifiers(typeOfProfileItem: string) {
         this.progressIndicatorService.dismissLoadingIndicator();
-        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' could not be updated :(', 2000, 'danger');
+        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' could not be updated :(', 3500, 'danger');
         this.grid.el.classList.remove('warning');
         this.grid.el.classList.add('error');
         setTimeout(() => {

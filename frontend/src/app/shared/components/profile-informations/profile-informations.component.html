@@ -6,7 +6,7 @@
                     <img [src]="profileItem.image ? profileItem.image : 'https://api.adorable.io/avatars/128/'+ profileItem._id">
                 </ion-avatar>
                 <ion-button *ngIf="typeOfProfileItem === typeOfProduct" class="greyButton deleteProductButton"
-                            color="danger" (click)="onClickDeleteProduct(profileItem._id)">
+                            color="danger" (click)="onClickDeleteProduct()">
                     <ion-icon name="close"></ion-icon>
                     Delete
                 </ion-button>
@@ -44,10 +44,8 @@
             <ion-row class="additionalInformation"> Additional information</ion-row>
             <ion-row class="row" *ngFor="let key of additionalInformation">
                 <ion-col> {{ getKeyString(key)}} </ion-col>
-                <ion-col *ngIf="!(getKeyString(key) === 'Category')"> {{getValueString(key)}}</ion-col>
+                <ion-col *ngIf="!(getKeyString(key) === 'Category')">{{ getValueString(key)}}</ion-col>
                 <ion-col *ngIf="getKeyString(key) === 'Category'"> {{getCategoryValue(key)}}</ion-col>
-                <ion-col *ngIf="(getKeyString(key) === 'Revise') && (profileItem[key] === true)"
-                         color="warning">{{ getValueString(key)}}</ion-col>
                 <ion-col size="1"></ion-col>
             </ion-row>
         </ion-grid>

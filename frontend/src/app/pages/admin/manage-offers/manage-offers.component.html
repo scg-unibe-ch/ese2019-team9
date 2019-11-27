@@ -3,13 +3,13 @@
     <ion-toggle (ionChange)="onToggleShowVerified($event)" checked></ion-toggle>
   </ion-item>
 <ion-list>
-<ion-grid class="ion-padding-start">
+<ion-grid #grid class="ion-padding-start">
 <ion-row class="list-header">
     <ion-col size="9" size-sm="4" class="bold">Name</ion-col>
     <ion-col class="hide-sm" size="9" size-sm="4" class="bold">Seller</ion-col>
     <ion-col size="3" size-sm="4" class="bold">Verified</ion-col>
 </ion-row>
-<ion-row *ngFor="let offer of listOfOffers">
+<ion-row *ngFor="let offer of listOfOffers; let first = first">
     <ion-item-sliding>
         <ion-item class="ion-no-padding cursor-pointer" (click)="offer.openDetail = !offer.openDetail">
             <ion-col size="9" size-sm="4">
@@ -39,15 +39,15 @@
             </ion-col>
         </ion-item>
         <ion-item-options side="end">
-            <ion-item-option color="warning" (click)="reviseOffer(offer._id)">
+            <ion-item-option color="warning" (click)="reviseOffer(offer._id, offer.name, offer.seller._id)">
                 Revise
             </ion-item-option>
-            <ion-item-option color="danger" (click)="deleteOffer(offer._id)">
+            <ion-item-option color="danger" (click)="deleteOffer(offer._id, offer.name, offer.seller._id)">
                 Decline
             </ion-item-option>
         </ion-item-options>
         <ion-item-options side="start">
-            <ion-item-option color="success" (click)="verifyOffer(offer._id)">Accept</ion-item-option>
+            <ion-item-option color="success" (click)="verifyOffer(offer._id, offer.name, offer.seller._id)">Accept</ion-item-option>
         </ion-item-options>
     </ion-item-sliding>
     <ion-col *ngIf="offer.openDetail" size="12" size-sm="6">
@@ -82,9 +82,9 @@
         </ion-card>
     </ion-col>
     <ion-col *ngIf="offer.openDetail" offset="0" size="12" offset-sm="6" size-sm="12">
-        <ion-button color="danger" (click)="deleteOffer(offer._id)">Delete</ion-button>
-        <ion-button color="warning" (click)="reviseOffer(offer._id)">Revise</ion-button>
-        <ion-button color="success" (click)="verifyOffer(offer._id)">Accept</ion-button>
+        <ion-button color="danger" (click)="deleteOffer(offer._id, offer.name, offer.seller._id)">Delete</ion-button>
+        <ion-button color="warning" (click)="reviseOffer(offer._id, offer.name, offer.seller._id)">Revise</ion-button>
+        <ion-button color="success" (click)="verifyOffer(offer._id, offer.name, offer.seller._id)">Accept</ion-button>
     </ion-col>
 </ion-row>
 </ion-grid>

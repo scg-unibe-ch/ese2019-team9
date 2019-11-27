@@ -2,7 +2,7 @@
     <ion-toolbar>
         <app-header></app-header><ion-segment (ionChange)="onTabSwitch($event)">
         <ion-segment-button value="0" checked>
-            <ion-label>Delete Offers</ion-label>
+            <ion-label>Manage Offers</ion-label>
         </ion-segment-button>
         <ion-segment-button value="1">
             <ion-label>Manage Users</ion-label>
@@ -14,7 +14,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <app-delete-offers *ngIf="selectedTab === 0"></app-delete-offers>
+    <app-manage-offers *ngIf="selectedTab === 0"></app-manage-offers>
     <app-manage-users *ngIf="selectedTab === 1"></app-manage-users>
     <app-add-category *ngIf="selectedTab === 2"></app-add-category>
 </ion-content>

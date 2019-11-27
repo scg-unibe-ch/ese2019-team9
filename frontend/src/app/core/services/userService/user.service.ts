@@ -35,4 +35,22 @@ export class UserService {
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
     return this.httpClient.get(this.productsEndpoint+`/${id}`, {headers: headers});
   }
+  
+  isSeller(): Promise<boolean>{
+    return new Promise<boolean>((resolve, reject)=> {
+      if (!this.authService.isLoggedIn()) {return false;}
+      const id = this.authService.getId();
+      this.getSingleUser(id).subscribe((data)=> {
+        if (data.address && data.address.length > 0 && data.country && data.country.length > 0 && data.name && data.name.length > 0){
+          resolve(true);
+        }
+        resolve(false);
+      },
+      error=> {
+        console.log(error);
+        reject(error);
+      });
+    });
+    
+  }
 }

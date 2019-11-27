@@ -35,7 +35,7 @@ module.exports = async (req, res, next) => {
         await upload(req, res, async (err) => {
             try {
                 if (err) {
-                    throw new Error(err.message);
+                    return res.status(500).json({ error:err.message });
                 } else {
                     if(!req.file) {
                         next();
@@ -44,29 +44,36 @@ module.exports = async (req, res, next) => {
                             // Pass data via Streams
                             image: fs.createReadStream(req.file.path),
                         };
-                        await request.post({
-                            url: process.env.FILE_STORAGE,
-                            formData: formData
-                        }, async function optionalCallback(err, httpResponse, body) {
-                            body = JSON.parse(body);
-                            console.log(body);
-                            if (err) {
-                                throw new Error(err)
-                            }
 
-                            if(httpResponse.statusCode != 200) {
-                                throw new Error(body.message)
-                            }
+                        try {
+                            await request.post({
+                                url: process.env.FILE_STORAGE,
+                                formData: formData
+                            }, async function optionalCallback(err, httpResponse, body) {
+                                body = JSON.parse(body);
+                                if (err) {
+                                    return res.status(500).json({ error:err });
+                                }
 
-                            await unlinkAsync(req.file.path);
-                            req.file = body.filename;
-                            next();
-                        });
+                                if(httpResponse.statusCode != 200) {
+                                    return res.status(500).json({ error:body.message });
+                                }
+
+                                await unlinkAsync(req.file.path).catch(err => {
+                                    return res.status(500).json({ error:err });
+                                });
+                                req.file = body.filename;
+                                console.log(body);
+                                next();
+                            });
+                        } catch (err) {
+                            throw new Error(err.message);
+                        }
                     }
                 }
             } catch (err) {
                 console.log("Error: " + err.message);
-                return res.status(500).json({ error:err.message });
+                throw new Error(err.message);
             }
         });
     } catch (err) {

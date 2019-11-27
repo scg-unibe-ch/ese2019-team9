@@ -178,3 +178,47 @@
 @media only screen and (max-device-width: 576px) {
   .popover-style .popover-content { min-width: 80vw; }
 }
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: textfield !important; 
+      appearance: textfield !important;
+      margin: 0 !important;
+      border: 1px solid black;
+  }
+  input[type=number] {
+    -moz-appearance:textfield !important;
+    appearance: textfield !important;
+    border: 1px solid blackS;
+}
+
+ion-alert button.delete-button {
+  background-color:var(--ion-color-danger) !important;
+  color: var(--ion-color-danger-contrast) !important;
+}
+ion-alert button.cancel-button {
+  border: 1px solid var(--ion-color-primary) !important;
+}
+
+.results {
+  margin-left: calc(calc(2 / var(--ion-grid-columns, 12)) * 100%);
+  flex: 0 0 calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
+  width: calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
+  max-width: calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
+  height: 800px;
+  max-height: 30vh;
+
+  .backdrop-no-tappable{
+    visibility: hidden;
+  }
+  .popover-content{
+    width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+
+    app-search-result{
+      display: contents;
+      max-height: 100%;
+    }
+  }
+}

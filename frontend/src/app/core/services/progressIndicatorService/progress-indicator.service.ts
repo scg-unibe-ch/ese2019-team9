@@ -9,7 +9,7 @@ export class ProgressIndicatorService {
   constructor(private toastController: ToastController, private loadingController: LoadingController) { }
 
   async presentToast(message: string, duration: number, color?: string) {
-    const toastColor = (color) ?  color :"primary";
+    const toastColor = (color) ?  color :'success';
     const toast = await this.toastController.create({
       message: message,
       duration: duration,
@@ -29,6 +29,7 @@ export class ProgressIndicatorService {
       message: '<img class="custom-spinner" src="../../../assets/images/logo.png">' + message,
       backdropDismiss: true,
       spinner: null,
+      duration: 5000,
       cssClass: "loadingSpinner"
     });
     await loading.present();

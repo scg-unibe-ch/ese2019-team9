@@ -13,10 +13,23 @@ exports.getAllNotifications = (req, res, next)=>{
         res.status(500).json(err.message);
     })
 }
+exports.getNotification = (req, res, next) => {
+    Notification.find({ user:new mongoose.Types.ObjectId(req.userData.userId) })
+    .exec()
+    .then((notification) => {
+        if(notification)
+            res.status(200).json(notification);
+        else
+            res.status(500).json({message: 'no notification found'});
+    })
+    .catch((err) => {
+        res.status(500).json({message: err});
+    });
+}
 
 exports.getNotificationsByUId = (req, res, next) => {
     const uId = req.userData.userId;
-    Notification.find({user: uId})
+    Notification.find({ user:new mongoose.Types.ObjectId(userId)})
     .exec()
     .then((notifications) =>{
         res.status(200).json(notifications);

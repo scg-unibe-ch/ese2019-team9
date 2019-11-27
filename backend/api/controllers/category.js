@@ -221,7 +221,7 @@ exports.updateCategory = (req, res, next) => {
     Category.findById(req.params.categoryId)
     .then(async result => {
         if(result.image && req.file)
-            deleteFile(req.file);
+            deleteFile(result.image);
         return Category.update({ _id:req.params.categoryId }, { $set:updateFields });
     })
     .then(result => {

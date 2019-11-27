@@ -6,6 +6,7 @@ import { AuthService } from '../../services/authService/auth.service';
 import {PopoverService} from '../../services/popoverService/popover.service';
 import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 import { EventEmitter } from 'events';
+import { Router } from '@angular/router';
 
 /**
  * Login Component.
@@ -64,7 +65,8 @@ export class LoginComponent implements OnInit {
       private formBuilder: FormBuilder,
       private authService: AuthService,
       private popoverService: PopoverService,
-      private popoverController: PopoverController) { }
+      private popoverController: PopoverController,
+      private router: Router) { }
 
       /**
        * Groups the email and password input fields with their Validators and assigns it to {@link #loginForm}
@@ -106,6 +108,7 @@ export class LoginComponent implements OnInit {
               data => {
                   this.popoverService.dismissPopover();
                   this.loginForm.reset();
+                  this.router.navigate(['/home']);
               },
               error => {
                   if (error.status === 401 && error.error.message === 'Authentication failed') {
@@ -125,7 +128,6 @@ export class LoginComponent implements OnInit {
    * @param evt the event with which the method was called
    */
   async presentForgotPopover(evt) {
-      evt.preventDefault();
       this.popoverService.dismissPopover();
       const popover = await this.popoverController.create({
           component: ForgotPasswordComponent,

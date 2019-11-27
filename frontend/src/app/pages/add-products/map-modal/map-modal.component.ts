@@ -20,19 +20,16 @@ export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     onCancel() {
         this.modalCtrl.dismiss();
-        this.modalCtrl.dismiss();
     }
 
     ngAfterViewInit() {
         this.getGoogleMaps().then(googleMaps => {
             this.googleMaps = googleMaps;
             const mapEl = this.mapElementRef.nativeElement;
-            console.log('help89');
             const map = new googleMaps.Map(mapEl, {
-                center: {lat: -34.397, lng: 150.644 },
+                center: {lat: 46.9505, lng: 7.4381 },
                 zoom: 16
             });
-            console.log(map);
             this.googleMaps.event.addListenerOnce(map, 'idle', () => {
                 this.renderer.addClass(mapEl, 'visible');
             });
@@ -53,10 +50,8 @@ export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
         const win = window as any;
         const googleModule = win.google;
         if (googleModule && googleModule.maps) {
-            console.log('help99');
             return Promise.resolve(googleModule.maps);
         }
-        console.log('help100');
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = 'https://maps.googleapis.com/maps/api/js?key=' + environment.googleMapsAPIKey;
