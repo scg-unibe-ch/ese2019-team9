@@ -29,6 +29,7 @@ export class ProductDetailsPage implements OnInit {
 	private productInformation;
 	private showOrderingDetails = false;
 	private isLoggedIn = false;
+	isLoading = true;
 
 	validationMessages = {
         startDate: [
@@ -97,6 +98,7 @@ export class ProductDetailsPage implements OnInit {
 				this.productId = params.get('productId');
 				this.displayProductInformation(this.productId);
 			}
+			this.isLoading = false;
 		});
 
 		this.orderForm = this.formBuilder.group({

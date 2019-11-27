@@ -274,11 +274,15 @@ exports.deleteUser = (req, res, next) => {
     User.findOneAndDelete({ _id: id })
     .exec()
     .then(async result => {
-        if(deleteFile(result.image))
+        if(!result)
+            return res.status(500).json({ message:'User not found' });
+
+        if(result.image)
+            deleteFile(result.image);
         res.status(200).json({ message: 'User deleted' });
     })
     .catch(err => {
-        res.status(500).json({ message: err })
+        res.status(500).json({ message: err.message })
     });
 };
 
