@@ -64,6 +64,28 @@
 			</ion-col>
 			<ion-col size="12" size-md="6">
 				<span class="product-title">Reviews</span>
+				<ion-card>
+						<ion-card-header>
+								<ion-card-title>Write a review</ion-card-title>
+							</ion-card-header>
+				<ion-card-content>
+
+						<form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()">
+								<ion-icon *ngFor="let i of array(5)" class="rating"
+								[name]="i>filledStars ? 'star-outline' : 'star'" (mouseenter)="fillTo(i)"
+								(click)="onRatingChanged(i)"></ion-icon>
+								
+								<app-input-form
+								[inputForm]="reviewForm" [givenName]="'comment'" [text]="'Comment'"
+								[validationMessages]="validationMessages.comment"
+								[type]="'text'" [inputMode]="'text'">
+								</app-input-form>
+		
+								<ion-button class="blueButton" fill="empty" type="submit"> Submit </ion-button>
+						</form>
+				</ion-card-content>
+				</ion-card>
+				
 				<span *ngFor="let review of product.reviews">
 					<app-product-review [review]="review"></app-product-review>
 				</span>
