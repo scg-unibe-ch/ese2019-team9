@@ -9,6 +9,7 @@ import { ProductDetailsPage } from './product-details.page';
 import { HeaderModule } from 'src/app/core/header.module';
 import {ProductReviewComponent} from "./product-review/product-review.component";
 import {SharedModule} from "../../shared/shared.module";
+import {InputFormModule} from '../../shared/input-form.module';
 
 const routes: Routes = [
   {  path: '',  component: ProductDetailsPage },
@@ -22,7 +23,8 @@ const routes: Routes = [
         IonicModule,
         HeaderModule,
         RouterModule.forChild(routes),
-        SharedModule
+        SharedModule,
+        InputFormModule
     ],
     declarations: [ProductDetailsPage, ProductReviewComponent]
 })
