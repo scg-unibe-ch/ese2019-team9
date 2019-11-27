@@ -20,7 +20,6 @@ export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     onCancel() {
         this.modalCtrl.dismiss();
-        this.modalCtrl.dismiss();
     }
 
     ngAfterViewInit() {
@@ -28,7 +27,7 @@ export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
             this.googleMaps = googleMaps;
             const mapEl = this.mapElementRef.nativeElement;
             const map = new googleMaps.Map(mapEl, {
-                center: {lat: -34.397, lng: 150.644 },
+                center: {lat: 46.9505, lng: 7.4381 },
                 zoom: 16
             });
             this.googleMaps.event.addListenerOnce(map, 'idle', () => {

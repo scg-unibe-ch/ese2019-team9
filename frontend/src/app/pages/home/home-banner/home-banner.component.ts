@@ -65,7 +65,7 @@ export class HomeBannerComponent implements OnInit {
 		},
 			(err) => {
 				console.log(err);
-				this.progressIndicatorService.presentToast(err.error.message, 2000, "danger");
+				this.progressIndicatorService.presentToast(err.error.message, 3500, "danger");
 			}
 		);
 	}
@@ -77,7 +77,7 @@ export class HomeBannerComponent implements OnInit {
 		},
 			(err) => {
 				console.log(err);
-				this.progressIndicatorService.presentToast(err.error.message, 2000, "danger");
+				this.progressIndicatorService.presentToast(err.error.message, 3500, "danger");
 			}
 		);
 	}

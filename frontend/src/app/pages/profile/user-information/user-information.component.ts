@@ -52,7 +52,7 @@ export class UserInformationComponent implements OnInit {
     }, err => {
       console.log(err);
       this.progressIndicatorService.dismissLoadingIndicator();
-      this.progressIndicatorService.presentToast('User could not be updated', 2000, 'danger');
+      this.progressIndicatorService.presentToast('User could not be updated', 3500, 'danger');
     });
   }
 
@@ -78,10 +78,10 @@ export class UserInformationComponent implements OnInit {
   deleteNotification(notificationId: string) {
     this.notificationService.deleteNotification(notificationId).subscribe(
         data => {
-          this.progressIndicatorService.presentToast('Notification deleted', 2000);
+          this.progressIndicatorService.presentToast('Notification deleted', 3500);
           this.getNotifications();
         }, err => {
-          this.progressIndicatorService.presentToast('Notification not deleted', 2000, 'danger');
+          this.progressIndicatorService.presentToast('Notification not deleted', 3500, 'danger');
           console.log(err);
         }
     );

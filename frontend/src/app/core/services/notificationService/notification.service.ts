@@ -26,7 +26,7 @@ export class NotificationService {
         return this.httpClient.get(this.notificationEndpoint + '/user', {headers}).subscribe((data) => {
           subject.next(data);
         });
-      }, 20000);
+      }, 35000);
       return subject;
     }
 

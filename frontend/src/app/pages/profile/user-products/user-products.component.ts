@@ -30,17 +30,17 @@ export class UserProductsComponent implements OnInit {
       this.products = data;
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Products could not be updated', 2000, 'danger');
+      this.progressIndicatorService.presentToast('Products could not be updated', 3500, 'danger');
     });
   }
 
   deleteProduct(productId: string) {
     this.productService.deleteProduct(productId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Product successfully deleted', 2000, 'success');
+      this.progressIndicatorService.presentToast('Product successfully deleted', 3500, 'success');
       this.reloadProducts();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Product could not be deleted', 2000, 'danger');
+      this.progressIndicatorService.presentToast('Product could not be deleted', 3500, 'danger');
     });
   }
 
