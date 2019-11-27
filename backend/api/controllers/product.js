@@ -137,12 +137,9 @@ exports.updateProduct = (req, res, next) => {
     .then(result => {
         if(result.seller != req.userData.userId && !req.userData.admin)
             throw new Error("Access forbidden");
-        return Product.update({_id:id}, {$set: {verified:false, toRevise:false}})
+        return Product.findOneAndUpdate({_id:id}, {$set: {verified:false, toRevise:false}})
     })
     .then(async result => {
-        if(result.seller != req.userData.userId && !req.userData.admin)
-            throw new Error("Access forbidden");
-
         // if image gets updated delete old image
         if(req.file)
             deleteFile(result.image);

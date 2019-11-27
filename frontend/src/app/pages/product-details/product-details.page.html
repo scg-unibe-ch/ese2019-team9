@@ -4,8 +4,11 @@
 	</ion-toolbar>
 </ion-header>
 <ion-content>
-	<ion-title *ngIf="!product">
+	<ion-title *ngIf="!product && isLoading">
 		... Loading ...
+	</ion-title>
+	<ion-title *ngIf="!product && !isLoading">
+		Product doesn't exist!
 	</ion-title>
 	<ion-grid *ngIf="product">
 		<ion-row>
@@ -22,41 +25,35 @@
 					<ion-item>Category: <span slot="end">{{ product.category.name }}</span></ion-item>
 					<ion-item>Seller: <span slot="end">{{ product.seller.name }}</span></ion-item>
 					<ion-item>Location: <span slot="end">{{ product.location || 'nowhere'}}</span></ion-item>
+					<ion-button fill="empty" class="blueButton" (click) = "onClickBuy();" *ngIf="!orderingDetails && loggedIn">Order now</ion-button>
 				</ion-list>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-				<ion-col class="" size="20" size-md="24">
-			<ion-button (click) = "onClickBuy();" *ngIf="!orderingDetails && loggedIn">Order now</ion-button>
-			<ion-row *ngIf="orderingDetails">
-				<ion-card>
-					<ion-card-header>
-						<ion-card-title>Order this product</ion-card-title>
-					</ion-card-header>
-					<ion-card-content>
-							<form [formGroup]="orderForm" (ngSubmit)="onOrder()">
-									<app-input-form
-									[inputForm]="orderForm" [givenName]="'startDate'" [text]="'From*'"
-									[validationMessages]="validationMessages.fromDate"
-									[type]="'text'" [inputMode]="'text'">
-									</app-input-form>
-									<app-input-form
-									[inputForm]="orderForm" [givenName]="'endDate'" [text]="'To*'"
-									[validationMessages]="validationMessages.toDate"
-									[type]="'text'" [inputMode]="'text'">
-									</app-input-form>
-									<app-input-form
-									[inputForm]="orderForm" [givenName]="'description'" [text]="'Description*'"
-									[validationMessages]="validationMessages.description"
-									[type]="'text'" [inputMode]="'text'">
-									</app-input-form>
-
-									<ion-button type="submit"> Submit </ion-button>
-							</form>
-							<ion-button (click) = "onClickBuy();" *ngIf="orderingDetails">Cancel</ion-button>
-					</ion-card-content>
-				</ion-card>
-			</ion-row>
+				<ion-card *ngIf="orderingDetails">
+						<ion-card-header>
+							<ion-card-title>Order this product</ion-card-title>
+						</ion-card-header>
+						<ion-card-content>
+								<form [formGroup]="orderForm" (ngSubmit)="onOrder()">
+										<app-input-form
+										[inputForm]="orderForm" [givenName]="'startDate'" [text]="'From*'"
+										[validationMessages]="validationMessages.fromDate"
+										[type]="'text'" [inputMode]="'text'">
+										</app-input-form>
+										<app-input-form
+										[inputForm]="orderForm" [givenName]="'endDate'" [text]="'To*'"
+										[validationMessages]="validationMessages.toDate"
+										[type]="'text'" [inputMode]="'text'">
+										</app-input-form>
+										<app-input-form
+										[inputForm]="orderForm" [givenName]="'description'" [text]="'Description*'"
+										[validationMessages]="validationMessages.description"
+										[type]="'text'" [inputMode]="'text'">
+										</app-input-form>
+	
+										<ion-button class="blueButton" fill="empty" type="submit"> Submit </ion-button>
+								</form>
+								<ion-button class="greyButton" fill="empty" color="danger" (click) = "onClickBuy();" *ngIf="orderingDetails">Cancel</ion-button>
+						</ion-card-content>
+					</ion-card>
 			</ion-col>
 		</ion-row>
 		<ion-row>

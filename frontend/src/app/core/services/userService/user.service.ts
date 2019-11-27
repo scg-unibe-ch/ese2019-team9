@@ -41,7 +41,8 @@ export class UserService {
       if (!this.authService.isLoggedIn()) {return false;}
       const id = this.authService.getId();
       this.getSingleUser(id).subscribe((data)=> {
-        if (data.address && data.address.length > 0 && data.country && data.country.length > 0 && data.name && data.name.length > 0){
+        if ((data as any).address && (data as any).address.length > 0 && (data as any).country 
+        && (data as any).country.length > 0 && (data as any).name && (data as any).name.length > 0){
           resolve(true);
         }
         resolve(false);

@@ -19,8 +19,8 @@ exports.placeOrder = (req, res, next) => {
         const order = new Order({
             _id:new mongoose.Types.ObjectId(),
             orderDate:new Date(),
-            startDate:new Date(req.startDate),
-            endDate:new Date(req.endDate),
+            startDate:Date.parse(req.body.startDate),
+            endDate:Date.parse(req.body.endDate),
             buyer:new mongoose.Types.ObjectId(req.userData.userId),
             product:new mongoose.Types.ObjectId(req.body.productId),
             seller:product.seller
