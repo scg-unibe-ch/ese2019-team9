@@ -137,12 +137,12 @@ export class ManageOffersComponent implements OnInit {
         setTimeout(() => {
             this.notificationService.notifySingleUser(sellerId, body).subscribe(
                 data => {
-                    this.progressIndicatorService.presentToast('Seller notified', 3500, 'success');
+                    this.progressIndicatorService.presentToast('Seller notified', 3500);
                 }, err => {
                     this.progressIndicatorService.presentToast('Seller not notified', 3500, 'danger');
                     console.log(err);
                 }
             );
-        }, 2250);
+        }, 3750);
     }
 }
