@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {first} from 'rxjs/operators';
 import {ProductService} from 'src/app/core/services/productService/product.service';
 import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
@@ -23,6 +23,7 @@ export class ManageOffersComponent implements OnInit {
 
     ngOnInit() {
     }
+   
 
     getAllProducts() {
         return new Promise((resolve, reject) => {
@@ -31,7 +32,7 @@ export class ManageOffersComponent implements OnInit {
                     resolve(data);
                 },
                 err => {
-                    this.progressIndicatorService.presentToast('Products could not be loaded', 2000, "danger");
+                    this.progressIndicatorService.presentToast('Products could not be loaded', 3500, "danger");
                     reject(err);
                 }
             );
@@ -43,14 +44,14 @@ export class ManageOffersComponent implements OnInit {
         this.productService.deleteProduct(productId).pipe(first()).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product deleted', 2000);
+                this.progressIndicatorService.presentToast('Product deleted', 3500);
                 this.updateProducts();
                 this.notifySeller(productId, productName, sellerId, 'delete');
                 
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product could not be deleted', 2000, "danger");
+                this.progressIndicatorService.presentToast('Product could not be deleted', 3500, "danger");
                 console.log(err);
             },
         );
@@ -61,13 +62,13 @@ export class ManageOffersComponent implements OnInit {
         this.productService.verifyProduct(productId).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product verified', 2000);
+                this.progressIndicatorService.presentToast('Product verified', 3500);
                 this.updateProducts();
                 this.notifySeller(productId, productName, sellerId, 'verify');
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product could not be verified', 2000, 'danger');
+                this.progressIndicatorService.presentToast('Product could not be verified', 3500, 'danger');
                 console.log(err);
             }
         );
@@ -78,13 +79,13 @@ export class ManageOffersComponent implements OnInit {
         this.productService.reviseProduct(productId).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Revision initialized', 2000);
+                this.progressIndicatorService.presentToast('Revision initialized', 3500);
                 this.updateProducts();
                 this.notifySeller(productId, productName, sellerId, 'revise');
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Revision could not be initialized', 2000, 'danger');
+                this.progressIndicatorService.presentToast('Revision could not be initialized', 3500, 'danger');
                 console.log(err);
             }
         );
@@ -136,12 +137,12 @@ export class ManageOffersComponent implements OnInit {
         setTimeout(() => {
             this.notificationService.notifySingleUser(sellerId, body).subscribe(
                 data => {
-                    this.progressIndicatorService.presentToast('Seller notified', 2000, 'success');
+                    this.progressIndicatorService.presentToast('Seller notified', 3500);
                 }, err => {
-                    this.progressIndicatorService.presentToast('Seller not notified', 2000, 'danger');
+                    this.progressIndicatorService.presentToast('Seller not notified', 3500, 'danger');
                     console.log(err);
                 }
             );
-        }, 2250);
+        }, 3750);
     }
 }

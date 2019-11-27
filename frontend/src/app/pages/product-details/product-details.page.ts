@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { ProductService } from 'src/app/core/services/productService/product.service';
+import {ProductService} from 'src/app/core/services/productService/product.service';
 
-import { first } from 'rxjs/operators';
+import {first} from 'rxjs/operators';
 
-import { CategoryService } from 'src/app/core/services/categoryService/category.service';
+import {CategoryService} from 'src/app/core/services/categoryService/category.service';
 
 import { OrderService } from 'src/app/core/services/orderService/order.service';
 
@@ -19,9 +19,9 @@ import {
   } from 'src/app/core/services/authService/auth.service';
 
 @Component({
-	selector: 'app-product-details',
-	templateUrl: './product-details.page.html',
-	styleUrls: ['./product-details.page.scss']
+    selector: 'app-product-details',
+    templateUrl: './product-details.page.html',
+    styleUrls: ['./product-details.page.scss']
 })
 export class ProductDetailsPage implements OnInit {
 	orderForm : FormGroup;
@@ -62,9 +62,9 @@ export class ProductDetailsPage implements OnInit {
 		console.log(this.loggedIn);
 	}
 
-	get product() {
-		return this.productInformation;
-	}
+    get product() {
+        return this.productInformation;
+    }
 
 	get orderingDetails() {
 		return this.showOrderingDetails;
@@ -110,13 +110,13 @@ export class ProductDetailsPage implements OnInit {
 		this.showOrderingDetails = !this.showOrderingDetails;
 	}
 
-	displayProductInformation(productId: any) {
-		this.productService
-		.getSingleProduct(productId)
-		.subscribe(
-			data => {
-				this.productInformation = data;
-			},
+    displayProductInformation(productId: any) {
+        this.productService
+            .getSingleProduct(productId)
+            .subscribe(
+                data => {
+                    this.productInformation = data;
+                },
 
 			err => {
 				console.log(err);

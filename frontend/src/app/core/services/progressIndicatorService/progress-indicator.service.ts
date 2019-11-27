@@ -29,6 +29,7 @@ export class ProgressIndicatorService {
       message: '<img class="custom-spinner" src="../../../assets/images/logo.png">' + message,
       backdropDismiss: true,
       spinner: null,
+      duration: 5000,
       cssClass: "loadingSpinner"
     });
     await loading.present();

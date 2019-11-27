@@ -3,13 +3,13 @@
     <ion-toggle (ionChange)="onToggleShowVerified($event)" checked></ion-toggle>
   </ion-item>
 <ion-list>
-<ion-grid class="ion-padding-start">
+<ion-grid #grid class="ion-padding-start">
 <ion-row class="list-header">
     <ion-col size="9" size-sm="4" class="bold">Name</ion-col>
     <ion-col class="hide-sm" size="9" size-sm="4" class="bold">Seller</ion-col>
     <ion-col size="3" size-sm="4" class="bold">Verified</ion-col>
 </ion-row>
-<ion-row *ngFor="let offer of listOfOffers">
+<ion-row *ngFor="let offer of listOfOffers; let first = first">
     <ion-item-sliding>
         <ion-item class="ion-no-padding cursor-pointer" (click)="offer.openDetail = !offer.openDetail">
             <ion-col size="9" size-sm="4">

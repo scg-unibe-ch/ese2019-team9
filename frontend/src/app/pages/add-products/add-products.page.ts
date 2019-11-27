@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../core/services/productService/product.service';
 import {ProgressIndicatorService} from '../../core/services/progressIndicatorService/progress-indicator.service';
 import {PlaceMap} from './map.model';
+import { UserService } from 'src/app/core/services/userService/user.service';
+import { Router } from '@angular/router';
 
 function base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
@@ -66,8 +68,22 @@ export class AddProductsPage implements OnInit {
         private categoryService: CategoryService,
         private productService: ProductService,
         private progressIndicatorService: ProgressIndicatorService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private userService: UserService,
+        private router: Router
     ) {
+    }
+
+    ionViewWillEnter(){
+        const promise = this.userService.isSeller();
+        promise.then((isSeller)=> {
+            if (!isSeller){
+                this.progressIndicatorService.presentToast('You\'re missing some profile informations to be able to do that', 3500, "danger");
+                setTimeout(()=> {
+                     this.router.navigate(['/profile']); 
+                }, 3500);
+            }
+        })
     }
 
     ngOnInit() {
@@ -93,13 +109,17 @@ export class AddProductsPage implements OnInit {
 
     onSubmitAddProduct() {
         if (this.productForm.invalid) {
+            this.progressIndicatorService.presentToast('Form incomplete: Please enter all required information', 3500, "danger");
           return;
         }
         const val = this.productForm.value;
+        this.progressIndicatorService.presentLoading('Adding product...');
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
+            this.progressIndicatorService.dismissLoadingIndicator();
             this.productForm.reset();
-            this.progressIndicatorService.presentToast('Product successfully created', 2000, 'success');
+            this.progressIndicatorService.presentToast('Product successfully created', 3500, 'success');
         }, error => {
+            this.progressIndicatorService.dismissLoadingIndicator();
             console.log(error);
         });
     }
@@ -118,9 +138,9 @@ export class AddProductsPage implements OnInit {
     }
 
     onLocationPicked(location: PlaceMap) {
-      this.productForm.patchValue({ map: location});
-      console.log(document.getElementById('locationInput'));
-      (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;
-      console.log(location);
+        this.productForm.patchValue({map: location});
+        console.log(document.getElementById('locationInput'));
+        (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;
+        console.log(location);
     }
 }

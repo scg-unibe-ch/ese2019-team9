@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../../../core/services/userService/user.service';
 import {AuthService} from '../../../core/services/authService/auth.service';
 import {ProgressIndicatorService} from '../../../core/services/progressIndicatorService/progress-indicator.service';
@@ -10,7 +10,7 @@ import {FilterAndSearchService} from '../../../core/services/filterAndSearchServ
   templateUrl: './user-information.component.html',
   styleUrls: ['./user-information.component.scss'],
 })
-export class UserInformationComponent implements OnInit {
+export class UserInformationComponent implements OnInit, OnDestroy {
   userId;
   user;
   keys = ['_id', 'email', 'address', 'name', 'website', 'country', 'phone', 'sex'];
@@ -29,17 +29,18 @@ export class UserInformationComponent implements OnInit {
   ngOnInit() {
     this.getUserInformation();
     this.getNotifications();
+    console.log('entered');
   }
 
-  ionViewDidLeave(): void {
+  ngOnDestroy(): void {
+    console.log('left');
     this.notificationService.setAllNotificationsToRead().subscribe(err => {
       console.log(err);
     });
   }
 
-  ionViewDidEnter(): void {
-    this.getUserInformation();
-    this.getNotifications();
+  ionViewDidLeave() {
+    console.log('will leave');
   }
 
   getUserInformation() {
@@ -52,7 +53,7 @@ export class UserInformationComponent implements OnInit {
     }, err => {
       console.log(err);
       this.progressIndicatorService.dismissLoadingIndicator();
-      this.progressIndicatorService.presentToast('User could not be updated', 2000, 'danger');
+      this.progressIndicatorService.presentToast('User could not be updated', 3500, 'danger');
     });
   }
 
@@ -69,6 +70,7 @@ export class UserInformationComponent implements OnInit {
         data => {
           // @ts-ignore
           this.notifications = this.sortService.sort(data, '+read', '+date');
+          console.log(this.notifications);
         }, err => {
           console.log(err);
         }
@@ -78,10 +80,10 @@ export class UserInformationComponent implements OnInit {
   deleteNotification(notificationId: string) {
     this.notificationService.deleteNotification(notificationId).subscribe(
         data => {
-          this.progressIndicatorService.presentToast('Notification deleted', 2000);
+          this.progressIndicatorService.presentToast('Notification deleted', 3500);
           this.getNotifications();
         }, err => {
-          this.progressIndicatorService.presentToast('Notification not deleted', 2000, 'danger');
+          this.progressIndicatorService.presentToast('Notification not deleted', 3500, 'danger');
           console.log(err);
         }
     );
