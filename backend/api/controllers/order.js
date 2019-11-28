@@ -11,7 +11,7 @@ const parseDate = (_date, _format, _delimiter) => {
     var formatLowerCase = _format.toLowerCase();
     var formatItems = formatLowerCase.split(_delimiter);
     let timeItems = [];
-    if(blocks[1]) {
+    if (blocks[1]) {
         var dateItems = blocks[0].split(_delimiter);
         timeItems = blocks[1].split(":");
     } else {
@@ -23,7 +23,7 @@ const parseDate = (_date, _format, _delimiter) => {
     var month = parseInt(dateItems[monthIndex]);
     month -= 1;
     var formatedDate = timeItems.length > 0 ?
-        new Date(dateItems[yearIndex], month, dateItems[dayIndex], 
+        new Date(dateItems[yearIndex], month, dateItems[dayIndex],
             timeItems[0], timeItems[1], 0) :
         new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
     return formatedDate;
@@ -228,27 +228,47 @@ exports.getOrders = (req, res, next) => {
         .populate("product", "-__v -verified -toRevise -date")
         .then(docs => {
             const response = docs.map(doc => {
+                const _startDate = new Date(doc.startDate);
+                const _endDate = new Date(doc.endDate);
+                const _orderDate = new Date(doc.orderDate);
+
+                const startDate = _startDate.getDay() + "." + _startDate.getMonth() + "." +
+                    _startDate.getFullYear() + " " + 
+                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) + 
+                    ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
+
+                    const endDate = _endDate.getDay() + "." + _endDate.getMonth() + "." +
+                    _endDate.getFullYear() + " " + 
+                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) + 
+                    ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
+
+                    const orderDate = _orderDate.getDay() + "." + _orderDate.getMonth() + "." +
+                    _orderDate.getFullYear() + " " + 
+                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) + 
+                    ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
+
                 return {
-                    _id:doc._id,
-                    startDate:doc.startDate,
-                    endDate:doc.endDate,
-                    state:doc.state,
-                    buyer:{
-                            _id:doc.buyer._id,
-                            name:doc.buyer.name,
-                            email:doc.buyer.slug,
-                            address:doc.buyer.address,
-                            country:doc.buyer.country,
-                            image:!doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.jpg" : process.env.FILE_STORAGE + doc.buyer.image
-                        },
-                        product:{
-                            name:doc.product.name,
-                            price:doc.product.price,
-                            image:!doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.jpg" : process.env.FILE_STORAGE + doc.product.image
-                        }
+                    _id: doc._id,
+                    startDate: startDate,
+                    endDate: endDate,
+                    status: doc.status,
+                    orderDate: orderDate,
+                    buyer: {
+                        _id: doc.buyer._id,
+                        name: doc.buyer.name,
+                        email: doc.buyer.slug,
+                        address: doc.buyer.address,
+                        country: doc.buyer.country,
+                        image: !doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image
+                    },
+                    product: {
+                        name: doc.product.name,
+                        price: doc.product.price,
+                        image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
                     }
+                }
             });
-            res.status(200).json(docs);
+            res.status(200).json(response);
         })
         .catch(err => {
             res.status(500).json({
