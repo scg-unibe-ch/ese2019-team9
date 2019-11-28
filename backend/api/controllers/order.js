@@ -3,6 +3,33 @@ const Product = require('../models/product');
 const mongoose = require('mongoose');
 
 /**
+ * Parses dates from different formats
+ */
+const parseDate = (_date, _format, _delimiter) => {
+
+    var blocks = _date.split(" ");
+    var formatLowerCase = _format.toLowerCase();
+    var formatItems = formatLowerCase.split(_delimiter);
+    let timeItems = [];
+    if(blocks[1]) {
+        var dateItems = blocks[0].split(_delimiter);
+        timeItems = blocks[1].split(":");
+    } else {
+        var dateItems = _date.split(_delimiter);
+    }
+    var monthIndex = formatItems.indexOf("mm");
+    var dayIndex = formatItems.indexOf("dd");
+    var yearIndex = formatItems.indexOf("yyyy");
+    var month = parseInt(dateItems[monthIndex]);
+    month -= 1;
+    var formatedDate = timeItems.length > 0 ?
+        new Date(dateItems[yearIndex], month, dateItems[dayIndex], 
+            timeItems[0], timeItems[1], 0) :
+        new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+    return formatedDate;
+}
+
+/**
  * Place a new order
  * User has to be logged in
  * @param req.body has to contain productId
@@ -18,11 +45,16 @@ exports.placeOrder = (req, res, next) => {
             if (!product)
                 throw new Error("Product not found!");
 
+            console.log(new Date(req.body.startDate));
+
+            const startDate = parseDate(req.body.startDate, "dd.mm.yyyy", ".");
+            const endDate = parseDate(req.body.startDate, "dd.mm.yyyy", ".");
+
             const order = new Order({
                 _id: new mongoose.Types.ObjectId(),
                 orderDate: new Date(),
-                startDate: Date.parse(req.body.startDate),
-                endDate: Date.parse(req.body.endDate),
+                startDate: startDate,
+                endDate: endDate,
                 buyer: new mongoose.Types.ObjectId(req.userData.userId),
                 product: new mongoose.Types.ObjectId(req.body.productId),
                 seller: product.seller
@@ -192,7 +224,30 @@ exports.getOrders = (req, res, next) => {
     };
     Order.find()
         .select("-__v")
+        .populate("buyer", "-__v -password -admin")
+        .populate("product", "-__v -verified -toRevise -date")
         .then(docs => {
+            const response = docs.map(doc => {
+                return {
+                    _id:doc._id,
+                    startDate:doc.startDate,
+                    endDate:doc.endDate,
+                    state:doc.state,
+                    buyer:{
+                            _id:doc.buyer._id,
+                            name:doc.buyer.name,
+                            email:doc.buyer.slug,
+                            address:doc.buyer.address,
+                            country:doc.buyer.country,
+                            image:!doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.jpg" : process.env.FILE_STORAGE + doc.buyer.image
+                        },
+                        product:{
+                            name:doc.product.name,
+                            price:doc.product.price,
+                            image:!doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.jpg" : process.env.FILE_STORAGE + doc.product.image
+                        }
+                    }
+            });
             res.status(200).json(docs);
         })
         .catch(err => {
