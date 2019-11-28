@@ -1,5 +1,12 @@
 <ion-list>
     <ion-grid>
+        <ion-row class="ion-padding-top">
+            <ion-button size="large" class="blueButton" fill="empty"
+                        [routerLink]="['/add-products']" [routerDirection]="'root'">
+                <ion-icon name="add"></ion-icon>
+                Add a product
+            </ion-button>
+        </ion-row>
         <ion-row>
             <ion-col class="profileProductsTitle" size="7" size-md="5" offset-md="2" size-lg="7">
                 Name
@@ -50,13 +57,6 @@
                                           [additionalValues]="additionalValues">
                 </app-profile-informations>
             </ion-col>
-        </ion-row>
-        <ion-row class="ion-padding-top">
-            <ion-button size="large" class="blueButton" fill="empty"
-                        [routerLink]="['/add-products']" [routerDirection]="'root'">
-                <ion-icon name="add"></ion-icon>
-                Add a product
-            </ion-button>
         </ion-row>
     </ion-grid>
 </ion-list>

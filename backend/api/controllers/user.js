@@ -144,7 +144,7 @@ exports.login = (req, res, next) => {
     User.findOne({ email:req.body.email })
     .exec()
     .then(user => {
-        if(user.length < 1) {
+        if(!user) {
             // user not found
             return res.status(401).json({
                 message:'Authentication failed'
@@ -194,7 +194,7 @@ exports.login = (req, res, next) => {
         });
     })
     .catch(err => {
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: err.message });
     });
 };
 
@@ -304,7 +304,7 @@ exports.verifyUser = (req, res, next) => {
             res.status(200).json({ message: 'Email successfully verified' });
         })
         .catch(err => {
-            res.status(500).json({ message: err });
+            res.status(500).json({ message: err.message });
         });
     }catch(err){
         res.status(500).json({ message: 'token invalid' });
@@ -325,7 +325,7 @@ exports.resendVerification = (req, res, next) => {
         res.status(200).json({ message: 'Verification successfully resent' });
     })
     .catch((err) => {
-        res.status(500).json({ message: err });
+        res.status(500).json({ message: err.message });
     });
 };
 
@@ -352,7 +352,7 @@ exports.resendVerification = (req, res, next) => {
                 res.status(200).json({ message: 'Reset-link sent' });
             })
             .catch((err) => {
-                res.status(500).json({ message: err });
+                res.status(500).json({ message: err.message });
             });
         } else {
             // email is not yet registered
@@ -361,12 +361,12 @@ exports.resendVerification = (req, res, next) => {
                 res.status(200).json({ message: 'Reset-link sent' });
             })
             .catch((err) => {
-                res.status(500).json({ message: err });
+                res.status(500).json({ message: err.message });
             });
         }
     })
     .catch((err) => {
-        res.status(500).json({ message: err });
+        res.status(500).json({ message: err.message });
     });
  };
 
@@ -385,7 +385,7 @@ exports.resendVerification = (req, res, next) => {
             if(user){
                 bcrypt.hash(password, 10, (err, hash) =>{
                     if(err){
-                        res.status(500).json({ message: err });
+                        res.status(500).json({ message: err.message });
                     }else{
                         user.password = hash;
                         user.save()
@@ -397,7 +397,7 @@ exports.resendVerification = (req, res, next) => {
             }
         })
         .catch((err) => {
-            res.status(500).json({ message: err });
+            res.status(500).json({ message: err.message });
         })
     } catch(err) {
         res.status(500).json({ message: 'token invalid' });

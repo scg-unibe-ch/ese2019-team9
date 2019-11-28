@@ -1,7 +1,16 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map} from 'rxjs/operators';
-import {AuthService} from '../authService/auth.service';
+import {
+    Injectable
+} from '@angular/core';
+import {
+    HttpClient,
+    HttpHeaders
+} from '@angular/common/http';
+import {
+    map
+} from 'rxjs/operators';
+import {
+    AuthService
+} from '../authService/auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,17 +20,19 @@ export class ProductService {
     constructor(
         private httpClient: HttpClient,
         private authService: AuthService
-    ) {
-    }
+    ) {}
 
     productsEndpoint = 'https://moln-api.herokuapp.com/product';
     addProductsEndpoint = 'https://moln-api.herokuapp.com/product/add';
     userProductsEndpoint = 'https://moln-api.herokuapp.com/product/user';
+    reviewEndpoint = 'https://moln-api.herokuapp.com/review/'
 
     getAllProducts() {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get(this.productsEndpoint, {headers: headers});
+        return this.httpClient.get(this.productsEndpoint, {
+            headers: headers
+        });
     }
 
     getProductsById(id: string) {
@@ -42,11 +53,17 @@ export class ProductService {
     getSingleProduct(productId: any) {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get(this.productsEndpoint + `/${productId}`, {headers: headers})
+        return this.httpClient.get(this.productsEndpoint + `/${productId}`, {
+            headers: headers
+        })
     }
 
     addNewProduct(name: string, category: string, price: number) {
-        return this.httpClient.post(this.productsEndpoint + '/add', {name, category, price})
+        return this.httpClient.post(this.productsEndpoint + '/add', {
+                name,
+                category,
+                price
+            })
             .pipe(map(res => {
                 return res;
             }));
@@ -55,26 +72,38 @@ export class ProductService {
     deleteProduct(productId: string) {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.delete(this.productsEndpoint + `/${productId}`, {headers: headers});
+        return this.httpClient.delete(this.productsEndpoint + `/${productId}`, {
+            headers: headers
+        });
     }
 
     updateProduct(productId: string, body: string) {
         body = JSON.parse(body);
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.patch(this.productsEndpoint + `/${productId}`, body, {headers});
+        return this.httpClient.patch(this.productsEndpoint + `/${productId}`, body, {
+            headers
+        });
     }
 
     verifyProduct(productId: string) {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {verified: true}, {headers});
+        return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {
+            verified: true
+        }, {
+            headers
+        });
     }
 
     reviseProduct(productId: string) {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {toRevise: true}, {headers});
+        return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {
+            toRevise: true
+        }, {
+            headers
+        });
     }
 
     addProduct(val: any, img: any) {
@@ -87,12 +116,28 @@ export class ProductService {
             formData.append(key, val[key]);
         });
         formData.append('image', img);
-        return this.httpClient.post(this.addProductsEndpoint, formData, {headers});
+        return this.httpClient.post(this.addProductsEndpoint, formData, {
+            headers
+        });
     }
 
     getProductsByUserId(userId: string) {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get<[]>(this.userProductsEndpoint + `/${userId}`, {headers});
+        return this.httpClient.get < [] > (this.userProductsEndpoint + `/${userId}`, {
+            headers
+        });
+    }
+
+    addReview(body: any) {
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+
+        return this.httpClient.post(this.reviewEndpoint + '/add', body, {
+                headers
+            })
+            .pipe(map(res => {
+                return res;
+            }));
     }
 }
