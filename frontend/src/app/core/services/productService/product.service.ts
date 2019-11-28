@@ -140,4 +140,16 @@ export class ProductService {
                 return res;
             }));
     }
+
+    hasBought(productId: string) {
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+
+        return this.httpClient.get(this.productsEndpoint + '/hasBought/' + `${productId}`, {
+                headers
+            })
+            .pipe(map(res => {
+                return res;
+            }));
+    }
 }

@@ -55,6 +55,7 @@ export class ProductDetailsPage implements OnInit {
 	private rating = 5;
 
 	isLoading = true;
+	_hasBought = false;
 
 	validationMessages = {
 		startDate: [{
@@ -149,7 +150,9 @@ export class ProductDetailsPage implements OnInit {
 	array(n: number): number[] {
         const arr = Array(n);
         return Array.from(arr.keys()).map(ind => ind + 1);
-    }
+	}
+	
+
 
 	onSubmitReview() {
 		if (this.reviewForm.invalid) {
@@ -174,6 +177,10 @@ export class ProductDetailsPage implements OnInit {
 		this.filledStars = n;
 	}
 
+	get hasBought() {
+		return this._hasBought;
+	}
+
 	ngOnInit() {
 		this.route.paramMap.subscribe(params => {
 			if (params.get('productId') === null) {
@@ -184,6 +191,11 @@ export class ProductDetailsPage implements OnInit {
 			}
 			this.isLoading = false;
 		});
+
+		this.productService.hasBought(this.productId).subscribe(data => {
+			this._hasBought = (data as any).hasBought;
+		});
+
 
 		this.orderForm = this.formBuilder.group({
 			startDate: ['', [Validators.required]],

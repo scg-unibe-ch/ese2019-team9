@@ -12,9 +12,6 @@
 	</ion-title>
 	<ion-grid *ngIf="product">
 		<ion-row>
-			<ion-title>{{ product.name }}</ion-title>
-		</ion-row>
-		<ion-row>
 			<ion-col class="product-image-container" size="12" size-md="6">
 				<ion-thumbnail class="product-image"><ion-img [src]="product.image || 'https://lorempixel.com/300/300/cats/'"></ion-img></ion-thumbnail>
 			</ion-col>
@@ -64,12 +61,11 @@
 			</ion-col>
 			<ion-col size="12" size-md="6">
 				<span class="product-title">Reviews</span>
-				<ion-card>
-						<ion-card-header>
-								<ion-card-title>Write a review</ion-card-title>
-							</ion-card-header>
-				<ion-card-content>
-
+				<ion-card *ngIf="hasBought">
+					<ion-card-header>
+						<ion-card-title>Write a review</ion-card-title>
+					</ion-card-header>
+					<ion-card-content>
 						<form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()">
 								<ion-icon *ngFor="let i of array(5)" class="rating"
 								[name]="i>filledStars ? 'star-outline' : 'star'" (mouseenter)="fillTo(i)"
@@ -83,9 +79,10 @@
 		
 								<ion-button class="blueButton" fill="empty" type="submit"> Submit </ion-button>
 						</form>
-				</ion-card-content>
+					</ion-card-content>
 				</ion-card>
 				
+				<p *ngIf="product.reviews.length == 0"> This product has no reviews yet. </p>
 				<span *ngFor="let review of product.reviews">
 					<app-product-review [review]="review"></app-product-review>
 				</span>

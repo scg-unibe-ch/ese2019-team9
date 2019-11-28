@@ -19,4 +19,6 @@ router.delete('/:productId', checkAuth, ProductController.deleteProduct);
 
 router.get('/user/:userId', ProductController.getProductsOfUser);
 
+router.get('/hasBought/:productId', checkAuth, ProductController.hasUserBought)
+
 module.exports = router;
