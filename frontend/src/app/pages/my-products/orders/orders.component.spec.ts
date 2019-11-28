@@ -1,23 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderButtonsComponent } from './header-buttons.component';
-import { ProfilePopoverComponent } from './profile-popover/profile-popover.component';
+import { OrdersComponent } from './orders.component';
 
-describe('TopHeaderEndComponent', () => {
-  let component: HeaderButtonsComponent;
-  let fixture: ComponentFixture<HeaderButtonsComponent>;
+describe('OrdersComponent', () => {
+  let component: OrdersComponent;
+  let fixture: ComponentFixture<OrdersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderButtonsComponent ],
+      declarations: [ OrdersComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderButtonsComponent);
+    fixture = TestBed.createComponent(OrdersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,9 +3,11 @@ import {PopoverController} from '@ionic/angular';
 
 import {LoginComponent} from '../../../authentication/login/login.component';
 import {RegistrationComponent} from '../../../authentication/registration/registration.component';
+import {ProfilePopoverComponent} from './profile-popover/profile-popover.component';
 import {AuthService} from 'src/app/core/services/authService/auth.service';
 import {NotificationService} from '../../../services/notificationService/notification.service';
 import {forEach} from "@angular-devkit/schematics";
+import { NotificationsComponent } from 'src/app/core/notifications/notifications.component';
 
 /**
  * Component containing the Buttons in the upper right corner.
@@ -73,6 +75,26 @@ export class HeaderButtonsComponent {
                 this.presentLoginPopover();
             }
         });
+        return await popover.present();
+    }
+
+    async showProfilePopover(ev: any) {
+        const popover = await this.popoverController.create({
+            component: ProfilePopoverComponent,
+            event:ev,
+            cssClass:'profile-popover'
+        });
+
+        return await popover.present();
+    }
+
+    async showNotificationsPopover(ev: any) {
+        const popover = await this.popoverController.create({
+            component: NotificationsComponent,
+            event:ev,
+            cssClass:'profile-popover'
+        });
+
         return await popover.present();
     }
 }
