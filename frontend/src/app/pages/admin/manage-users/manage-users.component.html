@@ -28,7 +28,7 @@
             </ion-item-sliding>
             <ion-col *ngIf="user.openDetail">
                 <app-profile-informations [profileItem]="user" [changeable]="!user.admin"
-                                          [valuesToHide]="valuesToHide" [type]="'user'" ></app-profile-informations>
+                                          [valuesToHide]="valuesToHide" [type]="'user'" (deleteEvent) = "deleteUser(user._id)"></app-profile-informations>
             </ion-col>
         </ion-row>
     </ion-grid>
