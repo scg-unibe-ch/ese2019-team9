@@ -39,10 +39,6 @@ exports.getNotificationsByUId = (req, res, next) => {
     })
 }
 
-exports.broadcast = (req, res, next) => {
-    res.status(501);
-}
-
 exports.setRead = (req, res, next) => {
     const uId = req.userData.userId;
     Notification.find({user: uId})
@@ -66,7 +62,7 @@ exports.setRead = (req, res, next) => {
 exports.sendNotificationstoUser = (req, res, next)=> {
     const message = req.body.message;
     const url = req.body.link;
-    const id = req.userData.userId;
+    const id = req.params.uId;
     User.findById(id)
     .exec()
     .then((usr) => {
@@ -89,7 +85,7 @@ exports.sendNotificationstoUser = (req, res, next)=> {
     });
 }
 
-exports.deleteById = (req,res,err) => {
+exports.deleteById = async (req,res,err) => {
     const id = req.params.notifId;
     Notification.deleteOne({_id:id})
     .exec()

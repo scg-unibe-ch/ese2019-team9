@@ -76,7 +76,7 @@ export class ProfileInformationsComponent implements OnInit {
         return this.profileItem[key].name;
     }
 
-    onClickDeleteProduct() {
+    onClickDelete() {
         this.deleteEvent.next();
     }
 

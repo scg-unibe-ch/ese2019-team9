@@ -5,8 +5,8 @@
                 <ion-avatar>
                     <img [src]="profileItem.image ? profileItem.image : 'https://api.adorable.io/avatars/128/'+ profileItem._id">
                 </ion-avatar>
-                <ion-button *ngIf="typeOfProfileItem === typeOfProduct" class="greyButton deleteProductButton"
-                            color="danger" (click)="onClickDeleteProduct()">
+                <ion-button class="greyButton deleteProductButton"
+                            color="danger" (click)="onClickDelete()">
                     <ion-icon name="close"></ion-icon>
                     Delete
                 </ion-button>
