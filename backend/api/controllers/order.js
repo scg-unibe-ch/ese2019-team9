@@ -232,17 +232,17 @@ exports.getOrders = (req, res, next) => {
                 const _endDate = new Date(doc.endDate);
                 const _orderDate = new Date(doc.orderDate);
 
-                const startDate = _startDate.getDay() + "." + _startDate.getMonth() + "." +
+                const startDate = _startDate.getDay() + "." + (_startDate.getMonth()+1) + "." +
                     _startDate.getFullYear() + " " + 
                     (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) + 
                     ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
 
-                    const endDate = _endDate.getDay() + "." + _endDate.getMonth() + "." +
+                    const endDate = _endDate.getDay() + "." + (_endDate.getMonth()+1) + "." +
                     _endDate.getFullYear() + " " + 
                     (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) + 
                     ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
 
-                    const orderDate = _orderDate.getDay() + "." + _orderDate.getMonth() + "." +
+                    const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth()+1) + "." +
                     _orderDate.getFullYear() + " " + 
                     (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) + 
                     ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
