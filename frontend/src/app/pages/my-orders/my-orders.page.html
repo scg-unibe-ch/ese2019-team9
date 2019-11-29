@@ -35,7 +35,7 @@
                               Loading orders...
                           </ion-row>
                           <ion-row *ngFor="let order of orders">
-                              <ion-item-sliding>
+                              <ion-item-sliding button [routerLink]="['/order-details', order._id]">
                                   <ion-item class="profileProductsItem ion-no-padding " (click)="order.openDetails = !order.openDetails">
                                       <ion-col size-md="1" class="ion-hide-sm-down">
                                           <ion-avatar>
@@ -69,7 +69,7 @@
                                   </ion-item-options>
                               </ion-item-sliding>
                               
-                              <ion-col *ngIf="order.openDetails" size="12" size-sm="6">
+                              <!--<ion-col *ngIf="order.openDetails" size="12" size-sm="6">
                                   <ion-card scrollX="true">
                                       <ion-card-title class="ion-padding-horizontal" style="margin-top:0.5rem">
                                           <ion-avatar>
@@ -98,7 +98,7 @@
                                   <ion-card class="ion-padding">
                                       <div class="scroll">Message: {{ order.description }} </div>
                                   </ion-card>
-                              </ion-col><!--
+                              </ion-col>
                               <ion-col *ngIf="order.openDetails" offset="0" size="12" offset-sm="6" size-sm="12">
                                   <ion-button color="danger" (click)="rejectOrder(order._id)">Reject</ion-button>
                                   <ion-button color="success" (click)="acceptOrder(order._id)">Accept</ion-button>

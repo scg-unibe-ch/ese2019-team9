@@ -16,13 +16,15 @@ const routes: Routes = [
   { path: 'add-products', loadChildren: './pages/add-products/add-products.module#AddProductsPageModule' },
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
   { path: 'my-products', loadChildren: './pages/my-products/my-products.module#MyProductsPageModule' },
-  { path: 'my-orders', loadChildren: './pages/my-orders/my-orders.module#MyOrdersPageModule' }
+  { path: 'my-orders', loadChildren: './pages/my-orders/my-orders.module#MyOrdersPageModule' },
+  { path: 'order-details', loadChildren: './pages/order-details/order-details.module#OrderDetailsPageModule' }
+
 ];
 
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })

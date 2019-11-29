@@ -1,0 +1,68 @@
+<ion-header>
+    <ion-toolbar>
+      <app-header></app-header>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-title *ngIf="!order && isLoading">
+      ... Loading ...
+    </ion-title>
+    <ion-title *ngIf="!order && !isLoading">
+      Invalid Order ID!
+    </ion-title>
+    <ion-grid *ngIf="order">
+      <ion-row>
+        <ion-col offset="2" size="8" class="container">
+          <ion-row>
+            <ion-col size="2"><ion-avatar><img src="{{ order.product.image }}" /> </ion-avatar></ion-col>
+            <ion-col>
+              <ion-row class="productName actionLink" [routerLink]="['/product-details/', order.product._id]" >{{ order.product.name }}</ion-row>
+              <ion-row class="productInfo" *ngIf="!isSeller">Seller:&nbsp;<b class="actionLink" [routerLink]="['/user/', order.seller._id]">{{ order.seller.name }}</b>&nbsp; | Order placed:&nbsp; <b>{{ order.orderDate }}</b>&nbsp; | Status:&nbsp;<b>{{ order.status }}</b></ion-row>
+              <ion-row class="productInfo" *ngIf="isSeller">Buyer:&nbsp;<b class="actionLink" [routerLink]="['/user/', order.buyer._id]">{{ order.buyer.name }}</b>&nbsp; | Order placed:&nbsp; <b>{{ order.orderDate }}</b>&nbsp; | Status:&nbsp;<b>{{ order.status }}</b></ion-row></ion-col>
+            <ion-col class="productPrice" size="2">{{ order.product.price }}CHF</ion-col>
+          </ion-row>
+          <ion-row></ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- Accept/Reject (for seller only) -->
+      <ion-row *ngIf="order.status=='pending'">
+          <ion-col offset="2" size="8" class="container">
+            <ion-row class="actionBar">
+              <ion-col size = "7" style="vertical-align: middle;">What do you want to do with this request?</ion-col>   
+              <ion-col size = "2" class=""><ion-button no-margin color="success" size = "small" (click)="acceptOrder(order._id)">Accept</ion-button></ion-col>
+              <ion-col size = "1">|</ion-col>
+              <ion-col size = "2" class=""><ion-button no-margin color="danger" size="small" (click)="rejectOrder(order._id)">Reject</ion-button></ion-col>
+            </ion-row>
+          </ion-col>
+      </ion-row>
+
+      <!-- Chat -->
+      <ion-row >
+        <ion-col offset="2" size="8" class="chatContainer">
+            <ion-row *ngFor="let message of order.chat" class="messageContainer">
+              <ion-col size="2">{{ message.sender.image }}</ion-col>
+              <ion-col size="10">
+                <ion-row size="1"> {{message.sender.name }} </ion-row>
+                <ion-row size="10"> {{message.message }} </ion-row>
+                <ion-row size="1"> {{message.date }} </ion-row>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="!order.chat" class="messageContainer">
+              <ion-col size="4" offset= "4" style="text-align:center; font-size:13px">There are no messages yet.</ion-col>
+            </ion-row>
+
+              <form [formGroup]="chatForm" class="messageForm" (ngSubmit)="onSubmitMessage()">
+                <b> Write a new message</b>
+                  <app-input-form
+                  [inputForm]="chatForm" [givenName]="'message'" [text]="'Message'"
+                  [validationMessages]="validationMessages.message"
+                  [type]="'text'" [inputMode]="'text'">
+                  </app-input-form>
+      
+                  <ion-button class="blueButton" fill="empty" type="submit"> Submit </ion-button>
+              </form>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>

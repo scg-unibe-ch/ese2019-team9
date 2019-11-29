@@ -27,14 +27,7 @@ export class ProfilePopoverComponent implements OnInit {
 
   show = false;
 
-
-  mouseLeave(div : string) {
-    //await this.popoverController.dismiss();
-    console.log("now");
-  }
-
   async dismissPopover() {
     await this.popoverController.dismiss();
   }
-
 }

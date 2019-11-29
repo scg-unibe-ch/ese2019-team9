@@ -221,6 +221,9 @@ exports.addProduct = async (req, res, next) => {
         User.findById(req.userData.userId)
             .exec()
             .then(async result => {
+                if(!result)
+                    throw new Error("User not found");
+                    
                 if (!result.name || !result.address || !result.country || !result) {
                     if (req.file)
                         deleteFile(req.file);
