@@ -46,8 +46,8 @@ export class HeaderButtonsComponent implements OnInit {
     checkForNewNotifications() {
         this.notificationService.getSingleUsersNotifications().subscribe(
             data => {
-                this.unreadCount = data.unread;
-                this.notifications = data.notifications;
+                this.unreadCount = (data as any).unread;
+                this.notifications = (data as any).notifications;
             }
         );
     }

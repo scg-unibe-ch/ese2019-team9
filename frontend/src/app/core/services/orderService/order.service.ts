@@ -114,4 +114,16 @@ export class OrderService {
             headers: headers
         })
   }
+
+  sendMessage(body: any) {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+
+    return this.httpClient.post(this.orderEndpoint + '/message/send', body, {
+        headers
+      })
+      .pipe(map(res => {
+        return res;
+      }));
+  }
 }

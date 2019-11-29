@@ -7,11 +7,6 @@
       <ion-grid>
           <ion-row>
               <ion-col>
-                  <ion-segment (ionChange)="onTabSwitch($event)">
-                      <ion-segment-button value="0" checked>
-                          <ion-label> My Orders</ion-label>
-                      </ion-segment-button>
-                  </ion-segment>
                   <ion-list>
                       <ion-grid>
                           <ion-row class = "ordersTitleBar">
@@ -34,30 +29,28 @@
                           <ion-row *ngIf="isLoading">
                               Loading orders...
                           </ion-row>
-                          <ion-row *ngFor="let order of orders">
+                          <ion-row *ngFor="let order of orders" class="orderContainer">
                               <ion-item-sliding button [routerLink]="['/order-details', order._id]">
                                   <ion-item class="profileProductsItem ion-no-padding " (click)="order.openDetails = !order.openDetails">
-                                      <ion-col size-md="1" class="ion-hide-sm-down">
+                                      <ion-col size="1" class="ion-hide-sm-down">
                                           <ion-avatar>
                                               <img *ngIf="order.product.image" src="{{ order.product.image }}">
                                           </ion-avatar>
                                       </ion-col>
-                                      <ion-col size="2" size-md="2" size-lg="2" >
-                                          {{ order.product.name }}
+                                      <ion-col size="11">
+                                          <ion-row>
+                                              <ion-col size="2" style="font-size:20px;" >
+                                                  <b>{{ order.product.name }}</b>
+                                              </ion-col>
+                                              
+                                          </ion-row>
+                                          <ion-row>
+                                              <ion-col size="2" size-md="2" size-lg="2" >
+                                                  by {{ order.seller.name }} | <b>{{ order.status }}</b>
+                                                </ion-col> 
+                                          </ion-row> 
                                       </ion-col>
-                                      <ion-col size="2" size-md="2" size-lg="2" >
-                                          {{ order.seller.name }}
-                                      </ion-col>
-                                      <ion-col size="2" size-md="2" size-lg="2" >
-                                          {{ order.startDate }}
-                                      </ion-col> 
-                                      <ion-col size="2" size-md="2" size-lg="2" >
-                                          {{ order.endDate }}
-                                      </ion-col> 
-                                      <ion-col size="2" size-md="2" size-lg="2" >
-                                        {{ order.status }}
-                                      </ion-col> 
-                                      
+
                                       <ion-col size="1">
                                           <ion-icon [name]="order.openDetails ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
                                       </ion-col>

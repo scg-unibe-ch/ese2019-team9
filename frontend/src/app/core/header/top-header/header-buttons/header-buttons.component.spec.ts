@@ -2,7 +2,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderButtonsComponent } from './header-buttons.component';
-import { ProfilePopoverComponent } from './profile-popover/profile-popover.component';
 
 describe('TopHeaderEndComponent', () => {
   let component: HeaderButtonsComponent;

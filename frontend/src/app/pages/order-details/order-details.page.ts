@@ -36,11 +36,13 @@ export class OrderDetailsPage implements OnInit {
     private navController: NavController,
     private orderService: OrderService) { 
       this.isLoggedIn = authService.isLoggedIn();
+      this.userId = authService.getId();
     }
 
   order;
   private isLoggedIn = false;
   isLoading = true;
+  userId;
   orderId;
   isSeller = false;
   chatForm : FormGroup;
@@ -57,6 +59,8 @@ export class OrderDetailsPage implements OnInit {
 	};
 
   ngOnInit() {
+    this.isSeller = false;
+
 		this.route.paramMap.subscribe(params => {
 			if (params.get('orderId') === null) {
         this.navController.pop();
@@ -81,7 +85,9 @@ export class OrderDetailsPage implements OnInit {
           if (this.order.seller._id != this.authService.getId() && this.order.buyer._id != this.authService.getId() && !this.authService.isAdmin())
             this.navController.pop();
 
-          this.isSeller = this.order.seller._id == this.authService.getId() ? true : false;
+          let sellerId = (this.order.seller._id as String);
+          let userId = (this.authService.getId() as String);
+          this.isSeller = sellerId == userId ? true : false;
           this.isLoading = false;
         },
 
@@ -89,6 +95,25 @@ export class OrderDetailsPage implements OnInit {
           console.log(err);
         }
       );
+  }
+
+  onSubmitMessage() {
+    if (this.chatForm.invalid) {
+			return;
+		}
+
+		const body = {
+      message: this.chatForm.value.message,
+      orderId: this.orderId
+    };
+
+		this.orderService.sendMessage(body).subscribe(data => {
+      this.chatForm.reset();
+      this.displayOrderInformation(this.orderId);
+		}, error => {
+			console.log(error.error.error);
+			this.progressIndicatorService.presentToast(error.error.error, 3500, 'danger');
+		});
   }
 
 }
