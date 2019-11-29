@@ -15,7 +15,9 @@ export class NotificationsComponent implements OnInit {
 
   notifications = [];
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getNotifications();
+  }
 
   getNotifications() {
     this.notificationService.getSingleUsersNotifications().subscribe(

@@ -9,9 +9,6 @@ import {
   AuthService
 } from '../../core/services/authService/auth.service';
 import {
-  DataService
-} from '../../core/services/dataService/data.service';
-import {
   ProgressIndicatorService
 } from '../../core/services/progressIndicatorService/progress-indicator.service';
 
@@ -26,7 +23,7 @@ export class MyProductsPage implements OnInit {
   orders;
   userId;
 
-  constructor(private progressIndicatorService: ProgressIndicatorService, private orderService: OrderService, private authService: AuthService, private dataService: DataService) {}
+  constructor(private progressIndicatorService: ProgressIndicatorService, private orderService: OrderService, private authService: AuthService) {}
 
   async ngOnInit() {
     this.selectedTab = 0;

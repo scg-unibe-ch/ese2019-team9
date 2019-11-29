@@ -40,7 +40,7 @@ export class NotificationService {
         body = JSON.parse(body);
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.post(this.notificationEndpoint + '/user', body, {headers});
+        return this.httpClient.post(this.notificationEndpoint + `/${userId}`, body, {headers});
     }
 
     deleteNotification(notificationId: string) {
