@@ -19,6 +19,9 @@
             </ion-col>
             <ion-col size="1"></ion-col>
         </ion-row>
+        <ion-row *ngIf="isLoading">
+            Loading products...
+        </ion-row>
         <ion-row *ngFor="let product of products">
             <ion-item-sliding>
                 <ion-item class="profileProductsItem ion-no-padding " (click)="product.openDetail = !product.openDetail">

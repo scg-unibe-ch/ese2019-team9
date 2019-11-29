@@ -1,0 +1,113 @@
+<ion-header>
+    <ion-toolbar>
+        <app-header></app-header>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+      <ion-grid>
+          <ion-row>
+              <ion-col>
+                  <ion-segment (ionChange)="onTabSwitch($event)">
+                      <ion-segment-button value="0" checked>
+                          <ion-label> My Orders</ion-label>
+                      </ion-segment-button>
+                  </ion-segment>
+                  <ion-list>
+                      <ion-grid>
+                          <ion-row class = "ordersTitleBar">
+                              <ion-col class="ordersTitle" size="2" size-md="2" offset-md="1" size-lg="2">
+                                  Product Name
+                              </ion-col>
+                              <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
+                                  Seller Name
+                              </ion-col>
+                              <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
+                                  From
+                              </ion-col>
+                              <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
+                                  To
+                              </ion-col>
+                              <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
+                                  Status
+                              </ion-col>
+                          </ion-row>
+                          <ion-row *ngIf="isLoading">
+                              Loading orders...
+                          </ion-row>
+                          <ion-row *ngFor="let order of orders">
+                              <ion-item-sliding>
+                                  <ion-item class="profileProductsItem ion-no-padding " (click)="order.openDetails = !order.openDetails">
+                                      <ion-col size-md="1" class="ion-hide-sm-down">
+                                          <ion-avatar>
+                                              <img *ngIf="order.product.image" src="{{ order.product.image }}">
+                                          </ion-avatar>
+                                      </ion-col>
+                                      <ion-col size="2" size-md="2" size-lg="2" >
+                                          {{ order.product.name }}
+                                      </ion-col>
+                                      <ion-col size="2" size-md="2" size-lg="2" >
+                                          {{ order.seller.name }}
+                                      </ion-col>
+                                      <ion-col size="2" size-md="2" size-lg="2" >
+                                          {{ order.startDate }}
+                                      </ion-col> 
+                                      <ion-col size="2" size-md="2" size-lg="2" >
+                                          {{ order.endDate }}
+                                      </ion-col> 
+                                      <ion-col size="2" size-md="2" size-lg="2" >
+                                        {{ order.status }}
+                                      </ion-col> 
+                                      
+                                      <ion-col size="1">
+                                          <ion-icon [name]="order.openDetails ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+                                      </ion-col>
+                                  </ion-item>
+                                  <ion-item-options side="end" *ngIf="order.status != 'accepted'">
+                                      <ion-item-option color="success" (click)="acceptOrder(order._id)">
+                                          Delete
+                                      </ion-item-option>
+                                  </ion-item-options>
+                              </ion-item-sliding>
+                              
+                              <ion-col *ngIf="order.openDetails" size="12" size-sm="6">
+                                  <ion-card scrollX="true">
+                                      <ion-card-title class="ion-padding-horizontal" style="margin-top:0.5rem">
+                                          <ion-avatar>
+                                              <img *ngIf="order.seller.image" src="{{ order.seller.image }}">
+                                          </ion-avatar>
+                                      </ion-card-title>
+                                      <ion-card-content>
+                                          <ion-list> 
+                                              <ion-item>
+                                                  <ion-label><ion-icon name="person"></ion-icon> Seller Name:</ion-label><div class="scroll">{{ order.seller.name }} </div>
+                                              </ion-item>
+                                              <ion-item *ngIf="order.seller.address && order.seller.country">
+                                                  <ion-label><ion-icon name="pin"></ion-icon> Seller Adress:</ion-label>{{ order.seller.address }}, {{ order.seller.country }}
+                                              </ion-item>
+                                              <ion-item *ngIf="order.seller.email">
+                                                  <ion-label><ion-icon name="mail"></ion-icon> Seller Email:</ion-label>{{ order.seller.email }}
+                                              </ion-item>
+                                              <ion-item>
+                                                  <ion-label><ion-icon name="calendar"></ion-icon> Date:</ion-label>{{ order.startDate }} - {{ order.endDate }}
+                                              </ion-item>
+                                          </ion-list>
+                                      </ion-card-content>
+                                  </ion-card>
+                              </ion-col>
+                              <ion-col *ngIf="order.openDetails && order.description" size="12" size-sm="6">
+                                  <ion-card class="ion-padding">
+                                      <div class="scroll">Message: {{ order.description }} </div>
+                                  </ion-card>
+                              </ion-col><!--
+                              <ion-col *ngIf="order.openDetails" offset="0" size="12" offset-sm="6" size-sm="12">
+                                  <ion-button color="danger" (click)="rejectOrder(order._id)">Reject</ion-button>
+                                  <ion-button color="success" (click)="acceptOrder(order._id)">Accept</ion-button>
+                              </ion-col>-->
+                          </ion-row>
+                      </ion-grid>
+                  </ion-list>
+
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+  </ion-content>

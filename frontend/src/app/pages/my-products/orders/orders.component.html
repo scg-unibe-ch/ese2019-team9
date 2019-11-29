@@ -17,6 +17,9 @@
                 Action
             </ion-col>
         </ion-row>
+        <ion-row *ngIf="isLoading">
+            Loading orders...
+        </ion-row>
         <ion-row *ngFor="let order of orders">
             <ion-item-sliding *ngIf="order.status == 'pending'">
                 <ion-item class="profileProductsItem ion-no-padding " (click)="order.openDetails = !order.openDetails">

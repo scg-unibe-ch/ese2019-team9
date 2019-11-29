@@ -1,24 +1,21 @@
-import {
-  Component,
-  OnInit,
-  Input
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   OrderService
-} from '../../../core/services/orderService/order.service';
+} from '../../core/services/orderService/order.service';
 import {
   AuthService
-} from '../../../core/services/authService/auth.service';
+} from '../../core/services/authService/auth.service';
 import {
   ProgressIndicatorService
-} from '../../../core/services/progressIndicatorService/progress-indicator.service';
+} from '../../core/services/progressIndicatorService/progress-indicator.service';
+
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss'],
+  selector: 'app-my-orders',
+  templateUrl: './my-orders.page.html',
+  styleUrls: ['./my-orders.page.scss'],
 })
-export class OrdersComponent implements OnInit {
+export class MyOrdersPage implements OnInit {
   orders;
   private userId;
   private loading = true;
@@ -36,21 +33,21 @@ export class OrdersComponent implements OnInit {
 
   acceptOrder(orderId: string) {
     this.orderService.accept(orderId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Order accepted', 3500, 'success');
+      this.progressIndicatorService.presentToast('Product successfully deleted', 3500, 'success');
       this.reloadProducts();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be accepted', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Orders could not be deleted', 3500, 'danger');
     });
   }
 
   rejectOrder(orderId: string) {
     this.orderService.reject(orderId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Order rejected', 3500, 'success');
+      this.progressIndicatorService.presentToast('Orders successfully deleted', 3500, 'success');
       this.reloadProducts();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be rejected', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Orders could not be deleted', 3500, 'danger');
     });
   }
   ngOnDestroy(): void {
@@ -59,7 +56,7 @@ export class OrdersComponent implements OnInit {
 
   getOrders() {
     this.userId = this.authService.getId();
-    this.orderService.getNewSellerOrders(this.userId).subscribe(data => {
+    this.orderService.getBuyerOrders(this.userId).subscribe(data => {
       this.orders = data.map(doc => {
         return Object.assign(doc, {
           openDetails: false
