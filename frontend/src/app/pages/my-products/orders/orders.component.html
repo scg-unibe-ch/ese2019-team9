@@ -1,0 +1,98 @@
+<ion-list>
+    <ion-grid>
+        <ion-row class = "ordersTitleBar">
+            <ion-col class="ordersTitle" size="2" size-md="2" offset-md="1" size-lg="2">
+                Product Name
+            </ion-col>
+            <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
+                Customer Name
+            </ion-col>
+            <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
+                From
+            </ion-col>
+            <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
+                To
+            </ion-col>
+            <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
+                Action
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="isLoading">
+            Loading orders...
+        </ion-row>
+        <ion-row *ngFor="let order of orders">
+            <ion-item-sliding *ngIf="order.status == 'pending'">
+                <ion-item class="profileProductsItem ion-no-padding " (click)="order.openDetails = !order.openDetails">
+                    <ion-col size-md="1" class="ion-hide-sm-down">
+                        <ion-avatar>
+                            <img *ngIf="order.product.image" src="{{ order.product.image }}">
+                        </ion-avatar>
+                    </ion-col>
+                    <ion-col size="2" size-md="2" size-lg="2" >
+                        {{ order.product.name }}
+                    </ion-col>
+                    <ion-col size="2" size-md="2" size-lg="2" >
+                        {{ order.buyer.name }}
+                    </ion-col>
+                    <ion-col size="2" size-md="2" size-lg="2" >
+                        {{ order.startDate }}
+                    </ion-col> 
+                    <ion-col size="2" size-md="2" size-lg="2" >
+                        {{ order.endDate }}
+                    </ion-col> 
+                    <ion-col size="2" size-md="2" size-lg="2" >
+                      <ion-button color="success" (click)="acceptOrder(order._id)">Accept</ion-button>
+                      <ion-button color="danger" (click)="rejectOrder(order._id)">Reject</ion-button>
+                    </ion-col> 
+                    
+                    <ion-col size="1">
+                        <ion-icon [name]="order.openDetails ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+                    </ion-col>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option color="success" (click)="acceptOrder(order._id)">
+                        Accept
+                    </ion-item-option>
+                    <ion-item-option color="danger" (click)="rejectOrder(order._id)">
+                        Reject
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+            
+            <ion-col *ngIf="order.openDetails" size="12" size-sm="6">
+                <ion-card scrollX="true">
+                    <ion-card-title class="ion-padding-horizontal" style="margin-top:0.5rem">
+                        <ion-avatar>
+                            <img *ngIf="order.buyer.image" src="{{ order.buyer.image }}">
+                        </ion-avatar>
+                    </ion-card-title>
+                    <ion-card-content>
+                        <ion-list> 
+                            <ion-item>
+                                <ion-label><ion-icon name="person"></ion-icon> Customer Name:</ion-label><div class="scroll">{{ order.buyer.name }} </div>
+                            </ion-item>
+                            <ion-item *ngIf="order.buyer.address && order.buyer.country">
+                                <ion-label><ion-icon name="pin"></ion-icon> Customer Adress:</ion-label>{{ order.buyer.address }}, {{ order.buyer.country }}
+                            </ion-item>
+                            <ion-item *ngIf="order.buyer.email">
+                                <ion-label><ion-icon name="mail"></ion-icon> Customer Email:</ion-label>{{ order.buyer.email }}
+                            </ion-item>
+                            <ion-item>
+                                <ion-label><ion-icon name="calendar"></ion-icon> Date:</ion-label>{{ order.startDate }} - {{ order.endDate }}
+                            </ion-item>
+                        </ion-list>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col *ngIf="order.openDetails && order.description" size="12" size-sm="6">
+                <ion-card class="ion-padding">
+                    <div class="scroll">Message: {{ order.description }} </div>
+                </ion-card>
+            </ion-col><!--
+            <ion-col *ngIf="order.openDetails" offset="0" size="12" offset-sm="6" size-sm="12">
+                <ion-button color="danger" (click)="rejectOrder(order._id)">Reject</ion-button>
+                <ion-button color="success" (click)="acceptOrder(order._id)">Accept</ion-button>
+            </ion-col>-->
+        </ion-row>
+    </ion-grid>
+</ion-list>

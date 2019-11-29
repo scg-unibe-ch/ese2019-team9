@@ -9,10 +9,7 @@
             <ion-col>
                 <ion-segment (ionChange)="onTabSwitch($event)">
                     <ion-segment-button value="0" checked>
-                        <ion-label> User information</ion-label>
-                    </ion-segment-button>
-                    <ion-segment-button value="1">
-                        <ion-label> Your products</ion-label>
+                        <ion-label> Your Profile</ion-label>
                     </ion-segment-button>
                 </ion-segment>
 
@@ -21,7 +18,7 @@
                 <!-- End of: Tab 0: User information -->
 
                 <!-- Tab 1: User products -->
-                <app-user-products *ngIf="selectedTab === 1"></app-user-products>
+                <!--<app-user-products *ngIf="selectedTab === 1"></app-user-products> -->
                 <!-- End of: Tab 1: User products -->
             </ion-col>
         </ion-row>

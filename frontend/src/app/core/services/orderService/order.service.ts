@@ -79,4 +79,32 @@ export class OrderService {
         return res;
       }));
   }
+
+  getSellerOrders(userId: string) {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+
+    return this.httpClient.get < [] > (this.orderEndpoint + '/seller', {
+      headers
+    });
+  }
+
+  getNewSellerOrders(userId: string) {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+
+    return this.httpClient.get < [] > (this.orderEndpoint + '/seller/new', {
+      headers
+    });
+  }
+
+  getBuyerOrders(userId: string) {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+
+    return this.httpClient.get < [] > (this.orderEndpoint + '/buyer', {
+      headers
+    });
+  }
+
 }
