@@ -589,7 +589,8 @@ exports.getOrderById = (req, res, next) => {
                                     doc.seller.image)
                         },
                         date: msg.date,
-                        statusMessage: msg.statusMessage
+                        statusMessage: msg.statusMessage,
+                        message:msg.message
                     }
                 })
             });
