@@ -1,9 +1,9 @@
 <div class="container">
 	<ion-list class="list ion-no-margin">
-		<ion-item *ngFor="let result of searchResults">
+		<ion-item *ngFor="let result of searchResults" [routerLink]="getRouterLinkOfResult(result.obj)">
 			<ion-grid>
 				<ion-row>
-					<ion-col>{{ result.obj.name }}</ion-col><ion-col> {{ getAppOfResult(result.app) }} </ion-col>
+					<ion-col>{{ result.obj.name }}</ion-col><ion-col> {{ showExtract(result.app) }} </ion-col>
 				</ion-row>
 			</ion-grid>
 		</ion-item>

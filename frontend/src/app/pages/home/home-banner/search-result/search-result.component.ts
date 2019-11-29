@@ -30,7 +30,17 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     return this.searchResults.size.toString();
   }
 
-  getAppOfResult(resultAppereance: Map<string, number[]>){
+  getRouterLinkOfResult(result: object) {
+    console.log(result);
+    console.log(result.hasOwnProperty('seller'));
+    if (this.isProduct(result)) {
+      return ['/product-details/', (result as any)._id];
+    }else {
+      return ['/subcategory/', (result as any).slug];
+    }
+  }
+
+  showExtract(resultAppereance: Map<string, number[]>) {
     let res = '';
     Array.from(resultAppereance.keys()).forEach((el) => {
       res += el+', '
@@ -38,4 +48,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     return res.substring(0, res.lastIndexOf(','));
   }
 
+  isProduct(result: object): boolean{
+    return (result.hasOwnProperty('seller'));
+  }
 }
