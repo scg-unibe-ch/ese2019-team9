@@ -58,8 +58,7 @@ exports.placeOrder = (req, res, next) => {
                 _id: new mongoose.Types.ObjectId(),
                 date: new Date(),
                 sender: new mongoose.Types.ObjectId(req.userData.userId),
-                message: 'Requested your product from <b>' + req.body.startDate + '</b> to <b>' +
-                    req.body.endDate + '</b>',
+                message: '[INITIAL REQUEST]',
                 statusMessage: true
             }, {
                 _id: new mongoose.Types.ObjectId(),
@@ -138,7 +137,7 @@ exports.acceptOrder = (req, res, next) => {
                 _id: new mongoose.Types.ObjectId(),
                 date: new Date(),
                 sender: new mongoose.Types.ObjectId(req.userData.userId),
-                message: '<b>Accepted</b> your order request',
+                message: '[ACCEPT]',
                 statusMessage: true
             };
 
@@ -207,7 +206,7 @@ exports.rejectOrder = (req, res, next) => {
                 _id: new mongoose.Types.ObjectId(),
                 date: new Date(),
                 sender: new mongoose.Types.ObjectId(req.userData.userId),
-                message: '<b>Rejected</b> your order request',
+                message: '[REJECT]',
                 statusMessage: true
             };
 
@@ -575,22 +574,22 @@ exports.getOrderById = (req, res, next) => {
                     image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
                 },
                 chat: doc.chat.map(msg => {
+                    console.log(msg.sender + " " + doc.buyer._id + " " + doc.seller._id);
                     return {
                         _id: msg._id,
                         sender: {
-                            _id: doc.sender,
-                            name: doc.sender == doc.buyer._id ? doc.buyer.name : doc.seller.name,
-                            email: doc.sender == doc.buyer._id ? doc.buyer.email : doc.seller.email,
-                            image: doc.sender == doc.buyer._id ?
+                            _id: msg.sender,
+                            name: msg.sender.equals(doc.buyer._id) ? doc.buyer.name : doc.seller.name,
+                            email: msg.sender.equals(doc.buyer._id) ? doc.buyer.email : doc.seller.email,
+                            image: msg.sender.equals(doc.buyer._id) ?
                                 (!doc.buyer.image ? process.env.PUBLIC_DOMAIN_API +
-                                    "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image) :
-                                (!doc.seller.image ? process.env.PUBLIC_DOMAIN_API +
+                                    "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image) : (!doc.seller.image ? process.env.PUBLIC_DOMAIN_API +
                                     "/rsc/no-user-image.png" : process.env.FILE_STORAGE +
                                     doc.seller.image)
                         },
                         date: msg.date,
                         statusMessage: msg.statusMessage,
-                        message:msg.message
+                        message: msg.message
                     }
                 })
             });
@@ -600,4 +599,48 @@ exports.getOrderById = (req, res, next) => {
                 error: err.message
             });
         })
+}
+
+/**
+ * Add new message to chat (only seller and buyer)
+ */
+exports.sendMessage = (req, res, next) => {
+    if (!req.body.orderId || !req.body.message)
+        return res.status(500).json({
+            message: "Please define orderId and message"
+        });
+    if (req.body.message.length == 0)
+        return res.status(500).json({
+            message: "Empty message"
+        });
+
+    Order.findById(req.body.orderId)
+        .then(order => {
+            if (!order.seller.equals(req.userData.userId) && !order.buyer.equals(req.userData.userId))
+                throw new Error("Access denied");
+
+            const message = {
+                _id: new mongoose.Types.ObjectId(),
+                date: new Date(),
+                sender: new mongoose.Types.ObjectId(req.userData.userId),
+                message: req.body.message,
+                statusMessage: false
+            };
+
+            return order.update({
+                $push: {
+                    chat: message
+                }
+            })
+        })
+        .then(result => {
+            res.status(200).json({
+                message:"Message sent"
+            });
+        })
+        .catch(err => {
+            return res.status(500).json({
+                error: err.message
+            });
+        });
 }

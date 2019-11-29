@@ -19,4 +19,6 @@ router.patch('/reject', checkAuth, OrderController.rejectOrder);
 
 router.patch('/pay', checkAuth, OrderController.payOrder);
 
+router.post('/message/send', checkAuth, OrderController.sendMessage);
+
 module.exports = router;
