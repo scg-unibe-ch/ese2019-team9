@@ -1,5 +1,7 @@
 const Order = require('../models/order');
 const Product = require('../models/product');
+const User = require('../models/user');
+const Notification = require('../models/notification');
 const mongoose = require('mongoose');
 
 /**
@@ -32,31 +34,40 @@ const parseDate = (_date, _format, _delimiter) => {
 /**
  * Place a new order
  * User has to be logged in
- * @param req.body has to contain productId
+ * @param req.body has to contain productId, startDate and endDate
  */
 exports.placeOrder = (req, res, next) => {
-    if (!req.body.productId)
+    if (!req.body.productId || !req.body.startDate || !req.body.endDate)
         return res.status(500).json({
             error: "Please specify a productId"
         });
+
+    let sellerId, productName, createdOrder;
 
     Product.findById(req.body.productId)
         .then(product => {
             if (!product)
                 throw new Error("Product not found!");
 
-            console.log(new Date(req.body.startDate));
-
             const startDate = parseDate(req.body.startDate, "dd.mm.yyyy", ".");
             const endDate = parseDate(req.body.startDate, "dd.mm.yyyy", ".");
+            sellerId = product.seller;
+            productName = product.name;
 
-            const message = {
+            const messages = [{
                 _id: new mongoose.Types.ObjectId(),
-                date:new Date(),
-                sender:new mongoose.Types.ObjectId(req.userData.userId),
-                message:'Requested your product for ' + req.body.startDate + ' - ' + req.body.endDate,
-                statusMessage:true
-            }
+                date: new Date(),
+                sender: new mongoose.Types.ObjectId(req.userData.userId),
+                message: 'Requested your product from <b>' + req.body.startDate + '</b> to <b>' +
+                    req.body.endDate + '</b>',
+                statusMessage: true
+            }, {
+                _id: new mongoose.Types.ObjectId(),
+                date: new Date(),
+                sender: new mongoose.Types.ObjectId(req.userData.userId),
+                message: req.body.description
+            }];
+
             const order = new Order({
                 _id: new mongoose.Types.ObjectId(),
                 orderDate: new Date(),
@@ -65,15 +76,28 @@ exports.placeOrder = (req, res, next) => {
                 buyer: new mongoose.Types.ObjectId(req.userData.userId),
                 product: new mongoose.Types.ObjectId(req.body.productId),
                 seller: product.seller,
-                chat:[message]
+                description: req.body.description,
+                chat: messages
             });
 
             return order.save();
         })
         .then(order => {
+            createdOrder = order;
+            const notification = new Notification({
+                _id: new mongoose.Types.ObjectId(),
+                user: new mongoose.Types.ObjectId(sellerId),
+                text: "New order request for your product '" + productName + "'",
+                link: "/order-details/" + order._id,
+                date: new Date()
+            });
+
+            return notification.save();
+        })
+        .then(result => {
             res.status(200).json({
                 message: "Order successfully placed",
-                order: order
+                order: createdOrder
             });
         })
         .catch(err => {
@@ -110,13 +134,35 @@ exports.acceptOrder = (req, res, next) => {
             if (order.seller != req.userData.userId && !req.userData.admin)
                 throw new Error("Access denied");
 
-            return Order.updateOne({
+            const message = {
+                _id: new mongoose.Types.ObjectId(),
+                date: new Date(),
+                sender: new mongoose.Types.ObjectId(req.userData.userId),
+                message: '<b>Accepted</b> your order request',
+                statusMessage: true
+            };
+
+            return Order.findOneAndUpdate({
                 _id: req.body.orderId
             }, {
                 $set: {
                     status: 'accepted'
+                },
+                $push: {
+                    chat: message
                 }
             })
+        })
+        .then(order => {
+            const notification = new Notification({
+                _id: new mongoose.Types.ObjectId(),
+                user: new mongoose.Types.ObjectId(order.buyer),
+                text: "Your order '" + order._id + "' has been accepted",
+                link: "/order-details/" + order._id,
+                date: new Date()
+            });
+
+            return notification.save();
         })
         .then(result => {
             res.status(200).json({
@@ -157,13 +203,35 @@ exports.rejectOrder = (req, res, next) => {
             if (order.seller != req.userData.userId && !req.userData.admin)
                 throw new Error("Access denied");
 
+            const message = {
+                _id: new mongoose.Types.ObjectId(),
+                date: new Date(),
+                sender: new mongoose.Types.ObjectId(req.userData.userId),
+                message: '<b>Rejected</b> your order request',
+                statusMessage: true
+            };
+
             return Order.updateOne({
                 _id: req.body.orderId
             }, {
                 $set: {
                     status: 'rejected'
+                },
+                $push: {
+                    chat: message
                 }
             })
+        })
+        .then(order => {
+            const notification = new Notification({
+                _id: new mongoose.Types.ObjectId(),
+                user: new mongoose.Types.ObjectId(order.buyer),
+                text: "Your order '" + order.id + "' has been rejected",
+                link: "/order-details/" + order._id,
+                date: new Date()
+            });
+
+            return notification.save();
         })
         .then(result => {
             res.status(200).json({
@@ -201,13 +269,34 @@ exports.payOrder = (req, res, next) => {
             if (order.buyer != req.userData.userId && !req.userData.admin)
                 throw new Error("Access denied");
 
-            return Order.updateOne({
+            const message = {
+                _id: new mongoose.Types.ObjectId(),
+                date: new Date(),
+                sender: new mongoose.Types.ObjectId(req.userData.userId),
+                message: '<b>Paid</b> the invoice',
+                statusMessage: true
+            };
+            return Order.findOneAndUpdate({
                 _id: req.body.orderId
             }, {
                 $set: {
                     status: 'paid'
+                },
+                $push: {
+                    chat: message
                 }
             })
+        })
+        .then(order => {
+            const notification = new Notification({
+                _id: new mongoose.Types.ObjectId(),
+                user: new mongoose.Types.ObjectId(order.seller),
+                text: "Invoice for order '" + order._id + "' has been paid",
+                link: "/order-details/" + order._id,
+                date: new Date()
+            });
+
+            return notification.save();
         })
         .then(result => {
             res.status(200).json({
@@ -227,7 +316,15 @@ exports.payOrder = (req, res, next) => {
  * @param req.body has to contain getAll:true if user is admin and wants to get all orders
  */
 exports.getSellerOrders = (req, res, next) => {
-    const searchFields = { $and:[{seller: req.userData.userId}, {status:{$nin:["rejected", "pending"]}}]};
+    const searchFields = {
+        $and: [{
+            seller: req.userData.userId
+        }, {
+            status: {
+                $nin: ["rejected"]
+            }
+        }]
+    };
     Order.find(searchFields)
         .select("-__v")
         .populate("buyer", "-__v -password -admin")
@@ -238,19 +335,19 @@ exports.getSellerOrders = (req, res, next) => {
                 const _endDate = new Date(doc.endDate);
                 const _orderDate = new Date(doc.orderDate);
 
-                const startDate = _startDate.getDay() + "." + (_startDate.getMonth()+1) + "." +
-                    _startDate.getFullYear() + " " + 
-                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) + 
+                const startDate = _startDate.getDay() + "." + (_startDate.getMonth() + 1) + "." +
+                    _startDate.getFullYear() + " " +
+                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) +
                     ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
 
-                    const endDate = _endDate.getDay() + "." + (_endDate.getMonth()+1) + "." +
-                    _endDate.getFullYear() + " " + 
-                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) + 
+                const endDate = _endDate.getDay() + "." + (_endDate.getMonth() + 1) + "." +
+                    _endDate.getFullYear() + " " +
+                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) +
                     ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
 
-                    const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth()+1) + "." +
-                    _orderDate.getFullYear() + " " + 
-                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) + 
+                const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth() + 1) + "." +
+                    _orderDate.getFullYear() + " " +
+                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) +
                     ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
 
                 return {
@@ -268,11 +365,12 @@ exports.getSellerOrders = (req, res, next) => {
                         image: !doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image
                     },
                     product: {
-                        _id:doc.product._id,
+                        _id: doc.product._id,
                         name: doc.product.name,
                         price: doc.product.price,
                         image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
-                    }
+                    },
+                    chat: doc.chat
                 }
             });
             res.status(200).json(response);
@@ -288,7 +386,13 @@ exports.getSellerOrders = (req, res, next) => {
  * Only get new orders for seller that have not yet been accepted or rejected
  */
 exports.getNewSellerOrders = (req, res, next) => {
-    const searchFields = { $and:[{seller: req.userData.userId}, {status:"pending"}]};
+    const searchFields = {
+        $and: [{
+            seller: req.userData.userId
+        }, {
+            status: "pending"
+        }]
+    };
     Order.find(searchFields)
         .select("-__v")
         .populate("buyer", "-__v -password -admin")
@@ -299,19 +403,19 @@ exports.getNewSellerOrders = (req, res, next) => {
                 const _endDate = new Date(doc.endDate);
                 const _orderDate = new Date(doc.orderDate);
 
-                const startDate = _startDate.getDay() + "." + (_startDate.getMonth()+1) + "." +
-                    _startDate.getFullYear() + " " + 
-                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) + 
+                const startDate = _startDate.getDay() + "." + (_startDate.getMonth() + 1) + "." +
+                    _startDate.getFullYear() + " " +
+                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) +
                     ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
 
-                    const endDate = _endDate.getDay() + "." + (_endDate.getMonth()+1) + "." +
-                    _endDate.getFullYear() + " " + 
-                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) + 
+                const endDate = _endDate.getDay() + "." + (_endDate.getMonth() + 1) + "." +
+                    _endDate.getFullYear() + " " +
+                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) +
                     ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
 
-                    const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth()+1) + "." +
-                    _orderDate.getFullYear() + " " + 
-                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) + 
+                const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth() + 1) + "." +
+                    _orderDate.getFullYear() + " " +
+                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) +
                     ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
 
                 return {
@@ -329,11 +433,12 @@ exports.getNewSellerOrders = (req, res, next) => {
                         image: !doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image
                     },
                     product: {
-                        _id:doc.product._id,
+                        _id: doc.product._id,
                         name: doc.product.name,
                         price: doc.product.price,
                         image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
-                    }
+                    },
+                    chat: doc.chat
                 }
             });
             res.status(200).json(response);
@@ -349,7 +454,9 @@ exports.getNewSellerOrders = (req, res, next) => {
  * Get all orders a specific user has placed
  */
 exports.getBuyerOrders = (req, res, next) => {
-    Order.find({ buyer:req.userData.userId })
+    Order.find({
+            buyer: req.userData.userId
+        })
         .select("-__v")
         .populate("seller", "-__v -password -admin")
         .populate("product", "-__v -verified -toRevise -date")
@@ -359,19 +466,19 @@ exports.getBuyerOrders = (req, res, next) => {
                 const _endDate = new Date(doc.endDate);
                 const _orderDate = new Date(doc.orderDate);
 
-                const startDate = _startDate.getDay() + "." + (_startDate.getMonth()+1) + "." +
-                    _startDate.getFullYear() + " " + 
-                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) + 
+                const startDate = _startDate.getDay() + "." + (_startDate.getMonth() + 1) + "." +
+                    _startDate.getFullYear() + " " +
+                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) +
                     ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
 
-                    const endDate = _endDate.getDay() + "." + (_endDate.getMonth()+1) + "." +
-                    _endDate.getFullYear() + " " + 
-                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) + 
+                const endDate = _endDate.getDay() + "." + (_endDate.getMonth() + 1) + "." +
+                    _endDate.getFullYear() + " " +
+                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) +
                     ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
 
-                    const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth()+1) + "." +
-                    _orderDate.getFullYear() + " " + 
-                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) + 
+                const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth() + 1) + "." +
+                    _orderDate.getFullYear() + " " +
+                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) +
                     ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
 
                 return {
@@ -389,11 +496,12 @@ exports.getBuyerOrders = (req, res, next) => {
                         image: !doc.seller.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.seller.image
                     },
                     product: {
-                        _id:doc.product._id,
+                        _id: doc.product._id,
                         name: doc.product.name,
                         price: doc.product.price,
                         image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
-                    }
+                    },
+                    chat: doc.chat
                 }
             });
             res.status(200).json(response);
@@ -415,30 +523,30 @@ exports.getOrderById = (req, res, next) => {
         .populate("seller", "-__v -password -admin")
         .populate("buyer", "-__v -password -admin")
         .populate("product", "-__v -verified -toRevise -date")
-        .then(doc => {
-            if(doc.buyer._id != req.userData.userId && doc.seller._id != req.userData.userId && !req.userData.admin)
+        .then(async doc => {
+            if (doc.buyer._id != req.userData.userId && doc.seller._id != req.userData.userId && !req.userData.admin)
                 throw new Error("Access denied");
 
             const _startDate = new Date(doc.startDate);
             const _endDate = new Date(doc.endDate);
             const _orderDate = new Date(doc.orderDate);
 
-            const startDate = _startDate.getDay() + "." + (_startDate.getMonth()+1) + "." +
-                _startDate.getFullYear() + " " + 
-                (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) + 
+            const startDate = _startDate.getDay() + "." + (_startDate.getMonth() + 1) + "." +
+                _startDate.getFullYear() + " " +
+                (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) +
                 ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
 
-                const endDate = _endDate.getDay() + "." + (_endDate.getMonth()+1) + "." +
-                _endDate.getFullYear() + " " + 
-                (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) + 
+            const endDate = _endDate.getDay() + "." + (_endDate.getMonth() + 1) + "." +
+                _endDate.getFullYear() + " " +
+                (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) +
                 ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
 
-                const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth()+1) + "." +
-                _orderDate.getFullYear() + " " + 
-                (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) + 
+            const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth() + 1) + "." +
+                _orderDate.getFullYear() + " " +
+                (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) +
                 ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
 
-            return res.status(200).json( {
+            return res.status(200).json({
                 _id: doc._id,
                 startDate: startDate,
                 endDate: endDate,
@@ -461,11 +569,29 @@ exports.getOrderById = (req, res, next) => {
                     image: !doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image
                 },
                 product: {
-                    _id:doc.product._id,
+                    _id: doc.product._id,
                     name: doc.product.name,
                     price: doc.product.price,
                     image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
-                }
+                },
+                chat: doc.chat.map(msg => {
+                    return {
+                        _id: msg._id,
+                        sender: {
+                            _id: doc.sender,
+                            name: doc.sender == doc.buyer._id ? doc.buyer.name : doc.seller.name,
+                            email: doc.sender == doc.buyer._id ? doc.buyer.email : doc.seller.email,
+                            image: doc.sender == doc.buyer._id ?
+                                (!doc.buyer.image ? process.env.PUBLIC_DOMAIN_API +
+                                    "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image) :
+                                (!doc.seller.image ? process.env.PUBLIC_DOMAIN_API +
+                                    "/rsc/no-user-image.png" : process.env.FILE_STORAGE +
+                                    doc.seller.image)
+                        },
+                        date: msg.date,
+                        statusMessage: msg.statusMessage
+                    }
+                })
             });
         })
         .catch(err => {
