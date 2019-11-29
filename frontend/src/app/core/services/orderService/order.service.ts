@@ -107,4 +107,11 @@ export class OrderService {
     });
   }
 
+  getOrderById(orderId: string) {
+    const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        return this.httpClient.get(this.orderEndpoint + `/id/${orderId}`, {
+            headers: headers
+        })
+  }
 }

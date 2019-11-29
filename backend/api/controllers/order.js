@@ -268,6 +268,7 @@ exports.getSellerOrders = (req, res, next) => {
                         image: !doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image
                     },
                     product: {
+                        _id:doc.product._id,
                         name: doc.product.name,
                         price: doc.product.price,
                         image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
@@ -328,6 +329,7 @@ exports.getNewSellerOrders = (req, res, next) => {
                         image: !doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image
                     },
                     product: {
+                        _id:doc.product._id,
                         name: doc.product.name,
                         price: doc.product.price,
                         image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
@@ -387,6 +389,7 @@ exports.getBuyerOrders = (req, res, next) => {
                         image: !doc.seller.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.seller.image
                     },
                     product: {
+                        _id:doc.product._id,
                         name: doc.product.name,
                         price: doc.product.price,
                         image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
@@ -458,6 +461,7 @@ exports.getOrderById = (req, res, next) => {
                     image: !doc.buyer.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.buyer.image
                 },
                 product: {
+                    _id:doc.product._id,
                     name: doc.product.name,
                     price: doc.product.price,
                     image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image

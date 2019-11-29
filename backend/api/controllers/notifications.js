@@ -83,7 +83,7 @@ exports.setRead = (req, res, next) => {
             }
         })
         .exec()
-        .then(res => {
+        .then(result => {
             return res.status(200).json({
                 message: 'read flag set'
             })
