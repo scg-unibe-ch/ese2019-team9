@@ -67,10 +67,10 @@ export class OrderService {
       }));
   }
 
-  fulfill(orderId: string) {
+  pay(orderId: string) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.patch(this.orderEndpoint + '/fulfill', {
+    return this.httpClient.patch(this.orderEndpoint + '/pay', {
         orderId
       }, {
         headers

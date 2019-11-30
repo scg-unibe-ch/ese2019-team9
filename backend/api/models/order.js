@@ -17,6 +17,7 @@ const orderSchema = mongoose.Schema({
     buyer:{ type:mongoose.Schema.Types.ObjectId, ref:'User', index:true, required:true },
     product:{ type:mongoose.Schema.Types.ObjectId, ref:'Product', index:true, required:true },
     seller:{ type:mongoose.Schema.Types.ObjectId, ref:'User', index:true, required:true },
+    reviewed:{ type:Boolean, default:false },
     chat:[messageSchema]
 });
 

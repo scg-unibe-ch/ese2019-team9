@@ -40,7 +40,8 @@ export class HeaderButtonsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.checkForNewNotifications();
+        if(this.authService.isLoggedIn())
+            this.checkForNewNotifications();
     }
 
     checkForNewNotifications() {
@@ -109,7 +110,7 @@ export class HeaderButtonsComponent implements OnInit {
             component: NotificationsComponent,
             componentProps: {notifications: this.notifications},
             event: ev,
-            cssClass: 'profile-popover'
+            cssClass: 'notifications-popover'
         });
         popover.onDidDismiss().then(() => {
             console.log('test');

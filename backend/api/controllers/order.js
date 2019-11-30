@@ -272,7 +272,7 @@ exports.payOrder = (req, res, next) => {
                 _id: new mongoose.Types.ObjectId(),
                 date: new Date(),
                 sender: new mongoose.Types.ObjectId(req.userData.userId),
-                message: '<b>Paid</b> the invoice',
+                message: '[PAY]',
                 statusMessage: true
             };
             return Order.findOneAndUpdate({
@@ -551,6 +551,7 @@ exports.getOrderById = (req, res, next) => {
                 endDate: endDate,
                 status: doc.status,
                 orderDate: orderDate,
+                reviewed:doc.reviewed,
                 seller: {
                     _id: doc.seller._id,
                     name: doc.seller.name,

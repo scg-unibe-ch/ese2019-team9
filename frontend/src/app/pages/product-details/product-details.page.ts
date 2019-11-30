@@ -189,7 +189,6 @@ export class ProductDetailsPage implements OnInit {
 				this.productId = params.get('productId');
 				this.displayProductInformation(this.productId);
 			}
-			this.isLoading = false;
 		});
 
 		this.productService.hasBought(this.productId).subscribe(data => {
@@ -223,6 +222,7 @@ export class ProductDetailsPage implements OnInit {
 			.subscribe(
 				data => {
 					this.productInformation = data;
+					this.isLoading = false;
 				},
 
 				err => {

@@ -10,6 +10,8 @@
     padding:0;
     border:1px solid var(--ion-color-secondary);
     border-radius: 7px;
+    overflow: hidden;
+    margin-bottom:2rem;
 }
 
 .messageContainer {
@@ -43,8 +45,12 @@
 }
 
 .actionLink:hover {
-    color:var(--ion-color-secondary);
+    text-decoration: underline;
     cursor: pointer;
+}
+
+.blueLink {
+    color:var(--ion-color-primary-shade);
 }
 
 .productPrice {
@@ -60,6 +66,10 @@
 }
 
 .body {
+    background-color: var(--ion-color-medium);
+}
+
+.statusMessage {
     background-color: var(--ion-color-medium);
 }
 
