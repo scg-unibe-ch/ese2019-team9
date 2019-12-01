@@ -1,6 +1,8 @@
 .message {
-    text-align:center;
+    font-size:0.9rem;
     cursor:pointer;
+    border-bottom:1px solid var(--ion-color-secondary);
+    padding:5%;
 }
 
 .cursor-pointer {

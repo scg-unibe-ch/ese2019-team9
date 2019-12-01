@@ -233,8 +233,12 @@ ion-alert button.cancel-button {
   ion-backdrop {
     background:none !important;
   }
+  left: 0 !important;
+  padding:0px !important;
+  margin:0px !important;
+  width:100%!important;
 }
 
 .notifications-popover .popover-content {
-  width:35rem;
+  width:330px;
 }

@@ -227,6 +227,7 @@ export class ProductDetailsPage implements OnInit {
 
 				err => {
 					console.log(err);
+					this.isLoading = false;
 				}
 			);
 	}

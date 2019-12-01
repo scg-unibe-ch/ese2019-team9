@@ -1,10 +1,14 @@
 <ion-grid (mouseleave)="dismissPopover()">
-    <span *ngFor="let notification of notifications">
-        <ion-item [color]="!notification.read ? 'light' : ''" class="message">
-                <ion-label [routerLink]="[notification.link]"> {{ notification.text }} </ion-label>
-                <!--<ion-icon (click)="deleteNotification(notification._id)"
-                      size="large" slot="start" color="danger" name="close"></ion-icon>-->
-        </ion-item>
-    </span>
+    <ion-row>
+        <ion-col style="text-align:center" class="message">
+                <b>Notifications</b>
+        </ion-col>
+    </ion-row>
+    
+    <ion-row *ngFor="let notification of notifications">
+        <ion-col [routerLink]="[notification.link]" item-text-wrap [ngStyle]="{'background-color': !notification.read ? '#E5EAF2' : ''}" class="message item-text-wrap">
+                {{ notification.text }} 
+        </ion-col>
+    </ion-row>
     <ion-item *ngIf="notifications.length === 0" class="message">You have no nofitications.</ion-item>
 </ion-grid>

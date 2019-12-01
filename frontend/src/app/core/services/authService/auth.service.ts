@@ -108,22 +108,33 @@ export class AuthService {
 	}
 
 	public isLoggedIn() {
-		if (!Boolean(this.getToken())) {
+		try {
+			if (!Boolean(this.getToken())) {
+				return false;
+			}
+			const payload = decode(this.getToken());
+			const expiration = payload.exp;
+			const dateNow: number = Math.floor(Date.now() / 1000);
+			const expired = expiration - dateNow < 0;
+			if (expired) {
+				localStorage.removeItem('token');
+			}
+			return !expired;
+		} catch (err) {
 			return false;
 		}
-		const payload = decode(this.getToken());
-		const expiration = payload.exp;
-		const dateNow: number = Math.floor(Date.now() / 1000);
-		const expired = expiration - dateNow < 0;
-		if (expired) {
-			localStorage.removeItem('token');
-		}
-		return !expired;
 	}
 
 	public isAdmin(): boolean {
-		const payload = decode(this.getToken());
-		return payload.admin;
+		if (!Boolean(this.getToken())) {
+			return false;
+		}
+		try {
+			const payload = decode(this.getToken());
+			return payload.admin;
+		} catch(err) {
+			return false;
+		}
 	}
 
   public getToken(): string {
@@ -131,6 +142,9 @@ export class AuthService {
   }
 
   public getId(): string {
+	if (!Boolean(this.getToken())) {
+		return null;
+	}
     const payload = decode(this.getToken());
     return payload.userId;
   }

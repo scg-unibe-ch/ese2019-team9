@@ -175,6 +175,7 @@ export class OrderDetailsPage implements OnInit {
 
         err => {
           console.log(err);
+          this.isLoading = false;
         }
       );
   }
@@ -216,7 +217,7 @@ export class OrderDetailsPage implements OnInit {
 
     if (!text.localeCompare("[REVIEW]"))
       return "<i>Wrote a review</i>";
-      
+
     return "<i>Unknown status message</i>";
   }
 

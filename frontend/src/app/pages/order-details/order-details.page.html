@@ -4,10 +4,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-title *ngIf="!order && isLoading">
+  <ion-title *ngIf="!order && isLoading" class="status">
     ... Loading ...
   </ion-title>
-  <ion-title *ngIf="!order && !isLoading">
+  <ion-title *ngIf="!order && !isLoading" class="status">
     Invalid Order ID!
   </ion-title>
   <ion-grid *ngIf="order">

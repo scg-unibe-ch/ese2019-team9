@@ -6,7 +6,64 @@
 
 <ion-content *ngIf="user && products">
   <ion-grid>
-    <ion-row>
+
+    <!-- Mobile version -->
+    <ion-row class="ion-hide-md-up">
+      <ion-col>
+        <!-- Profile details -->
+        <ion-row>
+          <ion-col class="container" size="12">
+            <ion-row class="ion-justify-content-center">
+              <ion-avatar><img src="{{ user.image }}"></ion-avatar>
+            </ion-row>
+            <ion-row style="margin-top:1rem">
+              <ion-col class="ion-text-center" style="font-size:22px">
+                <b>{{ user.name ? user.name : 'user' + user._id }}</b>
+              </ion-col>
+            </ion-row>
+            <ion-item-divider style="margin-bottom:1rem; margin-top:-1rem;">
+            </ion-item-divider>
+            <ion-row *ngIf="user.country">
+              <ion-icon name="pin"></ion-icon>&nbsp;From &nbsp; <b>{{ user.country }}</b>
+            </ion-row>
+            <ion-row style="margin-top:1rem">
+              <ion-icon name="cash"></ion-icon>&nbsp;Products sold &nbsp; <b>{{ user.productsSold }}</b>
+            </ion-row>
+            <ion-row *ngIf="user.description" style="margin-top:1rem">
+              <ion-icon name="pin"></ion-icon>&nbsp;From &nbsp; <b>{{ user.description }}</b>
+            </ion-row>
+            <ion-row *ngIf="!user.description && !user.country && !user.address">
+              <i>This user shares no information.</i>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <!-- Profile details end-->
+        <ion-row>
+          <ion-col class="container" size="12">
+            <ion-row style="margin-bottom:2rem">
+              <ion-col class="ion-text-center ion-justify-content-center" style="font-size:22px">
+                <b>{{ user.name ? user.name : 'user' + user._id }}'s Products</b>
+              </ion-col>
+            </ion-row>
+            <ion-item-divider style="margin-bottom:1rem; margin-top:-3rem;">
+            </ion-item-divider>
+            <ion-grid>
+              <ion-row>
+                <ion-col *ngFor="let product of products" size="12" size-md="6" size-xl="4">
+                  <app-subcategory-item class="item" [verified]="product.verified" [rating]="product.rating"
+                    [id]="product._id" [name]="product.name" [price]="product.price" [location]="product.location"
+                    [imageSrc]="product.image">
+                  </app-subcategory-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <!-- Desktop version -->
+    <ion-row class="ion-hide-sm-down">
       <!-- Profile details -->
       <ion-col size="3" offset-md="1">
         <ion-row>
@@ -25,8 +82,8 @@
               <ion-icon name="pin"></ion-icon>&nbsp;From &nbsp; <b>{{ user.country }}</b>
             </ion-row>
             <ion-row style="margin-top:1rem">
-                <ion-icon name="cash"></ion-icon>&nbsp;Products sold &nbsp; <b>{{ user.productsSold }}</b>
-              </ion-row>
+              <ion-icon name="cash"></ion-icon>&nbsp;Products sold &nbsp; <b>{{ user.productsSold }}</b>
+            </ion-row>
             <ion-row *ngIf="user.description" style="margin-top:1rem">
               <ion-icon name="pin"></ion-icon>&nbsp;From &nbsp; <b>{{ user.description }}</b>
             </ion-row>
@@ -45,18 +102,17 @@
           </ion-col>
         </ion-row>
         <ion-item-divider style="margin-bottom:1rem; margin-top:-3rem;">
-          </ion-item-divider>
+        </ion-item-divider>
         <ion-grid>
-            <ion-row>
-                <ion-col *ngFor="let product of products" size="12" size-md="6" size-xl="4">
-                    <app-subcategory-item class="item" [verified]="product.verified" [rating]="product.rating"
-                        [id]="product._id" [name]="product.name" [price]="product.price"
-                        [location]="product.location" [imageSrc]="product.image">
-                    </app-subcategory-item>
-                </ion-col>
-            </ion-row>
+          <ion-row>
+            <ion-col *ngFor="let product of products" size="12" size-md="6" size-xl="4">
+              <app-subcategory-item class="item" [verified]="product.verified" [rating]="product.rating"
+                [id]="product._id" [name]="product.name" [price]="product.price" [location]="product.location"
+                [imageSrc]="product.image">
+              </app-subcategory-item>
+            </ion-col>
+          </ion-row>
         </ion-grid>
-
       </ion-col>
     </ion-row>
   </ion-grid>

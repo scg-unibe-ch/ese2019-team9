@@ -2,6 +2,6 @@
     <ion-item button [routerLink]="['/profile']" (click)="dismissPopover()">My Profile</ion-item>
     <ion-item button [routerLink]="['/my-products']" (click)="dismissPopover()">Selling</ion-item>
     <ion-item button [routerLink]="['/my-orders']" (click)="dismissPopover()">Buying</ion-item>
-    <ion-item button *ngIf="authService.isAdmin()" (click)="dismissPopover()" [routerLink]="['/admin']">Admin</ion-item>
+    <ion-item button *ngIf="isAdmin" (click)="dismissPopover()" [routerLink]="['/admin']">Admin</ion-item>
     <ion-item button (click)="authService.logout(); dismissPopover()">Logout</ion-item>
 </ion-list>

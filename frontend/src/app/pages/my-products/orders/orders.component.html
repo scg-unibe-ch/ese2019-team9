@@ -1,53 +1,36 @@
 <ion-list>
     <ion-grid>
         <ion-row class = "ordersTitleBar">
-            <ion-col class="ordersTitle" size="2" size-md="2" offset-md="1" size-lg="2">
-                Product Name
+            <ion-col class="ordersTitle" offset="1">
+                Product
             </ion-col>
-            <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
-                Customer Name
+            <ion-col class="ordersTitle">
+                Customer
             </ion-col>
-            <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
-                From
-            </ion-col>
-            <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
-                To
-            </ion-col>
-            <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
-                Action
+            <ion-col class="ordersTitle">
+                Ordered on
             </ion-col>
         </ion-row>
         <ion-row *ngIf="isLoading">
             Loading orders...
         </ion-row>
         <ion-row *ngFor="let order of orders">
-            <ion-item-sliding *ngIf="order.status == 'pending'" [routerLink]="['../order-details', order._id]">
-                <ion-item class="profileProductsItem ion-no-padding " (click)="order.openDetails = !order.openDetails">
-                    <ion-col size-md="1" class="ion-hide-sm-down">
-                        <ion-avatar>
-                            <img *ngIf="order.product.image" src="{{ order.product.image }}">
+            <ion-item-sliding [routerLink]="['../order-details', order._id]">
+                <ion-item class="profileProductsItem ion-no-padding ">
+                    <ion-col size="1">
+                        <ion-avatar style="width:auto; height:auto;">
+                            <img style="width:auto; height:auto;" *ngIf="order.product.image" src="{{ order.product.image }}">
                         </ion-avatar>
                     </ion-col>
-                    <ion-col size="2" size-md="2" size-lg="2" >
+                    <ion-col>
                         {{ order.product.name }}
                     </ion-col>
-                    <ion-col size="2" size-md="2" size-lg="2" >
+                    <ion-col  >
                         {{ order.buyer.name }}
                     </ion-col>
-                    <ion-col size="2" size-md="2" size-lg="2" >
-                        {{ order.startDate }}
+                    <ion-col >
+                        {{ order.orderDate | date : "dd.MM.y hh:mm" }}
                     </ion-col> 
-                    <ion-col size="2" size-md="2" size-lg="2" >
-                        {{ order.endDate }}
-                    </ion-col> 
-                    <ion-col size="2" size-md="2" size-lg="2" >
-                      <ion-button color="success" (click)="acceptOrder(order._id)">Accept</ion-button>
-                      <ion-button color="danger" (click)="rejectOrder(order._id)">Reject</ion-button>
-                    </ion-col> 
-                    
-                    <ion-col size="1">
-                        <ion-icon [name]="order.openDetails ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
-                    </ion-col>
                 </ion-item>
                 <ion-item-options side="end">
                     <ion-item-option color="success" (click)="acceptOrder(order._id)">

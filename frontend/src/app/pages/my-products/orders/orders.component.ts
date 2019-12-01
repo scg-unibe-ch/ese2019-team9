@@ -59,7 +59,7 @@ export class OrdersComponent implements OnInit {
 
   getOrders() {
     this.userId = this.authService.getId();
-    this.orderService.getNewSellerOrders(this.userId).subscribe(data => {
+    this.orderService.getSellerOrders(this.userId).subscribe(data => {
       this.orders = data.map(doc => {
         return Object.assign(doc, {
           openDetails: false

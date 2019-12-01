@@ -23,9 +23,11 @@ export class ProfilePopoverComponent implements OnInit {
 
   ngOnInit() {
     this.show = true;
+    this.isAdmin = this.authService.isAdmin();
   }
 
   show = false;
+  isAdmin = false;
 
   async dismissPopover() {
     await this.popoverController.dismiss();
