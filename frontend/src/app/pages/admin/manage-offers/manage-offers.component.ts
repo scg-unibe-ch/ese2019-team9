@@ -45,8 +45,8 @@ export class ManageOffersComponent implements OnInit {
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Product deleted', 3500);
-                this.updateProducts();
                 this.notifySeller(productId, productName, sellerId, 'delete');
+                this.updateProducts();
                 
             },
             err => {
@@ -64,7 +64,6 @@ export class ManageOffersComponent implements OnInit {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Product verified', 3500);
                 this.updateProducts();
-                this.notifySeller(productId, productName, sellerId, 'verify');
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
@@ -81,7 +80,6 @@ export class ManageOffersComponent implements OnInit {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Revision initialized', 3500);
                 this.updateProducts();
-                this.notifySeller(productId, productName, sellerId, 'revise');
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
@@ -117,19 +115,16 @@ export class ManageOffersComponent implements OnInit {
         return array.filter(product => !(product as any).verified);
     }
 
+    
     notifySeller(productId: string, productName: string, sellerId: string, notificationType: string) {
         let link = '/home';
         let message = '';
+
         if (notificationType === 'delete') {
-            message = 'Product deleted: ' + productName;
-            link = '/add-products';
-        } else if (notificationType === 'verify') {
-            message = 'Product verified: ' + productName;
-            link = `/product-details/${productId}`;
-        } else if (notificationType === 'revise') {
-            message = 'Revise: ' + productName;
-            link = `/product-details/${productId}`;
-        }
+            message = "Your product '" + productName + "' has been deleted";
+            link = '/my-products';
+        } 
+
         // remove this once backend removed text or message
         const text = message;
         // create the body for the backend request
@@ -137,9 +132,8 @@ export class ManageOffersComponent implements OnInit {
         setTimeout(() => {
             this.notificationService.notifySingleUser(sellerId, body).subscribe(
                 data => {
-                    this.progressIndicatorService.presentToast('Seller notified', 3500);
                 }, err => {
-                    this.progressIndicatorService.presentToast('Seller not notified', 3500, 'danger');
+                    this.progressIndicatorService.presentToast('Error while trying to notify seller', 3500, 'danger');
                     console.log(err);
                 }
             );

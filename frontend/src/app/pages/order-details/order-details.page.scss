@@ -55,12 +55,14 @@
 
 .productPrice {
     font-weight:bold;
-    font-size:35px;
+    font-size:1.2em;
+    display:flex;
+    justify-content: center;
     color:var(--ion-color-dark-tint);
 }
 
 .productInfo {
-    font-size:15px;
+    font-size:0.7em;
     font-weight:lighter;
     padding-top:0.5rem;
 }
