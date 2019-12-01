@@ -10,12 +10,6 @@
                 <ion-col>
                     <ion-title>Add a product</ion-title>
                     <ion-card>
-                        <ion-item>
-                            <app-image-picker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
-                        </ion-item>
-                        <ion-item>
-                            <app-map-picker class="imagePicker" (locationPick)="onLocationPicked($event)"></app-map-picker>
-                        </ion-item>
                         <ion-card class="formElement">
                             <app-input-form
                                     [inputForm]="productForm" [givenName]="'name'" [text]="'Title*'"
@@ -23,6 +17,9 @@
                                     [type]="'text'" [inputMode]="'text'">
                             </app-input-form>
                         </ion-card>
+                        <ion-item>
+                            <app-image-picker class="picker" (imagePick)="onImagePicked($event)"></app-image-picker>
+                        </ion-item>
                         <ion-card class="formElement">
                             <app-input-form
                                     [inputForm]="productForm" [givenName]="'price'" [text]="'Price (in CHF)*'"
@@ -30,9 +27,11 @@
                                     [type]="'number'" [inputMode]="'number'">
                             </app-input-form>
                         </ion-card>
+                        <ion-item>
+                            <app-map-picker class="picker" (locationPick)="onLocationPicked($event)"></app-map-picker>
+                        </ion-item>
                         <ion-card class="formElement">
                             <app-input-form id="locationInput"
-
                                     [inputForm]="productForm" [givenName]="'location'" [text]="'Location: State, City*'"
                                     [validationMessages]="validationMessages.location"
                                     [type]="'text'" [inputMode]="'text'">

@@ -9,7 +9,7 @@ export class ProgressIndicatorService {
   constructor(private toastController: ToastController, private loadingController: LoadingController) { }
 
   async presentToast(message: string, duration: number, color?: string) {
-    const toastColor = (color) ?  color :'success';
+    const toastColor = (color) ?  color : 'success';
     const toast = await this.toastController.create({
       message: message,
       duration: duration,
@@ -19,18 +19,18 @@ export class ProgressIndicatorService {
           text: 'Ok',
           role: 'cancel',
         }
-      ]   
+      ]
     });
     toast.present();
   }
   
-  async presentLoading(message: string){
+  async presentLoading(message: string) {
     const loading = await this.loadingController.create({
       message: '<img class="custom-spinner" src="../../../assets/images/logo.png">' + message,
       backdropDismiss: true,
       spinner: null,
       duration: 5000,
-      cssClass: "loadingSpinner"
+      cssClass: 'loadingSpinner'
     });
     await loading.present();
   }
