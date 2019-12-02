@@ -221,11 +221,13 @@ export class ProductDetailsPage implements OnInit {
 			.getSingleProduct(productId)
 			.subscribe(
 				data => {
+					this.isLoading = false;
 					this.productInformation = data;
 					this.isLoading = false;
 				},
 
 				err => {
+					this.isLoading = false;
 					console.log(err);
 					this.isLoading = false;
 				}
