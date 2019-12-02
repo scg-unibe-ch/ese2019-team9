@@ -23,6 +23,12 @@
     font-weight: bold;
 }
 
+.list-header {
+	ion-col {
+		cursor: pointer;
+	}
+}
+
 @media (max-width: 576px) {
 	.hide-sm {
 		display: none !important;

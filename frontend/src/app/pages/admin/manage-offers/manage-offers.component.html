@@ -41,9 +41,15 @@
       </ion-col>
     </ion-row>
     <ion-row class="list-header">
-      <ion-col size="9" size-sm="4" class="bold">Name<ng-container *ngIf="sorting.name != 0"></ng-container></ion-col>
-      <ion-col class="hide-sm" size="9" size-sm="4" class="bold">Seller</ion-col>
-      <ion-col size="3" size-sm="4" class="bold">Status</ion-col>
+      <ion-col size="9" size-sm="4" class="bold" (click)="sortBy('name')">Name<ng-container *ngIf="sorting.name !== 0">
+            <ion-icon [name]="sorting.name === '+' ? 'arrow-dropup' : 'arrow-dropdown'"></ion-icon>
+      </ng-container></ion-col>
+      <ion-col class="hide-sm" size="9" size-sm="4" class="bold" (click)="sortBy('seller.name')">Seller<ng-container *ngIf="sorting.seller !== 0">
+            <ion-icon [name]="sorting.seller === '+' ? 'arrow-dropup' : 'arrow-dropdown'"></ion-icon>
+      </ng-container></ion-col>
+      <ion-col size="3" size-sm="4" class="bold"(click)="sortBy('status')">Status<ng-container *ngIf="sorting.status !== 0">
+            <ion-icon [name]="sorting.status === '+' ? 'arrow-dropup' : 'arrow-dropdown'"></ion-icon>
+      </ng-container></ion-col>
     </ion-row>
     <ion-row *ngFor="let offer of listOfOffers; let first = first">
       <ion-item-sliding>
