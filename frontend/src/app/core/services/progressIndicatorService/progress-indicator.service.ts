@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ToastController, LoadingController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
+import { isUndefined } from 'util';
+import { isDefined } from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
@@ -8,18 +11,19 @@ export class ProgressIndicatorService {
 
   constructor(private toastController: ToastController, private loadingController: LoadingController) { }
 
-  async presentToast(message: string, duration: number, color?: string) {
-    const toastColor = (color) ?  color : 'success';
+  async presentToast(message: string, duration?: number, color?: string, closeBtn?: boolean) {
+    const isSuccess: boolean = this.isSuccessToast(color);
+    const toastDuration = (isDefined(duration)) ? duration :
+      (isSuccess) ? environment.notificationsLength.success : environment.notificationsLength.failure;
+    const toastColor = (isDefined(color)) ?  color : 'success';
+    const showCloseButton = (isDefined(closeBtn)) ? closeBtn : true;
+    const closeButtonText = 'Ok';
     const toast = await this.toastController.create({
-      message: message,
-      duration: duration,
+      message,
+      duration: toastDuration,
       color: toastColor,
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'cancel',
-        }
-      ]
+      showCloseButton,
+      closeButtonText
     });
     toast.present();
   }
@@ -37,5 +41,13 @@ export class ProgressIndicatorService {
 
   dismissLoadingIndicator() {
     this.loadingController.dismiss();
+  }
+
+  private isSuccessToast(color: string): boolean{
+    if (isUndefined(color) || color === 'success') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
