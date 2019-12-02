@@ -4,6 +4,7 @@ import {ProductService} from 'src/app/core/services/productService/product.servi
 import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
 import {isUndefined} from 'util';
 import {NotificationService} from '../../../core/services/notificationService/notification.service';
+import { FilterAndSearchService } from 'src/app/core/services/filterAndSearchService/filter-and-search.service';
 
 @Component({
     selector: 'app-manage-offers',
@@ -11,19 +12,20 @@ import {NotificationService} from '../../../core/services/notificationService/no
     styleUrls: ['./manage-offers.component.scss'],
 })
 export class ManageOffersComponent implements OnInit {
-    private listOfOffers;
+    listOfOffers;
     private listOfAllOffers;
     private showVerified = true;
+    private filterOptions: {showVerified: boolean, showRevising: boolean} = { showVerified: true, showRevising: true};
 
     constructor(
         private productService: ProductService,
         private progressIndicatorService: ProgressIndicatorService,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private filterService: FilterAndSearchService) {
     }
 
     ngOnInit() {
     }
-   
 
     getAllProducts() {
         return new Promise((resolve, reject) => {
@@ -47,7 +49,6 @@ export class ManageOffersComponent implements OnInit {
                 this.progressIndicatorService.presentToast('Product deleted');
                 this.notifySeller(productId, productName, sellerId, 'delete');
                 this.updateProducts();
-                
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
@@ -67,7 +68,7 @@ export class ManageOffersComponent implements OnInit {
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product could not be verified','danger');
+                this.progressIndicatorService.presentToast('Product could not be verified', 'danger');
                 console.log(err);
             }
         );
@@ -93,8 +94,7 @@ export class ManageOffersComponent implements OnInit {
         this.progressIndicatorService.presentLoading('Updating Products...');
         this.getAllProducts().then(data => {
             this.listOfAllOffers = data;
-            if (this.showVerified) this.listOfOffers = this.listOfAllOffers;
-            if (!this.showVerified) this.listOfOffers = this.filter(this.listOfAllOffers);
+            this.filterProducts();
             this.progressIndicatorService.dismissLoadingIndicator();
         }, err => {
             this.progressIndicatorService.dismissLoadingIndicator();
@@ -103,27 +103,34 @@ export class ManageOffersComponent implements OnInit {
     }
 
     onToggleShowVerified(event) {
-        if (event.target.checked) {
-            this.listOfOffers = this.listOfAllOffers;
-        } else {
-            this.listOfOffers = this.filter(this.listOfAllOffers);
+        this.filterOptions.showVerified = event.target.checked;
+        this.filterProducts();
+    }
+
+    onToggleShowRevise(event) {
+        this.filterOptions.showRevising = event.target.checked;
+        this.filterProducts();
+    }
+
+    filterProducts() {
+        let productsToShow = this.listOfAllOffers;
+        if (this.filterOptions.showRevising === false) {
+            productsToShow = this.filterService.filter(productsToShow, '=;toRevise;0');
         }
+        if (this.filterOptions.showVerified === false) {
+            productsToShow = this.filterService.filter(productsToShow, '=;verified;0');
+        }
+        this.listOfOffers = productsToShow;
     }
 
-    filter(array: []) {
-        if (isUndefined(array) || array.length == 0) return [];
-        return array.filter(product => !(product as any).verified);
-    }
-
-    
     notifySeller(productId: string, productName: string, sellerId: string, notificationType: string) {
         let link = '/home';
         let message = '';
 
         if (notificationType === 'delete') {
-            message = "Your product '" + productName + "' has been deleted";
+            message = `Your product ${productName} has been deleted`;
             link = '/my-products';
-        } 
+        }
 
         // remove this once backend removed text or message
         const text = message;
@@ -138,5 +145,13 @@ export class ManageOffersComponent implements OnInit {
                 }
             );
         }, 3750);
+    }
+
+    onSortChange(evt) {
+        this.filterService.sort(this.listOfOffers, (evt as any).target.value, '-date');
+    }
+
+    getDateString(stringRepresentation: string): string {
+        return new Date(stringRepresentation).toUTCString();
     }
 }

@@ -1,91 +1,176 @@
-<ion-item>
-    <ion-label position="fixed">Show verified</ion-label>
-    <ion-toggle (ionChange)="onToggleShowVerified($event)" checked></ion-toggle>
-  </ion-item>
 <ion-list>
-<ion-grid #grid class="ion-padding-start">
-<ion-row class="list-header">
-    <ion-col size="9" size-sm="4" class="bold">Name</ion-col>
-    <ion-col class="hide-sm" size="9" size-sm="4" class="bold">Seller</ion-col>
-    <ion-col size="3" size-sm="4" class="bold">Verified</ion-col>
-</ion-row>
-<ion-row *ngFor="let offer of listOfOffers; let first = first">
-    <ion-item-sliding>
-        <ion-item class="ion-no-padding cursor-pointer" (click)="offer.openDetail = !offer.openDetail">
-            <ion-col size="9" size-sm="4">
-                {{ offer.name }}
-            </ion-col>
-            <ion-col class="hide-sm" size="4">
-                {{ offer.seller.name }}
-            </ion-col>
-            <ion-col size="2">
-                <ion-icon size="large" [class]="
-    offer.verified
-      ? 'verified'
-      : 'nonverified'
-  " [name]="
-    offer.verified
-      ? 'checkmark-circle'
-      : 'close-circle'
-  ">
-                </ion-icon>
-            </ion-col>
-            <ion-col size="1" offset-sm="1">
-                <ion-icon [name]="
-    offer.openDetail
-      ? 'ios-arrow-up'
-      : 'ios-arrow-down'
-  "></ion-icon>
-            </ion-col>
+  <ion-grid #grid class="ion-padding-start">
+    <ion-row>
+      <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Show verified</ion-label>
+              <ion-checkbox
+                (ionChange)="onToggleShowVerified($event)"
+                checked
+                slot="start"
+              ></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Show in Revise</ion-label>
+              <ion-checkbox
+                (ionChange)="onToggleShowRevise($event)"
+                checked
+                slot="start"
+              ></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="12" size-sm="6" size-md="4" size-lg="3" offset-md="4" offset-lg="6">
+        <ion-select placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
+            <ion-select-option value="+date">Date ascending</ion-select-option>
+            <ion-select-option value="-date">Date descending</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+    <ion-row class="list-header">
+      <ion-col size="9" size-sm="4" class="bold">Name</ion-col>
+      <ion-col class="hide-sm" size="9" size-sm="4" class="bold"
+        >Seller</ion-col
+      >
+      <ion-col size="3" size-sm="4" class="bold">Status</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let offer of listOfOffers; let first = first">
+      <ion-item-sliding>
+        <ion-item
+          class="ion-no-padding cursor-pointer"
+          (click)="offer.openDetail = !offer.openDetail"
+        >
+          <ion-col size="9" size-sm="4">
+            {{ offer.name }}
+          </ion-col>
+          <ion-col class="hide-sm" size="4">
+            {{ offer.seller.name }}
+          </ion-col>
+          <ion-col size="2">
+            <ion-icon
+              size="large"
+              [class]="
+                offer.verified
+                  ? 'verified'
+                  : offer.toRevise
+                  ? 'revise'
+                  : 'nonverified'
+              "
+              [name]="
+                offer.verified
+                  ? 'checkmark-circle'
+                  : offer.toRevise
+                  ? 'alert'
+                  : 'close-circle'
+              "
+              [title]="
+                offer.verified
+                  ? 'Verified'
+                  : offer.toRevise
+                  ? 'Revising'
+                  : 'Not verified'
+              "
+            >
+            </ion-icon>
+          </ion-col>
+          <ion-col size="1" offset-sm="1">
+            <ion-icon
+              [name]="offer.openDetail ? 'ios-arrow-up' : 'ios-arrow-down'"
+            ></ion-icon>
+          </ion-col>
         </ion-item>
         <ion-item-options side="end">
-            <ion-item-option color="warning" (click)="reviseOffer(offer._id, offer.name, offer.seller._id)">
-                Revise
-            </ion-item-option>
-            <ion-item-option color="danger" (click)="deleteOffer(offer._id, offer.name, offer.seller._id)">
-                Delete
-            </ion-item-option>
+          <ion-item-option
+            color="warning"
+            (click)="reviseOffer(offer._id, offer.name, offer.seller._id)"
+          >
+            Revise
+          </ion-item-option>
+          <ion-item-option
+            color="danger"
+            (click)="deleteOffer(offer._id, offer.name, offer.seller._id)"
+          >
+            Delete
+          </ion-item-option>
         </ion-item-options>
         <ion-item-options side="start">
-            <ion-item-option color="success" (click)="verifyOffer(offer._id, offer.name, offer.seller._id)">Accept</ion-item-option>
+          <ion-item-option
+            color="success"
+            (click)="verifyOffer(offer._id, offer.name, offer.seller._id)"
+            >Accept</ion-item-option
+          >
         </ion-item-options>
-    </ion-item-sliding>
-    <ion-col *ngIf="offer.openDetail" size="12" size-sm="6">
+      </ion-item-sliding>
+      <ion-col *ngIf="offer.openDetail" size="12" size-sm="6">
         <ion-card scrollX="true">
-            <ion-card-title class="ion-padding-horizontal">
-                {{ offer.name }}
-            </ion-card-title>
-            <ion-card-content>
-                <ion-list> 
-                    <ion-item>
-                        <ion-label><ion-icon name="pricetags"></ion-icon></ion-label><div class="scroll">{{ offer.price }}</div>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label><ion-icon name="pin"></ion-icon></ion-label>{{ offer.location }}
-                    </ion-item>
-                    <ion-item>
-                        <ion-label><ion-icon name="folder"></ion-icon></ion-label>{{ offer.category.name }}
-                    </ion-item>
-                    <ion-item>
-                        <ion-label><ion-icon name="person"></ion-icon></ion-label>{{ offer.seller.name }}
-                    </ion-item>
-                    <ion-item>
-                        <ion-label><ion-icon name="at"></ion-icon></ion-label><div class="scroll">{{ offer.seller.email }}</div>
-                    </ion-item>
-                </ion-list>
-            </ion-card-content>
+          <ion-card-title class="ion-padding-horizontal">
+            {{ offer.name }}
+          </ion-card-title>
+          <ion-card-content>
+            <ion-list>
+              <ion-item title="Price">
+                <ion-label><ion-icon name="pricetags"></ion-icon></ion-label>
+                <div class="scroll">{{ offer.price }}</div>
+              </ion-item>
+              <ion-item title="Product Location">
+                <ion-label><ion-icon name="pin"></ion-icon></ion-label
+                >{{ offer.location }}
+              </ion-item>
+              <ion-item title="Category">
+                <ion-label><ion-icon name="folder"></ion-icon></ion-label
+                >{{ offer.category.name }}
+              </ion-item>
+              <ion-item title="Seller Name">
+                <ion-label><ion-icon name="person"></ion-icon></ion-label
+                >{{ offer.seller.name }}
+              </ion-item>
+              <ion-item title="Seller Email">
+                <ion-label><ion-icon name="at"></ion-icon></ion-label>
+                <div class="scroll">{{ offer.seller.email }}</div>
+              </ion-item>
+              <ion-item title="Created at">
+                    <ion-label><ion-icon name="calendar"></ion-icon></ion-label>
+                    <div class="scroll">{{ getDateString(offer.date) }}</div>
+                  </ion-item>
+            </ion-list>
+          </ion-card-content>
         </ion-card>
-    </ion-col>
-    <ion-col *ngIf="offer.openDetail" size="12" size-sm="6">
+      </ion-col>
+      <ion-col *ngIf="offer.openDetail" size="12" size-sm="6">
         <ion-card class="ion-padding">
-            <div class="scroll">{{ offer.description }}</div>
+          <div class="scroll">{{ offer.description }}</div>
         </ion-card>
-    </ion-col>
-    <ion-col *ngIf="offer.openDetail" offset="0" size="12" offset-sm="6" size-sm="12">
-        <ion-button color="danger" (click)="deleteOffer(offer._id, offer.name, offer.seller._id)">Delete</ion-button>
-        <ion-button color="warning" (click)="reviseOffer(offer._id, offer.name, offer.seller._id)">Revise</ion-button>
-        <ion-button color="success" (click)="verifyOffer(offer._id, offer.name, offer.seller._id)">Accept</ion-button>
-    </ion-col>
-</ion-row>
-</ion-grid>
+      </ion-col>
+      <ion-col
+        *ngIf="offer.openDetail"
+        offset="0"
+        size="12"
+        offset-sm="6"
+        size-sm="12"
+      >
+        <ion-button
+          color="danger"
+          (click)="deleteOffer(offer._id, offer.name, offer.seller._id)"
+          >Delete</ion-button
+        >
+        <ion-button
+          color="warning"
+          (click)="reviseOffer(offer._id, offer.name, offer.seller._id)"
+          >Revise</ion-button
+        >
+        <ion-button
+          color="success"
+          (click)="verifyOffer(offer._id, offer.name, offer.seller._id)"
+          >Accept</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-list>
