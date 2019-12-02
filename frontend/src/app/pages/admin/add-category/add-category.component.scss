@@ -7,11 +7,28 @@
 }
 
 .image {
-        width: 50%;
-        height: 20rem;
-        max-height: 30vh;
-        border: 2px solid var(--ion-color-primary);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    border: 1px solid var(--ion-color-primary);
+    @media (max-width: 768px) {
+      width: 25vw;
+      height: 25vw;
+    }
+    @media (min-width: 768px) {
+      width: 20vw;
+      height: 20vw;
+    }
+}
+
+.imagePicker {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: 768px) {
+      width: 25vw;
+      height: 25vw;
+    }
+    @media (min-width: 768px) {
+      width: 20vw;
+      height: 20vw;
+    }
 }
