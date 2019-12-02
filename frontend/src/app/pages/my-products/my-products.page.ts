@@ -23,7 +23,10 @@ export class MyProductsPage implements OnInit {
   orders;
   userId;
 
-  constructor(private progressIndicatorService: ProgressIndicatorService, private orderService: OrderService, private authService: AuthService) {}
+  constructor(
+      private progressIndicatorService: ProgressIndicatorService,
+      private orderService: OrderService,
+      private authService: AuthService) {}
 
   async ngOnInit() {
     this.selectedTab = 0;

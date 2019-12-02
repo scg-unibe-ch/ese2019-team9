@@ -15,6 +15,7 @@ export class ProfileInformationsComponent implements OnInit {
     @Input() profileItem;
     @Input() additionalValues?;
     @Input() changeable: boolean = false;
+    @Input() hideDelete?: boolean = false;
     @Input() valuesToHide: [];
     @Input('type') typeOfProfileItem;
     hasChanged = false;
@@ -54,6 +55,7 @@ export class ProfileInformationsComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.profileItem);
         // @ts-ignore
         this.profileItemData = Object.keys(this.profileItem).filter(value => this.valuesToHide.indexOf(value) === -1);
         this.profileItemData.sort();
