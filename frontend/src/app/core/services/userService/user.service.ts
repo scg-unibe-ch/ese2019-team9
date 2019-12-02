@@ -23,11 +23,18 @@ export class UserService {
     return this.httpClient.delete(this.userEndpoint+`/${id}`, {headers: headers});
   }
 
-  updateUser(id: string, body: string) {
-    body = JSON.parse(body);
+  updateUser(id: string, body: string, img: any) {
+    const formData = new FormData();
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.patch(this.userEndpoint +`/${id}`, body, {headers: headers});
+    headers.set('Content-Type', null);
+    headers.set('Accept', 'multipart/form-data');
+    Object.keys(body).forEach(key => {
+      formData.append(key, body[key]);
+    });
+    if(img)
+      formData.append('image', img);
+    return this.httpClient.patch(this.userEndpoint +`/${id}`, formData, {headers});
   }
 
   getSingleUser(id) {

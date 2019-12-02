@@ -126,7 +126,7 @@ export class OrderDetailsPage implements OnInit {
       this.displayOrderInformation();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be rejected. Please try again.', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Order could not be rejected. Please try again.', 'danger');
     });
   }
 
@@ -142,10 +142,10 @@ export class OrderDetailsPage implements OnInit {
     };
     this.productService.addReview(val).subscribe(data => {
       this.reviewForm.reset();
-      this.progressIndicatorService.presentToast('Review successfully added', 3500, 'success');
+      this.progressIndicatorService.presentToast('Review successfully added');
     }, error => {
       console.log(error.error);
-      this.progressIndicatorService.presentToast(error.error.message, 3500, 'danger');
+      this.progressIndicatorService.presentToast(error.error.message, 'danger');
     });
   }
 
@@ -154,7 +154,7 @@ export class OrderDetailsPage implements OnInit {
       this.displayOrderInformation();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be rejected. Please try again.', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Order could not be rejected. Please try again.', 'danger');
     });
   }
 
@@ -174,7 +174,7 @@ export class OrderDetailsPage implements OnInit {
         
       });
     } catch (err) {
-      this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 'danger');
     }
 
     /*
@@ -225,7 +225,7 @@ export class OrderDetailsPage implements OnInit {
       this.displayOrderInformation();
     }, error => {
       console.log(error.error.error);
-      this.progressIndicatorService.presentToast(error.error.error, 3500, 'danger');
+      this.progressIndicatorService.presentToast(error.error.error, 'danger');
     });
   }
 

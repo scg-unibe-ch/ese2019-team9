@@ -83,7 +83,7 @@ export class MyProductsPage implements OnInit {
       });
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Orders could not be updated', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Orders could not be updated', 'danger');
     });
   }*/
 
@@ -102,12 +102,12 @@ export class MyProductsPage implements OnInit {
 
     const body = JSON.stringify(val);
 
-    this.userService.updateUser(this.userId, body).subscribe(data => {
-      this.progressIndicatorService.presentToast('Information successfully updated', 3500, 'success');
+    this.userService.updateUser(this.userId, body, null).subscribe(data => {
+      this.progressIndicatorService.presentToast('Information successfully updated', 'success');
       this.isLoading = true;
     }, error => {
       console.log(error.error);
-      this.progressIndicatorService.presentToast(error.error.message, 3500, 'danger');
+      this.progressIndicatorService.presentToast(error.error.message, 'danger');
     });
 
     this.userService.isSeller().then(result => {

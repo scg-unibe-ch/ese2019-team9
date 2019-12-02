@@ -45,7 +45,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             data => {
                 this.getNotifications();
             }, err => {
-                this.progressIndicatorService.presentToast('Notification not deleted', 3500, 'danger');
+                this.progressIndicatorService.presentToast('Notification not deleted', 'danger');
                 console.log(err);
             }
         );
