@@ -47,7 +47,6 @@ export class ManageOffersComponent implements OnInit {
                 this.progressIndicatorService.presentToast('Product deleted', 3500);
                 this.notifySeller(productId, productName, sellerId, 'delete');
                 this.updateProducts();
-                
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();

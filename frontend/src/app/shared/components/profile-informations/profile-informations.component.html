@@ -2,9 +2,18 @@
     <ion-card-header>
         <ion-grid>
             <ion-row>
-                <ion-avatar>
-                    <img [src]="profileItem.image ? profileItem.image : 'https://api.adorable.io/avatars/128/'+ profileItem._id">
-                </ion-avatar>
+                <ion-col size="1">
+                    <ion-avatar class="cursor-pointer" style="object-fit: cover; width:100%; height:100%;+" *ngIf=!changeable>
+                        <img style="width:100%; height:100%; object-fit: cover;" [src]="profileItem.image">
+                    </ion-avatar>
+                    <ion-avatar class="cursor-pointer"  style="object-fit: cover; width:100%; height:100%;" *ngIf="changeable">
+                        <app-image-picker style="width:100%; height:100%; object-fit: cover;" (imagePick)="onImagePicked($event)" [profilePicker]="true"
+                                          [preSelectedImage]="profileItem.image"></app-image-picker>
+                        <ion-badge class="changePictureBadge">
+                            <ion-icon name="add"></ion-icon>
+                        </ion-badge>
+                    </ion-avatar>
+                </ion-col>
                 <ion-button *ngIf="!hideDelete" class="greyButton deleteProductButton"
                             color="danger" (click)="onClickDelete()">
                     <ion-icon name="close"></ion-icon>
