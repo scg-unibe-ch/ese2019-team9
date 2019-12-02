@@ -10,6 +10,7 @@ import {Observable, observable, Subject, timer} from 'rxjs';
 export class NotificationService {
     source;
     subject = new Subject();
+
     notificationEndpoint = 'https://moln-api.herokuapp.com/notification';
 
     constructor(

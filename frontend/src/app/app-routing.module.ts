@@ -19,9 +19,9 @@ const routes: Routes = [
   { path: 'my-orders', loadChildren: './pages/my-orders/my-orders.module#MyOrdersPageModule' },
   { path: 'order-details', loadChildren: './pages/order-details/order-details.module#OrderDetailsPageModule' },
   { path: 'user', loadChildren: './pages/user/user.module#UserPageModule' },
-  { path: 'user/:userId', loadChildren: './pages/user/user.module#UserPageModule' }
-
-
+  { path: 'user/:userId', loadChildren: './pages/user/user.module#UserPageModule' },
+  { path: 'payment', loadChildren: './pages/payment/payment.module#PaymentPageModule' },
+  { path: 'payment/:token', loadChildren: './pages/payment/payment.module#PaymentPageModule'}
 ];
 
 

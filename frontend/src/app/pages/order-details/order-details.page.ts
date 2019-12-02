@@ -7,10 +7,18 @@ import {
 } from '../../core/services/progressIndicatorService/progress-indicator.service';
 
 import {
+  InAppBrowser
+} from '@ionic-native/in-app-browser/ngx';
+
+import {
   FormBuilder,
   FormGroup,
   Validators
 } from '@angular/forms';
+
+import {
+  PaymentService
+} from '../../core/services/paymentService/payment.service';
 
 import {
   AuthService
@@ -47,7 +55,9 @@ export class OrderDetailsPage implements OnInit {
     private router: Router,
     private navController: NavController,
     private orderService: OrderService,
-    private productService: ProductService) {
+    private productService: ProductService,
+    private paymentService: PaymentService,
+    private iab: InAppBrowser) {
     this.isLoggedIn = authService.isLoggedIn();
     this.userId = authService.getId();
   }
@@ -62,6 +72,7 @@ export class OrderDetailsPage implements OnInit {
   reviewForm: FormGroup;
   rating = 5;
   filledStars = 5;
+  private paymentToken;
 
   validationMessages = {
     message: [{
@@ -148,12 +159,31 @@ export class OrderDetailsPage implements OnInit {
   }
 
   payOrder() {
+    try {
+      this.paymentService.createPayment(this.orderId).subscribe(data => {
+        let link = (data as any).payment.links[1].href;
+        this.paymentToken = (data as any).token;
+        localStorage.setItem('paymentToken', this.paymentToken);
+
+        if(!document.URL.startsWith('http')) {
+          const browser = this.iab.create(link);
+          browser.show();
+        } else {
+          window.open(link,"_self");
+        }
+        
+      });
+    } catch (err) {
+      this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 3500, 'danger');
+    }
+
+    /*
     this.orderService.pay(this.orderId).subscribe(data => {
       this.displayOrderInformation();
     }, err => {
       console.log(err);
       this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 3500, 'danger');
-    });
+    });*/
   }
 
   ngOnDestroy(): void {}

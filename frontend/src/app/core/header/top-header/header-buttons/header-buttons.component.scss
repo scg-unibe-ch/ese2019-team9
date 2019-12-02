@@ -52,10 +52,12 @@
   border-radius:50%;
   border:1px solid var(--ion-color-primary);
   font-size:1.4em;
+  text-decoration: none;
 }
 
 .roundButton:visited {
   box-shadow:none;
+  text-decoration: none;
   background-color:white;
   justify-content: center;
   align-content: center;
@@ -78,7 +80,6 @@
   border: solid 1.2px var(--ion-color-primary);
   border-radius: 3px;
   transition: .4s;
-
   font-size:0.4em;
   min-width: 10px !important;
   min-height: 10px;

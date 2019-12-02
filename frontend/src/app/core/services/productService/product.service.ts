@@ -23,9 +23,8 @@ export class ProductService {
     ) {}
 
     productsEndpoint = 'https://moln-api.herokuapp.com/product';
-    addProductsEndpoint = 'https://moln-api.herokuapp.com/product/add';
-    userProductsEndpoint = 'https://moln-api.herokuapp.com/product/user';
-    reviewEndpoint = 'https://moln-api.herokuapp.com/review/'
+    reviewEndpoint = 'https://moln-api.herokuapp.com/review';
+
 
     getAllProducts() {
         const token = this.authService.getToken();
@@ -55,18 +54,15 @@ export class ProductService {
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.get(this.productsEndpoint + `/${productId}`, {
             headers: headers
-        })
+        });
     }
 
     addNewProduct(name: string, category: string, price: number) {
         return this.httpClient.post(this.productsEndpoint + '/add', {
-                name,
-                category,
-                price
-            })
-            .pipe(map(res => {
-                return res;
-            }));
+            name,
+            category,
+            price
+        });
     }
 
     deleteProduct(productId: string) {
@@ -116,7 +112,7 @@ export class ProductService {
             formData.append(key, val[key]);
         });
         formData.append('image', img);
-        return this.httpClient.post(this.addProductsEndpoint, formData, {
+        return this.httpClient.post(this.productsEndpoint + '/add', formData, {
             headers
         });
     }
@@ -124,7 +120,7 @@ export class ProductService {
     getProductsByUserId(userId: string) {
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get < [] > (this.userProductsEndpoint + `/${userId}`, {
+        return this.httpClient.get < [] > (this.productsEndpoint + '/user' + `/${userId}`, {
             headers
         });
     }
@@ -134,11 +130,8 @@ export class ProductService {
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
 
         return this.httpClient.post(this.reviewEndpoint + '/add', body, {
-                headers
-            })
-            .pipe(map(res => {
-                return res;
-            }));
+            headers
+        });
     }
 
     hasBought(productId: string) {
@@ -146,10 +139,7 @@ export class ProductService {
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
 
         return this.httpClient.get(this.productsEndpoint + '/hasBought/' + `${productId}`, {
-                headers
-            })
-            .pipe(map(res => {
-                return res;
-            }));
+            headers
+        });
     }
 }

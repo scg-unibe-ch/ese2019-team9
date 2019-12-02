@@ -9,6 +9,7 @@ import { OrderDetailsPage } from './order-details.page';
 import {HeaderModule} from '../../core/header.module';
 import {SharedModule} from '../../shared/shared.module';
 import {InputFormModule} from '../../shared/input-form.module';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 const routes: Routes = [
   {  path: '',  component: OrderDetailsPage },
@@ -25,6 +26,7 @@ const routes: Routes = [
     InputFormModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [OrderDetailsPage]
+  declarations: [OrderDetailsPage],
+  providers:[InAppBrowser]
 })
 export class OrderDetailsPageModule {}

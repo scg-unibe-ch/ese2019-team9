@@ -4,18 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
-
-import { MyProductsPage } from './my-products.page';
-import {UserProductsComponent} from './user-products/user-products.component';
-import {OrdersComponent} from './orders/orders.component';
 import {HeaderModule} from '../../core/header.module';
 import {SharedModule} from '../../shared/shared.module';
-import {InputFormModule} from '../../shared/input-form.module';
+import { PaymentPage } from './payment.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: MyProductsPage
+    component: PaymentPage
   }
 ];
 
@@ -23,12 +19,11 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     HeaderModule,
-    InputFormModule,
     SharedModule,
+    IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [MyProductsPage, OrdersComponent, UserProductsComponent]
+  declarations: [PaymentPage]
 })
-export class MyProductsPageModule {}
+export class PaymentPageModule {}
