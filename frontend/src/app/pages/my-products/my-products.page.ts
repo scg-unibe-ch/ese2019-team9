@@ -49,7 +49,7 @@ export class MyProductsPage implements OnInit {
       });
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Orders could not be updated', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Orders could not be updated', 'danger');
     });
   }*/
 

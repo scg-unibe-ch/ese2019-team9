@@ -101,11 +101,11 @@ export class AddCategoryComponent implements OnInit {
 		promise.then(
 			(data) => {
 				this.progressIndicatorService.dismissLoadingIndicator();
-				this.progressIndicatorService.presentToast('Category updated', 3500);
+				this.progressIndicatorService.presentToast('Category updated');
 				this.categoryForm.reset();
 			}, reason => {
 				this.progressIndicatorService.dismissLoadingIndicator();
-				this.progressIndicatorService.presentToast('Category not updated', 3500, 'danger');
+				this.progressIndicatorService.presentToast('Category not updated', 'danger');
 				console.log(reason);
 			}).then(() => {
 				this.categoryService.getCategories().subscribe(
@@ -186,7 +186,7 @@ export class AddCategoryComponent implements OnInit {
 			}
 			body += `}`;
 			if (firstLine) {
-				this.progressIndicatorService.presentToast('Nothing has been changed', 3500, "warning");
+				this.progressIndicatorService.presentToast('Nothing has been changed', 'warning', 'success');
 				return;
 			};
 			this.categoryService.updateCategory((this.selectedCategory as any)._id, body, this.imageFile).subscribe((data) => {
@@ -220,7 +220,7 @@ export class AddCategoryComponent implements OnInit {
 			this.categoryService.deleteCategory((category as any)._id).subscribe(
 				(data) => {
 					this.progressIndicatorService.dismissLoadingIndicator();
-					this.progressIndicatorService.presentToast('Sucessfully deleted Category', 3500);
+					this.progressIndicatorService.presentToast('Sucessfully deleted Category');
 					this.categoryService.getCategories().subscribe(
 						data => {
 							this.currentCategories = data;
@@ -232,7 +232,7 @@ export class AddCategoryComponent implements OnInit {
 					);					
 				}, (error) => {
 					this.progressIndicatorService.dismissLoadingIndicator();
-					this.progressIndicatorService.presentToast('Could not delete Category', 3500, 'danger');
+					this.progressIndicatorService.presentToast('Could not delete Category', 'danger');
 					console.log(error);
 				}
 			);

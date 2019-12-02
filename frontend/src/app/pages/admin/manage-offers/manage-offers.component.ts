@@ -32,7 +32,7 @@ export class ManageOffersComponent implements OnInit {
                     resolve(data);
                 },
                 err => {
-                    this.progressIndicatorService.presentToast('Products could not be loaded', 3500, "danger");
+                    this.progressIndicatorService.presentToast('Products could not be loaded', 'danger');
                     reject(err);
                 }
             );
@@ -44,14 +44,14 @@ export class ManageOffersComponent implements OnInit {
         this.productService.deleteProduct(productId).pipe(first()).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product deleted', 3500);
+                this.progressIndicatorService.presentToast('Product deleted');
                 this.notifySeller(productId, productName, sellerId, 'delete');
                 this.updateProducts();
                 
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product could not be deleted', 3500, "danger");
+                this.progressIndicatorService.presentToast('Product could not be deleted', 'danger');
                 console.log(err);
             },
         );
@@ -62,12 +62,12 @@ export class ManageOffersComponent implements OnInit {
         this.productService.verifyProduct(productId).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product verified', 3500);
+                this.progressIndicatorService.presentToast('Product verified');
                 this.updateProducts();
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Product could not be verified', 3500, 'danger');
+                this.progressIndicatorService.presentToast('Product could not be verified','danger');
                 console.log(err);
             }
         );
@@ -78,12 +78,12 @@ export class ManageOffersComponent implements OnInit {
         this.productService.reviseProduct(productId).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Revision initialized', 3500);
+                this.progressIndicatorService.presentToast('Revision initialized');
                 this.updateProducts();
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('Revision could not be initialized', 3500, 'danger');
+                this.progressIndicatorService.presentToast('Revision could not be initialized', 'danger');
                 console.log(err);
             }
         );
@@ -133,7 +133,7 @@ export class ManageOffersComponent implements OnInit {
             this.notificationService.notifySingleUser(sellerId, body).subscribe(
                 data => {
                 }, err => {
-                    this.progressIndicatorService.presentToast('Error while trying to notify seller', 3500, 'danger');
+                    this.progressIndicatorService.presentToast('Error while trying to notify seller', 'danger');
                     console.log(err);
                 }
             );
