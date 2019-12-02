@@ -1,6 +1,7 @@
 <ion-list>
     <ion-grid class="ion-padding-start">
         <ion-row *ngFor="let user of userList">
+            <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
             <ion-item-sliding>
                 <ion-item class="ion-no-padding cursor-pointer {{ user.admin ? 'admin-user' : '' }}"
                           (click)="user.openDetail = !user.openDetail">
@@ -30,6 +31,7 @@
             <ion-col *ngIf="user.openDetail">
                 <app-profile-informations [profileItem]="user" [changeable]="!user.admin"
                                           [valuesToHide]="valuesToHide" [type]="'user'" (deleteEvent) = "deleteUser(user._id)"></app-profile-informations>
+            </ion-col>
             </ion-col>
         </ion-row>
     </ion-grid>
