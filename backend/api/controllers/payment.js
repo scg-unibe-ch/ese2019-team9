@@ -1,41 +1,53 @@
-var paypal = require('paypal-rest-sdk');
-var Order = require('../models/order');
-
-paypal.configure({
-    'mode': 'sandbox', //sandbox or live
-    'client_id': process.env.PAYPAL_CLIENT_ID,
-    'client_secret': process.env.PAYPAL_CLIENT_SECRET
-});
+const paypal = require('paypal-rest-sdk');
+const Order = require('../models/order');
+const Product = require('../models/product');
+const Notification = require('../models/notification');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 /**
  * Creates a paypal payment link
  * @param req.body needs to contain orderId
  */
 exports.createPayment = (req, res, next) => {
-    if(!req.body.orderId)
+    paypal.configure({
+        'mode': 'sandbox', //sandbox or live
+        'client_id': 'AQ80jQ3OL4Dk7ywA4Occjv6VF8PIq5yk1PGEftipiuOw5Q5sAZIiXpuAPykMAJ0HA3_IFRsFROEFcViE',
+        'client_secret': 'EDqLWXOolwLIKYiAOA73w5yQPt8rdo-tpDo_W3TPv5rohHkHykPPpymm-F4FajlEll80c5ITHsk8upWP'
+    });
+
+    if (!req.body.orderId)
         return res.status(500).json({
-            message:'No orderId provided'
+            message: 'No orderId provided'
         });
 
     Order.findById(req.body.orderId)
-    .then(order => {
-        if(!order)
-            throw new Error("Invalid orderId")
+        .then(order => {
+            if (!order)
+                throw new Error("Invalid orderId")
 
-        if(order.buyer != req.userData.userId)
-            throw new Error("Access denied");
-        
-        return Product.findById(order.product);
-    })
-    .then(product => {
+            if (order.buyer != req.userData.userId)
+                throw new Error("Access denied");
+
+            return Product.findById(order.product);
+        })
+        .then(async product => {
+            const token = await jwt.sign({
+                    amount: product.price,
+                    orderId: req.body.orderId,
+                    loginToken: req.userData.loginToken
+                },
+                process.env.JWT_KEY, {}
+            );
+
             const create_payment_json = {
                 "intent": "sale",
                 "payer": {
                     "payment_method": "paypal"
                 },
                 "redirect_urls": {
-                    "return_url": process.env.PUBLIC_DOMAIN + "/paymentExecuted",
-                    "cancel_url": process.env.PUBLIC_DOMAIN + "/paymentCancelled"
+                    "return_url": "https://themoln.herokuapp.com/payment/" + token,
+                    "cancel_url": "https://themoln.herokuapp.com/order-details/" + req.body.orderId
                 },
                 "transactions": [{
                     "item_list": {
@@ -54,7 +66,7 @@ exports.createPayment = (req, res, next) => {
                     "description": "This is the payment description."
                 }]
             };
-        
+
             paypal.payment.create(create_payment_json, function (error, payment) {
                 if (error) {
                     return res.status(500).json({
@@ -62,45 +74,97 @@ exports.createPayment = (req, res, next) => {
                     })
                 } else {
                     console.log("Create Payment Response");
-                    console.log(payment);
-                    return res.status(200).json(payment);
+                    console.log("Token: " + token);
+                    return res.status(200).json({
+                        token: token,
+                        payment: payment
+                    });
                 }
             });
-    })
-    .catch(err => {
-        return res.status(500).json({
-            error:err.message
+        })
+        .catch(err => {
+            return res.status(500).json({
+                error: err.message
+            });
         });
-    });
 }
 
 
-exports.executePayment = (req, res, next) => {
-    const execute_payment_json = {
-        "payer_id": req.body.payerId,
-        "transactions": [{
-            "amount": {
-                "currency": "USD",
-                "total": req.body.amount
+exports.executePayment = async (req, res, next) => {
+    let data;
+    if (!req.body.payerId || !req.body.token || !req.body.paymentId)
+        return res.status(500).json({
+            message: "Please provide payerId, token and paymentId"
+        });
+
+    try {
+        console.log("Token: " + req.body.token);
+        data = await jwt.verify(req.body.token, process.env.JWT_KEY);
+        const amount = data.amount;
+
+        const execute_payment_json = {
+            "payer_id": req.body.payerId,
+            "transactions": [{
+                "amount": {
+                    "currency": "CHF",
+                    "total": amount
+                }
+            }]
+        };
+
+        const paymentId = req.body.paymentId;
+
+        await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+            if (error) {
+                console.log(error.response);
+                throw new Error(error.response);
             }
-        }]
-    };
+        });
 
-    const paymentId = req.body.paymentId;
+        const message = {
+            _id: new mongoose.Types.ObjectId(),
+            date: new Date(),
+            sender: new mongoose.Types.ObjectId(req.userData.userId),
+            message: '[PAY]',
+            statusMessage: true
+        };
 
-    paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-        if (error) {
-            console.log(error.response);
-            return res.status(500).json({
-                message: 'Error during transaction',
-                error: error.response
+        Order.findOneAndUpdate({
+                _id: data.orderId
+            }, {
+                $set: {
+                    status: 'paid'
+                },
+                $push: {
+                    chat: message
+                }
             })
-        } else {
-            console.log(JSON.stringify(payment));
-            return res.status(200).json({
-                message: 'Payment successful',
-                payment: payment
+            .then(order => {
+                const notification = new Notification({
+                    _id: new mongoose.Types.ObjectId(),
+                    user: new mongoose.Types.ObjectId(order.seller),
+                    text: "Invoice for order '" + order._id + "' has been paid",
+                    link: "/order-details/" + order._id,
+                    date: new Date()
+                });
+
+                return notification.save();
             })
-        }
-    });
+            .then(result => {
+                return res.status(200).json({
+                    message: 'Payment successful',
+                    orderId: data.orderId,
+                    loginToken: data.loginToken
+                })
+            })
+            .catch(err => {
+                res.status(500).json({
+                    error: err.message
+                });
+            });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
 }
