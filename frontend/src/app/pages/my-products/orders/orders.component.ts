@@ -36,21 +36,21 @@ export class OrdersComponent implements OnInit {
 
   acceptOrder(orderId: string) {
     this.orderService.accept(orderId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Order accepted', 3500, 'success');
+      this.progressIndicatorService.presentToast('Order accepted');
       this.reloadProducts();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be accepted', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Order could not be accepted', 'danger');
     });
   }
 
   rejectOrder(orderId: string) {
     this.orderService.reject(orderId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Order rejected', 3500, 'success');
+      this.progressIndicatorService.presentToast('Order rejected');
       this.reloadProducts();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be rejected', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Order could not be rejected', 'danger');
     });
   }
   ngOnDestroy(): void {
@@ -68,7 +68,7 @@ export class OrdersComponent implements OnInit {
       this.loading = false;
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Orders could not be updated', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Orders could not be updated', 'danger');
     });
   }
 
