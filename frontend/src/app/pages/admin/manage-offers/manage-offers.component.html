@@ -28,17 +28,21 @@
         </ion-row>
       </ion-col>
       <ion-col size="12" size-sm="6" size-md="4" size-lg="3" offset-md="4" offset-lg="6">
-        <ion-select placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
+        <ion-select #sortSelection placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
             <ion-select-option value="+date">Date ascending</ion-select-option>
             <ion-select-option value="-date">Date descending</ion-select-option>
+            <ion-select-option value="+name">Product Name ascending</ion-select-option>
+            <ion-select-option value="-name">Product Name descending</ion-select-option>
+            <ion-select-option value="+seller.name">Seller Name ascending</ion-select-option>
+            <ion-select-option value="-seller.name">Seller descending</ion-select-option>
+            <ion-select-option value="-status">Status ascending</ion-select-option>
+            <ion-select-option value="+status">Status descending</ion-select-option>
         </ion-select>
       </ion-col>
     </ion-row>
     <ion-row class="list-header">
-      <ion-col size="9" size-sm="4" class="bold">Name</ion-col>
-      <ion-col class="hide-sm" size="9" size-sm="4" class="bold"
-        >Seller</ion-col
-      >
+      <ion-col size="9" size-sm="4" class="bold">Name<ng-container *ngIf="sorting.name != 0"></ng-container></ion-col>
+      <ion-col class="hide-sm" size="9" size-sm="4" class="bold">Seller</ion-col>
       <ion-col size="3" size-sm="4" class="bold">Status</ion-col>
     </ion-row>
     <ion-row *ngFor="let offer of listOfOffers; let first = first">

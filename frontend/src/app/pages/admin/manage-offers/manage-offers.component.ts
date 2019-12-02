@@ -5,6 +5,7 @@ import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorS
 import {isUndefined} from 'util';
 import {NotificationService} from '../../../core/services/notificationService/notification.service';
 import { FilterAndSearchService } from 'src/app/core/services/filterAndSearchService/filter-and-search.service';
+import { isDefined } from '@angular/compiler/src/util';
 
 @Component({
     selector: 'app-manage-offers',
@@ -12,6 +13,7 @@ import { FilterAndSearchService } from 'src/app/core/services/filterAndSearchSer
     styleUrls: ['./manage-offers.component.scss'],
 })
 export class ManageOffersComponent implements OnInit {
+    sorting: {name: 0 | '+' | '-', seller: 0 | '+' | '-', status: 0 | '+' | '-'} = {name: 0, seller: 0, status: 0}
     listOfOffers;
     private listOfAllOffers;
     private showVerified = true;
@@ -148,7 +150,21 @@ export class ManageOffersComponent implements OnInit {
     }
 
     onSortChange(evt) {
-        this.filterService.sort(this.listOfOffers, (evt as any).target.value, '-date');
+        const fieldNameMap  = new Map<string, string>([
+            ['name', 'name'],
+            ['seller.name', 'seller'],
+            ['status', 'status']
+        ]);
+        this.sorting = {name: 0, seller: 0, status: 0};
+        const sortString: string = evt.target.value;
+        const key = fieldNameMap.get(sortString.substring(1));
+        if (isDefined(key)) {this.sorting[key] = sortString.charAt(0); }
+        if (sortString.endsWith('status')) {
+            const sortDirection = this.sorting.status;
+            this.filterService.sort(this.listOfOffers, `${sortDirection}verified`, `${sortDirection}toRevise`, '-date');
+        } else {
+            this.filterService.sort(this.listOfOffers, (evt as any).target.value, '-date');
+        }
     }
 
     getDateString(stringRepresentation: string): string {
