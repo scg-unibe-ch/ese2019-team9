@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from '../../core/services/categoryService/category.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../core/services/productService/product.service';
@@ -6,6 +6,8 @@ import {ProgressIndicatorService} from '../../core/services/progressIndicatorSer
 import {PlaceMap} from './map.model';
 import { UserService } from 'src/app/core/services/userService/user.service';
 import { Router } from '@angular/router';
+import {ImagePickerComponent} from '../../shared/components/image-picker/image-picker.component';
+import {MapPickerComponent} from './map-picker/map-picker.component';
 
 function base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
@@ -34,6 +36,8 @@ function base64toBlob(base64Data, contentType) {
     styleUrls: ['./add-products.page.scss'],
 })
 export class AddProductsPage implements OnInit {
+    @ViewChild(ImagePickerComponent, {static: false}) imagePicker: ImagePickerComponent;
+    @ViewChild(MapPickerComponent, {static: false}) mapPicker: MapPickerComponent;
 
     productForm: FormGroup;
     imageFile;
@@ -116,6 +120,8 @@ export class AddProductsPage implements OnInit {
             this.progressIndicatorService.dismissLoadingIndicator();
             this.productForm.reset();
             this.progressIndicatorService.presentToast('Product successfully created');
+            this.imagePicker.resetImage();
+            this.mapPicker.resetLocation();
         }, error => {
             this.progressIndicatorService.dismissLoadingIndicator();
             console.log(error);

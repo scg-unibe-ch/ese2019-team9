@@ -1,9 +1,10 @@
-<div class="picker">
-  <ion-img role="button" class="image" (click)="onPickImage()" [src]="selectedImage" *ngIf="selectedImage"></ion-img>
-  <ion-button fill="empty" color="primary" class="blueButton" (click)="onPickImage()" *ngIf="!selectedImage">
-    <ion-icon name="camera" slot="start"></ion-icon>
-    <ion-label>Select</ion-label>
-  </ion-button>
+<div [className]="profilePicker ? 'profilePicker' : 'picker'">
+    <ion-img [className]="profilePicker ? 'profileImage' : 'image'" *ngIf="selectedImage" role="button"  (click)="onPickImage()"
+             [src]="selectedImage" ></ion-img>
+    <ion-button fill="empty" color="primary" class="blueButton" (click)="onPickImage()" *ngIf="!selectedImage">
+        <ion-icon name="camera" slot="start"></ion-icon>
+        <ion-label *ngIf="!preSelectedImage" >Select Picture</ion-label>
+    </ion-button>
 </div>
 <input type="file" *ngIf="usePicker" #filePicker (change)="onFileChosen($event)"/>
 

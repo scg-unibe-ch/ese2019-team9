@@ -7,12 +7,12 @@
                 Add a product
             </ion-button>
         </ion-row>
-        <ion-row>
+        <ion-row *ngIf="products.length != 0">
             <ion-col class="profileProductsTitle" size="6" offset="1">
                 Name
             </ion-col>
             <ion-col class="profileProductsTitle" >
-                <ion-text>Verified</ion-text>
+                Verified
             </ion-col>
             <ion-col class="profileProductsTitle" >
                 Revise
@@ -54,7 +54,9 @@
             </ion-item-sliding>
             
             <ion-col *ngIf="product.openDetail">
-                <app-profile-informations (deleteEvent)="deleteProduct(product._id)" [profileItem]="product"
+                <app-profile-informations (deleteEvent)="deleteProduct(product._id)"
+                                          (updateEvent)="reloadProducts()"
+                                          [profileItem]="product"
                                           [changeable]="true" [type]="'product'"
                                           [valuesToHide]="valuesToHide"
                                           [additionalValues]="additionalValues">

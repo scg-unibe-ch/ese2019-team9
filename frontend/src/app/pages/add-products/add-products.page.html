@@ -16,7 +16,7 @@
                             </app-input-form>
                         </ion-card>
                         <ion-item>
-                            <app-image-picker class="picker" (imagePick)="onImagePicked($event)"></app-image-picker>
+                            <app-image-picker #imagePicker class="picker" (imagePick)="onImagePicked($event)"></app-image-picker>
                         </ion-item>
                         <ion-card class="formElement">
                             <app-input-form [inputForm]="productForm" [givenName]="'price'" [text]="'Price (in CHF)*'"
@@ -25,7 +25,7 @@
                             </app-input-form>
                         </ion-card>
                         <ion-item>
-                            <app-map-picker class="picker" (locationPick)="onLocationPicked($event)"></app-map-picker>
+                            <app-map-picker #mapPicker class="picker" (locationPick)="onLocationPicked($event)"></app-map-picker>
                         </ion-item>
                         <ion-card class="formElement">
                             <app-input-form id="locationInput"

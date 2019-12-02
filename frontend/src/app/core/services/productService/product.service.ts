@@ -20,7 +20,8 @@ export class ProductService {
     constructor(
         private httpClient: HttpClient,
         private authService: AuthService
-    ) {}
+    ) {
+    }
 
     productsEndpoint = 'https://moln-api.herokuapp.com/product';
     addProductsEndpoint = 'https://moln-api.herokuapp.com/product/add';
@@ -28,11 +29,8 @@ export class ProductService {
     reviewEndpoint = 'https://moln-api.herokuapp.com/review/'
 
     getAllProducts() {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get(this.productsEndpoint, {
-            headers: headers
-        });
+        const headers = this.createHeader();
+        return this.httpClient.get(this.productsEndpoint, {headers});
     }
 
     getProductsById(id: string) {
@@ -51,44 +49,33 @@ export class ProductService {
     }
 
     getSingleProduct(productId: any) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get(this.productsEndpoint + `/${productId}`, {
-            headers: headers
-        })
+        const headers = this.createHeader();
+        return this.httpClient.get(this.productsEndpoint + `/${productId}`, {headers});
     }
 
     addNewProduct(name: string, category: string, price: number) {
         return this.httpClient.post(this.productsEndpoint + '/add', {
-                name,
-                category,
-                price
-            })
-            .pipe(map(res => {
-                return res;
-            }));
+            name,
+            category,
+            price
+        });
     }
 
     deleteProduct(productId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.delete(this.productsEndpoint + `/${productId}`, {
-            headers: headers
-        });
+        const headers = this.createHeader();
+        return this.httpClient.delete(this.productsEndpoint + `/${productId}`, {headers});
     }
 
-    updateProduct(productId: string, body: string) {
-        body = JSON.parse(body);
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.patch(this.productsEndpoint + `/${productId}`, body, {
-            headers
-        });
+    updateProduct(productId: string, body: string, img: any) {
+        const headers = this.createHeader();
+        headers.set('Content-Type', null);
+        headers.set('Accept', 'multipart/form-data');
+        const formData = this.createFormData(body, img);
+        return this.httpClient.patch(this.productsEndpoint + `/${productId}`, formData, {headers});
     }
 
     verifyProduct(productId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {
             verified: true
         }, {
@@ -97,8 +84,7 @@ export class ProductService {
     }
 
     reviseProduct(productId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {
             toRevise: true
         }, {
@@ -107,49 +93,45 @@ export class ProductService {
     }
 
     addProduct(val: any, img: any) {
-        const formData = new FormData();
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const formData = this.createFormData(val, img);
+        const headers = this.createHeader();
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
-        Object.keys(val).forEach(key => {
-            formData.append(key, val[key]);
-        });
-        formData.append('image', img);
-        return this.httpClient.post(this.addProductsEndpoint, formData, {
-            headers
-        });
+        return this.httpClient.post(this.addProductsEndpoint, formData, {headers});
     }
 
     getProductsByUserId(userId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get < [] > (this.userProductsEndpoint + `/${userId}`, {
+        const headers = this.createHeader();
+        return this.httpClient.get <[]>(this.userProductsEndpoint + `/${userId}`, {
             headers
         });
     }
 
     addReview(body: any) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-
+        const headers = this.createHeader();
         return this.httpClient.post(this.reviewEndpoint + '/add', body, {
-                headers
-            })
-            .pipe(map(res => {
-                return res;
-            }));
+            headers
+        });
     }
 
     hasBought(productId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
+        return this.httpClient.get(this.productsEndpoint + '/hasBought/' + `${productId}`, {headers});
+    }
 
-        return this.httpClient.get(this.productsEndpoint + '/hasBought/' + `${productId}`, {
-                headers
-            })
-            .pipe(map(res => {
-                return res;
-            }));
+    // helper functions to create formData and header
+
+    createFormData(body: string, img: any) {
+        const formData = new FormData();
+        Object.keys(body).forEach(key => {
+            formData.append(key, body[key]);
+        });
+        formData.append('image', img);
+        return formData;
+    }
+
+    createHeader() {
+        const token = this.authService.getToken();
+        return new HttpHeaders().set('Authorization', 'Bearer: ' + token);
     }
 }

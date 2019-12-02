@@ -24,7 +24,7 @@
 						<ion-grid>
 							<ion-row>
 								<ion-col>
-									<app-image-picker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
+									<app-image-picker #imagePicker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
 									<ion-text *ngIf="updateNotCreate">New Icon</ion-text>
 								</ion-col>
 								<ion-col>
@@ -60,10 +60,7 @@
 					<ion-button fill="outline" class="blueButton ion-margin-start" type="submit">{{(updateNotCreate) ? 'Update' : 'Create'}} Category</ion-button>
 					<ion-button fill="outline" class="blueButton" (click)="changeMode('create')" *ngIf="updateNotCreate">Create new Category</ion-button>
 				</form>
-
 			</ion-col>
-
 		</ion-row>
-
 </ion-grid>
 
