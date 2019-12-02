@@ -9,6 +9,7 @@ const env = process.env;
 const Product = require('../models/product');
 const Category = require('../models/category');
 const Order = require('../models/order');
+const Notification = require('../models/notification');
 const User = require('../models/user');
 const Review = require('../models/review');
 const Promise = require('bluebird');
@@ -166,6 +167,8 @@ exports.updateProduct = (req, res, next) => {
         updateFields['image'] = req.file;
     }
 
+    let product;
+
     Product.findOne({
             _id: id
         })
@@ -173,6 +176,7 @@ exports.updateProduct = (req, res, next) => {
         .then(result => {
             if (result.seller != req.userData.userId && !req.userData.admin)
                 throw new Error("Access forbidden");
+
             return Product.findOneAndUpdate({
                 _id: id
             }, {
@@ -187,6 +191,8 @@ exports.updateProduct = (req, res, next) => {
             if (req.file)
                 deleteFile(result.image);
 
+            product = result;
+
             return Product.update({
                 _id: id
             }, {
@@ -194,7 +200,36 @@ exports.updateProduct = (req, res, next) => {
             });
         })
         .then(result => {
-            res.status(200).json(result);
+            if (req.body.toRevise && req.userData.admin) {
+                const notification = new Notification({
+                    _id: new mongoose.Types.ObjectId(),
+                    user: product.seller,
+                    text: "Your product '" + product.name + "' has been verified.",
+                    date: new Date(),
+                    link: "/my-products"
+                });
+
+                return notification.save();
+            }
+
+            if (req.body.verified && req.userData.admin) {
+                const notification = new Notification({
+                    _id: new mongoose.Types.ObjectId(),
+                    user: product.seller,
+                    text: "Please revise your product '" + product.name + "'",
+                    date: new Date(),
+                    link: "/my-products"
+                });
+
+                return notification.save();
+            }
+
+            return result;
+        })
+        .then(result => {
+            res.status(200).json({
+                message: "Product updated"
+            });
         })
         .catch(err => {
             res.status(500).json({
@@ -221,9 +256,9 @@ exports.addProduct = async (req, res, next) => {
         User.findById(req.userData.userId)
             .exec()
             .then(async result => {
-                if(!result)
+                if (!result)
                     throw new Error("User not found");
-                    
+
                 if (!result.name || !result.address || !result.country || !result) {
                     if (req.file)
                         deleteFile(req.file);
