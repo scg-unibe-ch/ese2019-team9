@@ -2,6 +2,7 @@ import {Component, OnInit, Input, ViewChild, Output, EventEmitter} from '@angula
 import {UserService} from 'src/app/core/services/userService/user.service';
 import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
 import {ProductService} from '../../../core/services/productService/product.service';
+import {ImagePickerComponent} from "../image-picker/image-picker.component";
 
 function base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
@@ -32,6 +33,7 @@ function base64toBlob(base64Data, contentType) {
 export class ProfileInformationsComponent implements OnInit {
     @ViewChild('grid', {static: false}) grid;
     @ViewChild('updateButton', {static: false}) updateButton;
+    @ViewChild(ImagePickerComponent, {static: false}) imagePicker: ImagePickerComponent;
     @Output() deleteEvent = new EventEmitter<string>();
     @Output() updateEvent = new EventEmitter<string>();
     @Input() profileItem;
@@ -145,6 +147,7 @@ export class ProfileInformationsComponent implements OnInit {
                 this.displaySuccessSignifiers(this.typeOfProfileItem);
                 this.updateComponent();
                 this.updateEvent.next();
+                this.imagePicker.resetImage();
             }, (err) => {
                 this.displayFailureSignifiers(this.typeOfProfileItem);
                 console.log(err);

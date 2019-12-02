@@ -18,7 +18,7 @@
 <form id="form" [formGroup]="categoryForm" (ngSubmit)="onSubmitForm()">
 	<ion-title class="ion-padding-top">{{ (updateNotCreate) ? 'Update a' : 'Create a new'}} {{ (categoryForm.value.subcategoryToggle) ? 'Subcategory' : 'Category' }}</ion-title>
 	<ion-card> 
-		<app-image-picker (imagePick)="onImagePicked($event)">
+		<app-image-picker #imagePicker (imagePick)="onImagePicked($event)">
 		</app-image-picker>
 		<img *ngIf="updateNotCreate" [src]="selectedCategory.image" class="image">
 		

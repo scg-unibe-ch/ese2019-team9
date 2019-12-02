@@ -1,4 +1,12 @@
-import {Component, ElementRef, EventEmitter, OnInit, Input, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {Plugins, Capacitor, CameraResultType, CameraSource} from '@capacitor/core';
 import {Platform} from '@ionic/angular';
 
@@ -56,6 +64,11 @@ export class ImagePickerComponent implements OnInit {
       this.imagePick.emit(pickedFile);
     };
     fr.readAsDataURL(pickedFile);
+  }
+
+  resetImage() {
+    console.log('reset');
+    this.selectedImage = undefined;
   }
 }
 
