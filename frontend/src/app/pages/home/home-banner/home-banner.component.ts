@@ -14,7 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class HomeBannerComponent implements OnInit {
 
-	searchResults: {popover: HTMLIonPopoverElement, resultsSubject: BehaviorSubject<Set<{obj: any, app: any}>>} = {popover: undefined, resultsSubject: new BehaviorSubject(new Set())};
+	searchResults: {popover: HTMLIonPopoverElement, resultsSubject: BehaviorSubject<{set: Set<{obj: any, app: any}>, searchTerm: string}>} = {popover: undefined, resultsSubject: new BehaviorSubject({set: new Set(), searchTerm: ''})};
 	categories = [];
 	products = [];
 	lastPulled: Map<any[], Date> = new Map<any[], Date>();
@@ -43,8 +43,8 @@ export class HomeBannerComponent implements OnInit {
 			searchableArray.push(...this.products);
 		}
 		if (searchableArray.length > 0) {
-			let searchResults = this.filterAndSearchService.searchUnique(searchableArray as Object[], value, undefined, false, ['id', '_id', 'toRevise', 'verified', 'image']);
-			this.searchResults.resultsSubject.next(searchResults);
+			let searchResults = this.filterAndSearchService.searchUnique(searchableArray as Object[], value, undefined, false, ['id', '_id', 'toRevise', 'verified', 'image', 'slug']);
+			this.searchResults.resultsSubject.next({set: searchResults, searchTerm: value});
 		}
 
 	}
@@ -96,7 +96,7 @@ export class HomeBannerComponent implements OnInit {
 		evt.target.value = (document.getElementById('searchbar') as HTMLIonInputElement).value;
 		this.onSearchbarChange(evt);	
 		(document.getElementById('searchbar') as HTMLIonInputElement).setFocus();
-		this.popoverLock = false;
+		//this.popoverLock = false;
 	}
 
 	closeSearchResultPopover(){
