@@ -140,10 +140,10 @@ export class ProductDetailsPage implements OnInit {
 		const val = this.orderForm.value;
 		this.orderService.place(val, this.productId).subscribe(data => {
 			this.orderForm.reset();
-			this.progressIndicatorService.presentToast('Order successfully placed', 3500, 'success');
+			this.progressIndicatorService.presentToast('Order successfully placed');
 		}, error => {
 			console.log(error.error.error);
-			this.progressIndicatorService.presentToast(error.error.error, 3500, 'danger');
+			this.progressIndicatorService.presentToast(error.error.error, 'danger');
 		});
 	}
 
@@ -166,10 +166,10 @@ export class ProductDetailsPage implements OnInit {
 		};
 		this.productService.addReview(val).subscribe(data => {
 			this.orderForm.reset();
-			this.progressIndicatorService.presentToast('Review successfully added', 3500, 'success');
+			this.progressIndicatorService.presentToast('Review successfully added');
 		}, error => {
 			console.log(error.error.error);
-			this.progressIndicatorService.presentToast(error.error.error, 3500, 'danger');
+			this.progressIndicatorService.presentToast(error.error.error, 'danger');
 		});
 	}
 

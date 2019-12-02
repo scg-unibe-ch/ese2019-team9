@@ -188,7 +188,7 @@ export class ProfileInformationsComponent implements OnInit {
 
     displaySuccessSignifiers(typeOfProfileItem: string) {
         this.progressIndicatorService.dismissLoadingIndicator();
-        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' was updated', 3500);
+        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' was updated');
         this.grid.el.classList.remove('warning');
         this.grid.el.classList.add('success');
         this.updateButton.el.classList.add('hidden');
@@ -199,7 +199,7 @@ export class ProfileInformationsComponent implements OnInit {
 
     displayFailureSignifiers(typeOfProfileItem: string) {
         this.progressIndicatorService.dismissLoadingIndicator();
-        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' could not be updated :(', 3500, 'danger');
+        this.progressIndicatorService.presentToast(typeOfProfileItem.charAt(0).toUpperCase() + typeOfProfileItem.slice(1) + ' could not be updated', 'danger');
         this.grid.el.classList.remove('warning');
         this.grid.el.classList.add('error');
         setTimeout(() => {

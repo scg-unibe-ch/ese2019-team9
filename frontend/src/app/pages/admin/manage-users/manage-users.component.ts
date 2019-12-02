@@ -41,7 +41,7 @@ export class ManageUsersComponent implements OnInit {
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast('User could not be updated', 3500, "danger");
+                this.progressIndicatorService.presentToast('User could not be updated', 'danger');
                 console.log(err);
             }
         );
@@ -56,12 +56,12 @@ export class ManageUsersComponent implements OnInit {
         this.userService.deleteUser(id).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast("Deleted User", 3500);
+                this.progressIndicatorService.presentToast("Deleted User");
                 this.getAllUsers();
             },
             err => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast("Deleting failed", 3500, "danger");
+                this.progressIndicatorService.presentToast("Deleting failed", 'danger');
                 console.log(err);
             }
         );

@@ -82,10 +82,8 @@ export class AddProductsPage implements OnInit {
         const promise = this.userService.isSeller();
         promise.then((isSeller) => {
             if (!isSeller) {
-                this.progressIndicatorService.presentToast('You\'re missing profile information to add products', 3500, 'danger');
-                setTimeout(() => {
-                     this.router.navigate(['/profile']);
-                }, 3500);
+                this.progressIndicatorService.presentToast('You\'re missing profile information to add products', 'danger', 'other', true, 'middle')
+                .then(() => this.router.navigate(['/profile']));
             }
         });
     }
@@ -113,7 +111,7 @@ export class AddProductsPage implements OnInit {
 
     onSubmitAddProduct() {
         if (this.productForm.invalid) {
-            this.progressIndicatorService.presentToast('Form incomplete: Please enter all required information', 10000, 'danger');
+            this.progressIndicatorService.presentToast('Form incomplete: Please enter all required information', 'danger');
           return;
         }
         const val = this.productForm.value;
@@ -121,7 +119,7 @@ export class AddProductsPage implements OnInit {
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
             this.progressIndicatorService.dismissLoadingIndicator();
             this.productForm.reset();
-            this.progressIndicatorService.presentToast('Product successfully created', 4000);
+            this.progressIndicatorService.presentToast('Product successfully created');
             this.imagePicker.resetImage();
             this.mapPicker.resetLocation();
         }, error => {

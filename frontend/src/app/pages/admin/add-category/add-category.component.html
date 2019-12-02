@@ -1,13 +1,13 @@
 <ion-grid class="grid" *ngIf="currentCategories">
 	<ion-row>
-		<ion-col size="12" size-sm="6" size-lg="3" *ngFor="let category of currentCategories">
+		<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6" *ngFor="let category of currentCategories">
 			<ion-card class="ion-padding">
-				<ion-card-title>{{ category.name }} ({{ category.slug }}) <ion-icon name="create" size="small" (click)="editCategory(category)"></ion-icon><ion-icon name="trash" size="small" (click)="onDeleteCategory(category)"></ion-icon></ion-card-title>
+				<ion-card-title>{{ category.name }}  <ion-icon name="create" size="small" (click)="editCategory(category)"></ion-icon><ion-icon name="trash" size="small" (click)="onDeleteCategory(category)"></ion-icon></ion-card-title>
 				<ion-card-content>
 					<ng-container *ngFor="let subcategory of category.subcategories">
-						<ion-item size="11">{{subcategory.name}} ({{subcategory.slug }})<ion-icon slot="end" name="create" size="small" (click)="editCategory(subcategory, category)"></ion-icon><ion-icon name="trash" slot="end" size="small" (click)="onDeleteCategory(subcategory)"></ion-icon></ion-item>
+						<ion-item size="11">{{subcategory.name}}<ion-icon slot="end" name="create" size="small" (click)="editCategory(subcategory, category)"></ion-icon><ion-icon name="trash" slot="end" size="small" (click)="onDeleteCategory(subcategory)"></ion-icon></ion-item>
 					</ng-container>
-					<ion-button (click)="createNewSubcategoryOn(category)" color="success">
+					<ion-button (click)="createNewSubcategoryOn(category)" fill="empty" class="greenButton">
 						<ion-icon name="add"></ion-icon> Subcategory
 					</ion-button>
 				</ion-card-content>
@@ -15,37 +15,52 @@
 		</ion-col>
 	</ion-row>
 </ion-grid>
-<form id="form" [formGroup]="categoryForm" (ngSubmit)="onSubmitForm()">
-	<ion-title class="ion-padding-top">{{ (updateNotCreate) ? 'Update a' : 'Create a new'}} {{ (categoryForm.value.subcategoryToggle) ? 'Subcategory' : 'Category' }}</ion-title>
-	<ion-card> 
-		<app-image-picker #imagePicker (imagePick)="onImagePicked($event)">
-		</app-image-picker>
-		<img *ngIf="updateNotCreate" [src]="selectedCategory.image" class="image">
-		
-	</ion-card>
-	<ion-card>
-		<ion-item>
-			<ion-label>Category <ion-icon name="arrow-back"></ion-icon><ion-icon name="arrow-forward"></ion-icon> Subcategory</ion-label>
-			<ion-toggle id="subcategoryToggle" [formGroup]="categoryForm" formControlName="subcategoryToggle">
-			</ion-toggle>
-		</ion-item>
-	</ion-card>
-	<ion-card *ngIf="categoryForm.value.subcategoryToggle">
-		<ion-select formControlName="parentSlug" placeholder="Select the parent Category" okText="Okay" cancelText="Dismiss">
-			<ion-select-option [value]="category.slug" *ngFor="let category of currentCategories">
-				<ion-label> {{ category.name }}</ion-label>
-			</ion-select-option>
-		</ion-select>
-	</ion-card>
-		<ion-card (ionChange)="onCategoryNameChange($event)">
-			<app-input-form [inputForm]="categoryForm" [givenName]="'name'" [text]="'Category Name'"
-				[validationMessages]="validationMessages.name" [type]="'text'" [inputMode]="'text'"></app-input-form>
-		</ion-card>
-		<ion-card>
-				<app-input-form [inputForm]="categoryForm" [givenName]="'slug'" [text]="'Category Slug'"
-					[validationMessages]="validationMessages.slug" [type]="'text'" [inputMode]="'text'" [async]="slugAsyncTexts"></app-input-form>
-		<ion-button fill="outline" *ngIf="categoryForm.get('slug').hasError('unique') && !updateNotCreate" (click)="changeMode('update')">Update Category instead?</ion-button>
-		</ion-card>
-		<ion-button class="ion-margin-start" type="submit">{{(updateNotCreate) ? 'Update' : 'Create'}} Category</ion-button>
-		<ion-button fill="outline" (click)="changeMode('create')" *ngIf="updateNotCreate">Create a new Category instead</ion-button>
-</form>
+<ion-grid>
+		<ion-row>
+			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
+				<form id="form" [formGroup]="categoryForm" (ngSubmit)="onSubmitForm()">
+					<ion-title class="ion-padding-top">{{ (updateNotCreate) ? 'Update a' : 'Create a new'}} {{ (categoryForm.value.subcategoryToggle) ? 'Subcategory' : 'Category' }}</ion-title>
+					<ion-card>
+						<ion-grid>
+							<ion-row>
+								<ion-col>
+									<app-image-picker #imagePicker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
+									<ion-text *ngIf="updateNotCreate">New Icon</ion-text>
+								</ion-col>
+								<ion-col>
+									<img *ngIf="updateNotCreate" [src]="selectedCategory.image" class="image">
+									<ion-text *ngIf="updateNotCreate">Previous Icon</ion-text>
+								</ion-col>
+							</ion-row>
+						</ion-grid>
+					</ion-card>
+					<ion-card>
+						<ion-item>
+							<ion-label>Add a Subcategory</ion-label>
+							<ion-toggle id="subcategoryToggle" [formGroup]="categoryForm" formControlName="subcategoryToggle">
+							</ion-toggle>
+						</ion-item>
+					</ion-card>
+					<ion-card *ngIf="categoryForm.value.subcategoryToggle">
+						<ion-select formControlName="parentSlug" placeholder="Select the parent Category" okText="Okay" cancelText="Dismiss">
+							<ion-select-option [value]="category.slug" *ngFor="let category of currentCategories">
+								<ion-label> {{ category.name }}</ion-label>
+							</ion-select-option>
+						</ion-select>
+					</ion-card>
+					<ion-card (ionChange)="onCategoryNameChange($event)">
+						<app-input-form [inputForm]="categoryForm" [givenName]="'name'" [text]="'Category Name'"
+										[validationMessages]="validationMessages.name" [type]="'text'" [inputMode]="'text'"></app-input-form>
+					</ion-card>
+					<ion-card>
+						<app-input-form [inputForm]="categoryForm" [givenName]="'slug'" [text]="'Category Slug'"
+										[validationMessages]="validationMessages.slug" [type]="'text'" [inputMode]="'text'" [async]="slugAsyncTexts"></app-input-form>
+						<ion-button fill="outline" *ngIf="categoryForm.get('slug').hasError('unique') && !updateNotCreate" (click)="changeMode('update')">Update Category instead?</ion-button>
+					</ion-card>
+					<ion-button fill="outline" class="blueButton ion-margin-start" type="submit">{{(updateNotCreate) ? 'Update' : 'Create'}} Category</ion-button>
+					<ion-button fill="outline" class="blueButton" (click)="changeMode('create')" *ngIf="updateNotCreate">Create new Category</ion-button>
+				</form>
+			</ion-col>
+		</ion-row>
+</ion-grid>
+
