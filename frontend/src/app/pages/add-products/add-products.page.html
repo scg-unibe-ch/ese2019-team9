@@ -10,6 +10,8 @@
                 <ion-col size="6" offset-md="3">
                     <ion-title>Add a product</ion-title>
                     <ion-card>
+<<<<<<< HEAD
+=======
                         <ion-item>
                             <app-image-picker class="imagePicker" (imagePick)="onImagePicked($event)">
                             </app-image-picker>
@@ -19,21 +21,35 @@
                             <app-map-picker class="imagePicker" (locationPick)="onLocationPicked($event)">
                             </app-map-picker>
                         </ion-item>
+>>>>>>> 056ada3e3cd021e5f1ae1ebfe2e9d60b284285f5
                         <ion-card class="formElement">
                             <app-input-form [inputForm]="productForm" [givenName]="'name'" [text]="'Title*'"
                                 [validationMessages]="validationMessages.name" [type]="'text'" [inputMode]="'text'">
                             </app-input-form>
                         </ion-card>
+                        <ion-item>
+                            <app-image-picker class="picker" (imagePick)="onImagePicked($event)"></app-image-picker>
+                        </ion-item>
                         <ion-card class="formElement">
                             <app-input-form [inputForm]="productForm" [givenName]="'price'" [text]="'Price (in CHF)*'"
                                 [validationMessages]="validationMessages.price" [type]="'number'"
                                 [inputMode]="'number'">
                             </app-input-form>
                         </ion-card>
+                        <ion-item>
+                            <app-map-picker class="picker" (locationPick)="onLocationPicked($event)"></app-map-picker>
+                        </ion-item>
                         <ion-card class="formElement">
+<<<<<<< HEAD
+                            <app-input-form id="locationInput"
+                                    [inputForm]="productForm" [givenName]="'location'" [text]="'Location: State, City*'"
+                                    [validationMessages]="validationMessages.location"
+                                    [type]="'text'" [inputMode]="'text'">
+=======
                             <app-input-form id="locationInput" [inputForm]="productForm" [givenName]="'location'"
                                 [text]="'Location: State, City*'" [validationMessages]="validationMessages.location"
                                 [type]="'text'" [inputMode]="'text'">
+>>>>>>> 056ada3e3cd021e5f1ae1ebfe2e9d60b284285f5
                             </app-input-form>
                         </ion-card>
                         <ion-card>

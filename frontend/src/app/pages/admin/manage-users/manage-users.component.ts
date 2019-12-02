@@ -56,7 +56,7 @@ export class ManageUsersComponent implements OnInit {
         this.userService.deleteUser(id).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
-                this.progressIndicatorService.presentToast("Deleted User (Go away you!)", 3500);
+                this.progressIndicatorService.presentToast("Deleted User", 3500);
                 this.getAllUsers();
             },
             err => {
