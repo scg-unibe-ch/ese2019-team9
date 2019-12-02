@@ -78,10 +78,8 @@ export class AddProductsPage implements OnInit {
         const promise = this.userService.isSeller();
         promise.then((isSeller) => {
             if (!isSeller) {
-                this.progressIndicatorService.presentToast('You\'re missing profile information to add products', 'danger');
-                setTimeout(() => {
-                     this.router.navigate(['/profile']);
-                }, 3500);
+                this.progressIndicatorService.presentToast('You\'re missing profile information to add products', 'danger')
+                .then(() => this.router.navigate(['/profile']));
             }
         });
     }
