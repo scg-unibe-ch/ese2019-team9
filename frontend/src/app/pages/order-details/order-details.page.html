@@ -1,0 +1,156 @@
+<ion-header>
+  <ion-toolbar>
+    <app-header></app-header>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-title *ngIf="!order && isLoading">
+    ... Loading ...
+  </ion-title>
+  <ion-title *ngIf="!order && !isLoading">
+    Invalid Order ID!
+  </ion-title>
+  <ion-grid *ngIf="order">
+    <ion-row>
+      <ion-col offset="2" size="8" class="container">
+        <ion-row>
+          <ion-col size="2">
+            <ion-avatar><img src="{{ order.product.image }}" /> </ion-avatar>
+          </ion-col>
+          <ion-col>
+            <ion-row class="productName actionLink" [routerLink]="['/product-details/', order.product._id]">
+              {{ order.product.name }}</ion-row>
+            <ion-row class="productInfo" *ngIf="!isSeller">Seller:&nbsp;<b class="actionLink blueLink"
+                [routerLink]="['/user', order.seller._id]">{{ order.seller.name }}</b>&nbsp; | Order placed:&nbsp;
+              <b>{{ order.orderDate }}</b>&nbsp; | Status:&nbsp;<b>{{ order.status }}</b></ion-row>
+            <ion-row class="productInfo" *ngIf="isSeller">Buyer:&nbsp;<b class="actionLink blueLink"
+                [routerLink]="['/user', order.buyer._id]">{{ order.buyer.name ? order.buyer.name : 'user' + order.buyer._id }}</b>&nbsp;
+              | Order placed:&nbsp;
+              <b>{{ order.orderDate }}</b>&nbsp; | Status:&nbsp;<b>{{ order.status }}</b></ion-row>
+          </ion-col>
+          <ion-col class="productPrice" size="2">{{ order.product.price }}CHF</ion-col>
+        </ion-row>
+        <ion-row></ion-row>
+      </ion-col>
+    </ion-row>
+
+    <!-- Accept/Reject (for seller only) -->
+    <ion-row *ngIf="order.status=='pending' && isSeller">
+      <ion-col offset="2" size="8" class="container">
+        <ion-row class="actionBar">
+          <ion-col size="7" style="vertical-align: middle;"><span style="vertical-align:5%">What do you want to do with
+              this request? </span></ion-col>
+          <ion-col size="2" class="">
+            <ion-button no-margin color="success" size="small" (click)="acceptOrder()">Accept</ion-button>
+          </ion-col>
+          <ion-col size="1">|</ion-col>
+          <ion-col size="2" class="">
+            <ion-button no-margin color="danger" size="small" (click)="rejectOrder()">Reject</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <!-- Pay (for customer only) -->
+    <ion-row *ngIf="order.status=='accepted' && !isSeller">
+      <ion-col offset="2" size="8" class="container">
+        <ion-row class="actionBar">
+          <ion-col size="9" style="vertical-align: middle;"><span style="vertical-align:5%">Your order is ready. Please
+              pay now your invoice</span></ion-col>
+          <ion-col size="2" class="">
+            <ion-button no-margin color="success" size="small"
+              class="greyButton ion-justify-content-center ion-no-margin ion-no-padding ion-text-center"
+              style="margin-top:-1rem;" (click)="payOrder()">Pay</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <!-- Review (for customer only) -->
+    <ion-row *ngIf="order.status=='paid' && !isSeller && !order.reviewed">
+      <ion-col offset="2" size="8" class="container">
+        <ion-row class="actionBar">
+          <ion-col style="vertical-align: middle;"><span style="vertical-align:5%">Thanks for using MOLN!
+              Please give this product a review to help other users out!</span></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title class="ion-text-center">Write a review</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()">
+                  <ion-row class="messageForm" class="ion-no-margin">
+                    <ion-col class="ion-text-center">
+                      <ion-icon *ngFor="let i of array(5)" class="rating" style="font-size:25px"
+                        [name]="i>filledStars ? 'star-outline' : 'star'" (mouseenter)="fillTo(i)"
+                        (click)="onRatingChanged(i)"></ion-icon>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="messageForm" class="ion-no-margin">
+                    <ion-col>
+                      <ion-textarea placeholder="Comment..." class="formElement ion-no-margin"
+                        formControlName="comment" style="margin-top:-3px; border:1px solid grey; border-radius:5px;"></ion-textarea>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="ion-no-margin">
+                    <ion-col>
+                      <div text-center>
+                        <ion-button class="greyButton ion-no-margin ion-no-padding ion-text-center"
+                          fill="empty" type="submit"> Submit </ion-button>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </form>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <!-- Chat -->
+    <ion-row>
+      <ion-col offset="2" size="8" class="chatContainer">
+        <ion-row *ngFor="let message of order.chat"
+          [className]="message.statusMessage ? 'messageContainer statusMessage' : 'messageContainer'">
+          <ion-col size="1">
+            <ion-avatar><img src="{{ message.sender.image }}" /> </ion-avatar>
+          </ion-col>
+          <ion-col size="11">
+            <ion-row size="1" style="margin-bottom:3px" *ngIf="message.sender._id.localeCompare(userId)"
+              class="actionLink blueLink" [routerLink]="['/user', message.sender._id]">
+              <b>{{ message.sender.name ? message.sender.name : 'user' + message.sender._id }}</b> </ion-row>
+            <ion-row size="1" style="margin-bottom:3px" *ngIf="!message.sender._id.localeCompare(userId)">
+              <b>{{ message.sender.name ? message.sender.name : 'user' + message.sender._id }}</b> </ion-row>
+            <ion-row size="10" *ngIf="!message.statusMessage" style="white-space: pre-wrap"> {{message.message }}
+            </ion-row>
+            <ion-row size="10" *ngIf="message.statusMessage">
+              <div style="white-space: pre-wrap" [innerHTML]="returnStatusMessage(message.message, order)"></div>
+            </ion-row>
+            <ion-row size="1" style="margin-top:15px" class="smallDate"> {{ message.date | date : "dd.MM.y hh:mm"}}
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!order.chat" class="messageContainer">
+          <ion-col size="4" offset="4" style="text-align:center; font-size:13px">There are no messages yet.</ion-col>
+        </ion-row>
+        <form [formGroup]="chatForm" (ngSubmit)="onSubmitMessage()">
+          <ion-row class="messageForm">
+            <ion-col size="10">
+              <ion-input placeholder="Message..." class="formElement ion-no-margin" [type]="text"
+                formControlName="message"></ion-input>
+            </ion-col>
+            <ion-col size="2">
+              <div text-center>
+                <ion-button class="greyButton ion-no-margin ion-no-padding ion-text-center" style="margin-top:8%;"
+                  fill="empty" type="submit"> Submit </ion-button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

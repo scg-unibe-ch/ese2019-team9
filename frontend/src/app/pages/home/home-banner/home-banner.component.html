@@ -1,17 +1,4 @@
 <ion-toolbar class="logo">
-  <ion-grid class="backgroundGradient">
-    <ion-row class="ion-align-items-center">
-      <ion-col offset="1" size="3">
-        <app-logo></app-logo>
-      </ion-col>
-      <ion-col size="6">
-        <ion-text>This is the 2.71828th best event planning platform</ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="8" offset="2">
-        <ion-searchbar id="searchbar" mode="md" class="ion-no-padding" type="search" placeholder="Search" debounce="500" (ionBlur)="closeSearchResultPopover()" (ionFocus)="openSearchResultPopover()" (ionChange)="onSearchbarChange($event)"></ion-searchbar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <img src="../../../../assets/images/header3.png">
+    <ion-searchbar id="searchbar" mode="md" class="ion-no-padding" type="search" placeholder="Search" debounce="500" (ionBlur)="closeSearchResultPopover()" (ionFocus)="openSearchResultPopover()" (ionChange)="onSearchbarChange($event)"></ion-searchbar>
 </ion-toolbar>

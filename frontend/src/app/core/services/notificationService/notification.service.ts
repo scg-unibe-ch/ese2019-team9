@@ -8,7 +8,8 @@ import {Observable, observable, Subject, timer} from 'rxjs';
     providedIn: 'root'
 })
 export class NotificationService {
-    endlessLoopActive: boolean;
+    source;
+    subject = new Subject();
     notificationEndpoint = 'https://moln-api.herokuapp.com/notification';
 
     constructor(
@@ -16,19 +17,6 @@ export class NotificationService {
         private router: Router,
         private authService: AuthService
     ) {}
-
-    // use with caution since this results in a endless loop with backend requests
-    getSingleUsersNotificationsPeriodically() {
-      const subject = new Subject();
-      setInterval(() => {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.get(this.notificationEndpoint + '/user', {headers}).subscribe((data) => {
-          subject.next(data);
-        });
-      }, 35000);
-      return subject;
-    }
 
     getSingleUsersNotifications() {
       const token = this.authService.getToken();
@@ -40,7 +28,7 @@ export class NotificationService {
         body = JSON.parse(body);
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-        return this.httpClient.post(this.notificationEndpoint + '/user', body, {headers});
+        return this.httpClient.post(this.notificationEndpoint + `/${userId}`, body, {headers});
     }
 
     deleteNotification(notificationId: string) {
@@ -54,5 +42,20 @@ export class NotificationService {
       const token = this.authService.getToken();
       const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
       return this.httpClient.patch(this.notificationEndpoint + '/user', body, {headers});
+    }
+
+    checkForNewNotifications(): Subject<any> {
+        if (!this.source) {
+            this.source = setInterval(() => {
+                this.getSingleUsersNotifications().subscribe(
+                    data => {
+                       this.subject.next(data);
+                    }, err => {
+                        console.log(err);
+                    }
+                );
+            }, 3000);
+        }
+        return this.subject;
     }
 }

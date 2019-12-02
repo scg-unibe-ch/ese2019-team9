@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+      <app-header></app-header>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-segment (ionChange)="onTabSwitch($event)">
+                    <ion-segment-button value="0" checked>
+                        <ion-label> My Products</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="1">
+                        <ion-label> New Orders <ion-badge color="danger">{{ newOrders }}</ion-badge></ion-label>
+                        
+                    </ion-segment-button>
+                </ion-segment>
+
+                  <!-- Tab 0: User products -->
+                  <app-user-products *ngIf="selectedTab === 0"></app-user-products>
+                  <!-- End of: Tab 0: User products -->
+  
+                  <!-- Tab 1: Offers -->
+                  <app-orders *ngIf="selectedTab === 1"></app-orders>
+                  <!-- End of: Tab 1: Offers -->
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

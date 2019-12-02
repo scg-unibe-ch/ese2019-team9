@@ -1,3 +1,15 @@
 .title {
     font-weight: bold;
 }
+.profile-popover {
+    background:none !important;
+}
+
+.popover-backdrop.active{
+    background:none !important;
+  }
+
+.notificationsBadge {
+  margin-left: -19px;
+  margin-bottom: 3px;
+}

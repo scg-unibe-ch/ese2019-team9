@@ -1,19 +1,21 @@
-ion-title{
-  font-size: 30px;
-  color: white;
-}
-
-ion-text{
-  color: white;
-}
-
-.backgroundGradient{
-  background-image: linear-gradient(var(--ion-color-secondary), var(--ion-color-primary));
-}
-
 ion-searchbar{
-  box-shadow: 1px 1px 5px 2px #61f2ff;
   padding: 0px;
   margin-top: 15px;
   margin-bottom: 10px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  @media (max-width: 768px) {
+    top: 60%;
+  }
+  @media (min-width: 768px) {
+    top: 70%;
+  }
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+

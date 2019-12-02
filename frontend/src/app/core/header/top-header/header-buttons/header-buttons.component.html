@@ -7,23 +7,16 @@
                 (click)="presentRegistrationPopover()">Join
     </ion-button>
 
-    <!-- Buttons to be displayed when the user is logged in -->
-    <ion-button *ngIf="authService.isLoggedIn()" size="small" class="blueButton ion-hide-md-down" fill="empty"
-                [routerLink]="['/add-products']" [routerDirection]="'root'">
-        <ion-icon name="add"></ion-icon>
-        Products
+    <ion-button *ngIf="authService.isLoggedIn()" (click)="showNotificationsPopover($event)"
+                (deleteEvent)="checkForNewNotifications()" size="small" class="blueButton" fill="empty">
+        <ion-icon name="notifications"></ion-icon>
     </ion-button>
-    <ion-button *ngIf="authService.isLoggedIn()" size="small" class="greyButton" fill="empty"
-                (click)="authService.logout()"> Logout
-    </ion-button>
-    <ion-button *ngIf="authService.isLoggedIn() && authService.isAdmin()" size="small"
-                class="greyButton ion-hide-md-down" fill="empty"
-                [routerLink]="['/admin']">Admin
-    </ion-button>
-    <ion-button *ngIf="authService.isLoggedIn()" size="small" class="blueButton" fill="empty"
-                [routerLink]="['/profile']">
+    <ion-badge class="notificationsBadge" *ngIf="unreadCount != 0" color="danger" slot="end">{{ unreadCount }}</ion-badge>
+
+    <ion-button *ngIf="authService.isLoggedIn()" (click)="showProfilePopover($event)" size="small" class="blueButton"
+                fill="empty"
+                id="profile">
         <ion-icon name="person"></ion-icon>
-        <ion-badge color="danger" slot="end"></ion-badge>
     </ion-button>
 
 </div>

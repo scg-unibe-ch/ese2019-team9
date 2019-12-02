@@ -222,3 +222,19 @@ ion-alert button.cancel-button {
     }
   }
 }
+
+.profile-popover{
+  ion-backdrop {
+    background:none !important;
+  }
+}
+
+.notifications-popover{
+  ion-backdrop {
+    background:none !important;
+  }
+}
+
+.notifications-popover .popover-content {
+  width:35rem;
+}

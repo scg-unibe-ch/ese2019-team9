@@ -1,0 +1,66 @@
+<ion-list>
+    <ion-grid>
+        <ion-row class="ion-padding-top">
+            <ion-button size="large" class="blueButton" fill="empty"
+                        [routerLink]="['/add-products']" [routerDirection]="'root'">
+                <ion-icon name="add"></ion-icon>
+                Add a product
+            </ion-button>
+        </ion-row>
+        <ion-row>
+            <ion-col class="profileProductsTitle" size="7" size-md="5" offset-md="2" size-lg="7">
+                Name
+            </ion-col>
+            <ion-col class="profileProductsTitle" size="2" size-md="2" size-lg="1">
+                <ion-text>Verified</ion-text>
+            </ion-col>
+            <ion-col class="profileProductsTitle" size="2" size-md="2" size-lg="1">
+                Revise
+            </ion-col>
+            <ion-col size="1"></ion-col>
+        </ion-row>
+        <ion-row *ngIf="isLoading">
+            Loading products...
+        </ion-row>
+        <ion-row *ngFor="let product of products">
+            <ion-item-sliding>
+                <ion-item class="profileProductsItem ion-no-padding " (click)="product.openDetail = !product.openDetail">
+                    <ion-col size-md="2" class="ion-hide-sm-down">
+                        <ion-avatar>
+                            <img *ngIf="product.image" src="{{ product.image }}">
+                        </ion-avatar>
+                    </ion-col>
+                    <ion-col size="7" size-md="5" size-lg="7" >
+                        {{ product.name }}
+                    </ion-col>
+                    <ion-col class="ion-padding-start" size="2" size-md="2" size-lg="1" >
+                        <ion-icon size="large" [class]="product.verified ? 'verified' : 'notVerified'"
+                                  [name]="product.verified ? 'checkmark-circle' : 'close-circle'">
+                        </ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-padding-start" size="2" size-md="2" size-lg="1" >
+                        <ion-icon size="large" [class]="product.toRevise ? 'toRevise' : 'verified'"
+                                  [name]="product.toRevise ? 'warning' : 'checkmark-circle'">
+                        </ion-icon>
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-icon [name]="product.openDetail ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+                    </ion-col>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option color="danger" (click)="deleteProduct(product._id)">
+                        Delete
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+            
+            <ion-col *ngIf="product.openDetail">
+                <app-profile-informations (deleteEvent)="deleteProduct(product._id)" [profileItem]="product"
+                                          [changeable]="true" [type]="'product'"
+                                          [valuesToHide]="valuesToHide"
+                                          [additionalValues]="additionalValues">
+                </app-profile-informations>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-list>

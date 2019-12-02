@@ -1,0 +1,96 @@
+.container {
+    border:1px solid var(--ion-color-secondary);
+    border-radius: 7px;
+    margin-top:2rem;
+    padding:1rem;
+}
+
+.chatContainer {
+    margin-top:2rem;
+    padding:0;
+    border:1px solid var(--ion-color-secondary);
+    border-radius: 7px;
+    overflow: hidden;
+    margin-bottom:2rem;
+}
+
+.messageContainer {
+    border-bottom:1px solid var(--ion-color-secondary);
+    padding:1rem;
+}
+
+.messageForm {
+    padding:1rem;
+}
+
+.productName {
+    font-weight: bold;
+    color:var(--ion-color-dark-tint);
+    font-size:22px;
+}
+
+.actionBar {
+    font-size:22px;
+    font-weight:lighter;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.smallDate {
+    font-size:10px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.actionLink:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.blueLink {
+    color:var(--ion-color-primary-shade);
+}
+
+.productPrice {
+    font-weight:bold;
+    font-size:35px;
+    color:var(--ion-color-dark-tint);
+}
+
+.productInfo {
+    font-size:15px;
+    font-weight:lighter;
+    padding-top:0.5rem;
+}
+
+.body {
+    background-color: var(--ion-color-medium);
+}
+
+.statusMessage {
+    background-color: var(--ion-color-medium);
+}
+
+ion-input{
+    border: solid 1px var(--ion-color-secondary);
+    border-radius:5px;
+ }
+
+
+ .center-content > * {
+    -webkit-box-ordinal-group: 1;
+    -moz-box-ordinal-group: 1;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+    }
