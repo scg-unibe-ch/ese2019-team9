@@ -83,7 +83,7 @@ export class HomeBannerComponent implements OnInit {
 	}
 
 	async openSearchResultPopover(ev: any){
-		const popoverElement = await this.popoverController.create({
+		/*const popoverElement = await this.popoverController.create({
 			component: SearchResultComponent,
 			translucent: true,
 			cssClass: 'results',
@@ -93,9 +93,8 @@ export class HomeBannerComponent implements OnInit {
 			}
 		});
 
-	//	this.searchResults.popover = popoverElement;
-/*
-		return await popoverElement.present();
+		this.searchResults.popover = popoverElement;
+		return await popoverElement.present();*/
 		
 		if (this.searchResults.popover) { 
 			return; 
@@ -110,7 +109,7 @@ export class HomeBannerComponent implements OnInit {
 		evt.target.value = (document.getElementById('searchbar') as HTMLIonInputElement).value;
 		this.onSearchbarChange(evt);	
 		(document.getElementById('searchbar') as HTMLIonInputElement).setFocus();
-		this.popoverLock = false;*/
+		this.popoverLock = false;
 	}
 
 	closeSearchResultPopover(){
