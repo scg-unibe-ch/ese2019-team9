@@ -7,21 +7,9 @@
     <ion-grid>
         <form [formGroup]="productForm" (ngSubmit)="onSubmitAddProduct()">
             <ion-row>
-                <ion-col size="6" offset-md="3">
+                <ion-col size="12" offset-md="2" size-md="8" offset="0">
                     <ion-title>Add a product</ion-title>
                     <ion-card>
-<<<<<<< HEAD
-=======
-                        <ion-item>
-                            <app-image-picker class="imagePicker" (imagePick)="onImagePicked($event)">
-                            </app-image-picker>
-                        </ion-item>
-
-                        <ion-item>
-                            <app-map-picker class="imagePicker" (locationPick)="onLocationPicked($event)">
-                            </app-map-picker>
-                        </ion-item>
->>>>>>> 056ada3e3cd021e5f1ae1ebfe2e9d60b284285f5
                         <ion-card class="formElement">
                             <app-input-form [inputForm]="productForm" [givenName]="'name'" [text]="'Title*'"
                                 [validationMessages]="validationMessages.name" [type]="'text'" [inputMode]="'text'">
@@ -40,16 +28,10 @@
                             <app-map-picker class="picker" (locationPick)="onLocationPicked($event)"></app-map-picker>
                         </ion-item>
                         <ion-card class="formElement">
-<<<<<<< HEAD
                             <app-input-form id="locationInput"
                                     [inputForm]="productForm" [givenName]="'location'" [text]="'Location: State, City*'"
                                     [validationMessages]="validationMessages.location"
                                     [type]="'text'" [inputMode]="'text'">
-=======
-                            <app-input-form id="locationInput" [inputForm]="productForm" [givenName]="'location'"
-                                [text]="'Location: State, City*'" [validationMessages]="validationMessages.location"
-                                [type]="'text'" [inputMode]="'text'">
->>>>>>> 056ada3e3cd021e5f1ae1ebfe2e9d60b284285f5
                             </app-input-form>
                         </ion-card>
                         <ion-card>
@@ -91,7 +73,7 @@
                 </ion-col>
             </ion-row>
             <ion-row>
-                <ion-col>
+                <ion-col size="12" offset-md="2" size-md="8" offset="0">
                     <ion-button type="submit"> Upload product</ion-button>
                 </ion-col>
             </ion-row>
