@@ -37,6 +37,7 @@ export class ProgressIndicatorService {
       color: toastColor,
       showCloseButton,
       closeButtonText,
+      position
     });
       toast.onDidDismiss().then(() => {
         resolve(true);
