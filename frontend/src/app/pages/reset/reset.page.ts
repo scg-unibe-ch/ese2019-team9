@@ -43,12 +43,12 @@ export class ResetPage implements OnInit {
       this.authService.resetPassword(queryParams.get('token'), val.password)
           .subscribe(data => {
             if (data.status === 200 ) {
-              this.progressIndicatorService.presentToast('Your password has been reset', 4000);
+              this.progressIndicatorService.presentToast('Your password has been reset', 'success', 4000);
               this.resetForm.reset();
             }
           }, error => {
             console.log(error);
-            this.progressIndicatorService.presentToast('Invalid request', 4000, 'danger');
+            this.progressIndicatorService.presentToast('Invalid request', 'danger', 4000);
           });
     });
   }
