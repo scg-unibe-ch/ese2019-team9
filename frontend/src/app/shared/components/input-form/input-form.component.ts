@@ -14,6 +14,8 @@ export class InputFormComponent implements OnInit {
   @Input() type = 'text';
   @Input() inputMode = 'text';
   @Input() async: {pendingText: string, validText: string};
+  @Input() min;
+  @Input() max;
 
   isPassword = false;
   showingPassword = false;
