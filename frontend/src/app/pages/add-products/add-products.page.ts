@@ -105,6 +105,8 @@ export class AddProductsPage implements OnInit {
 
     displayChosenSubcategories(event) {
         const slug = event.target.value;
+        if(!this.categories.filter(cat => cat.slug === slug)[0])
+            return;
         this.chosenSubcategories = this.categories.filter(cat => cat.slug === slug)[0].subcategories
             .sort((a, b) => a.name.localeCompare(b.name));
     }

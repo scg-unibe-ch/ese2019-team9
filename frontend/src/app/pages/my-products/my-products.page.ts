@@ -49,7 +49,8 @@ export class MyProductsPage implements OnInit {
       address: ['', []],
       country: ['', []]
     });
-    /*
+
+    this.isSeller = this.userService.isSeller();
 
     this.selectedTab = 0;
     this.userId = this.authService.getId();
@@ -59,34 +60,17 @@ export class MyProductsPage implements OnInit {
         this.user.country.length > 0 &&
         this.user.address.length > 0 ? true : false;
       this.isLoading = false;
-/*
-      this.sellerForm.setValue([ {name:this.user.name ? this.user.name : ''}, 
+
+    /*  this.sellerForm.setValue([ {name:this.user.name ? this.user.name : ''}, 
         {country:this.user.country ? this.user.country : ''},
-        {address:this.user.address ? this.user.address : ''}]);
+        {address:this.user.address ? this.user.address : ''}]);*/
     });
-    //await this.getOrders;
-    //this.dataService.changeOrders(this.orders);*/
   }
 
   onTabSwitch(evt: CustomEvent) {
     const id = parseInt(evt.detail.value, 10);
     this.selectedTab = id;
   }
-
-  /*
-  async getOrders() {
-    this.userId = this.authService.getId();
-    await this.orderService.getOrders(this.userId).subscribe(data => {
-      this.orders = data.map(doc => {
-        return Object.assign(doc, {
-          openDetails: false
-        });
-      });
-    }, err => {
-      console.log(err);
-      this.progressIndicatorService.presentToast('Orders could not be updated', 'danger');
-    });
-  }*/
 
   onPressSubmit() {
     if (this.sellerForm.value.name.length == 0 &&
