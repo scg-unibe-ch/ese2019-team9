@@ -37,7 +37,7 @@ export class ProfilePage implements OnInit {
     }, err => {
       console.log(err);
       this.progressIndicatorService.dismissLoadingIndicator();
-      this.progressIndicatorService.presentToast('User could not be updated', 3500, 'danger');
+      this.progressIndicatorService.presentToast('User could not be updated', 'danger', 3000);
     });
   }
 

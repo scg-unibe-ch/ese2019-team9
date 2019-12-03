@@ -44,7 +44,7 @@ export class UserService {
   }
   
   isSeller(): Promise<boolean>{
-    return new Promise<boolean>((resolve, reject)=> {
+    return new Promise<boolean>((resolve, reject) => {
       if (!this.authService.isLoggedIn()) {return false;}
       const id = this.authService.getId();
       this.getSingleUser(id).subscribe((data)=> {
