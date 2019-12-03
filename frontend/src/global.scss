@@ -117,6 +117,38 @@
   margin-right: 5px;
 }
 
+.redButton {
+  font-size: 12px;
+  font-weight: bold;
+  --color: var(--ion-color-danger);
+  --border-color: var(--ion-color-danger);
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 20px;
+  --padding-end: 20px;
+  --padding-start: 20px;
+  --background-hover: var(--ion-color-danger);
+  --color-hover: white;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.orangeButton {
+  font-size: 12px;
+  font-weight: bold;
+  --color: var(--ion-color-warning);
+  --border-color: var(--ion-color-warning);
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 20px;
+  --padding-end: 20px;
+  --padding-start: 20px;
+  --background-hover: var(--ion-color-warning);
+  --color-hover: white;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .pageTitle {
   font-size: 30px;
   font-weight: bold;
@@ -158,6 +190,10 @@
 .subcategoryListItem {
   --min-height: 0px;
   padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  --background-hover: var(--ion-color-medium);
+  color: var(--ion-color-dark);
 }
 
 .subcategoryList {

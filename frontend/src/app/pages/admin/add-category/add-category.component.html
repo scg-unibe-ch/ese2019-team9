@@ -7,7 +7,7 @@
 					<ng-container *ngFor="let subcategory of category.subcategories">
 						<ion-item size="11">{{subcategory.name}}<ion-icon slot="end" name="create" size="small" (click)="editCategory(subcategory, category)"></ion-icon><ion-icon name="trash" slot="end" size="small" (click)="onDeleteCategory(subcategory)"></ion-icon></ion-item>
 					</ng-container>
-					<ion-button (click)="createNewSubcategoryOn(category)" fill="empty" class="greenButton">
+					<ion-button (click)="createNewSubcategoryOn(category)" fill="empty" class="ion-margin-top greenButton">
 						<ion-icon name="add"></ion-icon> Subcategory
 					</ion-button>
 				</ion-card-content>
