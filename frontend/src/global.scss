@@ -216,6 +216,26 @@ ion-alert button.cancel-button {
   border: 1px solid var(--ion-color-primary) !important;
 }
 
+.thumbnail {
+  position: relative;
+  overflow: hidden;
+  justify-content: center;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+
 .results {
   flex: 0 0 calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
   width: calc(calc(8 / var(--ion-grid-columns, 12)) * 98.5%);

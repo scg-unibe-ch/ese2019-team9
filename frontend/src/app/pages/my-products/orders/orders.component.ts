@@ -54,7 +54,6 @@ export class OrdersComponent implements OnInit {
     });
   }
   ngOnDestroy(): void {
-    this.getOrders();
   }
 
   getOrders() {
