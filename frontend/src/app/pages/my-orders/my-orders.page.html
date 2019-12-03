@@ -93,7 +93,7 @@
                                           </ion-row>
                                           <ion-row>
                                               <ion-col>
-                                                Placed on: <b>{{ order.orderDate }}</b>
+                                                Placed on: <b>{{ order.orderDate | date : "dd.MM.y hh:mm" }}</b>
                                               </ion-col>
                                             </ion-row>
                                       </ion-col>
