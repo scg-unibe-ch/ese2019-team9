@@ -140,9 +140,11 @@ export class OrderDetailsPage implements OnInit {
       rating: this.rating,
       productId: this.order.product._id
     };
+
     this.productService.addReview(val).subscribe(data => {
       this.reviewForm.reset();
       this.progressIndicatorService.presentToast('Review successfully added');
+      this.displayOrderInformation();
     }, error => {
       console.log(error.error);
       this.progressIndicatorService.presentToast(error.error.message, 'danger');
@@ -229,7 +231,11 @@ export class OrderDetailsPage implements OnInit {
     });
   }
 
-  returnStatusMessage(text: String, order: any) {
+  returnStatusMessage(message: any, order: any) {
+    if(!message.message)
+      return "Error";
+    const text = (message.message as String);
+    const args = (message.args as any);
     const sellerArticle = this.isSeller ? "your" : "the";
     const buyerArticle = !this.isSeller ? "your" : "the";
 
@@ -245,8 +251,8 @@ export class OrderDetailsPage implements OnInit {
     if (!text.localeCompare("[PAY]"))
       return "<i>Paid the invoice of <b>" + order.product.price + "CHF </b></i>";
 
-    if (!text.localeCompare("[REVIEW]"))
-      return "<i>Wrote a review</i>";
+    if (!text.localeCompare("[REVIEW]") && message.args)
+      return "<i>Rated the product <b>" + message.args.rating + " stars </b></i><br>" + (message.args.comment ? "<br>Comment: <br>" + message.args.comment : "") + "";
 
     return "<i>Unknown status message</i>";
   }

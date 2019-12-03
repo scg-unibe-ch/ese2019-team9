@@ -106,7 +106,7 @@ export class AddCategoryComponent implements OnInit {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Category updated');
                 this.categoryForm.reset();
-                this.imagePicker.resetImage();
+                //this.imagePicker.resetImage();
             }, reason => {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Category not updated', 'danger');
@@ -163,9 +163,6 @@ export class AddCategoryComponent implements OnInit {
         return new Blob(byteArrays, {type: contentType});
     }
 
-<<<<<<<
-    HEAD
-
     changeMode(mode: string) {
         this.categoryForm.reset();
         this.updateNotCreate = mode === 'update';
@@ -178,8 +175,6 @@ export class AddCategoryComponent implements OnInit {
         }
     }
 
-=======
-
     updateCategory(form: FormGroup): Promise<any> {
         return new Promise((resolve, reject) => {
             let body = `{`;
@@ -196,7 +191,7 @@ export class AddCategoryComponent implements OnInit {
             }
             body += `}`;
             if (firstLine) {
-                this.progressIndicatorService.presentToast('Nothing has been changed', 'warning', 'success');
+                this.progressIndicatorService.presentToast('Nothing has been changed', "warning");
                 return;
             }
             ;
@@ -207,40 +202,6 @@ export class AddCategoryComponent implements OnInit {
             });
         });
     }
-
->>>>>>>
-    master
-
-    updateCategory(form: FormGroup): Promise<any> {
-        return new Promise((resolve, reject) => {
-            let body = `{`;
-            let controlKeys = Object.keys(form.controls);
-            let firstLine = true;
-            controlKeys.forEach((key) => {
-                if (form.controls[key].dirty) {
-                    body += `${(firstLine) ? '' : ','}"${key}":"${form.controls[key].value}"`;
-                    firstLine = false;
-                }
-            });
-            if (form.controls['subcategoryToggle'].dirty && !form.controls['subcategoryToggle'].value) {
-                body += `${(firstLine) ? '' : ','}"parentId":null`;
-            }
-            body += `}`;
-            if (firstLine) {
-                this.progressIndicatorService.presentToast('Nothing has been changed', 3500, "warning");
-                return;
-            }
-            ;
-            this.categoryService.updateCategory((this.selectedCategory as any)._id, body, this.imageFile).subscribe((data) => {
-                resolve(data);
-            }, (err) => {
-                reject(err);
-            });
-        });
-    }
-
-<<<<<<<
-    HEAD
 
     createCategory(values: FormGroup["value"]) {
         return new Promise((resolve, reject) => {
@@ -267,7 +228,7 @@ export class AddCategoryComponent implements OnInit {
             this.categoryService.deleteCategory((category as any)._id).subscribe(
                 (data) => {
                     this.progressIndicatorService.dismissLoadingIndicator();
-                    this.progressIndicatorService.presentToast('Sucessfully deleted Category', 3500);
+                    this.progressIndicatorService.presentToast('Sucessfully deleted Category', 'success');
                     this.categoryService.getCategories().subscribe(
                         data => {
                             this.currentCategories = data;
@@ -279,7 +240,7 @@ export class AddCategoryComponent implements OnInit {
                     );
                 }, (error) => {
                     this.progressIndicatorService.dismissLoadingIndicator();
-                    this.progressIndicatorService.presentToast('Could not delete Category', 3500, 'danger');
+                    this.progressIndicatorService.presentToast('Could not delete Category', 'danger');
                     console.log(error);
                 }
             );
@@ -314,69 +275,6 @@ export class AddCategoryComponent implements OnInit {
             await alert.present();
         });
     }
-
-=======
-
-    onDeleteCategory(category: Category) {
-        const promise = this.presentAlertConfirm(category);
-        promise.then((shouldDelete) => {
-            if (!shouldDelete) {
-                return;
-            }
-            this.progressIndicatorService.presentLoading('Deleting Category');
-            this.categoryService.deleteCategory((category as any)._id).subscribe(
-                (data) => {
-                    this.progressIndicatorService.dismissLoadingIndicator();
-                    this.progressIndicatorService.presentToast('Sucessfully deleted Category');
-                    this.categoryService.getCategories().subscribe(
-                        data => {
-                            this.currentCategories = data;
-                            if (!this.updateNotCreate) this.setUniqueValidator();
-                        },
-                        err => {
-                            console.log(err);
-                        }
-                    );
-                }, (error) => {
-                    this.progressIndicatorService.dismissLoadingIndicator();
-                    this.progressIndicatorService.presentToast('Could not delete Category', 'danger');
-                    console.log(error);
-                }
-            );
-        });
-    }
-
-    async presentAlertConfirm(category) {
-        return new Promise(async (resolve, reject) => {
-            const alert = await this.alertController.create({
-                header: 'Confirm!',
-                message: `Are you sure you want to delete the category <strong>${category.name}</strong>?`,
-                buttons: [
-                    {
-                        text: 'Cancel',
-                        role: 'cancel',
-                        cssClass: 'cancel-button',
-                        handler: () => {
-                            resolve(false);
-                        }
-                    }, {
-                        text: 'Delete',
-                        cssClass: 'delete-button',
-                        handler: () => {
-                            resolve(true)
-                        }
-                    }
-                ]
-            });
-            alert.onWillDismiss().then(() => {
-                resolve(false);
-            });
-            await alert.present();
-        });
-    }
-
->>>>>>>
-    master
 }
 
 

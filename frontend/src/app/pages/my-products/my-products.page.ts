@@ -49,6 +49,7 @@ export class MyProductsPage implements OnInit {
       address: ['', []],
       country: ['', []]
     });
+    /*
 
     this.selectedTab = 0;
     this.userId = this.authService.getId();
@@ -58,13 +59,13 @@ export class MyProductsPage implements OnInit {
         this.user.country.length > 0 &&
         this.user.address.length > 0 ? true : false;
       this.isLoading = false;
-
+/*
       this.sellerForm.setValue([ {name:this.user.name ? this.user.name : ''}, 
         {country:this.user.country ? this.user.country : ''},
         {address:this.user.address ? this.user.address : ''}]);
     });
     //await this.getOrders;
-    //this.dataService.changeOrders(this.orders);
+    //this.dataService.changeOrders(this.orders);*/
   }
 
   onTabSwitch(evt: CustomEvent) {
