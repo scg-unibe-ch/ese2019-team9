@@ -28,8 +28,7 @@ export class ProductService {
 
 
     getAllProducts() {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.get(this.productsEndpoint, {headers});
     }
 
@@ -49,8 +48,7 @@ export class ProductService {
     }
 
     getSingleProduct(productId: any) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.get(this.productsEndpoint + `/${productId}`, {headers});
     }
 
@@ -63,14 +61,12 @@ export class ProductService {
     }
 
     deleteProduct(productId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.delete(this.productsEndpoint + `/${productId}`, {headers});
     }
 
     updateProduct(productId: string, body: string, img: any) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         const formData = this.createFormData(body, img);
@@ -78,8 +74,7 @@ export class ProductService {
     }
 
     verifyProduct(productId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {
             verified: true
         }, {
@@ -88,8 +83,7 @@ export class ProductService {
     }
 
     reviseProduct(productId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {
             toRevise: true
         }, {
@@ -99,32 +93,28 @@ export class ProductService {
 
     addProduct(val: any, img: any) {
         const formData = this.createFormData(val, img);
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         return this.httpClient.post(this.productsEndpoint, formData, {headers});
     }
 
     getProductsByUserId(userId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.get <[]>(this.productsEndpoint + `/${userId}`, {
             headers
         });
     }
 
     addReview(body: any) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.post(this.reviewEndpoint + '/add', body, {
             headers
         });
     }
 
     hasBought(productId: string) {
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        const headers = this.createHeader();
         return this.httpClient.get(this.productsEndpoint + '/hasBought/' + `${productId}`, {headers});
     }
 
@@ -137,5 +127,10 @@ export class ProductService {
         });
         formData.append('image', img);
         return formData;
+    }
+
+    createHeader() {
+        const token = this.authService.getToken();
+        return new HttpHeaders().set('Authorization', 'Bearer: ' + token);
     }
 }
