@@ -54,13 +54,17 @@ export class ProductService {
         return this.httpClient.get(this.productsEndpoint + `/${productId}`, {headers});
     }
 
+    /*
     addNewProduct(name: string, category: string, price: number) {
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+
         return this.httpClient.post(this.productsEndpoint + '/add', {
             name,
             category,
             price
-        });
-    }
+        }, {headers});
+    }*/
 
     deleteProduct(productId: string) {
         const token = this.authService.getToken();
@@ -98,12 +102,12 @@ export class ProductService {
     }
 
     addProduct(val: any, img: any) {
-        const formData = this.createFormData(val, img);
         const token = this.authService.getToken();
         const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
-        return this.httpClient.post(this.productsEndpoint, formData, {headers});
+        const formData = this.createFormData(val, img);
+        return this.httpClient.post(this.productsEndpoint + '/add', formData, {headers});
     }
 
     getProductsByUserId(userId: string) {
