@@ -190,6 +190,10 @@
 .subcategoryListItem {
   --min-height: 0px;
   padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  --background-hover: var(--ion-color-medium);
+  color: var(--ion-color-dark);
 }
 
 .subcategoryList {
