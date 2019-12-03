@@ -40,7 +40,7 @@ export class HeaderButtonsComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.authService.isLoggedIn())
+        if (this.authService.isLoggedIn())
             this.checkForNewNotifications();
     }
 
