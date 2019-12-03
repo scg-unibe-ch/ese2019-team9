@@ -67,10 +67,10 @@ export class OrderService {
       }));
   }
 
-  fulfill(orderId: string) {
+  pay(orderId: string) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
-    return this.httpClient.patch(this.orderEndpoint + '/fulfill', {
+    return this.httpClient.patch(this.orderEndpoint + '/pay', {
         orderId
       }, {
         headers
@@ -107,4 +107,23 @@ export class OrderService {
     });
   }
 
+  getOrderById(orderId: string) {
+    const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+        return this.httpClient.get(this.orderEndpoint + `/id/${orderId}`, {
+            headers: headers
+        })
+  }
+
+  sendMessage(body: any) {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
+
+    return this.httpClient.post(this.orderEndpoint + '/message/send', body, {
+        headers
+      })
+      .pipe(map(res => {
+        return res;
+      }));
+  }
 }

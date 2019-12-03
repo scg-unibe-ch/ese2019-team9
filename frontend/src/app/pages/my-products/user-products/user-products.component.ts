@@ -1,18 +1,7 @@
-import {
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewChild
-} from '@angular/core';
-import {
-    AuthService
-} from '../../../core/services/authService/auth.service';
-import {
-    ProductService
-} from '../../../core/services/productService/product.service';
-import {
-    ProgressIndicatorService
-} from '../../../core/services/progressIndicatorService/progress-indicator.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AuthService} from '../../../core/services/authService/auth.service';
+import {ProductService} from '../../../core/services/productService/product.service';
+import {ProgressIndicatorService} from '../../../core/services/progressIndicatorService/progress-indicator.service';
 
 @Component({
     selector: 'app-user-products',
@@ -30,23 +19,25 @@ export class UserProductsComponent implements OnInit, OnDestroy {
         private authService: AuthService,
         private productService: ProductService,
         private progressIndicatorService: ProgressIndicatorService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.getUserProducts();
     }
 
+    ngOnDestroy(): void {
+        this.getUserProducts();
+    }
+
     deleteProduct(productId: string) {
         this.productService.deleteProduct(productId).subscribe(data => {
-            this.progressIndicatorService.presentToast('Product successfully deleted', 3500, 'success');
+            this.progressIndicatorService.presentToast('Product successfully deleted');
             this.reloadProducts();
         }, err => {
             console.log(err);
-            this.progressIndicatorService.presentToast('Product could not be deleted', 3500, 'danger');
+            this.progressIndicatorService.presentToast('Product could not be deleted', 'danger');
         });
-    }
-    ngOnDestroy(): void {
-        this.getUserProducts();
     }
 
     getUserProducts() {
@@ -56,7 +47,7 @@ export class UserProductsComponent implements OnInit, OnDestroy {
             this.loading = false;
         }, err => {
             console.log(err);
-            this.progressIndicatorService.presentToast('Products could not be updated', 3500, 'danger');
+            this.progressIndicatorService.presentToast('Products could not be updated', 'danger');
         });
     }
 

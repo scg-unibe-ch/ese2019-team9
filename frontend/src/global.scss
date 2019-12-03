@@ -101,6 +101,22 @@
   margin-right: 5px;
 }
 
+.greenButton {
+  font-size: 12px;
+  font-weight: bold;
+  --color: var(--ion-color-success);
+  --border-color: var(--ion-color-success);
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 20px;
+  --padding-end: 20px;
+  --padding-start: 20px;
+  --background-hover: var(--ion-color-success);
+  --color-hover: white;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .pageTitle {
   font-size: 30px;
   font-weight: bold;
@@ -201,16 +217,16 @@ ion-alert button.cancel-button {
 }
 
 .results {
-  margin-left: calc(calc(2 / var(--ion-grid-columns, 12)) * 100%);
   flex: 0 0 calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
-  width: calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
-  max-width: calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
+  width: calc(calc(8 / var(--ion-grid-columns, 12)) * 98.5%);
+  max-width: calc(calc(8 / var(--ion-grid-columns, 12)) * 98.5%);
   height: 800px;
   max-height: 30vh;
 
-  .backdrop-no-tappable{
-    visibility: hidden;
+  ion-backdrop {
+    background:none !important;
   }
+
   .popover-content{
     width: 100%;
     max-height: 100%;
@@ -227,4 +243,24 @@ ion-alert button.cancel-button {
   ion-backdrop {
     background:none !important;
   }
+}
+
+.search-results-popover {
+  ion-backdrop {
+    background:none !important;
+  }
+}
+
+.notifications-popover{
+  ion-backdrop {
+    background:none !important;
+  }
+  left: 0 !important;
+  padding:0px !important;
+  margin:0px !important;
+  width:100%!important;
+}
+
+.notifications-popover .popover-content {
+  width:330px;
 }

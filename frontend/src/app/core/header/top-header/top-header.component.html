@@ -1,22 +1,18 @@
 <div>
     <ion-grid>
         <ion-row class="ion-align-items-center">
-            <ion-col size="1">
-                <div class="ion-hide-lg-up" position="relative">
+            <ion-col size="1" class="ion-hide-md-up">
+                <div class="ion-hide-lg-up" style="display:flex; justify-content: center; align-content: center; padding:0;">
                     <ion-buttons slot="start">
                         <ion-menu-button menu="m1">
                         </ion-menu-button>
                     </ion-buttons>
                 </div>
             </ion-col>
-            <ion-col size="4" size-sm="3">
-                <span class="navigateHome ion-align-items-center" [routerLink]="['/home']">
-                    <img class="headerImg" src="assets/images/logoFont7.png" >
-                </span>
+            <ion-col size="8" size-md="10" style="display:flex; justify-content: center; align-content: center; padding:0;" [routerLink]="['/home']">
+                    <img class="headerImg" style="cursor:pointer; margin:auto; text-align:center" src="assets/images/logoFont7.png" >
             </ion-col>
-            <ion-col class="ion-hide-md-down" size="0" size-md="1" size-lg="2">
-            </ion-col>
-            <ion-col>
+            <ion-col size="3" size-md="2" class="last-col" style="text-align: right; align-content:center; justify-content: flex-end;" >
                 <app-header-buttons></app-header-buttons>
             </ion-col>
         </ion-row>

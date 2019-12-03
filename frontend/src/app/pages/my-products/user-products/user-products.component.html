@@ -7,38 +7,37 @@
                 Add a product
             </ion-button>
         </ion-row>
-        <ion-row>
-            <ion-col class="profileProductsTitle" size="7" size-md="5" offset-md="2" size-lg="7">
+        <ion-row *ngIf="products.length != 0">
+            <ion-col class="profileProductsTitle" size="6" offset="1">
                 Name
             </ion-col>
-            <ion-col class="profileProductsTitle" size="2" size-md="2" size-lg="1">
-                <ion-text>Verified</ion-text>
+            <ion-col class="profileProductsTitle" >
+                Verified
             </ion-col>
-            <ion-col class="profileProductsTitle" size="2" size-md="2" size-lg="1">
+            <ion-col class="profileProductsTitle" >
                 Revise
             </ion-col>
-            <ion-col size="1"></ion-col>
         </ion-row>
-        <ion-row *ngIf="isLoading">
+        <ion-row *ngIf="isLoading" style="font-size:0.8em; padding-top:1em;">
             Loading products...
         </ion-row>
         <ion-row *ngFor="let product of products">
             <ion-item-sliding>
                 <ion-item class="profileProductsItem ion-no-padding " (click)="product.openDetail = !product.openDetail">
-                    <ion-col size-md="2" class="ion-hide-sm-down">
-                        <ion-avatar>
-                            <img *ngIf="product.image" src="{{ product.image }}">
+                    <ion-col size="1">
+                        <ion-avatar style="width:100%; height:100%; object-fit: cover;">
+                            <img *ngIf="product.image" src="{{ product.image }}" style="object-fit: cover; width:100%; height:100%;">
                         </ion-avatar>
                     </ion-col>
-                    <ion-col size="7" size-md="5" size-lg="7" >
+                    <ion-col size="6" >
                         {{ product.name }}
                     </ion-col>
-                    <ion-col class="ion-padding-start" size="2" size-md="2" size-lg="1" >
+                    <ion-col class="ion-padding-start" size="2" >
                         <ion-icon size="large" [class]="product.verified ? 'verified' : 'notVerified'"
                                   [name]="product.verified ? 'checkmark-circle' : 'close-circle'">
                         </ion-icon>
                     </ion-col>
-                    <ion-col class="ion-padding-start" size="2" size-md="2" size-lg="1" >
+                    <ion-col class="ion-padding-start" size="2" >
                         <ion-icon size="large" [class]="product.toRevise ? 'toRevise' : 'verified'"
                                   [name]="product.toRevise ? 'warning' : 'checkmark-circle'">
                         </ion-icon>
@@ -55,7 +54,9 @@
             </ion-item-sliding>
             
             <ion-col *ngIf="product.openDetail">
-                <app-profile-informations (deleteEvent)="deleteProduct(product._id)" [profileItem]="product"
+                <app-profile-informations (deleteEvent)="deleteProduct(product._id)"
+                                          (updateEvent)="reloadProducts()"
+                                          [profileItem]="product"
                                           [changeable]="true" [type]="'product'"
                                           [valuesToHide]="valuesToHide"
                                           [additionalValues]="additionalValues">

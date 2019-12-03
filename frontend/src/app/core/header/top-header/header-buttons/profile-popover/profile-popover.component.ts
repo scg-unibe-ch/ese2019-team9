@@ -23,18 +23,13 @@ export class ProfilePopoverComponent implements OnInit {
 
   ngOnInit() {
     this.show = true;
+    this.isAdmin = this.authService.isAdmin();
   }
 
   show = false;
-
-
-  mouseLeave(div : string) {
-    //await this.popoverController.dismiss();
-    console.log("now");
-  }
+  isAdmin = false;
 
   async dismissPopover() {
     await this.popoverController.dismiss();
   }
-
 }

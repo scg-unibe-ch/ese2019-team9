@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Host, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {PopoverController} from '@ionic/angular';
 
 import {LoginComponent} from '../../../authentication/login/login.component';
@@ -6,8 +6,8 @@ import {RegistrationComponent} from '../../../authentication/registration/regist
 import {ProfilePopoverComponent} from './profile-popover/profile-popover.component';
 import {AuthService} from 'src/app/core/services/authService/auth.service';
 import {NotificationService} from '../../../services/notificationService/notification.service';
-import {forEach} from "@angular-devkit/schematics";
-import { NotificationsComponent } from 'src/app/core/notifications/notifications.component';
+import {NotificationsComponent} from 'src/app/core/header/top-header/header-buttons/notifications/notifications.component';
+import {Subscription} from 'rxjs';
 
 /**
  * Component containing the Buttons in the upper right corner.
@@ -23,7 +23,10 @@ import { NotificationsComponent } from 'src/app/core/notifications/notifications
     templateUrl: './header-buttons.component.html',
     styleUrls: ['./header-buttons.component.scss']
 })
-export class HeaderButtonsComponent {
+export class HeaderButtonsComponent implements OnInit {
+    subscription: Subscription;
+    unreadCount = 0;
+    notifications = [];
 
     /**
      * Assign new private variables `popoverController` and `authService`
@@ -34,6 +37,20 @@ export class HeaderButtonsComponent {
         private popoverController: PopoverController,
         private authService: AuthService,
         private notificationService: NotificationService) {
+    }
+
+    ngOnInit() {
+        if(this.authService.isLoggedIn())
+            this.checkForNewNotifications();
+    }
+
+    checkForNewNotifications() {
+        this.notificationService.getSingleUsersNotifications().subscribe(
+            data => {
+                this.unreadCount = (data as any).unread;
+                this.notifications = (data as any).notifications;
+            }
+        );
     }
 
     /**
@@ -81,20 +98,25 @@ export class HeaderButtonsComponent {
     async showProfilePopover(ev: any) {
         const popover = await this.popoverController.create({
             component: ProfilePopoverComponent,
-            event:ev,
-            cssClass:'profile-popover'
+            event: ev,
+            backdropDismiss: true,
+            cssClass: 'profile-popover'
         });
-
         return await popover.present();
     }
 
     async showNotificationsPopover(ev: any) {
         const popover = await this.popoverController.create({
             component: NotificationsComponent,
-            event:ev,
-            cssClass:'profile-popover'
+            componentProps: {notifications: this.notifications},
+            event: ev,
+            cssClass: 'notifications-popover'
         });
-
+        popover.onDidDismiss().then(() => {
+            console.log('test');
+            this.checkForNewNotifications();
+            console.log(this.notifications);
+        });
         return await popover.present();
     }
 }

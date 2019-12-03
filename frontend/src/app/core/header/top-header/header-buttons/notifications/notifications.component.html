@@ -1,0 +1,14 @@
+<ion-grid (mouseleave)="dismissPopover()">
+    <ion-row>
+        <ion-col style="text-align:center" class="message">
+                <b>Notifications</b>
+        </ion-col>
+    </ion-row>
+    
+    <ion-row *ngFor="let notification of notifications">
+        <ion-col [routerLink]="[notification.link]" item-text-wrap [ngStyle]="{'background-color': !notification.read ? '#E5EAF2' : ''}" class="message item-text-wrap">
+                {{ notification.text }} 
+        </ion-col>
+    </ion-row>
+    <ion-item *ngIf="notifications.length === 0" class="message">You have no nofitications.</ion-item>
+</ion-grid>

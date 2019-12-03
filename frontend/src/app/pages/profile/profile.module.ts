@@ -8,8 +8,6 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePage } from './profile.page';
 import {HeaderModule} from '../../core/header.module';
 import {SharedModule} from '../../shared/shared.module';
-import {UserInformationComponent} from './user-information/user-information.component';
-import {UserProductsComponent} from './user-products/user-products.component';
 
 const routes: Routes = [
   {
@@ -27,6 +25,6 @@ const routes: Routes = [
     HeaderModule,
     SharedModule,
   ],
-    declarations: [ProfilePage, UserInformationComponent, UserProductsComponent]
+    declarations: [ProfilePage]
 })
 export class ProfilePageModule {}

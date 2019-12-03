@@ -4,7 +4,12 @@
   color: var(--ion-color-secondary-shade);
   font-size: 3vw;
   letter-spacing: 0.5em;
-  padding-top: 50px;
+  @media (max-width: 768px) {
+    padding-top: 25px;
+  }
+  @media (min-width: 768px) {
+    padding-top: 50px;
+  }
 }
 
 .carouselBody {

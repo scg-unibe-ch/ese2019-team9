@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from '../../core/services/categoryService/category.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../core/services/productService/product.service';
@@ -6,6 +6,8 @@ import {ProgressIndicatorService} from '../../core/services/progressIndicatorSer
 import {PlaceMap} from './map.model';
 import { UserService } from 'src/app/core/services/userService/user.service';
 import { Router } from '@angular/router';
+import {ImagePickerComponent} from '../../shared/components/image-picker/image-picker.component';
+import {MapPickerComponent} from './map-picker/map-picker.component';
 
 function base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
@@ -34,6 +36,8 @@ function base64toBlob(base64Data, contentType) {
     styleUrls: ['./add-products.page.scss'],
 })
 export class AddProductsPage implements OnInit {
+    @ViewChild(ImagePickerComponent, {static: false}) imagePicker: ImagePickerComponent;
+    @ViewChild(MapPickerComponent, {static: false}) mapPicker: MapPickerComponent;
 
     productForm: FormGroup;
     imageFile;
@@ -47,8 +51,8 @@ export class AddProductsPage implements OnInit {
         price: [
             {type: 'required', message: 'Price is required'},
             {type: 'number', message: 'Not a valid number'},
-            {type: 'minlength', message: 'Price must be more than 10 CHF'},
-            {type: 'maxlength', message: 'Price must be lower than 1000000 CHF'}
+            {type: 'min', message: 'Price must be more than 10 CHF'},
+            {type: 'max', message: 'Price must be lower than 1\'000\'000 CHF'}
         ],
         description: [
             {type: 'required', message: 'Description is required'},
@@ -74,16 +78,14 @@ export class AddProductsPage implements OnInit {
     ) {
     }
 
-    ionViewWillEnter(){
+    ionViewWillEnter() {
         const promise = this.userService.isSeller();
-        promise.then((isSeller)=> {
-            if (!isSeller){
-                this.progressIndicatorService.presentToast('You\'re missing some profile informations to be able to do that', 3500, "danger");
-                setTimeout(()=> {
-                     this.router.navigate(['/profile']); 
-                }, 3500);
+        promise.then((isSeller) => {
+            if (!isSeller) {
+                this.progressIndicatorService.presentToast('You\'re missing profile information to add products', 'danger', 'other', true, 'middle')
+                .then(() => this.router.navigate(['/profile']));
             }
-        })
+        });
     }
 
     ngOnInit() {
@@ -92,7 +94,7 @@ export class AddProductsPage implements OnInit {
         });
         this.productForm = this.formBuilder.group({
             name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
-            price: ['', [Validators.required, Validators.min(10), Validators.max(100000)]],
+            price: ['', [Validators.required, Validators.min(10), Validators.max(1000000)]],
             location: ['', [Validators.required, Validators.maxLength(256)]],
             category: ['', [Validators.required]],
             categorySlug: ['', [Validators.required]],
@@ -109,7 +111,7 @@ export class AddProductsPage implements OnInit {
 
     onSubmitAddProduct() {
         if (this.productForm.invalid) {
-            this.progressIndicatorService.presentToast('Form incomplete: Please enter all required information', 3500, "danger");
+            this.progressIndicatorService.presentToast('Form incomplete: Please enter all required information', 'danger');
           return;
         }
         const val = this.productForm.value;
@@ -117,7 +119,9 @@ export class AddProductsPage implements OnInit {
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
             this.progressIndicatorService.dismissLoadingIndicator();
             this.productForm.reset();
-            this.progressIndicatorService.presentToast('Product successfully created', 3500, 'success');
+            this.progressIndicatorService.presentToast('Product successfully created');
+           // this.imagePicker.resetImage();
+           // this.mapPicker.resetLocation();
         }, error => {
             this.progressIndicatorService.dismissLoadingIndicator();
             console.log(error);
@@ -141,6 +145,5 @@ export class AddProductsPage implements OnInit {
         this.productForm.patchValue({map: location});
         console.log(document.getElementById('locationInput'));
         (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;
-        console.log(location);
     }
 }

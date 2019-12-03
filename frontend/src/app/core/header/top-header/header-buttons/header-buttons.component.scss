@@ -1,10 +1,91 @@
 .title {
-    font-weight: bold;
-}
-.profile-popover {
-    background:none !important;
+  font-weight: bold;
 }
 
-.popover-backdrop.active{
-    background:none !important;
-  }
+.profile-popover {
+  background: none !important;
+}
+
+.popover-backdrop.active {
+  background: none !important;
+}
+
+.notificationsBadge {
+  margin-left: -19px;
+  margin-bottom: 3px;
+}
+
+.responsiveButton {
+  width: auto;
+  min-width: 1px !important;
+  min-height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size:0.5em;
+}
+
+.roundButton {
+  background-color:white;
+  justify-content: center;
+  align-content: center;
+  vertical-align: middle;
+  display: flex;
+  width:1.4em;
+  height:1.4em;
+  color:var(--ion-color-primary);
+  border-radius:50%;
+  border:1px solid var(--ion-color-primary);
+  font-size:1.4em;
+}
+
+.roundButton:focus {
+  background-color:white;
+  box-shadow:none;
+  justify-content: center;
+  align-content: center;
+  vertical-align: middle;
+  display: flex;
+  width:1.4em;
+  height:1.4em;
+  color:var(--ion-color-primary);
+  border-radius:50%;
+  border:1px solid var(--ion-color-primary);
+  font-size:1.4em;
+  text-decoration: none;
+}
+
+.roundButton:visited {
+  box-shadow:none;
+  text-decoration: none;
+  background-color:white;
+  justify-content: center;
+  align-content: center;
+  vertical-align: middle;
+  display: flex;
+  width:1.4em;
+  height:1.4em;
+  color:var(--ion-color-primary);
+  border-radius:50%;
+  border:1px solid var(--ion-color-primary);
+  font-size:1.4em;
+}
+
+.normalButton {
+  text-transform: uppercase;
+  background-color:white;
+  padding: 0.3em 1em;
+  text-decoration: none;
+  color: var(--ion-color-primary);
+  border: solid 1.2px var(--ion-color-primary);
+  border-radius: 3px;
+  transition: .4s;
+  font-size:0.4em;
+  min-width: 10px !important;
+  min-height: 10px;
+}
+
+.normalButton:hover {
+  background: var(--ion-color-primary);
+  color: white;
+}

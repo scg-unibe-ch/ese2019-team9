@@ -34,10 +34,10 @@ export class NotificationsComponent implements OnInit {
   deleteNotification(notificationId: string) {
     this.notificationService.deleteNotification(notificationId).subscribe(
         data => {
-          this.progressIndicatorService.presentToast('Notification deleted', 3500);
+          this.progressIndicatorService.presentToast('Notification deleted', 'success');
           this.getNotifications();
         }, err => {
-          this.progressIndicatorService.presentToast('Notification not deleted', 3500, 'danger');
+          this.progressIndicatorService.presentToast('Notification not deleted', 'danger');
           console.log(err);
         }
     );

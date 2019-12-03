@@ -90,6 +90,7 @@ export class HomeBannerComponent implements OnInit {
         );
     }
 
+
     async openSearchResultPopover() {
         if (this.searchResults.popover) {
             return;
@@ -142,4 +143,5 @@ export class HomeBannerComponent implements OnInit {
     onClickResult(evt) {
         console.log(evt);
     }
+
 }

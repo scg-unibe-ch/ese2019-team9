@@ -1,10 +1,7 @@
-<div (mouseout) ="mouseLeave('div A')" (mouseenter) ="mouseLeave('div A')" (mouseover) ="mouseLeave('div A')"> 
-<ion-list>
+<ion-list (mouseleave) ="dismissPopover()">
     <ion-item button [routerLink]="['/profile']" (click)="dismissPopover()">My Profile</ion-item>
-    <ion-item button [routerLink]="['/my-products']" (click)="dismissPopover()">My Products</ion-item>
-    <ion-item button [routerLink]="['/my-orders']" (click)="dismissPopover()">My Orders</ion-item>
-    <ion-item button *ngIf="authService.isAdmin()" (click)="dismissPopover()" [routerLink]="['/admin']">Admin</ion-item>
+    <ion-item button [routerLink]="['/my-products']" (click)="dismissPopover()">Selling</ion-item>
+    <ion-item button [routerLink]="['/my-orders']" (click)="dismissPopover()">Buying</ion-item>
+    <ion-item button *ngIf="isAdmin" (click)="dismissPopover()" [routerLink]="['/admin']">Admin</ion-item>
     <ion-item button (click)="authService.logout(); dismissPopover()">Logout</ion-item>
-  </ion-list>
-  <!--<ion-button expand="block" onClick="dismissPopover()">Close</ion-button>-->
-</div>
+</ion-list>

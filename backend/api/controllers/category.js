@@ -48,7 +48,7 @@ const env = process.env;
  */
 exports.getSingleCategory = (req, res, next) => {
     const populate = req.userData.admin == true ? { 
-        path:'products', 
+        path:'chat.', 
         populate:{ 
             path:'seller', 
             model:'User', 
