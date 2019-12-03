@@ -67,7 +67,6 @@ export class ImagePickerComponent implements OnInit {
   }
 
   resetImage() {
-    console.log('reset');
     this.selectedImage = undefined;
   }
 }

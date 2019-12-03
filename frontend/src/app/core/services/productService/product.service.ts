@@ -28,7 +28,8 @@ export class ProductService {
 
 
     getAllProducts() {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.get(this.productsEndpoint, {headers});
     }
 
@@ -48,7 +49,8 @@ export class ProductService {
     }
 
     getSingleProduct(productId: any) {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.get(this.productsEndpoint + `/${productId}`, {headers});
     }
 
@@ -61,12 +63,14 @@ export class ProductService {
     }
 
     deleteProduct(productId: string) {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.delete(this.productsEndpoint + `/${productId}`, {headers});
     }
 
     updateProduct(productId: string, body: string, img: any) {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         const formData = this.createFormData(body, img);
@@ -74,7 +78,8 @@ export class ProductService {
     }
 
     verifyProduct(productId: string) {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {
             verified: true
         }, {
@@ -83,7 +88,8 @@ export class ProductService {
     }
 
     reviseProduct(productId: string) {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.patch(this.productsEndpoint + `/${productId}`, {
             toRevise: true
         }, {
@@ -93,28 +99,32 @@ export class ProductService {
 
     addProduct(val: any, img: any) {
         const formData = this.createFormData(val, img);
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         return this.httpClient.post(this.productsEndpoint, formData, {headers});
     }
 
     getProductsByUserId(userId: string) {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.get <[]>(this.productsEndpoint + `/user/${userId}`, {
             headers
         });
     }
 
     addReview(body: any) {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.post(this.reviewEndpoint + '/add', body, {
             headers
         });
     }
 
     hasBought(productId: string) {
-        const headers = this.createHeader();
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
         return this.httpClient.get(this.productsEndpoint + '/hasBought/' + `${productId}`, {headers});
     }
 
@@ -127,10 +137,5 @@ export class ProductService {
         });
         formData.append('image', img);
         return formData;
-    }
-
-    createHeader() {
-        const token = this.authService.getToken();
-        return new HttpHeaders().set('Authorization', 'Bearer: ' + token);
     }
 }
