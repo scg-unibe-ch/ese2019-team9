@@ -101,7 +101,7 @@ export class ProductService {
 
     getProductsByUserId(userId: string) {
         const headers = this.createHeader();
-        return this.httpClient.get <[]>(this.productsEndpoint + `/${userId}`, {
+        return this.httpClient.get <[]>(this.productsEndpoint + `/user/${userId}`, {
             headers
         });
     }
