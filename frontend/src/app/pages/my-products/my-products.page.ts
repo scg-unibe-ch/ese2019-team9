@@ -33,7 +33,7 @@ export class MyProductsPage implements OnInit {
   orders;
   userId;
   user;
-  isSeller;
+  isSeller = false;
   isLoading = true;
   sellerForm: FormGroup;
 
@@ -49,8 +49,12 @@ export class MyProductsPage implements OnInit {
       address: ['', []],
       country: ['', []]
     });
-
-    this.isSeller = this.userService.isSeller();
+    
+    this.userService.isSeller().then(res => {
+      console.log(res);
+      this.isSeller = res;
+      this.isLoading = false;
+    });
   }
 
   onTabSwitch(evt: CustomEvent) {
