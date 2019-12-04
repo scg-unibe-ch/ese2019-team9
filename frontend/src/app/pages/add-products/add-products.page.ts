@@ -145,7 +145,6 @@ export class AddProductsPage implements OnInit {
 
     onLocationPicked(location: PlaceMap) {
         this.productForm.patchValue({map: location});
-        console.log(document.getElementById('locationInput'));
         (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;
     }
 }
