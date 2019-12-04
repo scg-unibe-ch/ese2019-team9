@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+      <app-header></app-header>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <ion-row style="margin-top:5%">
+    <ion-col offset-md="3" size="12" size-md="6" *ngIf="status == 'wait'">
+        Your payment is being processed... Please wait
+    </ion-col>
+
+    <ion-col offset-md="3" size="12" size-md="6" *ngIf="status == 'error'">
+        Payment error
+    </ion-col>
+
+    <ion-col offset-md="3" size="12" size-md="6" *ngIf="status == 'fail'">
+        Your payment failed
+    </ion-col>
+
+    <ion-col offset-md="3" size="12" size-md="6" *ngIf="status == 'ok'">
+        Your payment was successful! 
+        <ion-button [routerLink]="['/order-details', orderId]">Back to order</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

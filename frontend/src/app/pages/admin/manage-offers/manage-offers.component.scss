@@ -6,6 +6,10 @@
 	color: var(--ion-color-danger);
 }
 
+.revise {
+	color: var(--ion-color-warning);
+}
+
 .cursor-pointer {
     cursor: pointer;
 }
@@ -19,8 +23,32 @@
     font-weight: bold;
 }
 
+.list-header {
+	ion-col {
+		cursor: pointer;
+	}
+}
+  
+.name-padding {
+	padding-left: 21px;
+}
+
+.seller-padding {
+	padding-left: 10px;
+}
+
+.status-padding {
+	padding-left: 5px;
+}
+
 @media (max-width: 576px) {
 	.hide-sm {
 		display: none !important;
 	}
+}
+
+.openDetailTitle {
+	font-size: 1.8rem;
+	font-weight: bold;
+	padding: 10px 20px;
 }

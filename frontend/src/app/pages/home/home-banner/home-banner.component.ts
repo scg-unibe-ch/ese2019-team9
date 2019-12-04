@@ -73,7 +73,7 @@ export class HomeBannerComponent implements OnInit {
         },
             (err) => {
                 console.log(err);
-                this.progressIndicatorService.presentToast(err.error.message, 3500, 'danger');
+                this.progressIndicatorService.presentToast(err.error.message, 'danger');
             }
         );
     }
@@ -85,10 +85,11 @@ export class HomeBannerComponent implements OnInit {
         },
             (err) => {
                 console.log(err);
-                this.progressIndicatorService.presentToast(err.error.message, 3500, 'danger');
+                this.progressIndicatorService.presentToast(err.error.message, 'danger');
             }
         );
     }
+
 
     async openSearchResultPopover() {
         if (this.searchResults.popover) {
@@ -142,4 +143,5 @@ export class HomeBannerComponent implements OnInit {
     onClickResult(evt) {
         console.log(evt);
     }
+
 }

@@ -10,6 +10,7 @@ import {UserProductsComponent} from './user-products/user-products.component';
 import {OrdersComponent} from './orders/orders.component';
 import {HeaderModule} from '../../core/header.module';
 import {SharedModule} from '../../shared/shared.module';
+import {InputFormModule} from '../../shared/input-form.module';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     HeaderModule,
+    InputFormModule,
     SharedModule,
     RouterModule.forChild(routes)
   ],

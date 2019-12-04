@@ -7,10 +7,18 @@ import {
 } from '../../core/services/progressIndicatorService/progress-indicator.service';
 
 import {
+  InAppBrowser
+} from '@ionic-native/in-app-browser/ngx';
+
+import {
   FormBuilder,
   FormGroup,
   Validators
 } from '@angular/forms';
+
+import {
+  PaymentService
+} from '../../core/services/paymentService/payment.service';
 
 import {
   AuthService
@@ -47,7 +55,9 @@ export class OrderDetailsPage implements OnInit {
     private router: Router,
     private navController: NavController,
     private orderService: OrderService,
-    private productService: ProductService) {
+    private productService: ProductService,
+    private paymentService: PaymentService,
+    private iab: InAppBrowser) {
     this.isLoggedIn = authService.isLoggedIn();
     this.userId = authService.getId();
   }
@@ -62,6 +72,7 @@ export class OrderDetailsPage implements OnInit {
   reviewForm: FormGroup;
   rating = 5;
   filledStars = 5;
+  private paymentToken;
 
   validationMessages = {
     message: [{
@@ -115,7 +126,7 @@ export class OrderDetailsPage implements OnInit {
       this.displayOrderInformation();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be rejected. Please try again.', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Order could not be rejected. Please try again.', 'danger');
     });
   }
 
@@ -129,12 +140,14 @@ export class OrderDetailsPage implements OnInit {
       rating: this.rating,
       productId: this.order.product._id
     };
+
     this.productService.addReview(val).subscribe(data => {
       this.reviewForm.reset();
-      this.progressIndicatorService.presentToast('Review successfully added', 3500, 'success');
+      this.progressIndicatorService.presentToast('Review successfully added');
+      this.displayOrderInformation();
     }, error => {
       console.log(error.error);
-      this.progressIndicatorService.presentToast(error.error.message, 3500, 'danger');
+      this.progressIndicatorService.presentToast(error.error.message, 'danger');
     });
   }
 
@@ -143,17 +156,36 @@ export class OrderDetailsPage implements OnInit {
       this.displayOrderInformation();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be rejected. Please try again.', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Order could not be rejected. Please try again.', 'danger');
     });
   }
 
   payOrder() {
+    try {
+      this.paymentService.createPayment(this.orderId).subscribe(data => {
+        let link = (data as any).payment.links[1].href;
+        this.paymentToken = (data as any).token;
+        localStorage.setItem('paymentToken', this.paymentToken);
+
+        if (!document.URL.startsWith('http')) {
+          const browser = this.iab.create(link);
+          browser.show();
+        } else {
+          window.open(link, "_self");
+        }
+
+      });
+    } catch (err) {
+      this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 'danger');
+    }
+
+    /*
     this.orderService.pay(this.orderId).subscribe(data => {
       this.displayOrderInformation();
     }, err => {
       console.log(err);
       this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 3500, 'danger');
-    });
+    });*/
   }
 
   ngOnDestroy(): void {}
@@ -195,16 +227,49 @@ export class OrderDetailsPage implements OnInit {
       this.displayOrderInformation();
     }, error => {
       console.log(error.error.error);
-      this.progressIndicatorService.presentToast(error.error.error, 3500, 'danger');
+      this.progressIndicatorService.presentToast(error.error.error, 'danger');
     });
   }
 
-  returnStatusMessage(text: String, order: any) {
+  Date.prototype.mmddyyyy = function() {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+  
+    return [(dd>9 ? '' : '0') + dd,
+            (mm>9 ? '' : '0') + mm,
+            this.getFullYear(),
+           ].join('.');
+  }
+
+  returnStatusMessage(message: any, order: any) {
+    if (!message.message)
+      return "Error";
+    const text = (message.message as String);
+    const args = (message.args as any);
     const sellerArticle = this.isSeller ? "your" : "the";
     const buyerArticle = !this.isSeller ? "your" : "the";
 
+    const sDate = new Date(order.startDate).getDay() + '.' + (new Date(order.startDate).getMonth()+ 1) + ''
+
+    const startDate = new Date(order.startDate).toISOString().
+    replace(/T/, ' ').      // replace T with a space
+    replace(/\..+/, '').
+    replace(/-/, '.').
+    replace(/-/, '.').
+    replace(/-/, '.').
+    substring(0, 16);
+
+    const endDate = new Date(order.endDate).toISOString().
+    replace(/T/, ' ').      // replace T with a space
+    replace(/\..+/, '').
+    replace(/-/, '.').
+    replace(/-/, '.').
+    replace(/-/, '.').
+    substring(0, 16);
+
     if (!text.localeCompare("[INITIAL REQUEST]"))
-      return "<i>Requested " + sellerArticle + " product <br><br>Start of event: <b>" + order.startDate + "</b> <br>End of event: <b>" + order.endDate + "</b>";
+      return "<i>Requested " + sellerArticle + " product <br><br>Start of event: <b>" +
+        startDate + "</b> <br>End of event: <b>" + endDate + "</b>";
 
     if (!text.localeCompare("[ACCEPT]"))
       return "<i>Accepted " + buyerArticle + " request</i>";
@@ -215,8 +280,9 @@ export class OrderDetailsPage implements OnInit {
     if (!text.localeCompare("[PAY]"))
       return "<i>Paid the invoice of <b>" + order.product.price + "CHF </b></i>";
 
-    if (!text.localeCompare("[REVIEW]"))
-      return "<i>Wrote a review</i>";
+    if (!text.localeCompare("[REVIEW]") && message.args)
+      return "<i>Rated the product <b>" + message.args.rating + " stars </b></i><br>" +
+        (message.args.comment ? "<br>Comment: <br>" + message.args.comment : "") + "";
 
     return "<i>Unknown status message</i>";
   }

@@ -7,7 +7,7 @@
     <ion-grid>
         <form [formGroup]="productForm" (ngSubmit)="onSubmitAddProduct()">
             <ion-row>
-                <ion-col size="12" offset-md="2" size-md="8" offset="0">
+                <ion-col size="12" size-md="6"  offset-md="3">
                     <ion-title>Add a product</ion-title>
                     <ion-card>
                         <ion-card class="formElement">
@@ -16,7 +16,7 @@
                             </app-input-form>
                         </ion-card>
                         <ion-item>
-                            <app-image-picker class="picker" (imagePick)="onImagePicked($event)"></app-image-picker>
+                            <app-image-picker #imagePicker class="picker" (imagePick)="onImagePicked($event)"></app-image-picker>
                         </ion-item>
                         <ion-card class="formElement">
                             <app-input-form [inputForm]="productForm" [givenName]="'price'" [text]="'Price (in CHF)*'"
@@ -25,7 +25,7 @@
                             </app-input-form>
                         </ion-card>
                         <ion-item>
-                            <app-map-picker class="picker" (locationPick)="onLocationPicked($event)"></app-map-picker>
+                            <app-map-picker #mapPicker class="picker" (locationPick)="onLocationPicked($event)"></app-map-picker>
                         </ion-item>
                         <ion-card class="formElement">
                             <app-input-form id="locationInput"
@@ -73,7 +73,7 @@
                 </ion-col>
             </ion-row>
             <ion-row>
-                <ion-col size="12" offset-md="2" size-md="8" offset="0">
+                <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
                     <ion-button type="submit"> Upload product</ion-button>
                 </ion-col>
             </ion-row>

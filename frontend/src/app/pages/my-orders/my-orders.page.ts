@@ -33,25 +33,24 @@ export class MyOrdersPage implements OnInit {
 
   acceptOrder(orderId: string) {
     this.orderService.accept(orderId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Product successfully deleted', 3500, 'success');
+      this.progressIndicatorService.presentToast('Product successfully deleted');
       this.reloadProducts();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Orders could not be deleted', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Orders could not be deleted', 'danger');
     });
   }
 
   rejectOrder(orderId: string) {
     this.orderService.reject(orderId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Orders successfully deleted', 3500, 'success');
+      this.progressIndicatorService.presentToast('Orders successfully deleted');
       this.reloadProducts();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Orders could not be deleted', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Orders could not be deleted', 'danger');
     });
   }
   ngOnDestroy(): void {
-    this.getOrders();
   }
 
   getOrders() {
@@ -65,7 +64,7 @@ export class MyOrdersPage implements OnInit {
       this.loading = false;
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Orders could not be updated', 3500, 'danger');
+      this.progressIndicatorService.presentToast('Orders could not be updated', 'danger');
     });
   }
 

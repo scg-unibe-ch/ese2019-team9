@@ -44,11 +44,11 @@ export class UserPage implements OnInit {
   displayUserInformation() {
     this.userService.getSingleUser(this.userId).subscribe(data => {
       this.user = data;
-    })
+    });
 
     this.productService.getProductsByUserId(this.userId).subscribe(data => {
       this.products = data;
-    })
+    });
   }
 
 }

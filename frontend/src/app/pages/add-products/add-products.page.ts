@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from '../../core/services/categoryService/category.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../core/services/productService/product.service';
@@ -6,6 +6,8 @@ import {ProgressIndicatorService} from '../../core/services/progressIndicatorSer
 import {PlaceMap} from './map.model';
 import { UserService } from 'src/app/core/services/userService/user.service';
 import { Router } from '@angular/router';
+import {ImagePickerComponent} from '../../shared/components/image-picker/image-picker.component';
+import {MapPickerComponent} from './map-picker/map-picker.component';
 
 function base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
@@ -34,6 +36,8 @@ function base64toBlob(base64Data, contentType) {
     styleUrls: ['./add-products.page.scss'],
 })
 export class AddProductsPage implements OnInit {
+    @ViewChild(ImagePickerComponent, {static: false}) imagePicker: ImagePickerComponent;
+    @ViewChild(MapPickerComponent, {static: false}) mapPicker: MapPickerComponent;
 
     productForm: FormGroup;
     imageFile;
@@ -78,10 +82,8 @@ export class AddProductsPage implements OnInit {
         const promise = this.userService.isSeller();
         promise.then((isSeller) => {
             if (!isSeller) {
-                this.progressIndicatorService.presentToast('You\'re missing profile information to add products', 3500, 'danger');
-                setTimeout(() => {
-                     this.router.navigate(['/profile']);
-                }, 3500);
+                this.progressIndicatorService.presentToast('You\'re missing profile information to add products', 'danger', 'other', true, 'middle')
+                .then(() => this.router.navigate(['/profile']));
             }
         });
     }
@@ -103,13 +105,15 @@ export class AddProductsPage implements OnInit {
 
     displayChosenSubcategories(event) {
         const slug = event.target.value;
+        if(!this.categories.filter(cat => cat.slug === slug)[0])
+            return;
         this.chosenSubcategories = this.categories.filter(cat => cat.slug === slug)[0].subcategories
             .sort((a, b) => a.name.localeCompare(b.name));
     }
 
     onSubmitAddProduct() {
         if (this.productForm.invalid) {
-            this.progressIndicatorService.presentToast('Form incomplete: Please enter all required information', 10000, 'danger');
+            this.progressIndicatorService.presentToast('Form incomplete: Please enter all required information', 'danger');
           return;
         }
         const val = this.productForm.value;
@@ -117,7 +121,9 @@ export class AddProductsPage implements OnInit {
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
             this.progressIndicatorService.dismissLoadingIndicator();
             this.productForm.reset();
-            this.progressIndicatorService.presentToast('Product successfully created', 4000, 'success');
+            this.progressIndicatorService.presentToast('Product successfully created');
+           // this.imagePicker.resetImage();
+           // this.mapPicker.resetLocation();
         }, error => {
             this.progressIndicatorService.dismissLoadingIndicator();
             console.log(error);

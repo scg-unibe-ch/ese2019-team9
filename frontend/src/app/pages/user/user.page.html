@@ -29,10 +29,21 @@
             <ion-row style="margin-top:1rem">
               <ion-icon name="cash"></ion-icon>&nbsp;Products sold &nbsp; <b>{{ user.productsSold }}</b>
             </ion-row>
-            <ion-row *ngIf="user.description" style="margin-top:1rem">
-              <ion-icon name="pin"></ion-icon>&nbsp;From &nbsp; <b>{{ user.description }}</b>
+            <ion-row *ngIf="user.sex" style="margin-top:1rem">
+              <ion-icon name="person"></ion-icon>&nbsp;Sex &nbsp; <b>{{ user.sex }}</b>
             </ion-row>
-            <ion-row *ngIf="!user.description && !user.country && !user.address">
+
+            <ion-row *ngIf="user.phone" style="margin-top:1rem">
+              <ion-icon name="call"></ion-icon>&nbsp;Phone &nbsp; <b>{{ user.phone }}</b>
+            </ion-row>
+
+            <ion-row *ngIf="user.website" style="margin-top:1rem">
+              <ion-icon name="globe"></ion-icon>&nbsp;Website &nbsp; <b>{{ user.website }}</b>
+            </ion-row>
+            <ion-row *ngIf="user.description" style="margin-top:1rem">
+              {{ user.description }}
+            </ion-row>
+            <ion-row *ngIf="!user.description && !user.country && !user.address && !user.sex && !user.phone && !user.phone">
               <i>This user shares no information.</i>
             </ion-row>
           </ion-col>
@@ -79,15 +90,55 @@
             <ion-item-divider style="margin-bottom:1rem; margin-top:-1rem;">
             </ion-item-divider>
             <ion-row *ngIf="user.country">
-              <ion-icon name="pin"></ion-icon>&nbsp;From &nbsp; <b>{{ user.country }}</b>
+              <ion-col>
+                  <ion-icon name="pin"></ion-icon>&nbsp;From
+              </ion-col>
+              <ion-col style="text-align:right">
+                  <b>{{ user.country }}</b>
+              </ion-col>
             </ion-row>
             <ion-row style="margin-top:1rem">
-              <ion-icon name="cash"></ion-icon>&nbsp;Products sold &nbsp; <b>{{ user.productsSold }}</b>
+              <ion-col>
+                  <ion-icon name="cash"></ion-icon>&nbsp;Products sold
+              </ion-col>
+              <ion-col style="text-align:right">
+                  <b>{{ user.productsSold }}</b>
+              </ion-col>
+               &nbsp; 
             </ion-row>
+
+            <ion-row *ngIf="user.sex" style="margin-top:1rem">
+              <ion-col>
+                  <ion-icon name="person"></ion-icon>&nbsp;Sex &nbsp;
+              </ion-col>
+              <ion-col style="text-align:right">
+                  <b>{{ user.sex }}</b>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="user.phone" style="margin-top:1rem">
+              <ion-col> 
+                  <ion-icon name="call"></ion-icon>&nbsp;Phone &nbsp; 
+              </ion-col>
+              <ion-col style="text-align:right">
+                  <b>{{ user.phone }}</b>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="user.website" style="margin-top:1rem">
+              <ion-col>
+                  <ion-icon name="globe"></ion-icon>&nbsp;Website &nbsp;
+              </ion-col>
+              <ion-col style="text-align:right">
+                  <b>{{ user.website }}</b>
+              </ion-col>
+            </ion-row>
+
             <ion-row *ngIf="user.description" style="margin-top:1rem">
-              <ion-icon name="pin"></ion-icon>&nbsp;From &nbsp; <b>{{ user.description }}</b>
+              {{ user.description }}
             </ion-row>
-            <ion-row *ngIf="!user.description && !user.country && !user.address">
+            <ion-row
+              *ngIf="!user.description && !user.country && !user.address && !user.sex && !user.website && !user.phone">
               <i>This user shares no information.</i>
             </ion-row>
           </ion-col>

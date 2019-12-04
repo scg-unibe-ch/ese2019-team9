@@ -112,6 +112,7 @@ export class AuthService {
 			if (!Boolean(this.getToken())) {
 				return false;
 			}
+
 			const payload = decode(this.getToken());
 			const expiration = payload.exp;
 			const dateNow: number = Math.floor(Date.now() / 1000);
