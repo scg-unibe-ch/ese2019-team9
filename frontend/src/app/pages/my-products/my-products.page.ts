@@ -51,20 +51,6 @@ export class MyProductsPage implements OnInit {
     });
 
     this.isSeller = this.userService.isSeller();
-
-    this.selectedTab = 0;
-    this.userId = this.authService.getId();
-    this.userService.getSingleUser(this.userId).subscribe(result => {
-      this.user = result;
-      this.isSeller = this.user.name.length > 0 &&
-        this.user.country.length > 0 &&
-        this.user.address.length > 0 ? true : false;
-      this.isLoading = false;
-
-    /*  this.sellerForm.setValue([ {name:this.user.name ? this.user.name : ''}, 
-        {country:this.user.country ? this.user.country : ''},
-        {address:this.user.address ? this.user.address : ''}]);*/
-    });
   }
 
   onTabSwitch(evt: CustomEvent) {
