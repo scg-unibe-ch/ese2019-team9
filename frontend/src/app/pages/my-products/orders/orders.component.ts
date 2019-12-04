@@ -13,12 +13,17 @@ import {
   ProgressIndicatorService
 } from '../../../core/services/progressIndicatorService/progress-indicator.service';
 
+import {
+  FilterAndSearchService
+} from 'src/app/core/services/filterAndSearchService/filter-and-search.service';
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
 })
 export class OrdersComponent implements OnInit {
+  ordersToShow;
   orders;
   private userId;
   private loading = true;
@@ -26,7 +31,8 @@ export class OrdersComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private progressIndicatorService: ProgressIndicatorService,
-    private authService: AuthService
+    private authService: AuthService,
+    private filterService: FilterAndSearchService
   ) {}
 
   ngOnInit() {
@@ -53,8 +59,7 @@ export class OrdersComponent implements OnInit {
       this.progressIndicatorService.presentToast('Order could not be rejected', 'danger');
     });
   }
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   getOrders() {
     this.userId = this.authService.getId();
@@ -64,11 +69,20 @@ export class OrdersComponent implements OnInit {
           openDetails: false
         });
       });
+      this.ordersToShow = this.filterService.filter(this.orders, '=;status;pending');
       this.loading = false;
     }, err => {
       console.log(err);
       this.progressIndicatorService.presentToast('Orders could not be updated', 'danger');
     });
+  }
+
+  onFilterChange(ev) {
+    if ((ev.target.value as String).localeCompare("all")) {
+      this.ordersToShow = this.filterService.filter(this.orders, '=;status;' + (ev.target.value as String));
+    } else {
+      this.ordersToShow = this.orders;
+    }
   }
 
   reloadProducts() {
