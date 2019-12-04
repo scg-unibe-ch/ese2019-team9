@@ -125,6 +125,7 @@ export class ProductService {
     // helper functions to create formData and header
 
     createFormData(body: string, img: any) {
+        body = JSON.parse(body);
         const formData = new FormData();
         Object.keys(body).forEach(key => {
             formData.append(key, body[key]);

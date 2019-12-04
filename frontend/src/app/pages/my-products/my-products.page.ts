@@ -54,6 +54,8 @@ export class MyProductsPage implements OnInit {
       console.log(res);
       this.isSeller = res;
       this.isLoading = false;
+
+      this.userId = this.authService.getId();
     });
   }
 
@@ -78,11 +80,11 @@ export class MyProductsPage implements OnInit {
     const body = JSON.stringify(val);
 
     this.userService.updateUser(this.userId, body, null).subscribe(data => {
-      this.progressIndicatorService.presentToast('Information successfully updated', 'success');
+      this.progressIndicatorService.presentToast('Information successfully updated', 'success', 4000);
       this.isLoading = true;
     }, error => {
       console.log(error.error);
-      this.progressIndicatorService.presentToast(error.error.message, 'danger');
+      this.progressIndicatorService.presentToast(error.error, 'danger', 4000);
     });
 
     this.userService.isSeller().then(result => {

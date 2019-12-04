@@ -147,7 +147,6 @@ export class ProfileInformationsComponent implements OnInit {
                 this.displaySuccessSignifiers(this.typeOfProfileItem);
                 this.updateComponent();
                 this.updateEvent.next();
-                this.imagePicker.resetImage();
             }, (err) => {
                 this.displayFailureSignifiers(this.typeOfProfileItem);
                 console.log(err);
