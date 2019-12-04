@@ -137,6 +137,25 @@
       </ion-col>
     </ion-row>
 
+    <!-- Pending info (for customer only) -->
+    <ion-row *ngIf="order.status=='pending' && !isSeller">
+      <ion-col offset-md="2" size-md="8" class="container">
+        <ion-row class="actionBar">
+          <ion-col size="12" style="vertical-align: middle;"><span style="vertical-align:5%">Please wait for the seller
+              to respond to your request</span></ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <!-- Rejected info (for customer only) -->
+    <ion-row *ngIf="order.status=='rejected' && !isSeller">
+      <ion-col offset-md="2" size-md="8" class="container">
+        <ion-row class="actionBar" style="background-color:red">
+          <ion-col size="12" style="vertical-align: middle;"><span style="vertical-align:5%">Your request has been rejected</span></ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
     <!-- Review (for customer only) -->
     <ion-row *ngIf="order.status=='paid' && !isSeller && !order.reviewed">
       <ion-col offset-md="2" size-md="8" class="container">

@@ -167,13 +167,13 @@ export class OrderDetailsPage implements OnInit {
         this.paymentToken = (data as any).token;
         localStorage.setItem('paymentToken', this.paymentToken);
 
-        if(!document.URL.startsWith('http')) {
+        if (!document.URL.startsWith('http')) {
           const browser = this.iab.create(link);
           browser.show();
         } else {
-          window.open(link,"_self");
+          window.open(link, "_self");
         }
-        
+
       });
     } catch (err) {
       this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 'danger');
@@ -231,16 +231,45 @@ export class OrderDetailsPage implements OnInit {
     });
   }
 
+  Date.prototype.mmddyyyy = function() {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+  
+    return [(dd>9 ? '' : '0') + dd,
+            (mm>9 ? '' : '0') + mm,
+            this.getFullYear(),
+           ].join('.');
+  }
+
   returnStatusMessage(message: any, order: any) {
-    if(!message.message)
+    if (!message.message)
       return "Error";
     const text = (message.message as String);
     const args = (message.args as any);
     const sellerArticle = this.isSeller ? "your" : "the";
     const buyerArticle = !this.isSeller ? "your" : "the";
 
+    const sDate = new Date(order.startDate).getDay() + '.' + (new Date(order.startDate).getMonth()+ 1) + ''
+
+    const startDate = new Date(order.startDate).toISOString().
+    replace(/T/, ' ').      // replace T with a space
+    replace(/\..+/, '').
+    replace(/-/, '.').
+    replace(/-/, '.').
+    replace(/-/, '.').
+    substring(0, 16);
+
+    const endDate = new Date(order.endDate).toISOString().
+    replace(/T/, ' ').      // replace T with a space
+    replace(/\..+/, '').
+    replace(/-/, '.').
+    replace(/-/, '.').
+    replace(/-/, '.').
+    substring(0, 16);
+
     if (!text.localeCompare("[INITIAL REQUEST]"))
-      return "<i>Requested " + sellerArticle + " product <br><br>Start of event: <b>" + order.startDate + "</b> <br>End of event: <b>" + order.endDate + "</b>";
+      return "<i>Requested " + sellerArticle + " product <br><br>Start of event: <b>" +
+        startDate + "</b> <br>End of event: <b>" + endDate + "</b>";
 
     if (!text.localeCompare("[ACCEPT]"))
       return "<i>Accepted " + buyerArticle + " request</i>";
@@ -252,7 +281,8 @@ export class OrderDetailsPage implements OnInit {
       return "<i>Paid the invoice of <b>" + order.product.price + "CHF </b></i>";
 
     if (!text.localeCompare("[REVIEW]") && message.args)
-      return "<i>Rated the product <b>" + message.args.rating + " stars </b></i><br>" + (message.args.comment ? "<br>Comment: <br>" + message.args.comment : "") + "";
+      return "<i>Rated the product <b>" + message.args.rating + " stars </b></i><br>" +
+        (message.args.comment ? "<br>Comment: <br>" + message.args.comment : "") + "";
 
     return "<i>Unknown status message</i>";
   }

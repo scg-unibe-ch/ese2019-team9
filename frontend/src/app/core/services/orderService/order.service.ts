@@ -20,15 +20,15 @@ export class OrderService {
     private httpClient: HttpClient,
     private authService: AuthService
   ) {}
-  orderEndpoint = 'https://moln-api.herokuapp.com/order';
+  orderEndpoint = 'http://moln-api.herokuapp.com/order';
 
   place(body: any, productId: string) {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', 'Bearer: ' + token);
 
     const data = {
-      startDate: body.startDate,
-      endDate: body.endDate,
+      startDate: new Date((body.startDate as String).replace(/\.(.*)\+/, '+')),
+      endDate: new Date((body.endDate as String).replace(/\.(.*)\+/, '+')),
       description: body.description,
       productId: productId
     };
