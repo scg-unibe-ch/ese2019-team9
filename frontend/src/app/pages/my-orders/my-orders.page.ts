@@ -51,7 +51,6 @@ export class MyOrdersPage implements OnInit {
     });
   }
   ngOnDestroy(): void {
-    this.getOrders();
   }
 
   getOrders() {

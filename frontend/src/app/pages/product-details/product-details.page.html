@@ -30,16 +30,18 @@
 						</ion-card-header>
 						<ion-card-content>
 								<form [formGroup]="orderForm" (ngSubmit)="onOrder()">
+										
 										<app-input-form
-										[inputForm]="orderForm" [givenName]="'startDate'" [text]="'From*'"
+										[inputForm]="orderForm" [givenName]="'startDate'" [text]="'Event Start*'"
 										[validationMessages]="validationMessages.fromDate"
-										[type]="'text'" [inputMode]="'text'">
+										[type]="'dateTime'" [max]="maxDate" (ionChange)="onChangeStartDate()" [inputMode]="'text'">
 										</app-input-form>
 										<app-input-form
-										[inputForm]="orderForm" [givenName]="'endDate'" [text]="'To*'"
+										[inputForm]="orderForm" [givenName]="'endDate'" [text]="'Event End*'"
 										[validationMessages]="validationMessages.toDate"
-										[type]="'text'" [inputMode]="'text'">
+										[type]="'dateTime'" [max]="maxDate" [min]="orderForm.controls['startDate'].value" [inputMode]="'text'">
 										</app-input-form>
+
 										<app-input-form
 										[inputForm]="orderForm" [givenName]="'description'" [text]="'Description*'"
 										[validationMessages]="validationMessages.description"

@@ -27,7 +27,6 @@ export class ManageOffersComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.listOfAllOffers = this.getAllProducts();
     }
 
     getAllProducts() {

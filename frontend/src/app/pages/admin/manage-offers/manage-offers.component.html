@@ -4,7 +4,7 @@
       <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
         <ion-row>
           <ion-col>
-            <ion-item>
+            <ion-item lines="none" >
               <ion-label>Show verified</ion-label>
               <ion-checkbox
                 (ionChange)="onToggleShowVerified($event)"
@@ -16,7 +16,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-item>
+            <ion-item lines="none" >
               <ion-label>Show in Revise</ion-label>
               <ion-checkbox
                 (ionChange)="onToggleShowRevise($event)"
@@ -41,29 +41,27 @@
       </ion-col>
     </ion-row>
     <ion-row class="list-header">
-      <ion-col size="9" size-sm="4" class="bold" (click)="sortBy('name')">Name<ng-container *ngIf="sorting.name !== 0">
+     <ion-col class="bold name-padding" size="8" size-md="4" (click)="sortBy('name')">Name<ng-container *ngIf="sorting.name !== 0">
             <ion-icon [name]="sorting.name === '+' ? 'arrow-dropup' : 'arrow-dropdown'"></ion-icon>
       </ng-container></ion-col>
-      <ion-col class="hide-sm" size="9" size-sm="4" class="bold" (click)="sortBy('seller.name')">Seller<ng-container *ngIf="sorting.seller !== 0">
+      <ion-col class="bold ion-hide-sm-down seller-padding" size-md="4" (click)="sortBy('seller.name')">Seller<ng-container *ngIf="sorting.seller !== 0">
             <ion-icon [name]="sorting.seller === '+' ? 'arrow-dropup' : 'arrow-dropdown'"></ion-icon>
       </ng-container></ion-col>
-      <ion-col size="3" size-sm="4" class="bold"(click)="sortBy('status')">Status<ng-container *ngIf="sorting.status !== 0">
+      <ion-col class="bold" size="4" (click)="sortBy('status')">Status<ng-container *ngIf="sorting.status !== 0">
             <ion-icon [name]="sorting.status === '+' ? 'arrow-dropup' : 'arrow-dropdown'"></ion-icon>
       </ng-container></ion-col>
     </ion-row>
     <ion-row *ngFor="let offer of listOfOffers; let first = first">
       <ion-item-sliding>
-        <ion-item
-          class="ion-no-padding cursor-pointer"
-          (click)="offer.openDetail = !offer.openDetail"
-        >
-          <ion-col size="9" size-sm="4">
+        <ion-item class="cursor-pointer"
+          (click)="offer.openDetail = !offer.openDetail">
+          <ion-col size="8" size-md="4">
             {{ offer.name }}
           </ion-col>
-          <ion-col class="hide-sm" size="4">
+          <ion-col class="ion-hide-sm-down" size-md="4" >
             {{ offer.seller.name }}
           </ion-col>
-          <ion-col size="2">
+          <ion-col class="status-padding" size="3">
             <ion-icon
               size="large"
               [class]="
@@ -90,7 +88,7 @@
             >
             </ion-icon>
           </ion-col>
-          <ion-col size="1" offset-sm="1">
+          <ion-col size="1">
             <ion-icon
               [name]="offer.openDetail ? 'ios-arrow-up' : 'ios-arrow-down'"
             ></ion-icon>
@@ -118,9 +116,9 @@
           >
         </ion-item-options>
       </ion-item-sliding>
-      <ion-col *ngIf="offer.openDetail" size="12" size-sm="6">
+      <ion-col *ngIf="offer.openDetail" size="12" size-md="6">
         <ion-card scrollX="true">
-          <ion-card-title class="ion-padding-horizontal">
+          <ion-card-title class="openDetailTitle">
             {{ offer.name }}
           </ion-card-title>
           <ion-card-content>
@@ -153,8 +151,9 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col *ngIf="offer.openDetail" size="12" size-sm="6">
+      <ion-col *ngIf="offer.openDetail" size="12" size-md="6">
         <ion-card class="ion-padding">
+          <ion-card-title class="bold ion-padding-bottom"> Description </ion-card-title>
           <div class="scroll">{{ offer.description }}</div>
         </ion-card>
       </ion-col>
@@ -166,17 +165,17 @@
         size-sm="12"
       >
         <ion-button
-          color="danger"
+          class="redButton" fill="outline"
           (click)="deleteOffer(offer._id, offer.name, offer.seller._id)"
           >Delete</ion-button
         >
         <ion-button
-          color="warning"
+          class="orangeButton" fill="outline"
           (click)="reviseOffer(offer._id, offer.name, offer.seller._id)"
           >Revise</ion-button
         >
         <ion-button
-          color="success"
+          class="greenButton" fill="outline"
           (click)="verifyOffer(offer._id, offer.name, offer.seller._id)"
           >Accept</ion-button
         >

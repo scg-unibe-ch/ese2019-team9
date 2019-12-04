@@ -14,8 +14,7 @@
                         </ion-badge>
                     </ion-avatar>
                 </ion-col>
-                <ion-button *ngIf="!hideDelete" class="greyButton deleteProductButton"
-                            color="danger" (click)="onClickDelete()">
+                <ion-button *ngIf="!hideDelete" class="redButton deleteProductButton" fill="outline" (click)="onClickDelete()">
                     <ion-icon name="close"></ion-icon>
                     Delete
                 </ion-button>

@@ -25,11 +25,13 @@
               {{ order.product.name }}</ion-row>
             <ion-row class="productInfo" *ngIf="!isSeller">Seller:&nbsp;<b class="actionLink blueLink"
                 [routerLink]="['/user', order.seller._id]">{{ order.seller.name }}</b>&nbsp; | Order placed:&nbsp;
-              <b>{{ order.orderDate }}</b>&nbsp; | Status:&nbsp;<b>{{ order.status }}</b></ion-row>
+              <b>{{ order.orderDate | date : "dd.MM.y hh:mm" }}</b>&nbsp; | Status:&nbsp;<b>{{ order.status }}</b>
+            </ion-row>
             <ion-row class="productInfo" *ngIf="isSeller">Buyer:&nbsp;<b class="actionLink blueLink"
                 [routerLink]="['/user', order.buyer._id]">{{ order.buyer.name ? order.buyer.name : 'user' + order.buyer._id }}</b>&nbsp;
               | Order placed:&nbsp;
-              <b>{{ order.orderDate }}</b>&nbsp; | Status:&nbsp;<b>{{ order.status }}</b></ion-row>
+              <b>{{ order.orderDate | date : "dd.MM.y hh:mm" }}</b>&nbsp; | Status:&nbsp;<b>{{ order.status }}</b>
+            </ion-row>
           </ion-col>
           <ion-col class="productPrice" size="2">{{ order.product.price }}CHF</ion-col>
         </ion-row>
@@ -47,7 +49,8 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-row class="productName actionLink" style="display:flex; justify-content: center; align-items: center;" [routerLink]="['/product-details/', order.product._id]">
+            <ion-row class="productName actionLink" style="display:flex; justify-content: center; align-items: center;"
+              [routerLink]="['/product-details/', order.product._id]">
               {{ order.product.name }}</ion-row>
             <ion-row class="productInfo" *ngIf="!isSeller">
               <ion-col>
@@ -62,7 +65,7 @@
                 Buyer:
               </ion-col>
               <ion-col style="text-align:right">
-                  <b class="actionLink blueLink"
+                <b class="actionLink blueLink"
                   [routerLink]="['/user', order.buyer._id]">{{ order.buyer.name ? order.buyer.name : 'user' + order.buyer._id }}</b>
               </ion-col>
             </ion-row>
@@ -72,7 +75,7 @@
                 Order placed:
               </ion-col>
               <ion-col style="text-align:right">
-                <b>{{ order.orderDate }}</b>
+                <b>{{ order.orderDate | date : "dd.MM.y hh:mm" }}</b>
               </ion-col>
 
             </ion-row>
@@ -183,9 +186,11 @@
       <ion-col offset-md="2" size-md="8" class="chatContainer">
         <ion-row *ngFor="let message of order.chat"
           [className]="message.statusMessage ? 'messageContainer statusMessage' : 'messageContainer'">
-          <ion-col size="2">
-            <ion-avatar style="width:auto; height:auto;"><img style="width:auto; height:auto;"
-                src="{{ message.sender.image }}" /> </ion-avatar>
+          <ion-col size="2" style="padding:0; display:flex; text-align:center; justify-content: center;">
+            <div class="thumbnail" style="width:2.5em; height:2.5em;">
+              <ion-avatar style="width:100%; height:100%;"><img style="width:100%; height:100%;"
+                  src="{{ message.sender.image }}" /> </ion-avatar>
+            </div>
           </ion-col>
           <ion-col size="10">
             <ion-row size="1" style="margin-bottom:3px;" *ngIf="message.sender._id.localeCompare(userId)"

@@ -27,7 +27,6 @@ export class UserProductsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.getUserProducts();
     }
 
     deleteProduct(productId: string) {

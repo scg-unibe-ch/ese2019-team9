@@ -12,6 +12,8 @@ import {
 	ProductService
 } from 'src/app/core/services/productService/product.service';
 
+import {DatePicker} from '@ionic-native/date-picker/ngx';
+
 import {
 	first
 } from 'rxjs/operators';
@@ -54,6 +56,11 @@ export class ProductDetailsPage implements OnInit {
 	private filledStars = 5;
 	private rating = 5;
 
+	private startDate;
+	private endDate;
+
+	maxDate = (new Date()).getFullYear() + 3;
+
 	isLoading = true;
 	_hasBought = false;
 
@@ -67,7 +74,7 @@ export class ProductDetailsPage implements OnInit {
 				message: 'Not a valid address'
 			},
 			{
-				type: 'minlength',
+				type: 'min',
 				message: 'Title must be longer than 5 characters'
 			},
 			{
@@ -84,8 +91,8 @@ export class ProductDetailsPage implements OnInit {
 				message: 'Not a valid number'
 			},
 			{
-				type: 'minlength',
-				message: 'Price must be more than 10 CHF'
+				type: 'min',
+				message: 'Event end has to be after event start'
 			},
 			{
 				type: 'maxlength',
@@ -114,7 +121,8 @@ export class ProductDetailsPage implements OnInit {
 		private orderService: OrderService,
 		private formBuilder: FormBuilder,
 		private progressIndicatorService: ProgressIndicatorService,
-		private authService: AuthService
+		private authService: AuthService,
+		private datePicker: DatePicker
 	) {
 		this.isLoggedIn = authService.isLoggedIn();
 		console.log(this.loggedIn);
@@ -130,6 +138,12 @@ export class ProductDetailsPage implements OnInit {
 
 	get loggedIn() {
 		return this.isLoggedIn;
+	}
+
+	onChangeStartDate() {
+		console.log("change event");
+		this.orderForm.controls["endDate"].setValue(this.orderForm.controls["startDate"].value);
+		//this.orderForm.controls["endDate"].setValidators([Validators.required, Validators.min(this.orderForm.controls["startDate"].value)]);
 	}
 
 	onOrder() {
@@ -191,14 +205,15 @@ export class ProductDetailsPage implements OnInit {
 			}
 		});
 
-		this.productService.hasBought(this.productId).subscribe(data => {
-			this._hasBought = (data as any).hasBought;
-		});
-
+		if(this.authService.isLoggedIn()) {
+			this.productService.hasBought(this.productId).subscribe(data => {
+				this._hasBought = (data as any).hasBought;
+			});
+		}
 
 		this.orderForm = this.formBuilder.group({
 			startDate: ['', [Validators.required]],
-			endDate: ['', [Validators.required]],
+			endDate: ['', [Validators.required, Validators.min]],
 			description: ['', [Validators.required, Validators.maxLength(400)]]
 		});
 
