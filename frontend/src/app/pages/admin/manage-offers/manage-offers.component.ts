@@ -170,4 +170,18 @@ export class ManageOffersComponent implements OnInit {
     getDateString(stringRepresentation: string): string {
         return new Date(stringRepresentation).toUTCString();
     }
+
+    sortBy(fieldname: string) {
+        const fieldNameMap  = new Map<string, string>([
+            ['name', 'name'],
+            ['seller.name', 'seller'],
+            ['status', 'status']
+        ]);
+        let newSortDirection = '-';
+        if (this.sorting[fieldNameMap.get(fieldname)] === '-') {
+            newSortDirection = '+';
+        }
+        const evt: {target: {value: string}} = {target: {value: `${newSortDirection}${fieldname}`}};
+        this.onSortChange(evt);
+    }
 }
