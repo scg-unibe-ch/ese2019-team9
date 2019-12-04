@@ -7,10 +7,18 @@ import {
 } from '../../core/services/progressIndicatorService/progress-indicator.service';
 
 import {
+  InAppBrowser
+} from '@ionic-native/in-app-browser/ngx';
+
+import {
   FormBuilder,
   FormGroup,
   Validators
 } from '@angular/forms';
+
+import {
+  PaymentService
+} from '../../core/services/paymentService/payment.service';
 
 import {
   AuthService
@@ -47,7 +55,9 @@ export class OrderDetailsPage implements OnInit {
     private router: Router,
     private navController: NavController,
     private orderService: OrderService,
-    private productService: ProductService) {
+    private productService: ProductService,
+    private paymentService: PaymentService,
+    private iab: InAppBrowser) {
     this.isLoggedIn = authService.isLoggedIn();
     this.userId = authService.getId();
   }
@@ -62,6 +72,7 @@ export class OrderDetailsPage implements OnInit {
   reviewForm: FormGroup;
   rating = 5;
   filledStars = 5;
+  private paymentToken;
 
   validationMessages = {
     message: [{
@@ -129,9 +140,11 @@ export class OrderDetailsPage implements OnInit {
       rating: this.rating,
       productId: this.order.product._id
     };
+
     this.productService.addReview(val).subscribe(data => {
       this.reviewForm.reset();
       this.progressIndicatorService.presentToast('Review successfully added');
+      this.displayOrderInformation();
     }, error => {
       console.log(error.error);
       this.progressIndicatorService.presentToast(error.error.message, 'danger');
@@ -148,12 +161,31 @@ export class OrderDetailsPage implements OnInit {
   }
 
   payOrder() {
+    try {
+      this.paymentService.createPayment(this.orderId).subscribe(data => {
+        let link = (data as any).payment.links[1].href;
+        this.paymentToken = (data as any).token;
+        localStorage.setItem('paymentToken', this.paymentToken);
+
+        if(!document.URL.startsWith('http')) {
+          const browser = this.iab.create(link);
+          browser.show();
+        } else {
+          window.open(link,"_self");
+        }
+        
+      });
+    } catch (err) {
+      this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 'danger');
+    }
+
+    /*
     this.orderService.pay(this.orderId).subscribe(data => {
       this.displayOrderInformation();
     }, err => {
       console.log(err);
-      this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 'danger');
-    });
+      this.progressIndicatorService.presentToast('Order could not be paid. Please try again.', 3500, 'danger');
+    });*/
   }
 
   ngOnDestroy(): void {}
@@ -199,7 +231,11 @@ export class OrderDetailsPage implements OnInit {
     });
   }
 
-  returnStatusMessage(text: String, order: any) {
+  returnStatusMessage(message: any, order: any) {
+    if(!message.message)
+      return "Error";
+    const text = (message.message as String);
+    const args = (message.args as any);
     const sellerArticle = this.isSeller ? "your" : "the";
     const buyerArticle = !this.isSeller ? "your" : "the";
 
@@ -215,8 +251,8 @@ export class OrderDetailsPage implements OnInit {
     if (!text.localeCompare("[PAY]"))
       return "<i>Paid the invoice of <b>" + order.product.price + "CHF </b></i>";
 
-    if (!text.localeCompare("[REVIEW]"))
-      return "<i>Wrote a review</i>";
+    if (!text.localeCompare("[REVIEW]") && message.args)
+      return "<i>Rated the product <b>" + message.args.rating + " stars </b></i><br>" + (message.args.comment ? "<br>Comment: <br>" + message.args.comment : "") + "";
 
     return "<i>Unknown status message</i>";
   }

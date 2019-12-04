@@ -217,16 +217,16 @@ ion-alert button.cancel-button {
 }
 
 .results {
-  margin-left: calc(calc(2 / var(--ion-grid-columns, 12)) * 100%);
   flex: 0 0 calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
-  width: calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
-  max-width: calc(calc(8 / var(--ion-grid-columns, 12)) * 100%);
+  width: calc(calc(8 / var(--ion-grid-columns, 12)) * 98.5%);
+  max-width: calc(calc(8 / var(--ion-grid-columns, 12)) * 98.5%);
   height: 800px;
   max-height: 30vh;
 
-  .backdrop-no-tappable{
-    visibility: hidden;
+  ion-backdrop {
+    background:none !important;
   }
+
   .popover-content{
     width: 100%;
     max-height: 100%;
@@ -240,6 +240,12 @@ ion-alert button.cancel-button {
 }
 
 .profile-popover{
+  ion-backdrop {
+    background:none !important;
+  }
+}
+
+.search-results-popover {
   ion-backdrop {
     background:none !important;
   }

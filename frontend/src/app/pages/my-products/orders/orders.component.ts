@@ -36,7 +36,7 @@ export class OrdersComponent implements OnInit {
 
   acceptOrder(orderId: string) {
     this.orderService.accept(orderId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Order accepted');
+      this.progressIndicatorService.presentToast('Order accepted', 'success');
       this.reloadProducts();
     }, err => {
       console.log(err);
@@ -46,7 +46,7 @@ export class OrdersComponent implements OnInit {
 
   rejectOrder(orderId: string) {
     this.orderService.reject(orderId).subscribe(data => {
-      this.progressIndicatorService.presentToast('Order rejected');
+      this.progressIndicatorService.presentToast('Order rejected', 'success');
       this.reloadProducts();
     }, err => {
       console.log(err);

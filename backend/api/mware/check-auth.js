@@ -10,6 +10,7 @@ module.exports = (req, res, next) => {
                 message:'Authentication failed'
             });
         req.userData = decoded;
+        req.userData.loginToken = token;
         next();
     } catch(error) {
         return res.status(401).json({

@@ -22,6 +22,10 @@ export class MapPickerComponent implements OnInit {
 
   ngOnInit() {}
 
+  resetLocation() {
+    this.selectedLocationImage = undefined;
+  }
+
   onPickLocation() {
     this.actionSheetCtrl.create({
       header: 'Please choose', buttons: [

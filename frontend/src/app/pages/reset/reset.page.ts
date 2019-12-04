@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../core/services/authService/auth.service';
+import {ProgressIndicatorService} from '../../core/services/progressIndicatorService/progress-indicator.service';
 
 @Component({
   selector: 'app-reset',
@@ -17,14 +18,12 @@ export class ResetPage implements OnInit {
       { type: 'minlength', message: 'Password must contain 6 characters' }
     ]
   };
-  messageReceived = false;
-  isErrorMessage = false;
-  message;
 
   constructor(
       private formBuilder: FormBuilder,
       private authService: AuthService,
-      private activatedRoute: ActivatedRoute
+      private activatedRoute: ActivatedRoute,
+      private progressIndicatorService: ProgressIndicatorService
   ) { }
 
   ngOnInit() {
@@ -34,7 +33,6 @@ export class ResetPage implements OnInit {
   }
 
   onSubmitReset() {
-
     // stop here if form is invalid
     if (this.resetForm.invalid) {
       return;
@@ -44,18 +42,13 @@ export class ResetPage implements OnInit {
     this.activatedRoute.queryParamMap.subscribe(queryParams => {
       this.authService.resetPassword(queryParams.get('token'), val.password)
           .subscribe(data => {
-            this.messageReceived = true;
             if (data.status === 200 ) {
-              this.message = 'Your password was reset';
+              this.progressIndicatorService.presentToast('Your password has been reset', 'success', 4000);
+              this.resetForm.reset();
             }
           }, error => {
-            this.isErrorMessage = true;
-            this.messageReceived = true;
-            if (error.status === 500 && error.error.message === 'token invalid') {
-              this.message = 'Invalid request';
-            } else {
-              this.message = error.error.message;
-            }
+            console.log(error);
+            this.progressIndicatorService.presentToast('Invalid request', 'danger', 4000);
           });
     });
   }

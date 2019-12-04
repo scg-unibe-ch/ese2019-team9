@@ -7,10 +7,26 @@
   align-items: center;
 }
 
+.profilePicker {
+  heigth: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.profileImage {
+  min-height: 64px;
+  min-width: 64px;
+  border-radius: 50% !important;
+  overflow: hidden;
 }
 
 input[type='file'] {

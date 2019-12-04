@@ -2,6 +2,28 @@ import {Component, OnInit, Input, ViewChild, Output, EventEmitter} from '@angula
 import {UserService} from 'src/app/core/services/userService/user.service';
 import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
 import {ProductService} from '../../../core/services/productService/product.service';
+import {ImagePickerComponent} from "../image-picker/image-picker.component";
+
+function base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    const sliceSize = 1024;
+    const byteCharacters = atob(base64Data);
+    const bytesLength = byteCharacters.length;
+    const slicesCount = Math.ceil(bytesLength / sliceSize);
+    const byteArrays = new Array(slicesCount);
+
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+        const begin = sliceIndex * sliceSize;
+        const end = Math.min(begin + sliceSize, bytesLength);
+
+        const bytes = new Array(end - begin);
+        for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+            bytes[i] = byteCharacters[offset].charCodeAt(0);
+        }
+        byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, {type: contentType});
+}
 
 @Component({
     selector: 'app-profile-informations',
@@ -11,10 +33,13 @@ import {ProductService} from '../../../core/services/productService/product.serv
 export class ProfileInformationsComponent implements OnInit {
     @ViewChild('grid', {static: false}) grid;
     @ViewChild('updateButton', {static: false}) updateButton;
+    @ViewChild(ImagePickerComponent, {static: false}) imagePicker: ImagePickerComponent;
     @Output() deleteEvent = new EventEmitter<string>();
+    @Output() updateEvent = new EventEmitter<string>();
     @Input() profileItem;
     @Input() additionalValues?;
     @Input() changeable: boolean = false;
+    @Input() hideDelete?: boolean = false;
     @Input() valuesToHide: [];
     @Input('type') typeOfProfileItem;
     hasChanged = false;
@@ -44,6 +69,7 @@ export class ProfileInformationsComponent implements OnInit {
 
     profileItemData = [];
     additionalInformation = [];
+    imageFile;
     typeOfUser = 'user';
     typeOfProduct = 'product';
 
@@ -81,12 +107,27 @@ export class ProfileInformationsComponent implements OnInit {
     }
 
     onClickEdit() {
+        this.hasChanged = false;
         const allRows = this.grid.el.children;
         for (let i = 0; i < allRows.length; i++) {
             allRows[i].children[this.VALUES_COLUMN].classList.add('hidden');
             allRows[i].children[this.EDIT_ICON_COLUMN].classList.add('hidden');
             allRows[i].children[this.INPUT_COLUMN].classList.remove('hidden');
             allRows[i].children[this.SAVE_ICON_COLUMN].classList.remove('hidden');
+        }
+    }
+
+    onImagePicked(imageData: string | File) {
+        this.updateButton.el.classList.remove('hidden');
+        if (typeof imageData === 'string') {
+            try {
+                this.imageFile = base64toBlob(imageData.replace('data:image/jpeg;base64,', ''), 'image/jpeg');
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+        } else {
+            this.imageFile = imageData;
         }
     }
 
@@ -102,17 +143,20 @@ export class ProfileInformationsComponent implements OnInit {
         const body = this.getAllChangedRows();
         this.progressIndicatorService.presentLoading('Updating...');
         if (this.typeOfProfileItem === this.typeOfUser) {
-            this.userService.updateUser(this.profileItem._id, body).subscribe((data) => {
+            this.userService.updateUser(this.profileItem._id, body, this.imageFile).subscribe((data) => {
                 this.displaySuccessSignifiers(this.typeOfProfileItem);
                 this.updateComponent();
+                this.updateEvent.next();
+                this.imagePicker.resetImage();
             }, (err) => {
                 this.displayFailureSignifiers(this.typeOfProfileItem);
                 console.log(err);
             });
         } else if (this.typeOfProfileItem === this.typeOfProduct) {
-            this.productService.updateProduct(this.profileItem._id, body).subscribe(data => {
+            this.productService.updateProduct(this.profileItem._id, body, this.imageFile).subscribe(data => {
                 this.displaySuccessSignifiers(this.typeOfProfileItem);
                 this.updateComponent();
+                this.updateEvent.next();
             }, (err) => {
                 this.displayFailureSignifiers(this.typeOfProfileItem);
                 console.log(err);

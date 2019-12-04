@@ -3,7 +3,6 @@
     <app-header></app-header>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-grid>
     <ion-row>
@@ -22,8 +21,6 @@
                    [type]="'password'" [inputMode]="'password'">
            </app-input-form>
          </ion-card>
-         <ion-item *ngIf="messageReceived && isErrorMessage" class="invalid-feedback"> {{ message }}</ion-item>
-         <ion-item *ngIf="messageReceived && !isErrorMessage" class="feedback" > {{ message }}</ion-item>
          <ion-button class="formButton" expand="block" type="submit"> Reset Password </ion-button>
        </form>
      </ion-col>

@@ -11,6 +11,7 @@
     Invalid Order ID!
   </ion-title>
   <ion-grid *ngIf="order">
+
     <!-- Product information -->
     <ion-row>
       <ion-col offset-md="2" size-md="8" class="container ion-hide-sm-down">
@@ -195,7 +196,7 @@
             <ion-row size="10" *ngIf="!message.statusMessage" style="white-space: pre-wrap"> {{message.message }}
             </ion-row>
             <ion-row size="10" *ngIf="message.statusMessage">
-              <div style="white-space: pre-wrap" [innerHTML]="returnStatusMessage(message.message, order)"></div>
+              <div style="white-space: pre-wrap" [innerHTML]="returnStatusMessage(message, order)"></div>
             </ion-row>
             <ion-row size="1" style="margin-top:15px" class="smallDate"> {{ message.date | date : "dd.MM.y hh:mm"}}
             </ion-row>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 import {AuthService} from '../../services/authService/auth.service';
+import {PopoverController} from '@ionic/angular';
 /**
  * Forgot Password Component. Used by users to reset the password.
  * Component contains a form with an input field for the email and a button.
@@ -51,6 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
       private formBuilder: FormBuilder,
       private authService: AuthService,
+      private popoverController: PopoverController
   ) { }
 
   /**
@@ -79,17 +81,24 @@ export class ForgotPasswordComponent implements OnInit {
           if (data.status === 200 ) {
             this.forgotPasswordForm.reset();
             this.forgotEmailSent = true;
+            this.dismissPopover();
         }
             }, error => {
           if (error.status === 500) {
             this.messageReceived = true;
             this.forgotPasswordForm.reset();
             this.errorMessage = 'Have you entered the correct address?';
-          }else {
+          } else {
             this.messageReceived = true;
             this.forgotPasswordForm.reset();
             this.errorMessage = error;
           }
         });
+  }
+
+  dismissPopover() {
+    setTimeout(() => {
+      this.popoverController.dismiss();
+    }, 10000);
   }
 }
