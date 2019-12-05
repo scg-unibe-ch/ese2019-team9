@@ -3,7 +3,18 @@
 }
 
 .bigTitle {
-  font-size: 50px;
+  font-size: 3.5rem;
+  position: absolute;
+  padding-left: 20px;
+  color: white;
+  left: 0;
+  width: 100%;
+  @media (max-width: 768px) {
+    top: 30px;
+  }
+  @media (min-width: 768px) {
+    top: 50px;
+  }
 }
 
 .mediumTitle {
@@ -22,7 +33,7 @@ img.pic-square {
 
 .cardMargin {
   margin: 0px;
-  padding: 10px;
+  padding: 0px;
 }
 
 .filterPopover {
@@ -96,4 +107,18 @@ app-filter {
   padding-right: 20px;
   padding-bottom: 5px;
   padding-top: 10px;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
+ion-input {
+  width: 100%;
+}
+
+.imgHeader {
+  width: 100%;
+  height: auto;
+  position: relative;
 }

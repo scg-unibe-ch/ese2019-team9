@@ -1,0 +1,8 @@
+{
+  "appId": "com.molan.moln.moln",
+  "appName": "frontend",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}

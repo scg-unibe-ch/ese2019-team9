@@ -1,0 +1,162 @@
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["pages-reset-reset-module"],{
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/pages/reset/reset.page.html":
+/*!***********************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/pages/reset/reset.page.html ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <app-header></app-header>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <ion-col>\n        <ion-title class=\"pageTitle ion-no-padding\" >\n          Reset your password!\n        </ion-title>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n     <ion-col offset=\"4\" size=\"4\">\n       <form [formGroup]=\"resetForm\" (ngSubmit)=\"onSubmitReset()\">\n         <ion-card class=\"formElement\" >\n           <app-input-form\n                   [inputForm]=\"resetForm\" [givenName]=\"'password'\" [text]=\"'Enter new password'\" [validationMessages]=\"validationMessages.password\"\n                   [type]=\"'password'\" [inputMode]=\"'password'\">\n           </app-input-form>\n         </ion-card>\n         <ion-button class=\"formButton\" expand=\"block\" type=\"submit\"> Reset Password </ion-button>\n       </form>\n     </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n"
+
+/***/ }),
+
+/***/ "./src/app/pages/reset/reset.module.ts":
+/*!*********************************************!*\
+  !*** ./src/app/pages/reset/reset.module.ts ***!
+  \*********************************************/
+/*! exports provided: ResetPageModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPageModule", function() { return ResetPageModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
+/* harmony import */ var _core_header_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/header.module */ "./src/app/core/header.module.ts");
+/* harmony import */ var _shared_input_form_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../shared/input-form.module */ "./src/app/shared/input-form.module.ts");
+/* harmony import */ var _reset_page__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./reset.page */ "./src/app/pages/reset/reset.page.ts");
+
+
+
+
+
+
+
+
+
+const routes = [
+    {
+        path: '',
+        component: _reset_page__WEBPACK_IMPORTED_MODULE_8__["ResetPage"]
+    }
+];
+let ResetPageModule = class ResetPageModule {
+};
+ResetPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+        imports: [
+            _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["IonicModule"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forChild(routes),
+            _core_header_module__WEBPACK_IMPORTED_MODULE_6__["HeaderModule"],
+            _shared_input_form_module__WEBPACK_IMPORTED_MODULE_7__["InputFormModule"]
+        ],
+        declarations: [_reset_page__WEBPACK_IMPORTED_MODULE_8__["ResetPage"]]
+    })
+], ResetPageModule);
+
+
+
+/***/ }),
+
+/***/ "./src/app/pages/reset/reset.page.scss":
+/*!*********************************************!*\
+  !*** ./src/app/pages/reset/reset.page.scss ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL3Jlc2V0L3Jlc2V0LnBhZ2Uuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/pages/reset/reset.page.ts":
+/*!*******************************************!*\
+  !*** ./src/app/pages/reset/reset.page.ts ***!
+  \*******************************************/
+/*! exports provided: ResetPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPage", function() { return ResetPage; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _core_services_authService_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/services/authService/auth.service */ "./src/app/core/services/authService/auth.service.ts");
+/* harmony import */ var _core_services_progressIndicatorService_progress_indicator_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/services/progressIndicatorService/progress-indicator.service */ "./src/app/core/services/progressIndicatorService/progress-indicator.service.ts");
+
+
+
+
+
+
+let ResetPage = class ResetPage {
+    constructor(formBuilder, authService, activatedRoute, progressIndicatorService) {
+        this.formBuilder = formBuilder;
+        this.authService = authService;
+        this.activatedRoute = activatedRoute;
+        this.progressIndicatorService = progressIndicatorService;
+        this.validationMessages = {
+            password: [
+                { type: 'required', message: 'Password is required' },
+                { type: 'minlength', message: 'Password must contain 6 characters' }
+            ]
+        };
+    }
+    ngOnInit() {
+        this.resetForm = this.formBuilder.group({
+            password: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(6)]]
+        });
+    }
+    onSubmitReset() {
+        // stop here if form is invalid
+        if (this.resetForm.invalid) {
+            return;
+        }
+        const val = this.resetForm.value;
+        this.activatedRoute.queryParamMap.subscribe(queryParams => {
+            this.authService.resetPassword(queryParams.get('token'), val.password)
+                .subscribe(data => {
+                if (data.status === 200) {
+                    this.progressIndicatorService.presentToast('Your password has been reset', 'success', 4000);
+                    this.resetForm.reset();
+                }
+            }, error => {
+                console.log(error);
+                this.progressIndicatorService.presentToast('Invalid request', 'danger', 4000);
+            });
+        });
+    }
+};
+ResetPage.ctorParameters = () => [
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] },
+    { type: _core_services_authService_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] },
+    { type: _core_services_progressIndicatorService_progress_indicator_service__WEBPACK_IMPORTED_MODULE_5__["ProgressIndicatorService"] }
+];
+ResetPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-reset',
+        template: __webpack_require__(/*! raw-loader!./reset.page.html */ "./node_modules/raw-loader/index.js!./src/app/pages/reset/reset.page.html"),
+        styles: [__webpack_require__(/*! ./reset.page.scss */ "./src/app/pages/reset/reset.page.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+        _core_services_authService_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"],
+        _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+        _core_services_progressIndicatorService_progress_indicator_service__WEBPACK_IMPORTED_MODULE_5__["ProgressIndicatorService"]])
+], ResetPage);
+
+
+
+/***/ })
+
+}]);
+//# sourceMappingURL=pages-reset-reset-module-es2015.js.map

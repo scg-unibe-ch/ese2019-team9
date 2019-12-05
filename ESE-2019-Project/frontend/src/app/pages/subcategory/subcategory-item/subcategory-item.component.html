@@ -1,7 +1,7 @@
 <ion-card [routerLink]="['/product-details/', id]">
     <ion-grid>
         <ion-row>
-            <ion-card>
+            <ion-card class="image">
                 <ion-col *ngIf="imageSrc" size="12" size-sm="2">
                     <ion-thumbnail>
                         <img [src]="imageSrc">
@@ -11,7 +11,7 @@
         </ion-row>
         <ion-row>
             <ion-col *ngIf="imageSrc" offset-sm="0">
-                <ion-title class="ion-no-padding">{{ name }}</ion-title>
+                <ion-title class="ion-no-padding itemTitle">{{ name }}</ion-title>
             </ion-col>
             <ion-col *ngIf="!imageSrc" offset-sm="2">
                 <ion-title class="ion-no-padding">{{ name }}</ion-title>
@@ -25,7 +25,7 @@
             <ion-col>
                 <ion-text float-right>
                     <ion-icon name="pricetags"></ion-icon>
-                    {{ price }}.-
+                    {{ price }} CHF
                 </ion-text>
             </ion-col>
         </ion-row>
