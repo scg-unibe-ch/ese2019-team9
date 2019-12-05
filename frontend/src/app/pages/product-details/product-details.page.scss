@@ -1,9 +1,6 @@
 .product-title {
     font-weight: bold;
-}
-
-:host ion-thumbnail {
-    --size: 300px;
+    font-size: 30px;
 }
 
 :host ion-item {
@@ -14,9 +11,14 @@
 .rating {
     cursor: pointer;
     margin-right: 5px;
-  }
+}
 
-  .statusMessage {
+.statusMessage {
       text-align:center;
       margin-top:10%;
-  }
+}
+
+.cardDetails {
+    padding: 20px;
+}
+
