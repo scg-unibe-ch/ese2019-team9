@@ -131,7 +131,7 @@ export class ManageOffersComponent implements OnInit {
 
         if (notificationType === 'delete') {
             message = `Your product ${productName} has been deleted`;
-            link = '/my-products';
+            link = '/selling';
         }
 
         // remove this once backend removed text or message
