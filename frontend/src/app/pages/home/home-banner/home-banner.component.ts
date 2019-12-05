@@ -136,6 +136,7 @@ export class HomeBannerComponent implements OnInit {
         });
         const searchbar = document.getElementById('searchbar');
         popoverElement.style.marginTop = searchbar.getBoundingClientRect().bottom + 'px';
+        popoverElement.style.marginLeft = searchbar.getBoundingClientRect().left + 'px';
         this.searchResults.popover = popoverElement;
         return await popoverElement.present();
     }

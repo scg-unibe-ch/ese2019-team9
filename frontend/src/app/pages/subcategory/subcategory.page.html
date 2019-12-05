@@ -5,24 +5,14 @@
 </ion-header>
 <ion-content class="ion-no-padding">
     <ion-card *ngIf="subcategory" class="backgroundGradient cardMargin">
-        <ion-grid>
-            <ion-row>
-                <ion-col size="12" size-sm="6" size-md="8">
+
                     <ion-title class="ion-no-padding bigTitle">{{ subcategory.name }}</ion-title>
-                </ion-col><!--
-                <ion-col size="12" size-sm="6" size-md="4">
-                    <app-carousel *ngIf="carouselIsReady" [carouselName]="'Featured products'"
-                        [carouselSlug]="'featured'" [productCarousel]="this.featuredProducts"
-                        [startingCarouselSize]="1">
-                    </app-carousel>
-                </ion-col>-->
-            </ion-row>
-        </ion-grid>
+
     </ion-card>
     <ion-grid class="ion-padding-none">
         <ion-row class="filter-list">
-            <ion-col size="0" size-sm="2"></ion-col>
-            <ion-col>
+            <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
+                <ion-card>
             <ng-container *ngFor="let filter of filterargsToDisplay">
                 <ion-button *ngIf="filter.name=='rating'" class="button" size="small" fill="outline" (click)="removeFilter(filter)">
                     <ion-icon *ngFor="let i of array(5)" class="rating" [name]="i>filter.value ? 'star-outline' : 'star'"></ion-icon>
@@ -32,11 +22,14 @@
                     <ion-icon name="pricetag"></ion-icon>{{ selectedPrice.lower }}CHF - {{ selectedPrice.upper }}CHF
                     <ion-icon name="close"></ion-icon></ion-button>
             </ng-container>
+                </ion-card>
             </ion-col>
          </ion-row>
+
          <ion-row class="ion-justify-content-end">
-             <ion-col size="12" size-md="3" class="ion-justify-content-end">
-                    <ion-select placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
+             <ion-card>
+             <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6" class="ion-justify-content-end">
+                    <ion-select class="sortBy" placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
                             <ion-select-option value="+price">Price ascending</ion-select-option>
                             <ion-select-option value="-price">Price descending</ion-select-option>
                             <ion-select-option value="+date">Date ascending</ion-select-option>
@@ -45,28 +38,30 @@
                             <ion-select-option value="-rating">Rating descending</ion-select-option>
                         </ion-select>
              </ion-col>
+             <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6" class="filter-col ion-margin-top">
+                 <app-filter>
+                     <div class="filter-title" title>Select your Rating:</div>
+                     <div class="filter-input" input>
+                         <ion-icon *ngFor="let i of array(5)" class="rating"
+                                   [name]="i>filledStars ? 'star-outline' : 'star'" (mouseenter)="fillTo(i)"
+                                   (click)="onRatingFilterChanged(i)"></ion-icon> and more
+                     </div>
+                 </app-filter>
+                 <app-filter>
+                     <div class="filter-title" title>Select your Price range:</div>
+                     <div class="filter-input" input>
+                         <ion-range id="priceRangeInput" [min]="priceSpan.lower" [max]="priceSpan.upper"  dualKnobs="true" pin="true" step="1" [value]="priceSpan" (ionChange)="onPriceSliderChange($event)">
+                         </ion-range>
+                         From: <ion-input id="minPriceInput" type="number" debounce="500" [value]="priceSpan.lower" (ionInput)="onMinPriceChange(undefined)"></ion-input> to <ion-input id="maxPriceInput" type="number" [value]="priceSpan.upper" (ionInput)="onMaxPriceChange(undefined)"></ion-input>
+                     </div>
+                 </app-filter>
+
+             </ion-col>
+             </ion-card>
          </ion-row>
         <ion-row>
-            <ion-col size="12" size-md="3" class="filter-col ion-margin-top">
-                <app-filter>
-                    <div class="filter-title" title>Select your Rating:</div>
-                    <div class="filter-input" input>
-                        <ion-icon *ngFor="let i of array(5)" class="rating"
-                            [name]="i>filledStars ? 'star-outline' : 'star'" (mouseenter)="fillTo(i)"
-                            (click)="onRatingFilterChanged(i)"></ion-icon> and more
-                    </div>
-                </app-filter>
-                <app-filter>
-                    <div class="filter-title" title>Select your Price range:</div>
-                    <div class="filter-input" input>
-                        <ion-range id="priceRangeInput" [min]="priceSpan.lower" [max]="priceSpan.upper"  dualKnobs="true" pin="true" step="1" [value]="priceSpan" (ionChange)="onPriceSliderChange($event)">
-                        </ion-range>
-                        From: <ion-input id="minPriceInput" type="number" debounce="500" [value]="priceSpan.lower" (ionInput)="onMinPriceChange(undefined)"></ion-input> to <ion-input id="maxPriceInput" type="number" [value]="priceSpan.upper" (ionInput)="onMaxPriceChange(undefined)"></ion-input>
-                    </div>
-                </app-filter>
 
-            </ion-col>
-            <ion-col size="12" size-md="9">
+            <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
                 <ion-grid>
                     <ion-row>
                         <ion-col *ngFor="let product of products" size="12" size-md="6" size-xl="4">
