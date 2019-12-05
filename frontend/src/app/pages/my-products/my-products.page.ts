@@ -33,7 +33,7 @@ export class MyProductsPage implements OnInit {
   orders;
   userId;
   user;
-  isSeller;
+  isSeller = false;
   isLoading = true;
   sellerForm: FormGroup;
 
@@ -49,21 +49,13 @@ export class MyProductsPage implements OnInit {
       address: ['', []],
       country: ['', []]
     });
-
-    this.isSeller = this.userService.isSeller();
-
-    this.selectedTab = 0;
-    this.userId = this.authService.getId();
-    this.userService.getSingleUser(this.userId).subscribe(result => {
-      this.user = result;
-      this.isSeller = this.user.name.length > 0 &&
-        this.user.country.length > 0 &&
-        this.user.address.length > 0 ? true : false;
+    
+    this.userService.isSeller().then(res => {
+      console.log(res);
+      this.isSeller = res;
       this.isLoading = false;
 
-    /*  this.sellerForm.setValue([ {name:this.user.name ? this.user.name : ''}, 
-        {country:this.user.country ? this.user.country : ''},
-        {address:this.user.address ? this.user.address : ''}]);*/
+      this.userId = this.authService.getId();
     });
   }
 
@@ -88,11 +80,11 @@ export class MyProductsPage implements OnInit {
     const body = JSON.stringify(val);
 
     this.userService.updateUser(this.userId, body, null).subscribe(data => {
-      this.progressIndicatorService.presentToast('Information successfully updated', 'success');
+      this.progressIndicatorService.presentToast('Information successfully updated', 'success', 4000);
       this.isLoading = true;
     }, error => {
       console.log(error.error);
-      this.progressIndicatorService.presentToast(error.error.message, 'danger');
+      this.progressIndicatorService.presentToast(error.error, 'danger', 4000);
     });
 
     this.userService.isSeller().then(result => {

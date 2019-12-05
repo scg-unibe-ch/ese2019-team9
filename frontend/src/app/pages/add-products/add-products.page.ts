@@ -122,8 +122,8 @@ export class AddProductsPage implements OnInit {
             this.progressIndicatorService.dismissLoadingIndicator();
             this.productForm.reset();
             this.progressIndicatorService.presentToast('Product successfully created');
-           // this.imagePicker.resetImage();
-           // this.mapPicker.resetLocation();
+            this.imagePicker.resetImage();
+            //this.mapPicker.resetLocation();
         }, error => {
             this.progressIndicatorService.dismissLoadingIndicator();
             console.log(error);
@@ -145,7 +145,6 @@ export class AddProductsPage implements OnInit {
 
     onLocationPicked(location: PlaceMap) {
         this.productForm.patchValue({map: location});
-        console.log(document.getElementById('locationInput'));
         (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;
     }
 }

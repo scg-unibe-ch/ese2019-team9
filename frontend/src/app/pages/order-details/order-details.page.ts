@@ -231,14 +231,22 @@ export class OrderDetailsPage implements OnInit {
     });
   }
 
-  Date.prototype.mmddyyyy = function() {
-    var mm = this.getMonth() + 1; // getMonth() is zero-based
-    var dd = this.getDate();
+  formatDate = function(date: Date) {
+    var MM = date.getMonth() + 1; // getMonth() is zero-based
+    var dd = date.getDay();
+    var hh = date.getHours();
+    var mm = date.getMinutes();
+
+    const dateString = ['' + (dd>9 ? '' : '0') + dd,
+    '' + (MM>9 ? '' : '0') + MM,
+    date.getFullYear(),
+   ].join('.');
+
+   const timeString = [(hh>9 ? '' : '0') + hh,
+    (mm>9 ? '' : '0') + mm
+   ].join(':');
   
-    return [(dd>9 ? '' : '0') + dd,
-            (mm>9 ? '' : '0') + mm,
-            this.getFullYear(),
-           ].join('.');
+    return dateString + ' ' + timeString;
   }
 
   returnStatusMessage(message: any, order: any) {
@@ -249,27 +257,12 @@ export class OrderDetailsPage implements OnInit {
     const sellerArticle = this.isSeller ? "your" : "the";
     const buyerArticle = !this.isSeller ? "your" : "the";
 
-    const sDate = new Date(order.startDate).getDay() + '.' + (new Date(order.startDate).getMonth()+ 1) + ''
-
-    const startDate = new Date(order.startDate).toISOString().
-    replace(/T/, ' ').      // replace T with a space
-    replace(/\..+/, '').
-    replace(/-/, '.').
-    replace(/-/, '.').
-    replace(/-/, '.').
-    substring(0, 16);
-
-    const endDate = new Date(order.endDate).toISOString().
-    replace(/T/, ' ').      // replace T with a space
-    replace(/\..+/, '').
-    replace(/-/, '.').
-    replace(/-/, '.').
-    replace(/-/, '.').
-    substring(0, 16);
+    const sDate = this.formatDate(new Date (order.startDate));
+    const eDate = this.formatDate(new Date(order.endDate));
 
     if (!text.localeCompare("[INITIAL REQUEST]"))
       return "<i>Requested " + sellerArticle + " product <br><br>Start of event: <b>" +
-        startDate + "</b> <br>End of event: <b>" + endDate + "</b>";
+      sDate + "</b> <br>End of event: <b>" + eDate + "</b>";
 
     if (!text.localeCompare("[ACCEPT]"))
       return "<i>Accepted " + buyerArticle + " request</i>";
