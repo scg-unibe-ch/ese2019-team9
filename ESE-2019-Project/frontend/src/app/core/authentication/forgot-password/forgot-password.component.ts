@@ -48,6 +48,7 @@ export class ForgotPasswordComponent implements OnInit {
    * Assigns two new private variables `formBuilder` and `authService`
    * @param formBuilder auto injected `FormBuilder` to handle the form validation and submition
    * @param authService auto injected `AuthService` to handle the backend communication
+   * @param popoverController auto injected `PopoverController` to dismiss the popover
    */
   constructor(
       private formBuilder: FormBuilder,
@@ -96,6 +97,9 @@ export class ForgotPasswordComponent implements OnInit {
         });
   }
 
+  /**
+   * Dismisses the popover 10 seconds after the success message was displayed
+   */
   dismissPopover() {
     setTimeout(() => {
       this.popoverController.dismiss();

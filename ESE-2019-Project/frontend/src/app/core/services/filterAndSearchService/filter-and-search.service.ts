@@ -2,10 +2,17 @@ import { Injectable } from '@angular/core';
 import { isDefined } from '@angular/compiler/src/util';
 import { isNullOrUndefined } from 'util';
 
+/**
+ * Service to filter, search and sort arrays of objects
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class FilterAndSearchService {
+    
+    /**
+     * @ignore
+     */
     constructor() { }
 
     /**
@@ -15,14 +22,10 @@ export class FilterAndSearchService {
      * @param fieldnames optional parameter of all fieldnames as strings, if not all fields should be searched
      * @param caseSensitive optional boolean parameter if the search should be caseSensitive
      * @param skipFieldNames optional string Array of fieldnames to skip
+     * @return a Set of Objects containing a key with the object that was found and a key with a map for all fieldnames and their corresponding indices
+     * return example: ``` Set<{obj: Object, app: Map<fieldname: string, indices: number[]>}> ```
      */
-    search(
-        array: Object[],
-        searchTerm: string,
-        fieldnames?: string[],
-        caseSensitive: boolean = false,
-        skipFieldNames?: string[]
-    ): Set<{ obj; key; indices }> {
+    search( array: Object[], searchTerm: string, fieldnames?: string[], caseSensitive: boolean = false, skipFieldNames?: string[]): Set<{ obj; key; indices }> {
         if (searchTerm.length < 1) return new Set();
         searchTerm = caseSensitive ? searchTerm : searchTerm.toUpperCase();
         if (!fieldnames) {
@@ -72,13 +75,7 @@ export class FilterAndSearchService {
      * @return a Set of Objects containing a key with the object that was found and a key with a map for all fieldnames and their corresponding indices
      * return example: ``` Set<{obj: Object, app: Map<fieldname: string, indices: number[]>}> ```
      */
-    searchUnique(
-        array: Object[],
-        searchTerm: string,
-        fieldnames?: string[],
-        caseSensitive: boolean = false,
-        skipFieldNames?: string[]
-    ): Set<{ obj; app }> {
+    searchUnique(array: Object[], searchTerm: string, fieldnames?: string[], caseSensitive: boolean = false, skipFieldNames?: string[]): Set<{ obj; app }> {
         const resultWithMultipleEntries = this.search(
             array,
             searchTerm,
@@ -102,7 +99,7 @@ export class FilterAndSearchService {
     }
 
     /**
-     *
+     * Sorts the original array according to the arguments given
      * @param array an Array of object which has to be sorted
      * @param args the arguments for the sorting of the type ```"+fieldname"``` or ```"-fieldname"``` where ```+``` and ```-``` is the sort direction
      * @return the sorted array
@@ -135,6 +132,12 @@ export class FilterAndSearchService {
         });
     }
 
+    /**
+     * gets the Field of an Object or child-object
+     * @param array the (parent)-Object
+     * @param fieldname the string. To get the fieldname of a child-Object submit ``` 'object.fieldnameOfChildObject.fieldname' ```
+     * @return the field of type any
+     */
     getField(array: object, argument: string) {
         let currentObj = array;
         let split = argument.split('.');
@@ -193,6 +196,11 @@ export class FilterAndSearchService {
         return allObjects[0];
     }
 
+    /**
+     * Gets all own-keys of an array of objects. Does not return the keys of child-objects
+     * @param array the array of objects
+     * @return a string array of all keys
+     */
     private getAllKeys(array: {}[]): string[] {
         const keys = new Set();
         array.forEach(obj => {
@@ -203,9 +211,15 @@ export class FilterAndSearchService {
         return Array.from(keys) as string[];
     }
 
-    public filterToObject(
-        arg: string
-    ): { name: string; operator: string; value: string } {
+    /**
+     * Splits a filter argument to an object
+     * @param the filter argument as a string
+     * @return an object with the fields:
+     *     - name :string
+     *     - operator :string
+     *     - value :string
+     */
+    public filterToObject(arg: string): { name: string; operator: string; value: string } {
         const split = arg.split(';');
         return { name: split[1], operator: split[0], value: split[2] };
     }
