@@ -23,12 +23,12 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-my-products',
-  templateUrl: './my-products.page.html',
-  styleUrls: ['./my-products.page.scss'],
+  selector: 'app-selling',
+  templateUrl: './selling.page.html',
+  styleUrls: ['./selling.page.scss'],
 })
 
-export class MyProductsPage implements OnInit {
+export class SellingPage implements OnInit {
   selectedTab;
   orders;
   userId;

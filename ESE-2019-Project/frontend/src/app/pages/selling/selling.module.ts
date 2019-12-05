@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MyProductsPage } from './my-products.page';
+import { SellingPage } from './selling.page';
 import {UserProductsComponent} from './user-products/user-products.component';
 import {OrdersComponent} from './orders/orders.component';
 import {HeaderModule} from '../../core/header.module';
@@ -15,7 +15,7 @@ import {InputFormModule} from '../../shared/input-form.module';
 const routes: Routes = [
   {
     path: '',
-    component: MyProductsPage
+    component: SellingPage
   }
 ];
 
@@ -29,6 +29,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [MyProductsPage, OrdersComponent, UserProductsComponent]
+  declarations: [SellingPage, OrdersComponent, UserProductsComponent]
 })
-export class MyProductsPageModule {}
+export class SellingPageModule {}

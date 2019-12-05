@@ -206,7 +206,7 @@ exports.updateProduct = (req, res, next) => {
                     user: product.seller,
                     text: "Your product '" + product.name + "' has been verified.",
                     date: new Date(),
-                    link: "/my-products"
+                    link: "/selling"
                 });
 
                 return notification.save();
@@ -218,7 +218,7 @@ exports.updateProduct = (req, res, next) => {
                     user: product.seller,
                     text: "Please revise your product '" + product.name + "'",
                     date: new Date(),
-                    link: "/my-products"
+                    link: "/selling"
                 });
 
                 return notification.save();
