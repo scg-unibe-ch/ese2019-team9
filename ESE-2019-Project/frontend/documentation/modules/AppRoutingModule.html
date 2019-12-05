@@ -84,13 +84,22 @@ const routes: Routes &#x3D; [
   { path: &#x27;reset&#x27;, loadChildren: &#x27;./pages/reset/reset.module#ResetPageModule&#x27; },
   { path: &#x27;admin&#x27;, loadChildren: &#x27;./pages/admin/admin.module#AdminPageModule&#x27;, canActivate: [RoleguardService],
   data: { expectedRole: &#x27;admin&#x27; }},
-  { path: &#x27;product-details&#x27;, loadChildren: &#x27;./pages/product-details/product-details.module#ProductDetailsPageModule&#x27; }
+  { path: &#x27;product-details&#x27;, loadChildren: &#x27;./pages/product-details/product-details.module#ProductDetailsPageModule&#x27; },
+  { path: &#x27;add-products&#x27;, loadChildren: &#x27;./pages/add-products/add-products.module#AddProductsPageModule&#x27; },
+  { path: &#x27;profile&#x27;, loadChildren: &#x27;./pages/profile/profile.module#ProfilePageModule&#x27; },
+  { path: &#x27;my-products&#x27;, loadChildren: &#x27;./pages/my-products/my-products.module#MyProductsPageModule&#x27; },
+  { path: &#x27;my-orders&#x27;, loadChildren: &#x27;./pages/my-orders/my-orders.module#MyOrdersPageModule&#x27; },
+  { path: &#x27;order-details&#x27;, loadChildren: &#x27;./pages/order-details/order-details.module#OrderDetailsPageModule&#x27; },
+  { path: &#x27;user&#x27;, loadChildren: &#x27;./pages/user/user.module#UserPageModule&#x27; },
+  { path: &#x27;user/:userId&#x27;, loadChildren: &#x27;./pages/user/user.module#UserPageModule&#x27; },
+  { path: &#x27;payment&#x27;, loadChildren: &#x27;./pages/payment/payment.module#PaymentPageModule&#x27; },
+  { path: &#x27;payment/:token&#x27;, loadChildren: &#x27;./pages/payment/payment.module#PaymentPageModule&#x27;}
 ];
 
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })

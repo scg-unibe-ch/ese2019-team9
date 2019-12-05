@@ -64,14 +64,15 @@
     <code>src/app/core/header/top-header/top-header.component.ts</code>
 </p>
 
-
-
     <p class="comment">
-        <h3>Implements</h3>
+        <h3>Description</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+        <p>Header Component. </p>
+
     </p>
+
+
 
 
 <section>
@@ -117,174 +118,13 @@
     </table>
 </section>
 
-    <section>
-    <h3 id="index">Index</h3>
-    <table class="table table-sm table-bordered index-table">
-        <tbody>
-
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Methods</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
-                            <li>
-                                <a href="#navigateHome">navigateHome</a>
-                            </li>
-                            <li>
-                                <a href="#ngOnInit">ngOnInit</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
 
 
 
 
 
-        </tbody>
-    </table>
-</section>
-
-    <section>
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/app/core/header/top-header/top-header.component.ts:9</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                            <div>
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>router</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-</section>
 
 
-
-
-
-    <section>
-    
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="navigateHome"></a>
-                    <span class="name">
-                        <b>
-                            navigateHome
-                        </b>
-                        <a href="#navigateHome"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>navigateHome()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/app/core/header/top-header/top-header.component.ts:16</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngOnInit"></a>
-                    <span class="name">
-                        <b>
-                            ngOnInit
-                        </b>
-                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngOnInit()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">src/app/core/header/top-header/top-header.component.ts:14</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>
 
 </div>
 
@@ -293,51 +133,46 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
 import {Router} from &#x27;@angular/router&#x27;;
 
+/**
+ * Header Component. 
+ */
 @Component({
   selector: &#x27;app-top-header&#x27;,
   templateUrl: &#x27;./top-header.component.html&#x27;,
   styleUrls: [&#x27;./top-header.component.scss&#x27;],
 })
-export class TopHeaderComponent implements OnInit {
+export class TopHeaderComponent  {
 
-  constructor(
-      private router: Router) { }
+  /**
+   * @ignore
+   */
+  constructor() { }
 
-  ngOnInit() {}
-
-  navigateHome() {
-    this.router.navigate([&#x27;/home&#x27;]);
-  }
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div&gt;
-        &lt;ion-grid&gt;
-                &lt;ion-row class&#x3D;&quot;ion-align-items-center&quot;&gt;
-                        &lt;ion-col size&#x3D;&quot;1&quot;&gt;
-                                &lt;div class&#x3D;&quot;ion-hide-lg-up&quot; position&#x3D;&quot;relative&quot;&gt;
-                                        &lt;ion-buttons slot&#x3D;&quot;start&quot;&gt;
-                                                &lt;ion-menu-button menu&#x3D;&quot;m1&quot;&gt;
-                                                &lt;/ion-menu-button&gt;
-                                        &lt;/ion-buttons&gt;
-                                &lt;/div&gt;
-                        &lt;/ion-col&gt;
-                        &lt;ion-col size&#x3D;&quot;6&quot;&gt;
-                                &lt;div class&#x3D;&quot;navigateHome&quot; (click)&#x3D;&quot;navigateHome()&quot;&gt;
-                                        &lt;img padding&#x3D;&quot;20px&quot; src&#x3D;&quot;assets/images/logoFont6.png&quot; &gt;
-                                &lt;/div&gt;
-                        &lt;/ion-col&gt;
-                        &lt;ion-col&gt;
-                        &lt;/ion-col&gt;
-                        &lt;ion-col size&#x3D;&quot;4&quot;&gt;
-                                &lt;app-top-header-end&gt;&lt;/app-top-header-end&gt;
-                        &lt;/ion-col&gt;
-                &lt;/ion-row&gt;
-        &lt;/ion-grid&gt;
-&lt;/div&gt;
-</code></pre>
+    &lt;ion-grid&gt;
+        &lt;ion-row class&#x3D;&quot;ion-align-items-center&quot;&gt;
+            &lt;ion-col size&#x3D;&quot;1&quot; class&#x3D;&quot;ion-hide-md-up&quot;&gt;
+                &lt;div class&#x3D;&quot;ion-hide-lg-up&quot; style&#x3D;&quot;display:flex; justify-content: center; align-content: center; padding:0;&quot;&gt;
+                    &lt;ion-buttons slot&#x3D;&quot;start&quot;&gt;
+                        &lt;ion-menu-button menu&#x3D;&quot;m1&quot;&gt;
+                        &lt;/ion-menu-button&gt;
+                    &lt;/ion-buttons&gt;
+                &lt;/div&gt;
+            &lt;/ion-col&gt;
+            &lt;ion-col size&#x3D;&quot;8&quot; size-md&#x3D;&quot;10&quot; style&#x3D;&quot;display:flex; justify-content: center; align-content: center; padding:0;&quot; [routerLink]&#x3D;&quot;[&#x27;/home&#x27;]&quot;&gt;
+                    &lt;img class&#x3D;&quot;headerImg&quot; style&#x3D;&quot;cursor:pointer; margin:auto; text-align:center&quot; src&#x3D;&quot;assets/images/logoFont7.png&quot; &gt;
+            &lt;/ion-col&gt;
+            &lt;ion-col size&#x3D;&quot;3&quot; size-md&#x3D;&quot;2&quot; class&#x3D;&quot;last-col&quot; style&#x3D;&quot;text-align: right; align-content:center; justify-content: flex-end;&quot; &gt;
+                &lt;app-header-buttons&gt;&lt;/app-header-buttons&gt;
+            &lt;/ion-col&gt;
+        &lt;/ion-row&gt;
+    &lt;/ion-grid&gt;
+&lt;/div&gt;</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
@@ -349,13 +184,22 @@ export class TopHeaderComponent implements OnInit {
   padding-top: 3px;
 }
 
-.imgSize{
+.imgSize {
   min-width: 10px;
+}
+
+.headerImg {
+  padding: 0px 20px;
 }
 
 .navigateHome {
   cursor: pointer;
 }
+
+.last-col {
+  width: 1%;
+}
+
 </code></pre>
     </div>
 
@@ -384,8 +228,8 @@ export class TopHeaderComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div>        <ion-grid>                <ion-row class="ion-align-items-center">                        <ion-col size="1">                                <div class="ion-hide-lg-up" position="relative">                                        <ion-buttons slot="start">                                                <ion-menu-button menu="m1">                                                </ion-menu-button>                                        </ion-buttons>                                </div>                        </ion-col>                        <ion-col size="6">                                <div class="navigateHome" (click)="navigateHome()">                                        <img padding="20px" src="assets/images/logoFont6.png" >                                </div>                        </ion-col>                        <ion-col>                        </ion-col>                        <ion-col size="4">                                <app-top-header-end></app-top-header-end>                        </ion-col>                </ion-row>        </ion-grid></div></div>'
-    var COMPONENTS = [{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'DeleteOffersComponent', 'selector': 'app-delete-offers'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'TopHeaderEndComponent', 'selector': 'app-top-header-end'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
+        var COMPONENT_TEMPLATE = '<div><div>    <ion-grid>        <ion-row class="ion-align-items-center">            <ion-col size="1" class="ion-hide-md-up">                <div class="ion-hide-lg-up" style="display:flex; justify-content: center; align-content: center; padding:0;">                    <ion-buttons slot="start">                        <ion-menu-button menu="m1">                        </ion-menu-button>                    </ion-buttons>                </div>            </ion-col>            <ion-col size="8" size-md="10" style="display:flex; justify-content: center; align-content: center; padding:0;" [routerLink]="[\'/home\']">                    <img class="headerImg" style="cursor:pointer; margin:auto; text-align:center" src="assets/images/logoFont7.png" >            </ion-col>            <ion-col size="3" size-md="2" class="last-col" style="text-align: right; align-content:center; justify-content: flex-end;" >                <app-header-buttons></app-header-buttons>            </ion-col>        </ion-row>    </ion-grid></div></div>'
+    var COMPONENTS = [{'name': 'AddCategoryComponent', 'selector': 'app-add-category'},{'name': 'AddProductsPage', 'selector': 'app-add-products'},{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderButtonsComponent', 'selector': 'app-header-buttons'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'ImagePickerComponent', 'selector': 'app-image-picker'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageOffersComponent', 'selector': 'app-manage-offers'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MapModalComponent', 'selector': 'app-map-modal'},{'name': 'MapPickerComponent', 'selector': 'app-map-picker'},{'name': 'MyOrdersPage', 'selector': 'app-my-orders'},{'name': 'MyProductsPage', 'selector': 'app-my-products'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'OrderDetailsPage', 'selector': 'app-order-details'},{'name': 'OrdersComponent', 'selector': 'app-orders'},{'name': 'PaymentPage', 'selector': 'app-payment'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'ProductReviewComponent', 'selector': 'app-product-review'},{'name': 'ProfileInformationsComponent', 'selector': 'app-profile-informations'},{'name': 'ProfilePage', 'selector': 'app-profile'},{'name': 'ProfilePopoverComponent', 'selector': 'app-profile-popover'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'UserPage', 'selector': 'app-user'},{'name': 'UserProductsComponent', 'selector': 'app-user-products'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'TopHeaderComponent'};
 </script>

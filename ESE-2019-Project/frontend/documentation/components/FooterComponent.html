@@ -64,14 +64,15 @@
     <code>src/app/core/footer/footer.component.ts</code>
 </p>
 
-
-
     <p class="comment">
-        <h3>Implements</h3>
+        <h3>Description</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+        <p>Footer Component</p>
+
     </p>
+
+
 
 
 <section>
@@ -117,120 +118,33 @@
     </table>
 </section>
 
-    <section>
-    <h3 id="index">Index</h3>
-    <table class="table table-sm table-bordered index-table">
-        <tbody>
-
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Methods</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
-                            <li>
-                                <a href="#ngOnInit">ngOnInit</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
 
 
 
 
 
-        </tbody>
-    </table>
-</section>
-
-    <section>
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor()</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/core/footer/footer.component.ts:8</a></div>
-                            </td>
-                        </tr>
-
-            </tbody>
-        </table>
-</section>
 
 
-
-
-
-    <section>
-    
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngOnInit"></a>
-                    <span class="name">
-                        <b>
-                            ngOnInit
-                        </b>
-                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngOnInit()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">src/app/core/footer/footer.component.ts:12</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>
 
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
 
+/**
+ * Footer Component
+ */
 @Component({
   selector: &#x27;app-footer&#x27;,
   templateUrl: &#x27;./footer.component.html&#x27;,
   styleUrls: [&#x27;./footer.component.scss&#x27;],
 })
-export class FooterComponent implements OnInit {
-
+export class FooterComponent{
+  /**
+   * @ignore
+   */
   constructor() { }
-
-  ngOnInit() {}
-
 }
 </code></pre>
     </div>
@@ -240,34 +154,22 @@ export class FooterComponent implements OnInit {
   &lt;ion-toolbar color&#x3D;&quot;medium&quot;&gt;
     &lt;ion-grid&gt;
       &lt;ion-row class&#x3D;&quot;ion-align-items-center&quot;&gt;
-        &lt;ion-col size&#x3D;&quot;1&quot; offset&#x3D;&quot;1&quot;&gt;
-          &lt;app-logo&gt;&lt;/app-logo&gt;
-        &lt;/ion-col&gt;
-        &lt;ion-col size&#x3D;&quot;4&quot; class&#x3D;&quot;title&quot;&gt;
-          &lt;ion-title  class&#x3D;&quot;ion-no-padding&quot;&gt;MOLN&lt;/ion-title&gt;
-        &lt;/ion-col&gt;
-        &lt;ion-col size&#x3D;&quot;2&quot;&gt;
-          &lt;img class&#x3D;&quot;maxHeight&quot; src&#x3D;&quot;../assets/images/unibern.png&quot;&gt;
-        &lt;/ion-col&gt;
-        &lt;ion-col size&#x3D;&quot;3&quot; class&#x3D;&quot;title&quot;&gt;
-          &lt;ion-title  class&#x3D;&quot;ion-no-padding&quot;&gt;UniBe&lt;/ion-title&gt;
+        &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
+          &lt;img class&#x3D;&quot;maxHeight&quot; src&#x3D;&quot;../assets/images/molnUni.png&quot;&gt;
         &lt;/ion-col&gt;
       &lt;/ion-row&gt;
-
       &lt;ion-row&gt;
-        &lt;ion-col size&#x3D;&quot;10&quot; offset&#x3D;&quot;1&quot;&gt;
-          &lt;ion-text&gt;Any Questions? We are happy to help!&lt;/ion-text&gt;
+        &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
+          &lt;ion-text&gt;This is a software engineering project, conducted by five computer science stundents of the Univeristy of Bern&lt;/ion-text&gt;
         &lt;/ion-col&gt;
       &lt;/ion-row&gt;
-
       &lt;ion-row&gt;
-        &lt;ion-col size&#x3D;&quot;10&quot; offset&#x3D;&quot;1&quot;&gt;
-          &lt;ion-text&gt;Email: info@moln.com&lt;/ion-text&gt;
+        &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
+          &lt;ion-text&gt;Email: &lt;a href&#x3D;&quot;mailto:themolnplatform@gmail.com&quot;&gt;themolnplatform@gmail.com&lt;/a&gt;&lt;/ion-text&gt;
         &lt;/ion-col&gt;
       &lt;/ion-row&gt;
-
-      &lt;ion-row class&#x3D;&quot;ion-align-items-center&quot;&gt;
-        &lt;ion-col size&#x3D;&quot;5&quot; offset&#x3D;&quot;1&quot;&gt;
+      &lt;ion-row&gt;
+        &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
           &lt;ion-text&gt;© MOLN - 2019&lt;/ion-text&gt;
         &lt;/ion-col&gt;
       &lt;/ion-row&gt;
@@ -312,8 +214,8 @@ export class FooterComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ion-footer>  <ion-toolbar color="medium">    <ion-grid>      <ion-row class="ion-align-items-center">        <ion-col size="1" offset="1">          <app-logo></app-logo>        </ion-col>        <ion-col size="4" class="title">          <ion-title  class="ion-no-padding">MOLN</ion-title>        </ion-col>        <ion-col size="2">          <img class="maxHeight" src="../assets/images/unibern.png">        </ion-col>        <ion-col size="3" class="title">          <ion-title  class="ion-no-padding">UniBe</ion-title>        </ion-col>      </ion-row>      <ion-row>        <ion-col size="10" offset="1">          <ion-text>Any Questions? We are happy to help!</ion-text>        </ion-col>      </ion-row>      <ion-row>        <ion-col size="10" offset="1">          <ion-text>Email: info@moln.com</ion-text>        </ion-col>      </ion-row>      <ion-row class="ion-align-items-center">        <ion-col size="5" offset="1">          <ion-text>© MOLN - 2019</ion-text>        </ion-col>      </ion-row>    </ion-grid>  </ion-toolbar></ion-footer></div>'
-    var COMPONENTS = [{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'DeleteOffersComponent', 'selector': 'app-delete-offers'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'TopHeaderEndComponent', 'selector': 'app-top-header-end'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
+        var COMPONENT_TEMPLATE = '<div><ion-footer>  <ion-toolbar color="medium">    <ion-grid>      <ion-row class="ion-align-items-center">        <ion-col offset="0" size="12" offset-md="2" size-md="8">          <img class="maxHeight" src="../assets/images/molnUni.png">        </ion-col>      </ion-row>      <ion-row>        <ion-col offset="0" size="12" offset-md="2" size-md="8">          <ion-text>This is a software engineering project, conducted by five computer science stundents of the Univeristy of Bern</ion-text>        </ion-col>      </ion-row>      <ion-row>        <ion-col offset="0" size="12" offset-md="2" size-md="8">          <ion-text>Email: <a href="mailto:themolnplatform@gmail.com">themolnplatform@gmail.com</a></ion-text>        </ion-col>      </ion-row>      <ion-row>        <ion-col offset="0" size="12" offset-md="2" size-md="8">          <ion-text>© MOLN - 2019</ion-text>        </ion-col>      </ion-row>    </ion-grid>  </ion-toolbar></ion-footer></div>'
+    var COMPONENTS = [{'name': 'AddCategoryComponent', 'selector': 'app-add-category'},{'name': 'AddProductsPage', 'selector': 'app-add-products'},{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderButtonsComponent', 'selector': 'app-header-buttons'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'ImagePickerComponent', 'selector': 'app-image-picker'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageOffersComponent', 'selector': 'app-manage-offers'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MapModalComponent', 'selector': 'app-map-modal'},{'name': 'MapPickerComponent', 'selector': 'app-map-picker'},{'name': 'MyOrdersPage', 'selector': 'app-my-orders'},{'name': 'MyProductsPage', 'selector': 'app-my-products'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'OrderDetailsPage', 'selector': 'app-order-details'},{'name': 'OrdersComponent', 'selector': 'app-orders'},{'name': 'PaymentPage', 'selector': 'app-payment'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'ProductReviewComponent', 'selector': 'app-product-review'},{'name': 'ProfileInformationsComponent', 'selector': 'app-profile-informations'},{'name': 'ProfilePage', 'selector': 'app-profile'},{'name': 'ProfilePopoverComponent', 'selector': 'app-profile-popover'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'UserPage', 'selector': 'app-user'},{'name': 'UserProductsComponent', 'selector': 'app-user-products'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'FooterComponent'};
 </script>

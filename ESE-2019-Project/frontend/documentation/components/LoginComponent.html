@@ -64,6 +64,15 @@
     <code>src/app/core/authentication/login/login.component.ts</code>
 </p>
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Login Component.</p>
+<p>Displays a login form containing an input field for the email and an input field for the password.
+When submitted, tries to log in with the <a href="../injectables/AuthService.html">AuthService</a> and if successful dismisses the popover. If it wasn&#39;t successful displays an error message.</p>
+
+    </p>
 
 
     <p class="comment">
@@ -130,16 +139,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#errorMessage">errorMessage</a>
+                            </li>
+                            <li>
                                 <a href="#loginForm">loginForm</a>
-                            </li>
-                            <li>
-                                <a href="#message">message</a>
-                            </li>
-                            <li>
-                                <a href="#messageReceived">messageReceived</a>
-                            </li>
-                            <li>
-                                <a href="#showNotResentMessage">showNotResentMessage</a>
                             </li>
                             <li>
                                 <a href="#showResendButton">showResendButton</a>
@@ -173,6 +176,9 @@
                                 <a href="#presentForgotPopover">presentForgotPopover</a>
                             </li>
                             <li>
+                                <a href="#presentRegistrationPopover">presentRegistrationPopover</a>
+                            </li>
+                            <li>
                                 <a href="#resendEmail">resendEmail</a>
                             </li>
                         </ul>
@@ -198,12 +204,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/core/authentication/login/login.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/core/authentication/login/login.component.ts:56</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Assigns four new variables <code>formBuilder</code>, <code>authService</code>, <code>popoverService</code> and <code>popoverController</code></p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -212,6 +220,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -226,6 +235,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>auto injected <code>FormBuilder</code> to handle the form validation and submition</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>authService</td>
@@ -238,6 +251,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>auto injected <code>authService</code> to handle the backend login communication</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>popoverService</td>
@@ -250,6 +267,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>auto injected <code>popoverService</code> to handle the dismission of popovers</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>popoverController</td>
@@ -262,6 +283,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>auto injected <code>popoverController</code> to handle the creation of a new popover with the <code>ForgotPasswordComponent</code></p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>router</td>
@@ -274,6 +299,8 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -315,14 +342,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:74</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Groups the email and password input fields with their Validators and assigns it to <a href="#loginForm">#loginForm</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -354,14 +383,18 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:100</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>If the form is valid, sends a login request to the backend via the <a href="../injectables/AuthService.html">AuthService</a>. 
+If the login was successful dismisses the popover containing this component.
+Else sets the <a href="#errorMessage">#errorMessage</a> to the returned error (for http status code 401) or to <code>Login failed!</code> for other error status codes.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -395,14 +428,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:130</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates and presents a popover containing the <a href="../components/ForgotPasswordComponent.html">ForgotPasswordComponent</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -411,6 +446,7 @@
                                 <tr>
                                     <td>Name</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -422,6 +458,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>the event with which the method was called</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -434,6 +474,47 @@
                     </div>
                     <div class="io-description">
                         
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="presentRegistrationPopover"></a>
+                    <span class="name">
+                        <b>
+                            presentRegistrationPopover
+                        </b>
+                        <a href="#presentRegistrationPopover"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>presentRegistrationPopover()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:144</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dismisses the popover with data set to <code>openRegistration</code>  </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
                     </div>
                 </td>
             </tr>
@@ -461,14 +542,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">src/app/core/authentication/login/login.component.ts:85</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Calls the <a href="../injectables/AuthService.html">AuthService</a> to resend the verification email. If successul sets the <a href="#showResentMessage">#showResentMessage</a> to <code>true</code> to display the message, that the email was sent.
+If it wasn&#39;t succesful sets the <a href="#showResentMessage">#showResentMessage</a> to <code>false</code> to display the message that the email wasn&#39;t sent.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -484,6 +568,33 @@
         <h3 id="inputs">
             Properties
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="errorMessage"></a>
+                        <span class="name">
+                            <b>
+                            errorMessage</b>
+                            <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/core/authentication/login/login.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Error message that gets displayed if the backend returns an error code</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -504,83 +615,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/core/authentication/login/login.component.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/core/authentication/login/login.component.ts:27</a></div>
                             </td>
                         </tr>
 
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="message"></a>
-                        <span class="name">
-                            <b>
-                            message</b>
-                            <a href="#message"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <div class="io-description"><p><code>loginForm</code> is the FormGroup with the inputs and validators.</p>
+</div>
                     </td>
                 </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/core/authentication/login/login.component.ts:29</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="messageReceived"></a>
-                        <span class="name">
-                            <b>
-                            messageReceived</b>
-                            <a href="#messageReceived"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>false</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/core/authentication/login/login.component.ts:33</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="showNotResentMessage"></a>
-                        <span class="name">
-                            <b>
-                            showNotResentMessage</b>
-                            <a href="#showNotResentMessage"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>false</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/core/authentication/login/login.component.ts:32</a></div>
-                            </td>
-                        </tr>
-
 
             </tbody>
         </table>
@@ -603,10 +647,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/core/authentication/login/login.component.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/core/authentication/login/login.component.ts:48</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Set to <code>true</code> to display the button <code>resend email</code> for the email verification</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -629,10 +679,18 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/core/authentication/login/login.component.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/core/authentication/login/login.component.ts:56</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p><code>showResentMessage</code> only has an impact if <a href="#errorMessage">#errorMessage</a> has a value.</p>
+<p>Set to <code>true</code> to display the message that the verification email was resent.</p>
+<p>Set to <code>false</code> to display the message that there was an error resending the verification email</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -669,10 +727,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/core/authentication/login/login.component.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/core/authentication/login/login.component.ts:31</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Message object with strings that appear when the input isn&#39;t of the correct form. </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -682,17 +746,22 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, Output } from &#x27;@angular/core&#x27;;
 import {FormBuilder, Validators, FormGroup} from &#x27;@angular/forms&#x27;;
 import {PopoverController} from &#x27;@ionic/angular&#x27;;
-import { Router } from &#x27;@angular/router&#x27;;
-import { first } from &#x27;rxjs/operators&#x27;;
 
 import { AuthService } from &#x27;../../services/authService/auth.service&#x27;;
 import {PopoverService} from &#x27;../../services/popoverService/popover.service&#x27;;
 import {ForgotPasswordComponent} from &#x27;../forgot-password/forgot-password.component&#x27;;
+import { EventEmitter } from &#x27;events&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
 
-
+/**
+ * Login Component.
+ * 
+ * Displays a login form containing an input field for the email and an input field for the password.
+ * When submitted, tries to log in with the {@link AuthService} and if successful dismisses the popover. If it wasn&#x27;t successful displays an error message.
+ */
 @Component({
   selector: &#x27;app-login&#x27;,
   templateUrl: &#x27;./login.component.html&#x27;,
@@ -700,7 +769,13 @@ import {ForgotPasswordComponent} from &#x27;../forgot-password/forgot-password.c
 })
 export class LoginComponent implements OnInit {
 
+    /**
+     * &#x60;loginForm&#x60; is the FormGroup with the inputs and validators.
+     */
   loginForm: FormGroup;
+  /**
+   * Message object with strings that appear when the input isn&#x27;t of the correct form. 
+   */
   validationMessages &#x3D; {
       email: [
           { type: &#x27;required&#x27;, message: &#x27;Email is required&#x27; },
@@ -710,12 +785,30 @@ export class LoginComponent implements OnInit {
           { type: &#x27;required&#x27;, message: &#x27;Password is required&#x27; },
       ]
   };
-  message;
-  showResendButton &#x3D; false;
-  showResentMessage &#x3D; false;
-  showNotResentMessage &#x3D; false;
-  messageReceived &#x3D; false;
+  /**
+   * Error message that gets displayed if the backend returns an error code
+   */
+  errorMessage;
 
+  /**
+   * Set to &#x60;true&#x60; to display the button &#x60;resend email&#x60; for the email verification
+   */
+  showResendButton &#x3D; false;
+  /**
+   * &#x60;showResentMessage&#x60; only has an impact if {@link #errorMessage} has a value.
+   * 
+   * Set to &#x60;true&#x60; to display the message that the verification email was resent.
+   * 
+   * Set to &#x60;false&#x60; to display the message that there was an error resending the verification email
+   */
+  showResentMessage &#x3D; false;
+/**
+ * Assigns four new variables &#x60;formBuilder&#x60;, &#x60;authService&#x60;, &#x60;popoverService&#x60; and &#x60;popoverController&#x60;
+ * @param formBuilder auto injected &#x60;FormBuilder&#x60; to handle the form validation and submition
+ * @param authService auto injected &#x60;authService&#x60; to handle the backend login communication
+ * @param popoverService auto injected &#x60;popoverService&#x60; to handle the dismission of popovers
+ * @param popoverController auto injected &#x60;popoverController&#x60; to handle the creation of a new popover with the &#x60;ForgotPasswordComponent&#x60;
+ */
   constructor(
       private formBuilder: FormBuilder,
       private authService: AuthService,
@@ -723,6 +816,9 @@ export class LoginComponent implements OnInit {
       private popoverController: PopoverController,
       private router: Router) { }
 
+      /**
+       * Groups the email and password input fields with their Validators and assigns it to {@link #loginForm}
+       */
   ngOnInit() {
       this.loginForm &#x3D; this.formBuilder.group({
           email: [&#x27;&#x27;, [Validators.required, Validators.email]],
@@ -730,45 +826,56 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  /**
+   * Calls the {@link AuthService} to resend the verification email. If successul sets the {@link #showResentMessage} to &#x60;true&#x60; to display the message, that the email was sent.
+   * If it wasn&#x27;t succesful sets the {@link #showResentMessage} to &#x60;false&#x60; to display the message that the email wasn&#x27;t sent.
+   */
   resendEmail() {
       this.authService.resendEmail()
           .subscribe(data &#x3D;&gt; {
               this.showResentMessage &#x3D; true;
           },
               error &#x3D;&gt; {
-              this.showNotResentMessage &#x3D; true;
+              this.showResentMessage &#x3D; false;
           });
   }
-  onSubmitLogin() {
 
+  /**
+   * If the form is valid, sends a login request to the backend via the {@link AuthService}. 
+   * If the login was successful dismisses the popover containing this component.
+   * Else sets the {@link #errorMessage} to the returned error (for http status code 401) or to &#x60;Login failed!&#x60; for other error status codes.
+   */
+  onSubmitLogin() {
       // stop here if form is invalid
       if (this.loginForm.invalid) {
           return;
       }
       const val &#x3D; this.loginForm.value;
       this.authService.login(val.email, val.password)
-          .pipe(first())
           .subscribe(
               data &#x3D;&gt; {
                   this.popoverService.dismissPopover();
                   this.loginForm.reset();
+                  this.router.navigate([&#x27;/home&#x27;]);
               },
               error &#x3D;&gt; {
-                  this.messageReceived &#x3D; true;
                   if (error.status &#x3D;&#x3D;&#x3D; 401 &amp;&amp; error.error.message &#x3D;&#x3D;&#x3D; &#x27;Authentication failed&#x27;) {
-                      this.message &#x3D; error.error.message;
+                      this.errorMessage &#x3D; error.error.message;
                   } else if (error.status &#x3D;&#x3D;&#x3D; 401 &amp;&amp; error.error.message &#x3D;&#x3D;&#x3D; &#x27;Email not verified&#x27;) {
                       this.showResendButton &#x3D; true;
-                      this.message &#x3D; error.error.message;
+                      this.errorMessage &#x3D; error.error.message;
                   } else {
-                      this.message &#x3D; &#x27;Login failed&#x27;;
+                      this.errorMessage &#x3D; &#x27;Login failed&#x27;;
                   }
               }
           );
   }
 
+  /**
+   * Creates and presents a popover containing the {@link ForgotPasswordComponent}
+   * @param evt the event with which the method was called
+   */
   async presentForgotPopover(evt) {
-      evt.preventDefault();
       this.popoverService.dismissPopover();
       const popover &#x3D; await this.popoverController.create({
           component: ForgotPasswordComponent,
@@ -777,6 +884,13 @@ export class LoginComponent implements OnInit {
           cssClass: &#x27;popover-style&#x27;
       });
       return await popover.present();
+  }
+
+  /**
+   * Dismisses the popover with data set to &#x60;openRegistration&#x60;  
+   */
+  presentRegistrationPopover() {
+    this.popoverController.dismiss(&#x27;openRegistration&#x27;);
   }
 }
 </code></pre>
@@ -806,14 +920,14 @@ export class LoginComponent implements OnInit {
                   [type]&#x3D; &quot;&#x27;password&#x27;&quot; [inputMode]&#x3D;&quot;&#x27;password&#x27;&quot;&gt;
           &lt;/app-input-form&gt;
         &lt;/ion-card&gt;
-        &lt;ion-item *ngIf&#x3D;&quot;messageReceived&quot; class&#x3D;&quot;invalid-feedback&quot;&gt; {{ message }}
+        &lt;ion-item *ngIf&#x3D;&quot;errorMessage&quot; class&#x3D;&quot;invalid-feedback&quot;&gt; {{ errorMessage }}
           &lt;ion-button *ngIf&#x3D;&quot;showResendButton&quot; class&#x3D;&quot;greyButton&quot; fill&#x3D;&quot;empty&quot; slot&#x3D;&quot;end&quot; (click)&#x3D;&quot;resendEmail()&quot;&gt;Resend&lt;/ion-button&gt;
           &lt;ion-icon *ngIf&#x3D;&quot;showResentMessage&quot; class&#x3D;&quot;checkmark-circle&quot; slot&#x3D;&quot;end&quot; name&#x3D;&quot;checkmark-circle&quot;&gt;&lt;/ion-icon&gt;
-          &lt;ion-icon *ngIf&#x3D;&quot;showNotResentMessage&quot; class&#x3D;&quot;close-circle&quot; slot&#x3D;&quot;end&quot; name&#x3D;&quot;close-circle&quot;&gt;&lt;/ion-icon&gt;
+          &lt;ion-icon *ngIf&#x3D;&quot;!showResentMessage&quot; class&#x3D;&quot;close-circle&quot; slot&#x3D;&quot;end&quot; name&#x3D;&quot;close-circle&quot;&gt;&lt;/ion-icon&gt;
         &lt;/ion-item&gt;
         &lt;ion-button class&#x3D;&quot;formButton&quot; expand&#x3D;&quot;block&quot; type&#x3D;&quot;submit&quot;&gt; Log In &lt;/ion-button&gt;
         &lt;div class&#x3D;&quot;feedback&quot; &gt;
-          &lt;a href&#x3D;&quot;&quot; (click)&#x3D;&quot;presentForgotPopover($event)&quot; slot&#x3D;&quot;end&quot; &gt; Forgot your password? &lt;/a&gt;
+          &lt;a class&#x3D;&quot;cursor-pointer&quot; (click)&#x3D;&quot;presentForgotPopover()&quot; slot&#x3D;&quot;end&quot; &gt; Forgot your password? &lt;/a&gt;
         &lt;/div&gt;
       &lt;/form&gt;
     &lt;/ion-col&gt;
@@ -822,7 +936,7 @@ export class LoginComponent implements OnInit {
     &lt;ion-toolbar color&#x3D;&quot;medium&quot;&gt;
       &lt;ion-title class&#x3D;&quot;popoverFooter&quot;&gt;
         Not a member yet?
-        &lt;a href&#x3D;&quot;&quot; (click)&#x3D;&quot;presentRegistrationPopover()&quot;&gt; Join now! &lt;/a&gt;
+        &lt;a class&#x3D;&quot;cursor-pointer&quot; (click)&#x3D;&quot;presentRegistrationPopover()&quot;&gt; Join now! &lt;/a&gt;
       &lt;/ion-title&gt;
     &lt;/ion-toolbar&gt;
   &lt;/ion-header&gt;
@@ -835,8 +949,9 @@ export class LoginComponent implements OnInit {
                 <p class="comment">
                     <code>./login.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">
-</code></pre>
+                <pre class="line-numbers"><code class="language-scss">.cursor-pointer {
+    cursor: pointer;
+}</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -864,8 +979,8 @@ export class LoginComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ion-content>  <ion-header>    <ion-toolbar color="medium">      <ion-title class="popoverTitle">        Log In      </ion-title>    </ion-toolbar>  </ion-header>  <ion-row>    <ion-col size="10" offset="1">      <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">        <ion-card class="formElement" >          <app-input-form                  [inputForm]="loginForm" [givenName]="\'email\'" [text]="\'Email*\'" [validationMessages]="validationMessages.email"                  [type]="\'email\'" [inputMode]="\'email\'">          </app-input-form>        </ion-card>        <ion-card class="formElement" >          <app-input-form                  [inputForm]="loginForm" [givenName]="\'password\'" [text]="\'Password*\'" [validationMessages]="validationMessages.password"                  [type]= "\'password\'" [inputMode]="\'password\'">          </app-input-form>        </ion-card>        <ion-item *ngIf="messageReceived" class="invalid-feedback"> {{ message }}          <ion-button *ngIf="showResendButton" class="greyButton" fill="empty" slot="end" (click)="resendEmail()">Resend</ion-button>          <ion-icon *ngIf="showResentMessage" class="checkmark-circle" slot="end" name="checkmark-circle"></ion-icon>          <ion-icon *ngIf="showNotResentMessage" class="close-circle" slot="end" name="close-circle"></ion-icon>        </ion-item>        <ion-button class="formButton" expand="block" type="submit"> Log In </ion-button>        <div class="feedback" >          <a href="" (click)="presentForgotPopover($event)" slot="end" > Forgot your password? </a>        </div>      </form>    </ion-col>  </ion-row>  <ion-header class="removeScrollbarForPopover">    <ion-toolbar color="medium">      <ion-title class="popoverFooter">        Not a member yet?        <a href="" (click)="presentRegistrationPopover()"> Join now! </a>      </ion-title>    </ion-toolbar>  </ion-header></ion-content></div>'
-    var COMPONENTS = [{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'DeleteOffersComponent', 'selector': 'app-delete-offers'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'TopHeaderEndComponent', 'selector': 'app-top-header-end'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
+        var COMPONENT_TEMPLATE = '<div><ion-content>  <ion-header>    <ion-toolbar color="medium">      <ion-title class="popoverTitle">        Log In      </ion-title>    </ion-toolbar>  </ion-header>  <ion-row>    <ion-col size="10" offset="1">      <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">        <ion-card class="formElement" >          <app-input-form                  [inputForm]="loginForm" [givenName]="\'email\'" [text]="\'Email*\'" [validationMessages]="validationMessages.email"                  [type]="\'email\'" [inputMode]="\'email\'">          </app-input-form>        </ion-card>        <ion-card class="formElement" >          <app-input-form                  [inputForm]="loginForm" [givenName]="\'password\'" [text]="\'Password*\'" [validationMessages]="validationMessages.password"                  [type]= "\'password\'" [inputMode]="\'password\'">          </app-input-form>        </ion-card>        <ion-item *ngIf="errorMessage" class="invalid-feedback"> {{ errorMessage }}          <ion-button *ngIf="showResendButton" class="greyButton" fill="empty" slot="end" (click)="resendEmail()">Resend</ion-button>          <ion-icon *ngIf="showResentMessage" class="checkmark-circle" slot="end" name="checkmark-circle"></ion-icon>          <ion-icon *ngIf="!showResentMessage" class="close-circle" slot="end" name="close-circle"></ion-icon>        </ion-item>        <ion-button class="formButton" expand="block" type="submit"> Log In </ion-button>        <div class="feedback" >          <a class="cursor-pointer" (click)="presentForgotPopover()" slot="end" > Forgot your password? </a>        </div>      </form>    </ion-col>  </ion-row>  <ion-header class="removeScrollbarForPopover">    <ion-toolbar color="medium">      <ion-title class="popoverFooter">        Not a member yet?        <a class="cursor-pointer" (click)="presentRegistrationPopover()"> Join now! </a>      </ion-title>    </ion-toolbar>  </ion-header></ion-content></div>'
+    var COMPONENTS = [{'name': 'AddCategoryComponent', 'selector': 'app-add-category'},{'name': 'AddProductsPage', 'selector': 'app-add-products'},{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderButtonsComponent', 'selector': 'app-header-buttons'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'ImagePickerComponent', 'selector': 'app-image-picker'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageOffersComponent', 'selector': 'app-manage-offers'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MapModalComponent', 'selector': 'app-map-modal'},{'name': 'MapPickerComponent', 'selector': 'app-map-picker'},{'name': 'MyOrdersPage', 'selector': 'app-my-orders'},{'name': 'MyProductsPage', 'selector': 'app-my-products'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'OrderDetailsPage', 'selector': 'app-order-details'},{'name': 'OrdersComponent', 'selector': 'app-orders'},{'name': 'PaymentPage', 'selector': 'app-payment'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'ProductReviewComponent', 'selector': 'app-product-review'},{'name': 'ProfileInformationsComponent', 'selector': 'app-profile-informations'},{'name': 'ProfilePage', 'selector': 'app-profile'},{'name': 'ProfilePopoverComponent', 'selector': 'app-profile-popover'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'UserPage', 'selector': 'app-user'},{'name': 'UserProductsComponent', 'selector': 'app-user-products'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'LoginComponent'};
 </script>

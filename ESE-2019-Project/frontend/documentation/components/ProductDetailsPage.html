@@ -130,8 +130,28 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#_hasBought">_hasBought</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
-                                <a href="#loremIpsum">loremIpsum</a>
+                                <a href="#endDate">endDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#filledStars">filledStars</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading">isLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isLoggedIn">isLoggedIn</a>
+                            </li>
+                            <li>
+                                <a href="#maxDate">maxDate</a>
+                            </li>
+                            <li>
+                                <a href="#orderForm">orderForm</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -140,6 +160,24 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#productInformation">productInformation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#rating">rating</a>
+                            </li>
+                            <li>
+                                <a href="#reviewForm">reviewForm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#showOrderingDetails">showOrderingDetails</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#startDate">startDate</a>
+                            </li>
+                            <li>
+                                <a href="#validationMessages">validationMessages</a>
                             </li>
                         </ul>
                     </td>
@@ -154,16 +192,31 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#createMailLink">createMailLink</a>
+                                <a href="#array">array</a>
                             </li>
                             <li>
                                 <a href="#displayProductInformation">displayProductInformation</a>
                             </li>
                             <li>
-                                <a href="#getProductFromBackend">getProductFromBackend</a>
+                                <a href="#fillTo">fillTo</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onChangeStartDate">onChangeStartDate</a>
+                            </li>
+                            <li>
+                                <a href="#onClickBuy">onClickBuy</a>
+                            </li>
+                            <li>
+                                <a href="#onOrder">onOrder</a>
+                            </li>
+                            <li>
+                                <a href="#onRatingChanged">onRatingChanged</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmitReview">onSubmitReview</a>
                             </li>
                         </ul>
                     </td>
@@ -184,6 +237,15 @@
                                 <li>
                                     <a href="#product">product</a>
                                 </li>
+                                <li>
+                                    <a href="#orderingDetails">orderingDetails</a>
+                                </li>
+                                <li>
+                                    <a href="#loggedIn">loggedIn</a>
+                                </li>
+                                <li>
+                                    <a href="#hasBought">hasBought</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -197,12 +259,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>, categoryService: <a href="../injectables/CategoryService.html">CategoryService</a>)</code>
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>, orderService: <a href="../injectables/OrderService.html">OrderService</a>, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, progressIndicatorService: <a href="../injectables/ProgressIndicatorService.html">ProgressIndicatorService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, datePicker: DatePicker)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:115</a></div>
                             </td>
                         </tr>
 
@@ -256,10 +318,58 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>categoryService</td>
+                                                        <td>orderService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CategoryService.html" target="_self" >CategoryService</a></code>
+                                                                        <code><a href="../injectables/OrderService.html" target="_self" >OrderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>progressIndicatorService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ProgressIndicatorService.html" target="_self" >ProgressIndicatorService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>datePicker</td>
+                                                  
+                                                        <td>
+                                                                    <code>DatePicker</code>
                                                         </td>
                                                   
                                                     <td>
@@ -289,26 +399,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createMailLink"></a>
+                    <a name="array"></a>
                     <span class="name">
                         <b>
-                            createMailLink
+                            array
                         </b>
-                        <a href="#createMailLink"><span class="icon ion-ios-link"></span></a>
+                        <a href="#array"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>createMailLink()</code>
+<code>array(n: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:164</a></div>
                 </td>
             </tr>
 
@@ -317,8 +427,39 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>n</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>number[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -346,8 +487,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="234"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:234</a></div>
                 </td>
             </tr>
 
@@ -398,26 +539,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getProductFromBackend"></a>
+                    <a name="fillTo"></a>
                     <span class="name">
                         <b>
-                            getProductFromBackend
+                            fillTo
                         </b>
-                        <a href="#getProductFromBackend"><span class="icon ion-ios-link"></span></a>
+                        <a href="#fillTo"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getProductFromBackend(productId)</code>
+<code>fillTo(n: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:190</a></div>
                 </td>
             </tr>
 
@@ -431,12 +572,16 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>productId</td>
+                                    <td>n</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -450,7 +595,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -482,8 +627,234 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:198</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onChangeStartDate"></a>
+                    <span class="name">
+                        <b>
+                            onChangeStartDate
+                        </b>
+                        <a href="#onChangeStartDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onChangeStartDate()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:143</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClickBuy"></a>
+                    <span class="name">
+                        <b>
+                            onClickBuy
+                        </b>
+                        <a href="#onClickBuy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClickBuy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:226</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onOrder"></a>
+                    <span class="name">
+                        <b>
+                            onOrder
+                        </b>
+                        <a href="#onOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onOrder()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:149</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRatingChanged"></a>
+                    <span class="name">
+                        <b>
+                            onRatingChanged
+                        </b>
+                        <a href="#onRatingChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onRatingChanged(n: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="230"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:230</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>n</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmitReview"></a>
+                    <span class="name">
+                        <b>
+                            onSubmitReview
+                        </b>
+                        <a href="#onSubmitReview"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmitReview()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">src/app/pages/product-details/product-details.page.ts:171</a></div>
                 </td>
             </tr>
 
@@ -509,28 +880,183 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="loremIpsum"></a>
+                        <a name="_hasBought"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
-                            loremIpsum</b>
-                            <a href="#loremIpsum"><span class="icon ion-ios-link"></span></a>
+                            _hasBought</b>
+                            <a href="#_hasBought"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>&#x60;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet
-	clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur
-	sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At
-	vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-	dolor sit amet.&#x60;</code>
+                            <i>Default value : </i><code>false</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:65</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="endDate"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            endDate</b>
+                            <a href="#endDate"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:60</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filledStars"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            filledStars</b>
+                            <a href="#filledStars"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>5</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:56</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLoading"></a>
+                        <span class="name">
+                            <b>
+                            isLoading</b>
+                            <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>true</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:64</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLoggedIn"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            isLoggedIn</b>
+                            <a href="#isLoggedIn"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:55</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxDate"></a>
+                        <span class="name">
+                            <b>
+                            maxDate</b>
+                            <a href="#maxDate"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>(new Date()).getFullYear() + 3</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:62</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="orderForm"></a>
+                        <span class="name">
+                            <b>
+                            orderForm</b>
+                            <a href="#orderForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -552,7 +1078,7 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:52</a></div>
                             </td>
                         </tr>
 
@@ -574,7 +1100,196 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:53</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rating"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            rating</b>
+                            <a href="#rating"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>5</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:57</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reviewForm"></a>
+                        <span class="name">
+                            <b>
+                            reviewForm</b>
+                            <a href="#reviewForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showOrderingDetails"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            showOrderingDetails</b>
+                            <a href="#showOrderingDetails"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:54</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="startDate"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            startDate</b>
+                            <a href="#startDate"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:59</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="validationMessages"></a>
+                        <span class="name">
+                            <b>
+                            validationMessages</b>
+                            <a href="#validationMessages"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+		startDate: [{
+				type: &#x27;required&#x27;,
+				message: &#x27;Start date is required&#x27;
+			},
+			{
+				type: &#x27;text&#x27;,
+				message: &#x27;Not a valid address&#x27;
+			},
+			{
+				type: &#x27;min&#x27;,
+				message: &#x27;Title must be longer than 5 characters&#x27;
+			},
+			{
+				type: &#x27;maxlength&#x27;,
+				message: &#x27;Title must be less than 30 characters&#x27;
+			}
+		],
+		endDate: [{
+				type: &#x27;required&#x27;,
+				message: &#x27;End date is required&#x27;
+			},
+			{
+				type: &#x27;number&#x27;,
+				message: &#x27;Not a valid number&#x27;
+			},
+			{
+				type: &#x27;min&#x27;,
+				message: &#x27;Event end has to be after event start&#x27;
+			},
+			{
+				type: &#x27;maxlength&#x27;,
+				message: &#x27;Price must be lower than 1000000 CHF&#x27;
+			}
+		],
+		description: [{
+				type: &#x27;required&#x27;,
+				message: &#x27;Description is required&#x27;
+			},
+			{
+				type: &#x27;maxlength&#x27;,
+				message: &#x27;Description must me shorter than 10000 characters&#x27;
+			}
+		],
+		comment: [{
+			type: &#x27;maxlength&#x27;,
+			message: &#x27;Comment must me shorter than 10000 characters&#x27;
+		}]
+	}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -603,7 +1318,73 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:131</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="orderingDetails"></a>
+                        <span class="name"><b>orderingDetails</b><a href="#orderingDetails"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>orderingDetails()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:135</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loggedIn"></a>
+                        <span class="name"><b>loggedIn</b><a href="#loggedIn"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>loggedIn()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:139</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hasBought"></a>
+                        <span class="name"><b>hasBought</b><a href="#hasBought"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>hasBought()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="194" class="link-to-prism">src/app/pages/product-details/product-details.page.ts:194</a></div>
                                 </td>
                             </tr>
 
@@ -614,15 +1395,47 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+	Component,
+	OnInit
+} from &#x27;@angular/core&#x27;;
 
-import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import {
+	ActivatedRoute,
+	Router
+} from &#x27;@angular/router&#x27;;
 
-import { ProductService } from &#x27;src/app/core/services/productService/product.service&#x27;;
+import {
+	ProductService
+} from &#x27;src/app/core/services/productService/product.service&#x27;;
 
-import { first } from &#x27;rxjs/operators&#x27;;
+import {DatePicker} from &#x27;@ionic-native/date-picker/ngx&#x27;;
 
-import { CategoryService } from &#x27;src/app/core/services/categoryService/category.service&#x27;;
+import {
+	first
+} from &#x27;rxjs/operators&#x27;;
+
+import {
+	CategoryService
+} from &#x27;src/app/core/services/categoryService/category.service&#x27;;
+
+import {
+	OrderService
+} from &#x27;src/app/core/services/orderService/order.service&#x27;;
+
+import {
+	ProgressIndicatorService
+} from &#x27;../../core/services/progressIndicatorService/progress-indicator.service&#x27;;
+
+import {
+	FormBuilder,
+	FormGroup,
+	Validators
+} from &#x27;@angular/forms&#x27;;
+
+import {
+	AuthService
+} from &#x27;src/app/core/services/authService/auth.service&#x27;;
 
 @Component({
 	selector: &#x27;app-product-details&#x27;,
@@ -630,25 +1443,153 @@ import { CategoryService } from &#x27;src/app/core/services/categoryService/cate
 	styleUrls: [&#x27;./product-details.page.scss&#x27;]
 })
 export class ProductDetailsPage implements OnInit {
+	orderForm: FormGroup;
+	reviewForm: FormGroup;
+
 	private productId;
 	private productInformation;
+	private showOrderingDetails &#x3D; false;
+	private isLoggedIn &#x3D; false;
+	private filledStars &#x3D; 5;
+	private rating &#x3D; 5;
 
-	private loremIpsum &#x3D; &#x60;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet
-	clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur
-	sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At
-	vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-	dolor sit amet.&#x60;;
+	private startDate;
+	private endDate;
+
+	maxDate &#x3D; (new Date()).getFullYear() + 3;
+
+	isLoading &#x3D; true;
+	_hasBought &#x3D; false;
+
+	validationMessages &#x3D; {
+		startDate: [{
+				type: &#x27;required&#x27;,
+				message: &#x27;Start date is required&#x27;
+			},
+			{
+				type: &#x27;text&#x27;,
+				message: &#x27;Not a valid address&#x27;
+			},
+			{
+				type: &#x27;min&#x27;,
+				message: &#x27;Title must be longer than 5 characters&#x27;
+			},
+			{
+				type: &#x27;maxlength&#x27;,
+				message: &#x27;Title must be less than 30 characters&#x27;
+			}
+		],
+		endDate: [{
+				type: &#x27;required&#x27;,
+				message: &#x27;End date is required&#x27;
+			},
+			{
+				type: &#x27;number&#x27;,
+				message: &#x27;Not a valid number&#x27;
+			},
+			{
+				type: &#x27;min&#x27;,
+				message: &#x27;Event end has to be after event start&#x27;
+			},
+			{
+				type: &#x27;maxlength&#x27;,
+				message: &#x27;Price must be lower than 1000000 CHF&#x27;
+			}
+		],
+		description: [{
+				type: &#x27;required&#x27;,
+				message: &#x27;Description is required&#x27;
+			},
+			{
+				type: &#x27;maxlength&#x27;,
+				message: &#x27;Description must me shorter than 10000 characters&#x27;
+			}
+		],
+		comment: [{
+			type: &#x27;maxlength&#x27;,
+			message: &#x27;Comment must me shorter than 10000 characters&#x27;
+		}]
+	};
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private productService: ProductService,
-		private categoryService: CategoryService
-	) { }
+		private orderService: OrderService,
+		private formBuilder: FormBuilder,
+		private progressIndicatorService: ProgressIndicatorService,
+		private authService: AuthService,
+		private datePicker: DatePicker
+	) {
+		this.isLoggedIn &#x3D; authService.isLoggedIn();
+		console.log(this.loggedIn);
+	}
 
 	get product() {
 		return this.productInformation;
+	}
+
+	get orderingDetails() {
+		return this.showOrderingDetails;
+	}
+
+	get loggedIn() {
+		return this.isLoggedIn;
+	}
+
+	onChangeStartDate() {
+		console.log(&quot;change event&quot;);
+		this.orderForm.controls[&quot;endDate&quot;].setValue(this.orderForm.controls[&quot;startDate&quot;].value);
+		//this.orderForm.controls[&quot;endDate&quot;].setValidators([Validators.required, Validators.min(this.orderForm.controls[&quot;startDate&quot;].value)]);
+	}
+
+	onOrder() {
+		if (this.orderForm.invalid) {
+			return;
+		}
+
+		const val &#x3D; this.orderForm.value;
+		this.orderService.place(val, this.productId).subscribe(data &#x3D;&gt; {
+			this.orderForm.reset();
+			this.progressIndicatorService.presentToast(&#x27;Order successfully placed&#x27;);
+		}, error &#x3D;&gt; {
+			console.log(error.error.error);
+			this.progressIndicatorService.presentToast(error.error.error, &#x27;danger&#x27;);
+		});
+	}
+
+	array(n: number): number[] {
+        const arr &#x3D; Array(n);
+        return Array.from(arr.keys()).map(ind &#x3D;&gt; ind + 1);
+	}
+	
+
+
+	onSubmitReview() {
+		if (this.reviewForm.invalid) {
+			return;
+		}
+
+		const val &#x3D; {
+			comment: this.reviewForm.value.comment,
+			rating: this.rating,
+			productId: this.productId
+		};
+		this.productService.addReview(val).subscribe(data &#x3D;&gt; {
+			this.orderForm.reset();
+			this.progressIndicatorService.presentToast(&#x27;Review successfully added&#x27;);
+		}, error &#x3D;&gt; {
+			console.log(error.error.error);
+			this.progressIndicatorService.presentToast(error.error.error, &#x27;danger&#x27;);
+		});
+	}
+
+	fillTo(n: number): void {
+		this.filledStars &#x3D; n;
+	}
+
+	get hasBought() {
+		return this._hasBought;
 	}
 
 	ngOnInit() {
@@ -660,50 +1601,51 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 				this.displayProductInformation(this.productId);
 			}
 		});
-	}
 
-	displayProductInformation(productId: any) {
-		this.getProductFromBackend(productId).then(
-			data &#x3D;&gt; {
-				this.productInformation &#x3D; data;
-			},
+		if(this.authService.isLoggedIn()) {
+			this.productService.hasBought(this.productId).subscribe(data &#x3D;&gt; {
+				this._hasBought &#x3D; (data as any).hasBought;
+			});
+		}
 
-			err &#x3D;&gt; {
-				console.log(err);
-			}
-		);
-	}
+		this.orderForm &#x3D; this.formBuilder.group({
+			startDate: [&#x27;&#x27;, [Validators.required]],
+			endDate: [&#x27;&#x27;, [Validators.required, Validators.min]],
+			description: [&#x27;&#x27;, [Validators.required, Validators.maxLength(400)]]
+		});
 
-	getProductFromBackend(productId) {
-		return new Promise((resolve, reject) &#x3D;&gt; {
-			this.productService
-				.getAllProducts()
-				.pipe(first())
-				.subscribe(
-					data &#x3D;&gt; {
-						const result &#x3D; data.filter(
-							product &#x3D;&gt; (product as any)._id &#x3D;&#x3D;&#x3D; productId
-						);
-
-						if (result.length &#x3D;&#x3D;&#x3D; 1) {
-							resolve(result[0]);
-						} else {
-							reject(&#x27;No such product found&#x27;);
-						}
-					},
-
-					err &#x3D;&gt; {
-						reject(err);
-					}
-				);
+		this.reviewForm &#x3D; this.formBuilder.group({
+			comment: [&#x27;&#x27;],
+			rating: [5, [Validators.required]],
 		});
 	}
 
-	createMailLink() {
-		return &#x60;mailto:${this.productInformation.mail || &#x27;mail@adresse.ch&#x27;}?subject&#x3D;Request%20for%20product%20${this.productInformation.name}&#x60;;
+	onClickBuy() {
+		this.showOrderingDetails &#x3D; !this.showOrderingDetails;
 	}
-}
-</code></pre>
+
+	onRatingChanged(n: number) {
+		this.rating &#x3D; n;
+	}
+
+	displayProductInformation(productId: any) {
+		this.productService
+			.getSingleProduct(productId)
+			.subscribe(
+				data &#x3D;&gt; {
+					this.isLoading &#x3D; false;
+					this.productInformation &#x3D; data;
+					this.isLoading &#x3D; false;
+				},
+
+				err &#x3D;&gt; {
+					this.isLoading &#x3D; false;
+					console.log(err);
+					this.isLoading &#x3D; false;
+				}
+			);
+	}
+}</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
@@ -713,42 +1655,82 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 	&lt;/ion-toolbar&gt;
 &lt;/ion-header&gt;
 &lt;ion-content&gt;
-	&lt;ion-title *ngIf&#x3D;&quot;!product&quot;&gt;
+	&lt;ion-title *ngIf&#x3D;&quot;!product &amp;&amp; isLoading&quot; class&#x3D;&quot;statusMessage&quot;&gt;
 		... Loading ...
+	&lt;/ion-title&gt;
+	&lt;ion-title *ngIf&#x3D;&quot;!product &amp;&amp; !isLoading&quot; class&#x3D;&quot;statusMessage&quot;&gt;
+		Sorry, this product doesn&#x27;t exist!
 	&lt;/ion-title&gt;
 	&lt;ion-grid *ngIf&#x3D;&quot;product&quot;&gt;
 		&lt;ion-row&gt;
-			&lt;ion-title&gt;{{ product.name }}&lt;/ion-title&gt;
+			&lt;ion-col class&#x3D;&quot;product-image-container&quot; size&#x3D;&quot;12&quot; offset&#x3D;&quot;0&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot; offset-lg&#x3D;&quot;3&quot; size-lg&#x3D;&quot;6&quot;&gt;
+				&lt;ion-card&gt;
+					&lt;ion-img [src]&#x3D;&quot;product.image || &#x27;https://lorempixel.com/300/300/cats/&#x27;&quot;&gt;&lt;/ion-img&gt;
+				&lt;/ion-card&gt;
+
+			&lt;/ion-col&gt;
+			&lt;ion-col size&#x3D;&quot;12&quot; offset&#x3D;&quot;0&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot; offset-lg&#x3D;&quot;3&quot; size-lg&#x3D;&quot;6&quot;&gt;
+				&lt;ion-card class&#x3D;&quot;cardDetails&quot;&gt;
+					&lt;ion-list&gt;
+						&lt;ion-item class&#x3D;&quot;ion-text-capitalize product-title&quot;&gt;{{ product.name }}&lt;/ion-item&gt;
+						&lt;ion-item&gt;&lt;ion-icon name&#x3D;&quot;pricetags&quot;&gt;&lt;/ion-icon&gt;&amp;nbsp; Price: &lt;span&gt;&amp;nbsp;{{ product.price || &#x27;not specified&#x27;}}&lt;/span&gt;&lt;span&gt;&amp;nbsp;CHF&lt;/span&gt;&lt;/ion-item&gt;
+						&lt;ion-item&gt;&lt;ion-icon name&#x3D;&quot;albums&quot;&gt;&lt;/ion-icon&gt;&amp;nbsp; Category: &lt;span&gt;&amp;nbsp;{{ product.category.name }}&lt;/span&gt;&lt;/ion-item&gt;
+						&lt;ion-item&gt;&lt;ion-icon name&#x3D;&quot;person&quot;&gt;&lt;/ion-icon&gt;&amp;nbsp; Seller: &lt;span&gt;&amp;nbsp;{{ product.seller.name }}&lt;/span&gt;&lt;/ion-item&gt;
+						&lt;ion-item&gt;&lt;ion-icon name&#x3D;&quot;pin&quot;&gt;&lt;/ion-icon&gt; &amp;nbsp;Location: &lt;span&gt;&amp;nbsp;{{ product.location || &#x27;nowhere&#x27;}}&lt;/span&gt;&lt;/ion-item&gt;
+						&lt;ion-button fill&#x3D;&quot;empty&quot; class&#x3D;&quot;blueButton&quot; (click) &#x3D; &quot;onClickBuy();&quot; *ngIf&#x3D;&quot;!orderingDetails &amp;&amp; loggedIn &amp;&amp; product.seller._id !&#x3D; authService.getId()&quot;&gt;Order now&lt;/ion-button&gt;
+					&lt;/ion-list&gt;
+				&lt;/ion-card&gt;
+
+
+				&lt;ion-card *ngIf&#x3D;&quot;orderingDetails&quot;&gt;
+						&lt;ion-card-header&gt;
+							&lt;ion-card-title&gt;Order this product&lt;/ion-card-title&gt;
+						&lt;/ion-card-header&gt;
+						&lt;ion-card-content&gt;
+								&lt;form [formGroup]&#x3D;&quot;orderForm&quot; (ngSubmit)&#x3D;&quot;onOrder()&quot;&gt;
+										&lt;app-input-form
+										[inputForm]&#x3D;&quot;orderForm&quot; [givenName]&#x3D;&quot;&#x27;startDate&#x27;&quot; [text]&#x3D;&quot;&#x27;Event Start*&#x27;&quot;
+										[validationMessages]&#x3D;&quot;validationMessages.fromDate&quot;
+										[type]&#x3D;&quot;&#x27;dateTime&#x27;&quot; [max]&#x3D;&quot;maxDate&quot; (ionChange)&#x3D;&quot;onChangeStartDate()&quot; [inputMode]&#x3D;&quot;&#x27;text&#x27;&quot;&gt;
+										&lt;/app-input-form&gt;
+										&lt;app-input-form
+										[inputForm]&#x3D;&quot;orderForm&quot; [givenName]&#x3D;&quot;&#x27;endDate&#x27;&quot; [text]&#x3D;&quot;&#x27;Event End*&#x27;&quot;
+										[validationMessages]&#x3D;&quot;validationMessages.toDate&quot;
+										[type]&#x3D;&quot;&#x27;dateTime&#x27;&quot; [max]&#x3D;&quot;maxDate&quot; [min]&#x3D;&quot;orderForm.controls[&#x27;startDate&#x27;].value&quot; [inputMode]&#x3D;&quot;&#x27;text&#x27;&quot;&gt;
+										&lt;/app-input-form&gt;
+										&lt;app-input-form
+										[inputForm]&#x3D;&quot;orderForm&quot; [givenName]&#x3D;&quot;&#x27;description&#x27;&quot; [text]&#x3D;&quot;&#x27;Description*&#x27;&quot;
+										[validationMessages]&#x3D;&quot;validationMessages.description&quot;
+										[type]&#x3D;&quot;&#x27;text&#x27;&quot; [inputMode]&#x3D;&quot;&#x27;text&#x27;&quot;&gt;
+										&lt;/app-input-form&gt;
+										&lt;ion-button class&#x3D;&quot;blueButton&quot; fill&#x3D;&quot;empty&quot; type&#x3D;&quot;submit&quot;&gt; Submit &lt;/ion-button&gt;
+								&lt;/form&gt;
+								&lt;ion-button class&#x3D;&quot;greyButton&quot; fill&#x3D;&quot;empty&quot; color&#x3D;&quot;danger&quot; (click) &#x3D; &quot;onClickBuy();&quot; *ngIf&#x3D;&quot;orderingDetails&quot;&gt;Cancel&lt;/ion-button&gt;
+						&lt;/ion-card-content&gt;
+					&lt;/ion-card&gt;
+			&lt;/ion-col&gt;
 		&lt;/ion-row&gt;
 		&lt;ion-row&gt;
-			&lt;ion-col class&#x3D;&quot;product-image-container&quot; size&#x3D;&quot;12&quot; size-md&#x3D;&quot;6&quot;&gt;
-				&lt;ion-thumbnail class&#x3D;&quot;product-image&quot;&gt;&lt;ion-img [src]&#x3D;&quot;product.src || &#x27;https://lorempixel.com/300/300/cats/&#x27;&quot;&gt;&lt;/ion-img&gt;&lt;/ion-thumbnail&gt;
-			&lt;/ion-col&gt;
-			&lt;ion-col size&#x3D;&quot;12&quot; size-md&#x3D;&quot;6&quot;&gt;
-				&lt;ion-list lines&#x3D;&quot;none&quot;&gt;
-					&lt;ion-item class&#x3D;&quot;ion-text-capitalize product-title&quot;&gt;{{ product.name }}&lt;/ion-item&gt;
-					&lt;ion-item&gt;Price: &lt;span slot&#x3D;&quot;end&quot;&gt;{{ product.price || &#x27;not specified&#x27;}}&lt;/span&gt;&lt;/ion-item&gt;
-					&lt;ion-item&gt;Verified: &lt;span slot&#x3D;&quot;end&quot;&gt;{{ product.verified }}&lt;/span&gt;&lt;/ion-item&gt;
-					&lt;ion-item&gt;Category: &lt;span slot&#x3D;&quot;end&quot;&gt;{{ product.category }}&lt;/span&gt;&lt;/ion-item&gt;
-					&lt;ion-item&gt;Seller: &lt;span slot&#x3D;&quot;end&quot;&gt;{{ product.seller.name }}&lt;/span&gt;&lt;/ion-item&gt;
-					&lt;ion-item&gt;Location: &lt;span slot&#x3D;&quot;end&quot;&gt;{{ product.location || &#x27;nowhere&#x27;}}&lt;/span&gt;&lt;/ion-item&gt;
-					&lt;ion-button [href]&#x3D;&quot;createMailLink()&quot;&gt;Contact&lt;/ion-button&gt;
-				&lt;/ion-list&gt;
-			&lt;/ion-col&gt;
-		&lt;/ion-row&gt;
-		&lt;ion-row&gt;
-			&lt;ion-col size&#x3D;&quot;12&quot;&gt;
-				&lt;span class&#x3D;&quot;product-title&quot;&gt;Description&lt;/span&gt;&lt;br/&gt;
-			&lt;/ion-col&gt;
-		&lt;/ion-row&gt;
-		&lt;ion-row&gt;
-			&lt;ion-col size&#x3D;&quot;12&quot;&gt;
+			&lt;ion-col size&#x3D;&quot;12&quot; offset&#x3D;&quot;0&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot; offset-lg&#x3D;&quot;3&quot; size-lg&#x3D;&quot;6&quot;&gt;
+				&lt;ion-card class&#x3D;&quot;cardDetails&quot;&gt;
+				&lt;ion-card-title&gt;Description&lt;br/&gt;&lt;br/&gt;&lt;/ion-card-title&gt;
 				&lt;ng-container *ngIf&#x3D;&quot;product.description&quot;&gt; {{ product.description }} &lt;/ng-container&gt;
-				&lt;ng-container *ngIf&#x3D;&quot;!product.description&quot;&gt; {{ loremIpsum }} &lt;/ng-container&gt;
+				&lt;ng-container *ngIf&#x3D;&quot;!product.description&quot;&gt; This product does not have a description&lt;/ng-container&gt;
+				&lt;/ion-card&gt;
+			&lt;/ion-col&gt;
+			&lt;ion-col size&#x3D;&quot;12&quot; offset&#x3D;&quot;0&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot; offset-lg&#x3D;&quot;3&quot; size-lg&#x3D;&quot;6&quot;&gt;
+				&lt;ion-card class&#x3D;&quot;cardDetails&quot;&gt;
+				&lt;ion-card-title&gt;Reviews&lt;/ion-card-title&gt;
+				&lt;p *ngIf&#x3D;&quot;product.reviews.length &#x3D;&#x3D; 0&quot;&gt; This product has no reviews yet. &lt;/p&gt;
+				&lt;span *ngFor&#x3D;&quot;let review of product.reviews&quot;&gt;
+					&lt;app-product-review [review]&#x3D;&quot;review&quot;&gt;&lt;/app-product-review&gt;
+				&lt;/span&gt;
+				&lt;/ion-card&gt;
 			&lt;/ion-col&gt;
 		&lt;/ion-row&gt;
 	&lt;/ion-grid&gt;
-&lt;/ion-content&gt;</code></pre>
+&lt;/ion-content&gt;
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
@@ -757,16 +1739,29 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
                 </p>
                 <pre class="line-numbers"><code class="language-scss">.product-title {
     font-weight: bold;
-}
-
-:host ion-thumbnail {
-    --size: 300px;
+    font-size: 30px;
 }
 
 :host ion-item {
     --padding-bottom: 20px;
     --min-height: 0px;
-}</code></pre>
+}
+
+.rating {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.statusMessage {
+      text-align:center;
+      margin-top:10%;
+}
+
+.cardDetails {
+    padding: 20px;
+}
+
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -794,8 +1789,8 @@ labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam e
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ion-header>	<ion-toolbar>		<app-header></app-header>	</ion-toolbar></ion-header><ion-content>	<ion-title *ngIf="!product">		... Loading ...	</ion-title>	<ion-grid *ngIf="product">		<ion-row>			<ion-title>{{ product.name }}</ion-title>		</ion-row>		<ion-row>			<ion-col class="product-image-container" size="12" size-md="6">				<ion-thumbnail class="product-image"><ion-img [src]="product.src || \'https://lorempixel.com/300/300/cats/\'"></ion-img></ion-thumbnail>			</ion-col>			<ion-col size="12" size-md="6">				<ion-list lines="none">					<ion-item class="ion-text-capitalize product-title">{{ product.name }}</ion-item>					<ion-item>Price: <span slot="end">{{ product.price || \'not specified\'}}</span></ion-item>					<ion-item>Verified: <span slot="end">{{ product.verified }}</span></ion-item>					<ion-item>Category: <span slot="end">{{ product.category }}</span></ion-item>					<ion-item>Seller: <span slot="end">{{ product.seller.name }}</span></ion-item>					<ion-item>Location: <span slot="end">{{ product.location || \'nowhere\'}}</span></ion-item>					<ion-button [href]="createMailLink()">Contact</ion-button>				</ion-list>			</ion-col>		</ion-row>		<ion-row>			<ion-col size="12">				<span class="product-title">Description</span><br/>			</ion-col>		</ion-row>		<ion-row>			<ion-col size="12">				<ng-container *ngIf="product.description"> {{ product.description }} </ng-container>				<ng-container *ngIf="!product.description"> {{ loremIpsum }} </ng-container>			</ion-col>		</ion-row>	</ion-grid></ion-content></div>'
-    var COMPONENTS = [{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'DeleteOffersComponent', 'selector': 'app-delete-offers'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'TopHeaderEndComponent', 'selector': 'app-top-header-end'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
+        var COMPONENT_TEMPLATE = '<div><ion-header>	<ion-toolbar>		<app-header></app-header>	</ion-toolbar></ion-header><ion-content>	<ion-title *ngIf="!product && isLoading" class="statusMessage">		... Loading ...	</ion-title>	<ion-title *ngIf="!product && !isLoading" class="statusMessage">		Sorry, this product doesn\'t exist!	</ion-title>	<ion-grid *ngIf="product">		<ion-row>			<ion-col class="product-image-container" size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">				<ion-card>					<ion-img [src]="product.image || \'https://lorempixel.com/300/300/cats/\'"></ion-img>				</ion-card>			</ion-col>			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">				<ion-card class="cardDetails">					<ion-list>						<ion-item class="ion-text-capitalize product-title">{{ product.name }}</ion-item>						<ion-item><ion-icon name="pricetags"></ion-icon>&nbsp; Price: <span>&nbsp;{{ product.price || \'not specified\'}}</span><span>&nbsp;CHF</span></ion-item>						<ion-item><ion-icon name="albums"></ion-icon>&nbsp; Category: <span>&nbsp;{{ product.category.name }}</span></ion-item>						<ion-item><ion-icon name="person"></ion-icon>&nbsp; Seller: <span>&nbsp;{{ product.seller.name }}</span></ion-item>						<ion-item><ion-icon name="pin"></ion-icon> &nbsp;Location: <span>&nbsp;{{ product.location || \'nowhere\'}}</span></ion-item>						<ion-button fill="empty" class="blueButton" (click) = "onClickBuy();" *ngIf="!orderingDetails && loggedIn && product.seller._id != authService.getId()">Order now</ion-button>					</ion-list>				</ion-card>				<ion-card *ngIf="orderingDetails">						<ion-card-header>							<ion-card-title>Order this product</ion-card-title>						</ion-card-header>						<ion-card-content>								<form [formGroup]="orderForm" (ngSubmit)="onOrder()">										<app-input-form										[inputForm]="orderForm" [givenName]="\'startDate\'" [text]="\'Event Start*\'"										[validationMessages]="validationMessages.fromDate"										[type]="\'dateTime\'" [max]="maxDate" (ionChange)="onChangeStartDate()" [inputMode]="\'text\'">										</app-input-form>										<app-input-form										[inputForm]="orderForm" [givenName]="\'endDate\'" [text]="\'Event End*\'"										[validationMessages]="validationMessages.toDate"										[type]="\'dateTime\'" [max]="maxDate" [min]="orderForm.controls[\'startDate\'].value" [inputMode]="\'text\'">										</app-input-form>										<app-input-form										[inputForm]="orderForm" [givenName]="\'description\'" [text]="\'Description*\'"										[validationMessages]="validationMessages.description"										[type]="\'text\'" [inputMode]="\'text\'">										</app-input-form>										<ion-button class="blueButton" fill="empty" type="submit"> Submit </ion-button>								</form>								<ion-button class="greyButton" fill="empty" color="danger" (click) = "onClickBuy();" *ngIf="orderingDetails">Cancel</ion-button>						</ion-card-content>					</ion-card>			</ion-col>		</ion-row>		<ion-row>			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">				<ion-card class="cardDetails">				<ion-card-title>Description<br/><br/></ion-card-title>				<ng-container *ngIf="product.description"> {{ product.description }} </ng-container>				<ng-container *ngIf="!product.description"> This product does not have a description</ng-container>				</ion-card>			</ion-col>			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">				<ion-card class="cardDetails">				<ion-card-title>Reviews</ion-card-title>				<p *ngIf="product.reviews.length == 0"> This product has no reviews yet. </p>				<span *ngFor="let review of product.reviews">					<app-product-review [review]="review"></app-product-review>				</span>				</ion-card>			</ion-col>		</ion-row>	</ion-grid></ion-content></div>'
+    var COMPONENTS = [{'name': 'AddCategoryComponent', 'selector': 'app-add-category'},{'name': 'AddProductsPage', 'selector': 'app-add-products'},{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderButtonsComponent', 'selector': 'app-header-buttons'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'ImagePickerComponent', 'selector': 'app-image-picker'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageOffersComponent', 'selector': 'app-manage-offers'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MapModalComponent', 'selector': 'app-map-modal'},{'name': 'MapPickerComponent', 'selector': 'app-map-picker'},{'name': 'MyOrdersPage', 'selector': 'app-my-orders'},{'name': 'MyProductsPage', 'selector': 'app-my-products'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'OrderDetailsPage', 'selector': 'app-order-details'},{'name': 'OrdersComponent', 'selector': 'app-orders'},{'name': 'PaymentPage', 'selector': 'app-payment'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'ProductReviewComponent', 'selector': 'app-product-review'},{'name': 'ProfileInformationsComponent', 'selector': 'app-profile-informations'},{'name': 'ProfilePage', 'selector': 'app-profile'},{'name': 'ProfilePopoverComponent', 'selector': 'app-profile-popover'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'UserPage', 'selector': 'app-user'},{'name': 'UserProductsComponent', 'selector': 'app-user-products'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'ProductDetailsPage'};
 </script>

@@ -382,110 +382,176 @@ export class HomePage implements OnInit {
     &lt;app-home-banner&gt;&lt;/app-home-banner&gt;
     &lt;ion-grid&gt;
         &lt;ion-row&gt;
-            &lt;ion-col *ngFor&#x3D;&quot;let cat of categories&quot; offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;1&quot; size-md&#x3D;&quot;10&quot; &gt;
+            &lt;ion-col *ngFor&#x3D;&quot;let cat of categories&quot; offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;1&quot; size-md&#x3D;&quot;10&quot;&gt;
                 &lt;app-carousel
                         [carouselName]&#x3D;&quot;cat.name&quot;
-                        [categoryCarousel]&#x3D; &quot;[cat.subcategories]&quot;
-                        [carouselSlug] &#x3D;&quot;cat.slug&quot;
+                        [categoryCarousel]&#x3D;&quot;[cat.subcategories]&quot;
+                        [carouselSlug]&#x3D;&quot;cat.slug&quot;
                         [startingCarouselSize]&#x3D;&quot;5&quot;&gt;
                 &lt;/app-carousel&gt;
             &lt;/ion-col&gt;
         &lt;/ion-row&gt;
+        &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
+        &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
     &lt;/ion-grid&gt;
     &lt;ion-card&gt;
         &lt;ion-grid&gt;
             &lt;ion-row&gt;
-                &lt;ion-col&gt;
-                    &lt;img src&#x3D;&quot;assets/images/homeSection1.jpeg&quot; &gt;
+                &lt;ion-col offset&#x3D;&quot;1&quot; size&#x3D;&quot;10&quot; offset-md&#x3D;&quot;3&quot; size-md&#x3D;&quot;6&quot;&gt;
+                    &lt;img class&#x3D;&quot;imageSize&quot;  src&#x3D;&quot;assets/images/howitworks.png&quot;&gt;
                 &lt;/ion-col&gt;
             &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
             &lt;ion-row&gt;
-                &lt;ion-col&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
+                    &lt;ion-card-header&gt;
+                        &lt;ion-card-title&gt;How it works&lt;/ion-card-title&gt;
+                    &lt;/ion-card-header&gt;
+                    &lt;ion-card-content&gt;
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                        ut aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                        Stet clita kasd gubergren.
+                    &lt;/ion-card-content&gt;
+                &lt;/ion-col&gt;
+            &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
+        &lt;/ion-grid&gt;
+    &lt;/ion-card&gt;
+    &lt;ion-card&gt;
+        &lt;ion-grid&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
+            &lt;ion-row&gt;
+                &lt;ion-col offset&#x3D;&quot;1&quot; size&#x3D;&quot;10&quot; offset-md&#x3D;&quot;3&quot; size-md&#x3D;&quot;6&quot;&gt;
+                    &lt;img class&#x3D;&quot;imageSize&quot; src&#x3D;&quot;assets/images/becomesellerMobile.png&quot;&gt;
+                &lt;/ion-col&gt;
+            &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
+            &lt;ion-row&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
+                    &lt;ion-card-header&gt;
+                        &lt;ion-card-title&gt;How to become a seller&lt;/ion-card-title&gt;
+                    &lt;/ion-card-header&gt;
+                    &lt;ion-card-content&gt;
+                        At vero eos et accusam et justo duo dolores et ea rebum.&lt;br/&gt;&lt;br/&gt;
+                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+                        dolor sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                        erat. At vero eos et accusam et justo duo dolores et ea rebum.
+                    &lt;/ion-card-content&gt;
+                &lt;/ion-col&gt;
+            &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
+        &lt;/ion-grid&gt;
+    &lt;/ion-card&gt;
+    &lt;ion-card color&#x3D;&quot;medium&quot;&gt;
+        &lt;ion-grid&gt;
+            &lt;ion-row&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;6&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;4&quot;&gt;
+                    &lt;img src&#x3D;&quot;assets/images/foodbeverage1.jpeg&quot;&gt;
+                &lt;/ion-col&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;6&quot; offset-md&#x3D;&quot;0&quot; size-md&#x3D;&quot;4&quot;&gt;
+                    &lt;img src&#x3D;&quot;assets/images/foodbeverage2.jpeg&quot;&gt;
+                &lt;/ion-col&gt;
+            &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
+            &lt;ion-row&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
                     &lt;ion-card-header&gt;
                         &lt;ion-card-subtitle&gt;You can&#x27;t buy happiness but you can buy good food&lt;/ion-card-subtitle&gt;
-                        &lt;ion-card-title&gt;Food&lt;/ion-card-title&gt;
+                        &lt;ion-card-title&gt;Catering&lt;/ion-card-title&gt;
                     &lt;/ion-card-header&gt;
                     &lt;ion-card-content&gt;
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
-                        At vero eos et accusam et justo duo dolores et ea rebum.
+                        Food service (US English) or catering industry (British English) defines those businesses, institutions, and
+                        companies responsible for any meal prepared outside the home. &lt;br/&gt;&lt;br/&gt;
+                        This industry includes restaurants, school and
+                        hospital cafeterias, catering operations, and many other formats.
                     &lt;/ion-card-content&gt;
                 &lt;/ion-col&gt;
             &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
         &lt;/ion-grid&gt;
     &lt;/ion-card&gt;
     &lt;ion-card&gt;
         &lt;ion-grid&gt;
             &lt;ion-row&gt;
-                &lt;ion-col&gt;
-                    &lt;img src&#x3D;&quot;assets/images/homeSection2.png&quot; &gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;6&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;4&quot;&gt;
+                    &lt;img src&#x3D;&quot;assets/images/equipment1.jpeg&quot;&gt;
+                &lt;/ion-col&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;6&quot; offset-md&#x3D;&quot;0&quot; size-md&#x3D;&quot;4&quot;&gt;
+                    &lt;img src&#x3D;&quot;assets/images/equipment2.jpeg&quot;&gt;
                 &lt;/ion-col&gt;
             &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
             &lt;ion-row&gt;
-                &lt;ion-col&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
                     &lt;ion-card-header&gt;
                         &lt;ion-card-subtitle&gt;Card Subtitle&lt;/ion-card-subtitle&gt;
-                        &lt;ion-card-title&gt;Music&lt;/ion-card-title&gt;
+                        &lt;ion-card-title&gt;Services&lt;/ion-card-title&gt;
                     &lt;/ion-card-header&gt;
                     &lt;ion-card-content&gt;
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
-                        At vero eos et accusam et justo duo dolores et ea rebum.
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                        ut aliquyam erat, sed diam voluptua. &lt;br/&gt;&lt;br/&gt;
+                        Lorem ipsum dolor sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                        erat. At vero eos et accusam et justo duo dolores et ea rebum.
                     &lt;/ion-card-content&gt;
                 &lt;/ion-col&gt;
             &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
+        &lt;/ion-grid&gt;
+    &lt;/ion-card&gt;
+    &lt;ion-card color&#x3D;&quot;medium&quot;&gt;
+        &lt;ion-grid&gt;
+            &lt;ion-row&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;6&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;4&quot;&gt;
+                    &lt;img src&#x3D;&quot;assets/images/realestate1.jpeg&quot;&gt;
+                &lt;/ion-col&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;6&quot; offset-md&#x3D;&quot;0&quot; size-md&#x3D;&quot;4&quot;&gt;
+                    &lt;img src&#x3D;&quot;assets/images/realestate2.jpeg&quot;&gt;
+                &lt;/ion-col&gt;
+            &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
+            &lt;ion-row&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
+                    &lt;ion-card-header&gt;
+                        &lt;ion-card-subtitle&gt;Card Subtitle&lt;/ion-card-subtitle&gt;
+                        &lt;ion-card-title&gt;Location&lt;/ion-card-title&gt;
+                    &lt;/ion-card-header&gt;
+                    &lt;ion-card-content&gt;
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                        ut aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    &lt;/ion-card-content&gt;
+                &lt;/ion-col&gt;
+            &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
         &lt;/ion-grid&gt;
     &lt;/ion-card&gt;
     &lt;ion-card&gt;
         &lt;ion-grid&gt;
             &lt;ion-row&gt;
-                &lt;ion-col&gt;
-                    &lt;img src&#x3D;&quot;assets/images/homeSection3.jpeg&quot; &gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;6&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;4&quot;&gt;
+                    &lt;img src&#x3D;&quot;assets/images/services1.jpeg&quot;&gt;
+                &lt;/ion-col&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;6&quot; offset-md&#x3D;&quot;0&quot; size-md&#x3D;&quot;4&quot;&gt;
+                    &lt;img src&#x3D;&quot;assets/images/services2.jpeg&quot;&gt;
                 &lt;/ion-col&gt;
             &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
             &lt;ion-row&gt;
-                &lt;ion-col&gt;
+                &lt;ion-col offset&#x3D;&quot;0&quot; size&#x3D;&quot;12&quot; offset-md&#x3D;&quot;2&quot; size-md&#x3D;&quot;8&quot;&gt;
                     &lt;ion-card-header&gt;
                         &lt;ion-card-subtitle&gt;Card Subtitle&lt;/ion-card-subtitle&gt;
-                        &lt;ion-card-title&gt;Celebrations&lt;/ion-card-title&gt;
+                        &lt;ion-card-title&gt;Entertainment&lt;/ion-card-title&gt;
                     &lt;/ion-card-header&gt;
                     &lt;ion-card-content&gt;
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
-                        At vero eos et accusam et justo duo dolores et ea rebum.
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                        ut aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. &lt;br/&gt;&lt;br/&gt;
+                        Lorem ipsum dolor sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                        erat. At vero eos et accusam et justo duo dolores et ea rebum.
                     &lt;/ion-card-content&gt;
                 &lt;/ion-col&gt;
             &lt;/ion-row&gt;
-        &lt;/ion-grid&gt;
-    &lt;/ion-card&gt;
-    &lt;ion-card&gt;
-        &lt;ion-grid&gt;
-            &lt;ion-row&gt;
-                &lt;ion-col &gt;
-                    &lt;img src&#x3D;&quot;assets/images/homeSection4.png&quot; &gt;
-                &lt;/ion-col&gt;
-                &lt;/ion-row&gt;
-                &lt;ion-row&gt;
-                &lt;ion-col &gt;
-                    &lt;ion-card-header&gt;
-                        &lt;ion-card-subtitle&gt;Card Subtitle&lt;/ion-card-subtitle&gt;
-                        &lt;ion-card-title&gt;Parties&lt;/ion-card-title&gt;
-                    &lt;/ion-card-header&gt;
-                    &lt;ion-card-content&gt;
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
-                        At vero eos et accusam et justo duo dolores et ea rebum.
-                    &lt;/ion-card-content&gt;
-                &lt;/ion-col&gt;
-            &lt;/ion-row&gt;
+            &lt;ion-row class&#x3D;&quot;spacer&quot;&gt;&lt;/ion-row&gt;
         &lt;/ion-grid&gt;
     &lt;/ion-card&gt;
     &lt;app-footer&gt;&lt;/app-footer&gt;
@@ -499,7 +565,19 @@ export class HomePage implements OnInit {
                 </p>
                 <pre class="line-numbers"><code class="language-scss">ion-card{
   margin: 0px;
+  box-shadow: none;
+  border-bottom: solid grey 0.5px;
 }
+
+.imageSize{
+  @media (max-width: 768px) {
+    width: 80vw;
+  }
+  @media (min-width: 768px) {
+    width: 50vw;
+  }
+}
+
 </code></pre>
     </div>
 
@@ -528,8 +606,8 @@ export class HomePage implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ion-header>    <ion-toolbar>        <app-top-header></app-top-header>    </ion-toolbar></ion-header><ion-content>    <app-navigation-bar class="ion-hide-md-down"></app-navigation-bar>    <app-home-banner></app-home-banner>    <ion-grid>        <ion-row>            <ion-col *ngFor="let cat of categories" offset="0" size="12" offset-md="1" size-md="10" >                <app-carousel                        [carouselName]="cat.name"                        [categoryCarousel]= "[cat.subcategories]"                        [carouselSlug] ="cat.slug"                        [startingCarouselSize]="5">                </app-carousel>            </ion-col>        </ion-row>    </ion-grid>    <ion-card>        <ion-grid>            <ion-row>                <ion-col>                    <img src="assets/images/homeSection1.jpeg" >                </ion-col>            </ion-row>            <ion-row>                <ion-col>                    <ion-card-header>                        <ion-card-subtitle>You can\'t buy happiness but you can buy good food</ion-card-subtitle>                        <ion-card-title>Food</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut                        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.                        At vero eos et accusam et justo duo dolores et ea rebum.                    </ion-card-content>                </ion-col>            </ion-row>        </ion-grid>    </ion-card>    <ion-card>        <ion-grid>            <ion-row>                <ion-col>                    <img src="assets/images/homeSection2.png" >                </ion-col>            </ion-row>            <ion-row>                <ion-col>                    <ion-card-header>                        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>                        <ion-card-title>Music</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut                        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.                        At vero eos et accusam et justo duo dolores et ea rebum.                    </ion-card-content>                </ion-col>            </ion-row>        </ion-grid>    </ion-card>    <ion-card>        <ion-grid>            <ion-row>                <ion-col>                    <img src="assets/images/homeSection3.jpeg" >                </ion-col>            </ion-row>            <ion-row>                <ion-col>                    <ion-card-header>                        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>                        <ion-card-title>Celebrations</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut                        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.                        At vero eos et accusam et justo duo dolores et ea rebum.                    </ion-card-content>                </ion-col>            </ion-row>        </ion-grid>    </ion-card>    <ion-card>        <ion-grid>            <ion-row>                <ion-col >                    <img src="assets/images/homeSection4.png" >                </ion-col>                </ion-row>                <ion-row>                <ion-col >                    <ion-card-header>                        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>                        <ion-card-title>Parties</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut                        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.                        At vero eos et accusam et justo duo dolores et ea rebum.                    </ion-card-content>                </ion-col>            </ion-row>        </ion-grid>    </ion-card>    <app-footer></app-footer></ion-content></div>'
-    var COMPONENTS = [{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'DeleteOffersComponent', 'selector': 'app-delete-offers'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'TopHeaderEndComponent', 'selector': 'app-top-header-end'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
+        var COMPONENT_TEMPLATE = '<div><ion-header>    <ion-toolbar>        <app-top-header></app-top-header>    </ion-toolbar></ion-header><ion-content>    <app-navigation-bar class="ion-hide-md-down"></app-navigation-bar>    <app-home-banner></app-home-banner>    <ion-grid>        <ion-row>            <ion-col *ngFor="let cat of categories" offset="0" size="12" offset-md="1" size-md="10">                <app-carousel                        [carouselName]="cat.name"                        [categoryCarousel]="[cat.subcategories]"                        [carouselSlug]="cat.slug"                        [startingCarouselSize]="5">                </app-carousel>            </ion-col>        </ion-row>        <ion-row class="spacer"></ion-row>        <ion-row class="spacer"></ion-row>    </ion-grid>    <ion-card>        <ion-grid>            <ion-row>                <ion-col offset="1" size="10" offset-md="3" size-md="6">                    <img class="imageSize"  src="assets/images/howitworks.png">                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>            <ion-row>                <ion-col offset="0" size="12" offset-md="2" size-md="8">                    <ion-card-header>                        <ion-card-title>How it works</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt                        ut aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.                        Stet clita kasd gubergren.                    </ion-card-content>                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>        </ion-grid>    </ion-card>    <ion-card>        <ion-grid>            <ion-row class="spacer"></ion-row>            <ion-row>                <ion-col offset="1" size="10" offset-md="3" size-md="6">                    <img class="imageSize" src="assets/images/becomesellerMobile.png">                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>            <ion-row>                <ion-col offset="0" size="12" offset-md="2" size-md="8">                    <ion-card-header>                        <ion-card-title>How to become a seller</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        At vero eos et accusam et justo duo dolores et ea rebum.<br/><br/>                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum                        dolor sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam                        erat. At vero eos et accusam et justo duo dolores et ea rebum.                    </ion-card-content>                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>        </ion-grid>    </ion-card>    <ion-card color="medium">        <ion-grid>            <ion-row>                <ion-col offset="0" size="6" offset-md="2" size-md="4">                    <img src="assets/images/foodbeverage1.jpeg">                </ion-col>                <ion-col offset="0" size="6" offset-md="0" size-md="4">                    <img src="assets/images/foodbeverage2.jpeg">                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>            <ion-row>                <ion-col offset="0" size="12" offset-md="2" size-md="8">                    <ion-card-header>                        <ion-card-subtitle>You can\'t buy happiness but you can buy good food</ion-card-subtitle>                        <ion-card-title>Catering</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Food service (US English) or catering industry (British English) defines those businesses, institutions, and                        companies responsible for any meal prepared outside the home. <br/><br/>                        This industry includes restaurants, school and                        hospital cafeterias, catering operations, and many other formats.                    </ion-card-content>                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>        </ion-grid>    </ion-card>    <ion-card>        <ion-grid>            <ion-row>                <ion-col offset="0" size="6" offset-md="2" size-md="4">                    <img src="assets/images/equipment1.jpeg">                </ion-col>                <ion-col offset="0" size="6" offset-md="0" size-md="4">                    <img src="assets/images/equipment2.jpeg">                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>            <ion-row>                <ion-col offset="0" size="12" offset-md="2" size-md="8">                    <ion-card-header>                        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>                        <ion-card-title>Services</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt                        ut aliquyam erat, sed diam voluptua. <br/><br/>                        Lorem ipsum dolor sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam                        erat. At vero eos et accusam et justo duo dolores et ea rebum.                    </ion-card-content>                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>        </ion-grid>    </ion-card>    <ion-card color="medium">        <ion-grid>            <ion-row>                <ion-col offset="0" size="6" offset-md="2" size-md="4">                    <img src="assets/images/realestate1.jpeg">                </ion-col>                <ion-col offset="0" size="6" offset-md="0" size-md="4">                    <img src="assets/images/realestate2.jpeg">                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>            <ion-row>                <ion-col offset="0" size="12" offset-md="2" size-md="8">                    <ion-card-header>                        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>                        <ion-card-title>Location</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt                        ut aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.                    </ion-card-content>                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>        </ion-grid>    </ion-card>    <ion-card>        <ion-grid>            <ion-row>                <ion-col offset="0" size="6" offset-md="2" size-md="4">                    <img src="assets/images/services1.jpeg">                </ion-col>                <ion-col offset="0" size="6" offset-md="0" size-md="4">                    <img src="assets/images/services2.jpeg">                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>            <ion-row>                <ion-col offset="0" size="12" offset-md="2" size-md="8">                    <ion-card-header>                        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>                        <ion-card-title>Entertainment</ion-card-title>                    </ion-card-header>                    <ion-card-content>                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt                        ut aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.                        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. <br/><br/>                        Lorem ipsum dolor sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam                        erat. At vero eos et accusam et justo duo dolores et ea rebum.                    </ion-card-content>                </ion-col>            </ion-row>            <ion-row class="spacer"></ion-row>        </ion-grid>    </ion-card>    <app-footer></app-footer></ion-content></div>'
+    var COMPONENTS = [{'name': 'AddCategoryComponent', 'selector': 'app-add-category'},{'name': 'AddProductsPage', 'selector': 'app-add-products'},{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderButtonsComponent', 'selector': 'app-header-buttons'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'ImagePickerComponent', 'selector': 'app-image-picker'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageOffersComponent', 'selector': 'app-manage-offers'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MapModalComponent', 'selector': 'app-map-modal'},{'name': 'MapPickerComponent', 'selector': 'app-map-picker'},{'name': 'MyOrdersPage', 'selector': 'app-my-orders'},{'name': 'MyProductsPage', 'selector': 'app-my-products'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'OrderDetailsPage', 'selector': 'app-order-details'},{'name': 'OrdersComponent', 'selector': 'app-orders'},{'name': 'PaymentPage', 'selector': 'app-payment'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'ProductReviewComponent', 'selector': 'app-product-review'},{'name': 'ProfileInformationsComponent', 'selector': 'app-profile-informations'},{'name': 'ProfilePage', 'selector': 'app-profile'},{'name': 'ProfilePopoverComponent', 'selector': 'app-profile-popover'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'UserPage', 'selector': 'app-user'},{'name': 'UserProductsComponent', 'selector': 'app-user-products'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'HomePage'};
 </script>

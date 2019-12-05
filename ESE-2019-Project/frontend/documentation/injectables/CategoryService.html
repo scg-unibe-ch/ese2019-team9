@@ -75,7 +75,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#getCategoriesEndpoint">getCategoriesEndpoint</a>
+                                <a href="#categoriesEndpoint">categoriesEndpoint</a>
                             </li>
                         </ul>
                     </td>
@@ -90,10 +90,19 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#addCategory">addCategory</a>
+                            </li>
+                            <li>
+                                <a href="#deleteCategory">deleteCategory</a>
+                            </li>
+                            <li>
                                 <a href="#getCategories">getCategories</a>
                             </li>
                             <li>
                                 <a href="#getSingleCategoryFromSlug">getSingleCategoryFromSlug</a>
+                            </li>
+                            <li>
+                                <a href="#updateCategory">updateCategory</a>
                             </li>
                         </ul>
                     </td>
@@ -113,12 +122,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(httpClient: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(httpClient: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/core/services/categoryService/category.service.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/core/services/categoryService/category.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -159,6 +168,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -173,6 +194,167 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCategory"></a>
+                    <span class="name">
+                        <b>
+                            addCategory
+                        </b>
+                        <a href="#addCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addCategory(category: <a href="../classes/Category.html">Category</a>, image: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">src/app/core/services/categoryService/category.service.ts:37</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create a new category</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>category</td>
+                                    <td>
+                                                <code><a href="../classes/Category.html" target="_self" >Category</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>a category of type {</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>image</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteCategory"></a>
+                    <span class="name">
+                        <b>
+                            deleteCategory
+                        </b>
+                        <a href="#deleteCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteCategory(categoryId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">src/app/core/services/categoryService/category.service.ts:73</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>categoryId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -195,8 +377,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/app/core/services/categoryService/category.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">src/app/core/services/categoryService/category.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -234,8 +416,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/app/core/services/categoryService/category.service.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/app/core/services/categoryService/category.service.ts:29</a></div>
                 </td>
             </tr>
 
@@ -282,6 +464,114 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateCategory"></a>
+                    <span class="name">
+                        <b>
+                            updateCategory
+                        </b>
+                        <a href="#updateCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateCategory(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, image?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/app/core/services/categoryService/category.service.ts:58</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Update a category</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the id of the category</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the body to be sent</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>image</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>an Observable of the server response</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
             <section>
     
@@ -292,11 +582,11 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="getCategoriesEndpoint"></a>
+                        <a name="categoriesEndpoint"></a>
                         <span class="name">
                             <b>
-                            getCategoriesEndpoint</b>
-                            <a href="#getCategoriesEndpoint"><span class="icon ion-ios-link"></span></a>
+                            categoriesEndpoint</b>
+                            <a href="#categoriesEndpoint"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
@@ -313,7 +603,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/core/services/categoryService/category.service.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/core/services/categoryService/category.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -327,23 +617,26 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { HttpClient, HttpHeaders, HttpRequest } from &#x27;@angular/common/http&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
+import { Category } from &#x27;src/app/models/category&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { AuthService } from &#x27;../authService/auth.service&#x27;;
 
 @Injectable({
     providedIn: &#x27;root&#x27;
 })
 export class CategoryService {
-    constructor(private httpClient: HttpClient, private router: Router) {}
+    constructor(private httpClient: HttpClient, private router: Router, private authService: AuthService) {}
 
-    getCategoriesEndpoint &#x3D; &#x27;https://moln-api.herokuapp.com/category&#x27;;
+    categoriesEndpoint &#x3D; &#x27;https://moln-api.herokuapp.com/category&#x27;;
 
     /*
     Fetch all categories from the backend
     @Return: Array of all categories and their details
      */
     getCategories() {
-        return this.httpClient.get(this.getCategoriesEndpoint);
+        return this.httpClient.get&lt;Category[]&gt;(this.categoriesEndpoint);
     }
 
     /*
@@ -352,7 +645,53 @@ export class CategoryService {
     @Return: Array of requested category or subcategory and their details
      */
     getSingleCategoryFromSlug(categorySlug: any) {
-        return this.httpClient.get(this.getCategoriesEndpoint + &#x60;/${categorySlug}&#x60;);
+        return this.httpClient.get(this.categoriesEndpoint + &#x60;/${categorySlug}&#x60;);
+    }
+
+    /**
+     * Create a new category
+     * @param category a category of type {@link Category}
+     */
+    addCategory(category: Category, image: any){
+        const token &#x3D; this.authService.getToken();
+        const headers &#x3D; new HttpHeaders().set(&#x27;Authorization&#x27;, &#x27;Bearer: &#x27; + token);
+        const formData &#x3D; new FormData();
+        headers.set(&#x27;Content-Type&#x27;, null);
+        headers.set(&#x27;Accept&#x27;, &quot;multipart/form-data&quot;);
+        const categoryAsJSON &#x3D; category.toJSON();
+        Object.keys(categoryAsJSON).forEach(key &#x3D;&gt; {
+        formData.append(key, categoryAsJSON[key]);
+        });
+        formData.append(&#x27;image&#x27;, image);
+        return this.httpClient.post(this.categoriesEndpoint + &#x60;/add&#x60;, formData ,{headers});
+
+    }
+
+    /**
+     * Update a category
+     * @param id the id of the category
+     * @param body the body to be sent
+     * @return an Observable of the server response
+     */
+    updateCategory(id: string, body: string, image?: any): Observable&lt;any&gt;{
+        const token &#x3D; this.authService.getToken();
+        const headers &#x3D; new HttpHeaders().set(&#x27;Authorization&#x27;, &#x27;Bearer: &#x27; + token);
+        const formData &#x3D; new FormData();
+        headers.set(&#x27;Content-Type&#x27;, null);
+        headers.set(&#x27;Accept&#x27;, &quot;multipart/form-data&quot;);
+        const jsonBody &#x3D; JSON.parse(body);
+        Object.keys(jsonBody).forEach(key &#x3D;&gt; {
+            formData.append(key, jsonBody[key]);
+        });
+        if (image) formData.append(&#x27;image&#x27;, image);
+        return this.httpClient.patch(this.categoriesEndpoint + &#x60;/${id}&#x60;, formData ,{headers});
+
+    }
+
+    deleteCategory(categoryId: string){
+        const token &#x3D; this.authService.getToken();
+        const headers &#x3D; new HttpHeaders().set(&#x27;Authorization&#x27;, &#x27;Bearer: &#x27; + token);
+        return this.httpClient.delete(this.categoriesEndpoint + &#x60;/${categoryId}&#x60;,{headers});
     }
 }
 </code></pre>

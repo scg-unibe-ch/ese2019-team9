@@ -475,7 +475,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../components/DeleteOffersComponent.html" target="_self" >QueryList&lt;DeleteOffersComponent&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../components/ManageOffersComponent.html" target="_self" >QueryList&lt;ManageOffersComponent&gt;</a></code>
 
                         </td>
                     </tr>
@@ -484,7 +484,7 @@
                             <b>Decorators : </b>
                             <br />
                             <code>
-                                @ViewChildren(DeleteOffersComponent)<br />
+                                @ViewChildren(ManageOffersComponent)<br />
                             </code>
                         </td>
                     </tr>
@@ -531,7 +531,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, ViewChild, ViewChildren, QueryList } from &#x27;@angular/core&#x27;;
-import { DeleteOffersComponent } from &#x27;./delete-offers/delete-offers.component&#x27;;
+import { ManageOffersComponent } from &#x27;./manage-offers/manage-offers.component&#x27;;
 import { isUndefined } from &#x27;util&#x27;;
 
 @Component({
@@ -543,7 +543,7 @@ export class AdminPage implements OnInit {
 
   private selectedTab &#x3D; -1;
   private deleteOffersComponent;
-  @ViewChildren(DeleteOffersComponent) deleteOffersComponentQueryList: QueryList&lt;DeleteOffersComponent&gt;;
+  @ViewChildren(ManageOffersComponent) deleteOffersComponentQueryList: QueryList&lt;ManageOffersComponent&gt;;
 
     constructor() {
     }
@@ -552,7 +552,7 @@ export class AdminPage implements OnInit {
 
     ngAfterViewInit() {
       this.selectedTab &#x3D; 0;
-      this.deleteOffersComponentQueryList.changes.subscribe((components: QueryList&lt;DeleteOffersComponent&gt;) &#x3D;&gt; {
+      this.deleteOffersComponentQueryList.changes.subscribe((components: QueryList&lt;ManageOffersComponent&gt;) &#x3D;&gt; {
         this.deleteOffersComponent &#x3D; components.first;
         this.updateProducts();
       });
@@ -586,30 +586,23 @@ export class AdminPage implements OnInit {
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;ion-header&gt;
     &lt;ion-toolbar&gt;
-        &lt;app-header&gt;&lt;/app-header&gt;
+        &lt;app-header&gt;&lt;/app-header&gt;&lt;ion-segment (ionChange)&#x3D;&quot;onTabSwitch($event)&quot;&gt;
+        &lt;ion-segment-button value&#x3D;&quot;0&quot; checked&gt;
+            &lt;ion-label&gt;Offers&lt;/ion-label&gt;
+        &lt;/ion-segment-button&gt;
+        &lt;ion-segment-button value&#x3D;&quot;1&quot;&gt;
+            &lt;ion-label&gt;Users&lt;/ion-label&gt;
+        &lt;/ion-segment-button&gt;
+        &lt;ion-segment-button value&#x3D;&quot;2&quot;&gt;
+            &lt;ion-label&gt;Categories&lt;/ion-label&gt;
+        &lt;/ion-segment-button&gt;
+    &lt;/ion-segment&gt;
     &lt;/ion-toolbar&gt;
 &lt;/ion-header&gt;
 &lt;ion-content&gt;
-    &lt;ion-segment (ionChange)&#x3D;&quot;onTabSwitch($event)&quot;&gt;
-        &lt;ion-segment-button value&#x3D;&quot;0&quot; checked&gt;
-            &lt;ion-label&gt;Delete Offers&lt;/ion-label&gt;
-        &lt;/ion-segment-button&gt;
-        &lt;ion-segment-button value&#x3D;&quot;1&quot;&gt;
-            &lt;ion-label&gt;Manage Users&lt;/ion-label&gt;
-        &lt;/ion-segment-button&gt;
-    &lt;/ion-segment&gt;
-
-    &lt;!-- Tab 0: Delete Offers --&gt;
-
-        &lt;app-delete-offers *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; 0&quot;&gt;&lt;/app-delete-offers&gt;
-
-    &lt;!-- End of: Tab 0: Delete Offers --&gt;
-
-    &lt;!-- Tab 1: Manage Users --&gt;
-    &lt;ng-container *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; 1&quot;&gt; 
-        &lt;app-manage-users&gt;&lt;/app-manage-users&gt;
-    &lt;/ng-container&gt;
-    &lt;!-- End of: Tab 1: Manage Users --&gt;
+    &lt;app-manage-offers *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; 0&quot;&gt;&lt;/app-manage-offers&gt;
+    &lt;app-manage-users *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; 1&quot;&gt;&lt;/app-manage-users&gt;
+    &lt;app-add-category *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; 2&quot;&gt;&lt;/app-add-category&gt;
 &lt;/ion-content&gt;</code></pre>
     </div>
 
@@ -646,8 +639,8 @@ export class AdminPage implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ion-header>    <ion-toolbar>        <app-header></app-header>    </ion-toolbar></ion-header><ion-content>    <ion-segment (ionChange)="onTabSwitch($event)">        <ion-segment-button value="0" checked>            <ion-label>Delete Offers</ion-label>        </ion-segment-button>        <ion-segment-button value="1">            <ion-label>Manage Users</ion-label>        </ion-segment-button>    </ion-segment>    <!-- Tab 0: Delete Offers -->        <app-delete-offers *ngIf="selectedTab === 0"></app-delete-offers>    <!-- End of: Tab 0: Delete Offers -->    <!-- Tab 1: Manage Users -->    <ng-container *ngIf="selectedTab === 1">         <app-manage-users></app-manage-users>    </ng-container>    <!-- End of: Tab 1: Manage Users --></ion-content></div>'
-    var COMPONENTS = [{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'DeleteOffersComponent', 'selector': 'app-delete-offers'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'TopHeaderEndComponent', 'selector': 'app-top-header-end'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
+        var COMPONENT_TEMPLATE = '<div><ion-header>    <ion-toolbar>        <app-header></app-header><ion-segment (ionChange)="onTabSwitch($event)">        <ion-segment-button value="0" checked>            <ion-label>Offers</ion-label>        </ion-segment-button>        <ion-segment-button value="1">            <ion-label>Users</ion-label>        </ion-segment-button>        <ion-segment-button value="2">            <ion-label>Categories</ion-label>        </ion-segment-button>    </ion-segment>    </ion-toolbar></ion-header><ion-content>    <app-manage-offers *ngIf="selectedTab === 0"></app-manage-offers>    <app-manage-users *ngIf="selectedTab === 1"></app-manage-users>    <app-add-category *ngIf="selectedTab === 2"></app-add-category></ion-content></div>'
+    var COMPONENTS = [{'name': 'AddCategoryComponent', 'selector': 'app-add-category'},{'name': 'AddProductsPage', 'selector': 'app-add-products'},{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderButtonsComponent', 'selector': 'app-header-buttons'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'ImagePickerComponent', 'selector': 'app-image-picker'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageOffersComponent', 'selector': 'app-manage-offers'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MapModalComponent', 'selector': 'app-map-modal'},{'name': 'MapPickerComponent', 'selector': 'app-map-picker'},{'name': 'MyOrdersPage', 'selector': 'app-my-orders'},{'name': 'MyProductsPage', 'selector': 'app-my-products'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'OrderDetailsPage', 'selector': 'app-order-details'},{'name': 'OrdersComponent', 'selector': 'app-orders'},{'name': 'PaymentPage', 'selector': 'app-payment'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'ProductReviewComponent', 'selector': 'app-product-review'},{'name': 'ProfileInformationsComponent', 'selector': 'app-profile-informations'},{'name': 'ProfilePage', 'selector': 'app-profile'},{'name': 'ProfilePopoverComponent', 'selector': 'app-profile-popover'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'UserPage', 'selector': 'app-user'},{'name': 'UserProductsComponent', 'selector': 'app-user-products'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'AdminPage'};
 </script>

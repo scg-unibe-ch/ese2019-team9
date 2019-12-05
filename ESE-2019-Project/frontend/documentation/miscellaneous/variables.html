@@ -63,6 +63,9 @@
                         <li>
                             <a href="#environment" title="src/environments/environment.ts"><b>environment</b>&nbsp;&nbsp;&nbsp;(src/.../environment.ts)</a>
                         </li>
+                        <li>
+                            <a href="#UniqueValidator" title="src/app/pages/admin/add-category/uniqueValidator.ts"><b>UniqueValidator</b>&nbsp;&nbsp;&nbsp;(src/.../uniqueValidator.ts)</a>
+                        </li>
                     </ul>
                 </td>
             </tr>
@@ -93,11 +96,19 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>{
-  production: true
+  production: true,
+  googleMapsAPIKey: &#x27;AIzaSyBzlGuLyMWhDpB8xc6_rO05evEBM7cumtE&#x27;,
+  notificationsLength: {success: 3500, other: 10000}
 }</code>
                         </td>
                     </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Exports <code>environment</code> object with a variable <code>production</code> as <code>true</code>.</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -125,8 +136,59 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>{
-  production: false
+  production: false,
+  googleMapsAPIKey: &#x27;AIzaSyBzlGuLyMWhDpB8xc6_rO05evEBM7cumtE&#x27;,
+  notificationsLength: {success: 3500, other: 10000}
 }</code>
+                        </td>
+                    </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Exports a <code>environment</code> object with a variable <code>production</code> set to <code>false</code>. To get <code>production</code> to <code>true</code> run
+<code>ng build --prod</code></p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/app/pages/admin/add-category/uniqueValidator.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="UniqueValidator"></a>
+                        <span class="name">
+                            <b>
+                            UniqueValidator</b>
+                            <a href="#UniqueValidator"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>(objArr: Category[], fieldname: string) &#x3D;&gt; {
+    return (control:AbstractControl) &#x3D;&gt; {
+        return new Promise((resolve) &#x3D;&gt; {
+            let workingArray &#x3D; [...objArr];
+            while (workingArray.length &gt; 0) {
+                if (workingArray[0][fieldname] &#x3D;&#x3D;&#x3D; control.value) {
+                    resolve({unique: true});
+                }
+                if ((workingArray[0] as any).subcategories){
+                    for (let i &#x3D; 0; i &lt; (workingArray[0] as any).subcategories.length; i++ ){
+                        workingArray.push((workingArray[0] as any).subcategories[i]);
+                    }
+                }
+                workingArray.splice(0,1)
+            }
+            resolve(null);
+        });
+    }
+  }</code>
                         </td>
                     </tr>
 

@@ -121,6 +121,23 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ceiledRating">ceiledRating</a>
+                            </li>
+                            <li>
+                                <a href="#flooredRating">flooredRating</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -170,7 +187,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/app/shared/components/rating/rating.component.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/shared/components/rating/rating.component.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -232,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/app/shared/components/rating/rating.component.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">src/app/shared/components/rating/rating.component.ts:15</a></div>
                 </td>
             </tr>
 
@@ -250,6 +267,54 @@
         </tbody>
     </table>
 </section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ceiledRating"></a>
+                        <span class="name">
+                            <b>
+                            ceiledRating</b>
+                            <a href="#ceiledRating"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/shared/components/rating/rating.component.ts:11</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="flooredRating"></a>
+                        <span class="name">
+                            <b>
+                            flooredRating</b>
+                            <a href="#flooredRating"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/shared/components/rating/rating.component.ts:10</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
 
 </div>
 
@@ -264,20 +329,28 @@
 })
 export class RatingComponent implements OnInit {
   @Input() rating: number;
+  flooredRating;
+  ceiledRating;
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.flooredRating &#x3D; this.rating - (this.rating % 0.5);
+    this.ceiledRating &#x3D; Math.ceil(this.flooredRating);
 
+  }
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;span *ngFor&#x3D;&quot;let rating of &#x27; &#x27;.repeat(rating).split(&#x27;&#x27;), let x &#x3D; index&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;span *ngFor&#x3D;&quot;let rating of &#x27; &#x27;.repeat(flooredRating - (flooredRating % 1)).split(&#x27;&#x27;), let x &#x3D; index&quot;&gt;
   &lt;ion-icon class&#x3D;&quot;rating&quot; name&#x3D;&quot;star&quot;&gt;&lt;/ion-icon&gt;
 &lt;/span&gt;
-&lt;span *ngFor&#x3D;&quot;let rating of &#x27; &#x27;.repeat(5 - rating).split(&#x27;&#x27;), let x &#x3D; index&quot;&gt;
+&lt;span *ngIf&#x3D;&quot;!((flooredRating % 1) &#x3D;&#x3D;&#x3D; 0)&quot;&gt;
+  &lt;ion-icon class&#x3D;&quot;rating&quot; name&#x3D;&quot;star-half&quot;&gt;&lt;/ion-icon&gt;
+&lt;/span&gt;
+&lt;span *ngFor&#x3D;&quot;let rating of &#x27; &#x27;.repeat(5 - ceiledRating).split(&#x27;&#x27;), let x &#x3D; index&quot;&gt;
   &lt;ion-icon class&#x3D;&quot;rating&quot; name&#x3D;&quot;star-outline&quot;&gt;&lt;/ion-icon&gt;
 &lt;/span&gt;
 </code></pre>
@@ -318,8 +391,8 @@ export class RatingComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><span *ngFor="let rating of \' \'.repeat(rating).split(\'\'), let x = index">  <ion-icon class="rating" name="star"></ion-icon></span><span *ngFor="let rating of \' \'.repeat(5 - rating).split(\'\'), let x = index">  <ion-icon class="rating" name="star-outline"></ion-icon></span></div>'
-    var COMPONENTS = [{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'DeleteOffersComponent', 'selector': 'app-delete-offers'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'TopHeaderEndComponent', 'selector': 'app-top-header-end'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
+        var COMPONENT_TEMPLATE = '<div><span *ngFor="let rating of \' \'.repeat(flooredRating - (flooredRating % 1)).split(\'\'), let x = index">  <ion-icon class="rating" name="star"></ion-icon></span><span *ngIf="!((flooredRating % 1) === 0)">  <ion-icon class="rating" name="star-half"></ion-icon></span><span *ngFor="let rating of \' \'.repeat(5 - ceiledRating).split(\'\'), let x = index">  <ion-icon class="rating" name="star-outline"></ion-icon></span></div>'
+    var COMPONENTS = [{'name': 'AddCategoryComponent', 'selector': 'app-add-category'},{'name': 'AddProductsPage', 'selector': 'app-add-products'},{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderButtonsComponent', 'selector': 'app-header-buttons'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'ImagePickerComponent', 'selector': 'app-image-picker'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageOffersComponent', 'selector': 'app-manage-offers'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MapModalComponent', 'selector': 'app-map-modal'},{'name': 'MapPickerComponent', 'selector': 'app-map-picker'},{'name': 'MyOrdersPage', 'selector': 'app-my-orders'},{'name': 'MyProductsPage', 'selector': 'app-my-products'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'OrderDetailsPage', 'selector': 'app-order-details'},{'name': 'OrdersComponent', 'selector': 'app-orders'},{'name': 'PaymentPage', 'selector': 'app-payment'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'ProductReviewComponent', 'selector': 'app-product-review'},{'name': 'ProfileInformationsComponent', 'selector': 'app-profile-informations'},{'name': 'ProfilePage', 'selector': 'app-profile'},{'name': 'ProfilePopoverComponent', 'selector': 'app-profile-popover'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'UserPage', 'selector': 'app-user'},{'name': 'UserProductsComponent', 'selector': 'app-user-products'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'RatingComponent'};
 </script>

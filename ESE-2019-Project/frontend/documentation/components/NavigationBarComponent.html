@@ -64,6 +64,14 @@
     <code>src/app/core/header/navigation-bar/navigation-bar.component.ts</code>
 </p>
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>The navigation bar with the categories to select from. Opens a dropdown when clicked on with
+the respective <a href="../components/CategoryMenuComponent.html">subcategories as a dropdown list</a> </p>
+
+    </p>
 
 
     <p class="comment">
@@ -185,12 +193,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:35</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Assign a new private variable with the injected service</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -199,6 +209,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -213,6 +224,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>auto injected <code>CategoryService</code> to get all categories from the backend</p>
+</code>
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -254,14 +269,18 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:84</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Dismisses the dropdown menu by setting <a href="#menuVisible">#menuVisible</a> to <code>false</code>.</p>
+<p>Resets the selected segment item so that none is selected.</p>
+<p>Empties the <a href="#currentMenuSubcategories">subcategories array</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -293,14 +312,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:49</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Fetch all categories from the backend via the <a href="../injectables/CategoryService.html">CategoryService</a>. 
+Store the returned categories in the <a href="#categories">#categories</a> variable.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -332,14 +354,21 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Method that gets called when the selected category changed. 
+If a new category is selected then:</p>
+<ul>
+<li>Updates the <a href="#currentMenuSubcategories">subcategories array</a> with the respective subcategoryies of the new category</li>
+<li>Sets the <a href="#menuVisible">#menuVisible</a> to <code>true</code> to show the dropdown menu</li>
+</ul>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -349,6 +378,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -363,6 +393,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The <code>ionChange</code> event Object </p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -411,10 +445,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:18</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>An array to store all categories</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -432,10 +472,16 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:35</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Stores the <code>event</code> given when the segment changed. Used in <a href="#dismissMenu">#dismissMenu</a> to reset the segment</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -453,10 +499,17 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:30</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>An array containing all subcategories of the selected category.
+This is used as an <code>@Input() subcategories</code> on the dropdown with the <a href="../components/CategoryMenuComponent.html">subcategories list</a></p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -479,10 +532,17 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/core/header/navigation-bar/navigation-bar.component.ts:24</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Boolean handling if the dropdown menu should be visible. 
+Set it to <code>true</code> to show the dropdown menu</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -495,30 +555,71 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, OnInit} from &#x27;@angular/core&#x27;;
 import {CategoryService} from &#x27;../../services/categoryService/category.service&#x27;;
 
+/**
+ * The navigation bar with the categories to select from. Opens a dropdown when clicked on with
+ * the respective {@link CategoryMenuComponent subcategories as a dropdown list} 
+ */
 @Component({
   selector: &#x27;app-navigation-bar&#x27;,
   templateUrl: &#x27;./navigation-bar.component.html&#x27;,
   styleUrls: [&#x27;./navigation-bar.component.scss&#x27;],
 })
 export class NavigationBarComponent implements OnInit {
+
+  /**
+   * An array to store all categories
+   */
   categories &#x3D; [];
+  
+  /**
+   * Boolean handling if the dropdown menu should be visible. 
+   * Set it to &#x60;true&#x60; to show the dropdown menu
+   */
   menuVisible &#x3D; false;
+
+  /**
+   * An array containing all subcategories of the selected category.
+   * This is used as an &#x60;@Input() subcategories&#x60; on the dropdown with the {@link CategoryMenuComponent subcategories list}
+   */
   currentMenuSubcategories;
+
+  /**
+   * Stores the &#x60;event&#x60; given when the segment changed. Used in {@link #dismissMenu} to reset the segment
+   */
   currentEvent;
 
+  /**
+   * Assign a new private variable with the injected service
+   * @param categoryService auto injected &#x60;CategoryService&#x60; to get all categories from the backend
+   */
   constructor(
       private categoryService: CategoryService
   ) { }
 
+  /**
+   * Fetch all categories from the backend via the {@link CategoryService}. 
+   * Store the returned categories in the {@link #categories} variable.
+   */
   ngOnInit() {
     this.categoryService.getCategories().subscribe(data &#x3D;&gt; {
       // @ts-ignore
       this.categories &#x3D; data;
-    });
+    },
+    error &#x3D;&gt; {
+      console.log(error)
+    }
+    );
   }
 
+  /**
+   * Method that gets called when the selected category changed. 
+   * If a new category is selected then:
+   *  - Updates the {@link #currentMenuSubcategories subcategories array} with the respective subcategoryies of the new category
+   *  - Sets the {@link #menuVisible} to &#x60;true&#x60; to show the dropdown menu
+   * @param ev The &#x60;ionChange&#x60; event Object 
+   */
   segmentChanged(ev: any) {
-    if (ev.target.value &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+    if (ev.target.value &#x3D;&#x3D;&#x3D; &#x27;&#x27;)   {
       return;
     }
     this.currentEvent &#x3D; ev;
@@ -527,6 +628,13 @@ export class NavigationBarComponent implements OnInit {
     this.menuVisible &#x3D; true;
   }
 
+  /**
+   * Dismisses the dropdown menu by setting {@link #menuVisible} to &#x60;false&#x60;.
+   * 
+   * Resets the selected segment item so that none is selected.
+   * 
+   * Empties the {@link #currentMenuSubcategories subcategories array}
+   */
   dismissMenu() {
     if (this.menuVisible &#x3D;&#x3D;&#x3D; false) {
       return;
@@ -541,17 +649,11 @@ export class NavigationBarComponent implements OnInit {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;ion-toolbar (mouseleave)&#x3D;&quot;dismissMenu()&quot;&gt;
-    &lt;ion-grid&gt;
-        &lt;ion-row&gt;
-            &lt;ion-col class&#x3D;&quot;ion-justify-content-center&quot;&gt;
-                &lt;ion-segment (ionChange)&#x3D;&quot;segmentChanged($event)&quot;&gt;
-                    &lt;ion-segment-button *ngFor&#x3D;&quot;let category of categories&quot; value&#x3D;&quot;{{ category.slug }}&quot; fill&#x3D;&quot;clear&quot; &gt;
-                        &lt;ion-label&gt; {{ category.name }}&lt;/ion-label&gt;
-                    &lt;/ion-segment-button&gt;
-                &lt;/ion-segment&gt;
-            &lt;/ion-col&gt;
-        &lt;/ion-row&gt;
-    &lt;/ion-grid&gt;
+        &lt;ion-segment mode&#x3D;&quot;md&quot; (ionChange)&#x3D;&quot;segmentChanged($event)&quot;&gt;
+            &lt;ion-segment-button *ngFor&#x3D;&quot;let category of categories&quot; value&#x3D;&quot;{{ category.slug }}&quot; fill&#x3D;&quot;clear&quot; &gt;
+                &lt;ion-label&gt; {{ category.name }}&lt;/ion-label&gt;
+            &lt;/ion-segment-button&gt;
+        &lt;/ion-segment&gt;
     &lt;app-category-menu [subcategories]&#x3D;&quot;currentMenuSubcategories&quot; *ngIf&#x3D;&quot;menuVisible&quot;&gt;&lt;/app-category-menu&gt;
 &lt;/ion-toolbar&gt;
 
@@ -592,8 +694,8 @@ export class NavigationBarComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ion-toolbar (mouseleave)="dismissMenu()">    <ion-grid>        <ion-row>            <ion-col class="ion-justify-content-center">                <ion-segment (ionChange)="segmentChanged($event)">                    <ion-segment-button *ngFor="let category of categories" value="{{ category.slug }}" fill="clear" >                        <ion-label> {{ category.name }}</ion-label>                    </ion-segment-button>                </ion-segment>            </ion-col>        </ion-row>    </ion-grid>    <app-category-menu [subcategories]="currentMenuSubcategories" *ngIf="menuVisible"></app-category-menu></ion-toolbar></div>'
-    var COMPONENTS = [{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'DeleteOffersComponent', 'selector': 'app-delete-offers'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'TopHeaderEndComponent', 'selector': 'app-top-header-end'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
+        var COMPONENT_TEMPLATE = '<div><ion-toolbar (mouseleave)="dismissMenu()">        <ion-segment mode="md" (ionChange)="segmentChanged($event)">            <ion-segment-button *ngFor="let category of categories" value="{{ category.slug }}" fill="clear" >                <ion-label> {{ category.name }}</ion-label>            </ion-segment-button>        </ion-segment>    <app-category-menu [subcategories]="currentMenuSubcategories" *ngIf="menuVisible"></app-category-menu></ion-toolbar></div>'
+    var COMPONENTS = [{'name': 'AddCategoryComponent', 'selector': 'app-add-category'},{'name': 'AddProductsPage', 'selector': 'app-add-products'},{'name': 'AdminPage', 'selector': 'app-admin'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CarouselItemComponent', 'selector': 'app-carousel-item'},{'name': 'CategoryMenuComponent', 'selector': 'app-category-menu'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'ForgotPasswordComponent', 'selector': 'app-forgot-password'},{'name': 'HeaderButtonsComponent', 'selector': 'app-header-buttons'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeBannerComponent', 'selector': 'app-home-banner'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'ImagePickerComponent', 'selector': 'app-image-picker'},{'name': 'InputFormComponent', 'selector': 'app-input-form'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'ManageOffersComponent', 'selector': 'app-manage-offers'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MapModalComponent', 'selector': 'app-map-modal'},{'name': 'MapPickerComponent', 'selector': 'app-map-picker'},{'name': 'MyOrdersPage', 'selector': 'app-my-orders'},{'name': 'MyProductsPage', 'selector': 'app-my-products'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'OrderDetailsPage', 'selector': 'app-order-details'},{'name': 'OrdersComponent', 'selector': 'app-orders'},{'name': 'PaymentPage', 'selector': 'app-payment'},{'name': 'ProductDetailsPage', 'selector': 'app-product-details'},{'name': 'ProductReviewComponent', 'selector': 'app-product-review'},{'name': 'ProfileInformationsComponent', 'selector': 'app-profile-informations'},{'name': 'ProfilePage', 'selector': 'app-profile'},{'name': 'ProfilePopoverComponent', 'selector': 'app-profile-popover'},{'name': 'RatingComponent', 'selector': 'app-rating'},{'name': 'RegisteredPage', 'selector': 'app-registered'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'ResetPage', 'selector': 'app-reset'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'SubcategoryItemComponent', 'selector': 'app-subcategory-item'},{'name': 'SubcategoryPage', 'selector': 'app-subcategory'},{'name': 'TopHeaderComponent', 'selector': 'app-top-header'},{'name': 'UserPage', 'selector': 'app-user'},{'name': 'UserProductsComponent', 'selector': 'app-user-products'},{'name': 'VerifyPage', 'selector': 'app-verify'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'NavigationBarComponent'};
 </script>
