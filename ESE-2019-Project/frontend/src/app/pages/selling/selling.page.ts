@@ -23,12 +23,12 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-my-products',
-  templateUrl: './my-products.page.html',
-  styleUrls: ['./my-products.page.scss'],
+  selector: 'app-selling',
+  templateUrl: './selling.page.html',
+  styleUrls: ['./selling.page.scss'],
 })
 
-export class MyProductsPage implements OnInit {
+export class SellingPage implements OnInit {
   selectedTab;
   orders;
   userId;
@@ -44,14 +44,25 @@ export class MyProductsPage implements OnInit {
     private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+    this.setupSellingPage();
+  }
+
+  ionViewDidEnter() {
+    this.setupSellingPage();
+  }
+
+  setupSellingPage() {
+    this.selectedTab = 0;
     this.sellerForm = this.formBuilder.group({
       name: ['', []],
       address: ['', []],
       country: ['', []]
     });
-    
+    this.checkIfUserIsSeller();
+  }
+
+  checkIfUserIsSeller() {
     this.userService.isSeller().then(res => {
-      console.log(res);
       this.isSeller = res;
       this.isLoading = false;
 
@@ -82,17 +93,10 @@ export class MyProductsPage implements OnInit {
     this.userService.updateUser(this.userId, body, null).subscribe(data => {
       this.progressIndicatorService.presentToast('Information successfully updated', 'success', 4000);
       this.isLoading = true;
+      this.checkIfUserIsSeller();
     }, error => {
       console.log(error.error);
       this.progressIndicatorService.presentToast(error.error, 'danger', 4000);
     });
-
-    this.userService.isSeller().then(result => {
-      this.isSeller = result;
-      this.isLoading = false;
-    }).catch(err => {
-      this.isLoading = false;
-    });
   }
-
 }

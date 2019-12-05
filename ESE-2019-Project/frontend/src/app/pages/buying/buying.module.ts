@@ -5,14 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MyOrdersPage } from './my-orders.page';
+import { BuyingPage } from './buying.page';
 import {HeaderModule} from '../../core/header.module';
 import {SharedModule} from '../../shared/shared.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: MyOrdersPage
+    component: BuyingPage
   }
 ];
 
@@ -25,6 +25,6 @@ const routes: Routes = [
     HeaderModule,
     SharedModule
   ],
-  declarations: [MyOrdersPage]
+  declarations: [BuyingPage]
 })
-export class MyOrdersPageModule {}
+export class BuyingPageModule {}
