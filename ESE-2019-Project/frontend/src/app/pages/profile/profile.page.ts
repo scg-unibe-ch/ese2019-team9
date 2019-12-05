@@ -11,7 +11,7 @@ import {ProgressIndicatorService} from '../../core/services/progressIndicatorSer
 export class ProfilePage implements OnInit {
   userId;
   user;
-  keys = ['_id', 'email', 'address', 'name', 'website', 'country', 'phone', 'sex', ''];
+  keys = ['_id', 'email', 'address', 'name', 'website', 'country', 'phone', 'sex'];
   valuesToHide = ['password', 'openDetail', 'admin', '_id', 'verifiedEmail', 'image', 'productsSold'];
   additionalValues = ['verifiedEmail', 'productsSold'];
 

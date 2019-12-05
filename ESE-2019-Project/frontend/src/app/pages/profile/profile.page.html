@@ -3,12 +3,13 @@
         <app-header></app-header>
     </ion-toolbar>
 </ion-header>
-<ion-grid>
+<ion-grid class="scrollableProfile"  >
     <ion-row>
         <ion-col size="12">
             <app-profile-informations *ngIf="user" [profileItem]="user" [changeable]="true"
                                       [valuesToHide]="valuesToHide" [additionalValues]="additionalValues"
-                                      [type]="'user'" [hideDelete]="true"></app-profile-informations>
+                                      [type]="'user'" [hideDelete]="true">
+            </app-profile-informations>
             <ion-item>
                 *Note: If you want to become a seller, you need to specify your name, address and country
             </ion-item>
