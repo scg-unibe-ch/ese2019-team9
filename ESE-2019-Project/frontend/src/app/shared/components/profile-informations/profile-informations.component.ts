@@ -59,7 +59,8 @@ export class ProfileInformationsComponent implements OnInit {
         ['sex', 'Sex'],
         ['name', 'Name*'],
         ['address', 'Address*'],
-        ['toRevise', 'Revise']
+        ['toRevise', 'Revise'],
+        ['productsSold', 'Products sold']
     ]);
 
     valuesToName: Map<boolean, string> = new Map([
