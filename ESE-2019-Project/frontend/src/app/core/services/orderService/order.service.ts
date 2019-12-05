@@ -20,7 +20,7 @@ export class OrderService {
     private httpClient: HttpClient,
     private authService: AuthService
   ) {}
-  orderEndpoint = 'http://moln-api.herokuapp.com/order';
+  orderEndpoint = 'https://moln-api.herokuapp.com/order';
 
   place(body: any, productId: string) {
     const token = this.authService.getToken();

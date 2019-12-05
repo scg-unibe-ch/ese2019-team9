@@ -1,0 +1,39 @@
+<ion-card [routerLink]="['/product-details/', id]">
+    <ion-grid>
+        <ion-row>
+            <ion-card>
+                <ion-col *ngIf="imageSrc" size="12" size-sm="2">
+                    <ion-thumbnail>
+                        <img [src]="imageSrc">
+                    </ion-thumbnail>
+                </ion-col>
+            </ion-card>
+        </ion-row>
+        <ion-row>
+            <ion-col *ngIf="imageSrc" offset-sm="0">
+                <ion-title class="ion-no-padding">{{ name }}</ion-title>
+            </ion-col>
+            <ion-col *ngIf="!imageSrc" offset-sm="2">
+                <ion-title class="ion-no-padding">{{ name }}</ion-title>
+            </ion-col>
+        </ion-row>
+        <ion-row class="spacer"></ion-row>
+        <ion-row>
+            <ion-col>
+                <app-rating [rating]="rating"></app-rating>
+            </ion-col>
+            <ion-col>
+                <ion-text float-right>
+                    <ion-icon name="pricetags"></ion-icon>
+                    {{ price }}.-
+                </ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row class="spacer"></ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-text><ion-icon name="pin"></ion-icon>{{ location }}</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-card>

@@ -320,3 +320,12 @@ ion-alert button.cancel-button {
 .notifications-popover .popover-content {
   width:330px;
 }
+
+.spacer {
+  @media (max-width: 576px) {
+    height: 10px;
+  }
+  @media (min-width: 576px) {
+    height: 20px;
+  }
+}

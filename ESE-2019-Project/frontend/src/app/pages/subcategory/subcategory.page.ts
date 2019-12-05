@@ -116,6 +116,7 @@ export class SubcategoryPage implements OnInit {
             }
             filterObjArray.push({ name: filterObj.name, operator: filterObj.operator, value: filterObj.value, detailName });
         });
+
         return filterObjArray;
     }
 
