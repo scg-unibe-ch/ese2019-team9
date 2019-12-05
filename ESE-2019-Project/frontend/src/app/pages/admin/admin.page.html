@@ -1,6 +1,10 @@
 <ion-header>
     <ion-toolbar>
-        <app-header></app-header><ion-segment (ionChange)="onTabSwitch($event)">
+        <app-header></app-header>
+    </ion-toolbar>
+</ion-header>
+<ion-toolbar>
+    <ion-segment (ionChange)="onTabSwitch($event)">
         <ion-segment-button value="0" checked>
             <ion-label>Offers</ion-label>
         </ion-segment-button>
@@ -11,8 +15,7 @@
             <ion-label>Categories</ion-label>
         </ion-segment-button>
     </ion-segment>
-    </ion-toolbar>
-</ion-header>
+</ion-toolbar>
 <ion-content>
     <app-manage-offers *ngIf="selectedTab === 0"></app-manage-offers>
     <app-manage-users *ngIf="selectedTab === 1"></app-manage-users>

@@ -6,33 +6,33 @@
 <ion-content>
     <ion-grid>
         <ion-row>
-          <!-- If user isn't seller yet display form -->
-          <ion-col size="12" size-md="6" offset-md="3" style="margin-top:2em" *ngIf="!isLoading && !isSeller" >
-              <ion-row>
-                  <ion-col>
-                      In order for you to be able to sell products, you first have to share some information about
-                      yourself.
-                  </ion-col>
-              </ion-row>
-              <form [formGroup]="sellerForm" (ngSubmit)="onPressSubmit()">
-                  <app-input-form
-                          [inputForm]="sellerForm" [givenName]="'name'" [text]="'Name'"
-                          [type]="'text'" [inputMode]="'text'">
-                  </app-input-form>
-                  <app-input-form
-                          [inputForm]="sellerForm" [givenName]="'address'" [text]="'Address'"
-                          [type]="'text'" [inputMode]="'text'">
-                  </app-input-form>
-                  <app-input-form
-                          [inputForm]="sellerForm" [givenName]="'country'" [text]="'Country'"
-                          [type]="'text'" [inputMode]="'text'">
-                  </app-input-form>
+            <!-- If user isn't seller yet display form -->
+            <ion-col size="12" size-md="8" offset-md="2" style="margin-top:2em" *ngIf="!isLoading && !isSeller">
+                <ion-row>
+                    <ion-col>
+                        In order for you to be able to sell products, you first have to share some information about
+                        yourself.
+                    </ion-col>
+                </ion-row>
+                <form [formGroup]="sellerForm" (ngSubmit)="onPressSubmit()">
+                    <app-input-form
+                            [inputForm]="sellerForm" [givenName]="'name'" [text]="'Name'"
+                            [type]="'text'" [inputMode]="'text'">
+                    </app-input-form>
+                    <app-input-form
+                            [inputForm]="sellerForm" [givenName]="'address'" [text]="'Address'"
+                            [type]="'text'" [inputMode]="'text'">
+                    </app-input-form>
+                    <app-input-form
+                            [inputForm]="sellerForm" [givenName]="'country'" [text]="'Country'"
+                            [type]="'text'" [inputMode]="'text'">
+                    </app-input-form>
 
-                  <ion-button class="blueButton" fill="empty" type="submit"> Submit</ion-button>
-              </form>
-          </ion-col>
+                    <ion-button class="blueButton" fill="empty" type="submit"> Submit</ion-button>
+                </form>
+            </ion-col>
 
-            <ion-col *ngIf="!isLoading && isSeller">
+            <ion-col *ngIf="!isLoading && isSeller" size="12" size-md="8" offset-md="2" >
                 <ion-segment (ionChange)="onTabSwitch($event)">
                     <ion-segment-button value="0" checked>
                         <ion-label> My Products</ion-label>
@@ -51,7 +51,7 @@
                 <!-- Tab 1: Offers -->
                 <app-orders *ngIf="selectedTab === 1"></app-orders>
                 <!-- End of: Tab 1: Offers -->
-              </ion-col>
+            </ion-col>
         </ion-row>
     </ion-grid>
 </ion-content>
