@@ -25,3 +25,7 @@
 .line {
   border-bottom: 1px solid var(--ion-color-secondary-shade);
 }
+
+ion-toolbar{
+  z-index: 0;
+}
