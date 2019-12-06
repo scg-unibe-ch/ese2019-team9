@@ -33,35 +33,62 @@
          <ion-row>
              <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
              <ion-card>
-             <ion-col>
-                    <ion-select class="sortBy" placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
-                            <ion-select-option value="+price">Price ascending</ion-select-option>
-                            <ion-select-option value="-price">Price descending</ion-select-option>
-                            <ion-select-option value="+date">Date ascending</ion-select-option>
-                            <ion-select-option value="-date">Date descending</ion-select-option>
-                            <ion-select-option value="+rating">Rating ascending</ion-select-option>
-                            <ion-select-option value="-rating">Rating descending</ion-select-option>
-                        </ion-select>
-             </ion-col>
-             <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6" class="filter-col ion-margin-top">
+             <ion-col class="filter-col ion-margin-top">
+                 <ion-row>
+                 <ion-col size="3">
+                     <ion-select class="sortBy" placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
+                         <ion-select-option value="+price">Price ascending</ion-select-option>
+                         <ion-select-option value="-price">Price descending</ion-select-option>
+                         <ion-select-option value="+date">Date ascending</ion-select-option>
+                         <ion-select-option value="-date">Date descending</ion-select-option>
+                         <ion-select-option value="+rating">Rating ascending</ion-select-option>
+                         <ion-select-option value="-rating">Rating descending</ion-select-option>
+                     </ion-select>
+                 </ion-col>
+                     <ion-col offset="3" size="6">
                  <app-filter>
+
+
+
                      <div class="filter-title" title>Select min. Rating:</div>
                      <div class="filter-input" input>
                          <ion-icon *ngFor="let i of array(5)" class="rating"
                                    [name]="i>filledStars ? 'star-outline' : 'star'" (mouseenter)="fillTo(i)"
                                    (click)="onRatingFilterChanged(i)"></ion-icon>
                      </div>
+
+
+
                  </app-filter>
+             </ion-col>
+                 </ion-row>
                  <app-filter>
                      <div class="filter-title" title>Select Price range:</div>
                      <div class="filter-input" input>
                          <ion-range id="priceRangeInput" [min]="priceSpan.lower" [max]="priceSpan.upper"  dualKnobs="true" pin="true" step="1" [value]="priceSpan" (ionChange)="onPriceSliderChange($event)"></ion-range>
-                         <ion-text class="noWrap">
-                             From:
-                             <ion-input id="minPriceInput" type="number" debounce="500" [value]="priceSpan.lower" (ionInput)="onMinPriceChange(undefined)"></ion-input>
-                             to
-                             <ion-input id="maxPriceInput" type="number" [value]="priceSpan.upper" (ionInput)="onMaxPriceChange(undefined)"></ion-input>
-                         </ion-text>
+                         <ion-row>
+                             <ion-col class="priceRangePadding" size="2">
+                                 <ion-text>From:</ion-text>
+                             </ion-col>
+                             <ion-col size="2">
+                                 <ion-input id="minPriceInput" type="number" debounce="500" [value]="priceSpan.lower" (ionInput)="onMinPriceChange(undefined)"></ion-input>
+                             </ion-col>
+                             <ion-col class="priceRangePadding" size="1">
+                                 <ion-text>to:</ion-text>
+                             </ion-col>
+                             <ion-col size="3">
+                                 <ion-input id="maxPriceInput" type="number" [value]="priceSpan.upper" (ionInput)="onMaxPriceChange(undefined)"></ion-input>
+                             </ion-col>
+                             <ion-col class="priceRangePadding" size="2">
+                                 <ion-text>CHF</ion-text>
+                             </ion-col>
+                         </ion-row>
+
+
+
+
+
+
                      </div>
                  </app-filter>
              </ion-col>
