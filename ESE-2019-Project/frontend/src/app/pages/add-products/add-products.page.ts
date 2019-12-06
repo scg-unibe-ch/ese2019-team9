@@ -123,7 +123,7 @@ export class AddProductsPage implements OnInit {
             this.productForm.reset();
             this.progressIndicatorService.presentToast('Product successfully created');
             this.imagePicker.resetImage();
-            //this.mapPicker.resetLocation();
+            this.mapPicker.resetLocation();
         }, error => {
             this.progressIndicatorService.dismissLoadingIndicator();
             console.log(error);

@@ -2,14 +2,15 @@
     <ion-card-header>
         <ion-grid>
             <ion-row>
-                <ion-col size="1">
+                <ion-col size="6" size-sm="4" size-md="2">
                     <ion-avatar style="object-fit: cover; width:100%; height:100%;+" *ngIf=!changeable>
                         <img style="width:100%; height:100%; object-fit: cover;" [src]="profileItem.image">
                     </ion-avatar>
-                    <ion-avatar class="cursor-pointer"  style="object-fit: cover; width:100%; height:100%;" *ngIf="changeable">
+                    <ion-avatar class="cursor-pointer pickerAvatar"  style="object-fit: cover; width:100%; height:100%;" *ngIf="changeable">
                         <app-image-picker #imagePicker style="width:100%; height:100%; object-fit: cover;" (imagePick)="onImagePicked($event)" [profilePicker]="true"
-                                          [preSelectedImage]="profileItem.image"></app-image-picker>
-                        <ion-badge class="changePictureBadge">
+                                          [preSelectedImage]="profileItem.image">
+                        </app-image-picker>
+                        <ion-badge class="changePictureBadge ion-float-end">
                             <ion-icon name="add"></ion-icon>
                         </ion-badge>
                     </ion-avatar>

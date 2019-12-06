@@ -1,0 +1,7 @@
+@media (max-device-height: 700px) {
+  .scrollableProfile { overflow-y: scroll!important; }
+}
+
+@media (max-device-width: 500px) {
+  .scrollableProfile { overflow-y: scroll!important; }
+}

@@ -7,7 +7,6 @@ import {ProfilePopoverComponent} from './profile-popover/profile-popover.compone
 import {AuthService} from 'src/app/core/services/authService/auth.service';
 import {NotificationService} from '../../../services/notificationService/notification.service';
 import {NotificationsComponent} from 'src/app/core/header/top-header/header-buttons/notifications/notifications.component';
-import {Subscription} from 'rxjs';
 
 /**
  * Component containing the Buttons in the upper right corner.
@@ -24,8 +23,14 @@ import {Subscription} from 'rxjs';
     styleUrls: ['./header-buttons.component.scss']
 })
 export class HeaderButtonsComponent implements OnInit {
-    subscription: Subscription;
+    /**
+     * Number of unread Notifications
+     */
     unreadCount = 0;
+
+    /**
+     * The Array of notifications
+     */
     notifications = [];
 
     /**
@@ -39,11 +44,17 @@ export class HeaderButtonsComponent implements OnInit {
         private notificationService: NotificationService) {
     }
 
+    /**
+     * If the user is logged in checks for new Notifications
+     */
     ngOnInit() {
         if (this.authService.isLoggedIn())
             this.checkForNewNotifications();
     }
 
+    /**
+     * Checks for new Notifications
+     */
     checkForNewNotifications() {
         this.notificationService.getSingleUsersNotifications().subscribe(
             data => {
@@ -95,6 +106,10 @@ export class HeaderButtonsComponent implements OnInit {
         return await popover.present();
     }
 
+    /**
+     * Shows the profile Popover {@link ProfilePopoverComponent}
+     * @param ev the event object
+     */
     async showProfilePopover(ev: any) {
         const popover = await this.popoverController.create({
             component: ProfilePopoverComponent,
@@ -105,6 +120,10 @@ export class HeaderButtonsComponent implements OnInit {
         return await popover.present();
     }
 
+    /**
+     * Shows the profile Popover {@link NotificationsComponent}
+     * @param ev the event object
+     */
     async showNotificationsPopover(ev: any) {
         const popover = await this.popoverController.create({
             component: NotificationsComponent,
@@ -113,9 +132,7 @@ export class HeaderButtonsComponent implements OnInit {
             cssClass: 'notifications-popover'
         });
         popover.onDidDismiss().then(() => {
-            console.log('test');
             this.checkForNewNotifications();
-            console.log(this.notifications);
         });
         return await popover.present();
     }

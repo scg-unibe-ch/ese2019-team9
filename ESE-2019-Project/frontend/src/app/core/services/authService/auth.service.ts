@@ -63,9 +63,10 @@ export class AuthService {
 	}
 
 	/**
-	 * 
-	 * @param email 
-	 * @param password 
+	 * Tries to login with the given email and password
+	 * @param email the email of the user
+	 * @param password the password of the user
+	 * @return an Observable with data as {@link User} 
 	 */
 	login(email: string, password: string): Observable<HttpResponse<User>> {
 		return this.httpClient.post<User>(this.apiBaseUrl + '/login', { email, password }, this.httpOptions)
@@ -75,39 +76,68 @@ export class AuthService {
 			}));
 	}
 
+	/**
+	 * Verify the users email
+	 * @param token the token used for the verification. It is sent by email
+	 */
 	verifyUser(token: string) {
 		return this.httpClient.patch(this.apiBaseUrl + '/verify', { token }, { observe: 'response' });
 	}
 
+	/**
+	 * Resend the Email-Address-Verification-Email
+	 */
 	resendEmail() {
 		const id = localStorage.getItem('id');
 		const email = localStorage.getItem('email');
 		return this.httpClient.post(this.apiBaseUrl + '/resend', { id, email }, { observe: 'response' });
 	}
 
+	/**
+	 * Send a Password reset email
+	 * @param email the email as a string
+	 */
 	forgotPassword(email: string) {
 		return this.httpClient.post(this.apiBaseUrl + '/forgot', { email }, { observe: 'response' });
 	}
 
+	/**
+	 * Resets a password of the user
+	 * @token the token sent for validation
+	 * @password the new password
+	 */
 	resetPassword(token: string, password: string) {
 		return this.httpClient.patch(this.apiBaseUrl + '/reset', { token, password }, { observe: 'response' });
 	}
 
+	/**
+	 * Sets the token to the localStorage
+	 */
 	private setSession(authResult) {
 		localStorage.setItem('token', authResult.token);
 	}
 
+	/**
+	 * sets the non-verified-user to the localStorage.
+	 */
 	private setUser(registrationResult) {
 		localStorage.setItem('id', registrationResult.createdUser._id);
 		localStorage.setItem('email', registrationResult.createdUser.email);
 	}
 
+	/**
+	 * Removes the token with which a user is logged in and navigates the user to the homepage
+	 */
 	logout() {
 		localStorage.removeItem('token');
 		this.router.navigate(['/home']);
 	}
 
-	public isLoggedIn() {
+	/**
+	 * Checks if the user is logged in. Only checks frontend-side
+	 * @return the boolean if the user is logged in
+	 */
+	public isLoggedIn(): boolean {
 		try {
 			if (!Boolean(this.getToken())) {
 				return false;
@@ -126,6 +156,10 @@ export class AuthService {
 		}
 	}
 
+	/**
+	 * Checks if the user is an Admin. Only checks frontend-side
+	 * @returns a boolean if the user is admin
+	 */
 	public isAdmin(): boolean {
 		if (!Boolean(this.getToken())) {
 			return false;

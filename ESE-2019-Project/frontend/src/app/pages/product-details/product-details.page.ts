@@ -1,5 +1,5 @@
 import {
-	Component,
+	Component, OnDestroy,
 	OnInit
 } from '@angular/core';
 
@@ -13,14 +13,6 @@ import {
 } from 'src/app/core/services/productService/product.service';
 
 import {DatePicker} from '@ionic-native/date-picker/ngx';
-
-import {
-	first
-} from 'rxjs/operators';
-
-import {
-	CategoryService
-} from 'src/app/core/services/categoryService/category.service';
 
 import {
 	OrderService
@@ -99,13 +91,13 @@ export class ProductDetailsPage implements OnInit {
 				message: 'Price must be lower than 1000000 CHF'
 			}
 		],
-		description: [{
+		remarks: [{
 				type: 'required',
-				message: 'Description is required'
+				message: 'Remarks are required'
 			},
 			{
 				type: 'maxlength',
-				message: 'Description must me shorter than 10000 characters'
+				message: 'Remarks must me shorter than 10000 characters'
 			}
 		],
 		comment: [{
@@ -214,7 +206,7 @@ export class ProductDetailsPage implements OnInit {
 		this.orderForm = this.formBuilder.group({
 			startDate: ['', [Validators.required]],
 			endDate: ['', [Validators.required, Validators.min]],
-			description: ['', [Validators.required, Validators.maxLength(400)]]
+			remarks: ['', [Validators.required, Validators.maxLength(400)]]
 		});
 
 		this.reviewForm = this.formBuilder.group({
@@ -223,7 +215,11 @@ export class ProductDetailsPage implements OnInit {
 		});
 	}
 
-	onClickBuy() {
+	ionViewDidLeave() {
+		this.showOrderingDetails = false;
+	}
+
+	showHideOrderingDetails() {
 		this.showOrderingDetails = !this.showOrderingDetails;
 	}
 
