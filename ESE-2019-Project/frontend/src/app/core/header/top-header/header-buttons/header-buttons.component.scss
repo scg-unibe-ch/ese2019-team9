@@ -13,6 +13,7 @@
 .notificationsBadge {
   margin-left: -19px;
   margin-bottom: 3px;
+
 }
 
 .responsiveButton {
@@ -23,6 +24,7 @@
   align-items: center;
   justify-content: center;
   font-size:0.5em;
+  outline: none;
 }
 
 .roundButton {
@@ -37,6 +39,7 @@
   border-radius:50%;
   border:1px solid var(--ion-color-primary);
   font-size:1.4em;
+  outline: none;
 }
 
 .roundButton:focus {
@@ -53,6 +56,7 @@
   border:1px solid var(--ion-color-primary);
   font-size:1.4em;
   text-decoration: none;
+  outline: none;
 }
 
 .roundButton:visited {
@@ -69,6 +73,7 @@
   border-radius:50%;
   border:1px solid var(--ion-color-primary);
   font-size:1.4em;
+  outline: none;
 }
 
 .normalButton {

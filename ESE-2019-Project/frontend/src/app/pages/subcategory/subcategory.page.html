@@ -17,7 +17,7 @@
     <ion-grid class="ion-padding-none">
         <ion-row class="filter-list">
             <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
-                <ion-card>
+                <ion-card class="noShadow">
                     <ng-container *ngFor="let filter of filterargsToDisplay">
                         <ion-button *ngIf="filter.name=='rating'" class="button" size="small" fill="outline"
                                     (click)="removeFilter(filter)">
