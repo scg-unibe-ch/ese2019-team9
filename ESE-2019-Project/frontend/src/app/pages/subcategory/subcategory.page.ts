@@ -29,6 +29,7 @@ export class SubcategoryPage implements OnInit {
     private lastfilterargs: string[] = [];
     private subcategory;
     private carouselIsReady = false;
+    private displayFilterOptions = false;
 
     constructor(private route: ActivatedRoute,
         private productService: ProductService,
@@ -228,6 +229,19 @@ export class SubcategoryPage implements OnInit {
 
     onSortChange(evt: Object){
         this.filterAndSearchService.sort(this.products, (evt as any).target.value, '-date');
+    }
+
+
+    displayHideFilterOptions() {
+        this.displayFilterOptions = !this.displayFilterOptions;
+    }
+
+    get filterOptions() {
+        return this.displayFilterOptions;
+    }
+
+    ionViewDidLeave() {
+        this.displayFilterOptions = false;
     }
 
 }
