@@ -63,7 +63,6 @@ module.exports = async (req, res, next) => {
                                     return res.status(500).json({ error:err });
                                 });
                                 req.file = body.filename;
-                                console.log(body);
                                 next();
                             });
                         } catch (err) {

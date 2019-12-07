@@ -124,9 +124,9 @@ exports.addCategory = (req, res, next) => {
         if(category.length > 0){
             if(req.file)
                 deleteFile(req.file);
+            console.log(category);
             throw new Error('Category with same slug already exists');
         }
-
         return category;
     })
     .then(docs => {

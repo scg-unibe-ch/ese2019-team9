@@ -10,7 +10,5 @@ module.exports = (filename) => {
         postambleCRLF: true,
         uri: process.env.FILE_STORAGE,
         json:{ "filename":filename }
-      }, function optionalCallback(err, httpResponse, body) {
-            console.log(body);
       });
 }

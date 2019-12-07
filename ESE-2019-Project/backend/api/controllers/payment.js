@@ -73,8 +73,6 @@ exports.createPayment = (req, res, next) => {
                         error: error
                     })
                 } else {
-                    console.log("Create Payment Response");
-                    console.log("Token: " + token);
                     return res.status(200).json({
                         token: token,
                         payment: payment
@@ -98,7 +96,6 @@ exports.executePayment = async (req, res, next) => {
         });
 
     try {
-        console.log("Token: " + req.body.token);
         data = await jwt.verify(req.body.token, process.env.JWT_KEY);
         const amount = data.amount;
 

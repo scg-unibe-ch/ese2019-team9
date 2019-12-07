@@ -1,6 +1,10 @@
 require('./user/login');
 require('./user/signup');
 require('./user/userRequest');
+require('./user/admin')
 require('./categories/test');
 require('./products/test');
 require('./notifications/test');
+require('./reviews/test');
+require('./order/test');
+require('./payment/test');
