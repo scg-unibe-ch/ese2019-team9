@@ -101,6 +101,22 @@
   margin-right: 5px;
 }
 
+.redButton {
+  font-size: 12px;
+  font-weight: bold;
+  --color: var(--ion-color-danger);
+  --border-color: var(--ion-color-danger);
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 20px;
+  --padding-end: 20px;
+  --padding-start: 20px;
+  --background-hover: var(--ion-color-danger);
+  --color-hover: white;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .greenButton {
   font-size: 12px;
   font-weight: bold;
