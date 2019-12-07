@@ -21,6 +21,11 @@
         <ion-row *ngIf="isLoading" style="font-size:0.8em; padding-top:1em;">
             Loading products...
         </ion-row>
+        <ion-row>
+            <ion-col>
+                <div class="borderLine"></div>
+            </ion-col>
+        </ion-row>
         <ion-row *ngFor="let product of products">
             <ion-item-sliding>
                 <ion-item class="profileProductsItem ion-no-padding "

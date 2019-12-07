@@ -1,6 +1,6 @@
 <ion-grid>
     <ion-row  *ngFor="let subcategory of subcategories">
-      <ion-col class="subcategoryList" [routerLink]="['/subcategory/', subcategory.slug]">
+      <ion-col style="outline: none;"  class="subcategoryList" [routerLink]="['/subcategory/', subcategory.slug]">
         <ion-item class="subcategoryListItem" lines="none">{{ subcategory.name }}</ion-item>
       </ion-col>
     </ion-row>

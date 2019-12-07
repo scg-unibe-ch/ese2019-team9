@@ -6,7 +6,7 @@
 <ion-content>
     <ion-grid>
         <ion-row>
-            <ion-col>
+            <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
                 <ion-list>
                     <ion-grid>
                         <ion-row>
@@ -47,14 +47,18 @@
                                     </ion-col>
                                     <ion-col size="11">
                                         <ion-row>
-                                            <ion-col size="2" style="font-size:20px;">
+                                            <ion-col size="10" size-md="6" size-lg="4" offset-md="2" style="font-size:20px;">
                                                 <b>{{ order.product.name }}</b>
                                             </ion-col>
-
                                         </ion-row>
                                         <ion-row>
-                                            <ion-col size="2" size-md="2" size-lg="2">
+                                            <ion-col size="10" size-md="8" size-lg="8" offset-md="2">
                                                 by {{ order.seller.name }} | <b>{{ order.status }}</b>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row>
+                                            <ion-col size="10" size-md="8" size-lg="8" offset-md="2">
+                                                Placed on: <b>{{ order.orderDate | date : "dd.MM.y hh:mm" }}</b>
                                             </ion-col>
                                         </ion-row>
                                     </ion-col>
