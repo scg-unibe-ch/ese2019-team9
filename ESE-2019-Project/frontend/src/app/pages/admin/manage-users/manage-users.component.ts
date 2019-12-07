@@ -23,7 +23,7 @@ export class ManageUsersComponent implements OnInit {
     }
 
     private userList = [];
-    valuesToHide = ['password', 'openDetail'];
+    valuesToHide = ['password', 'openDetail', 'image'];
 
     ngOnInit() {
         this.getAllUsers();
