@@ -49,8 +49,6 @@ exports.placeOrder = (req, res, next) => {
             if (!product)
                 throw new Error("Product not found!");
 
-            const startDate = parseDate(req.body.startDate, "dd.mm.yyyy", ".");
-            const endDate = parseDate(req.body.startDate, "dd.mm.yyyy", ".");
             sellerId = product.seller;
             productName = product.name;
 
@@ -67,11 +65,14 @@ exports.placeOrder = (req, res, next) => {
                 message: req.body.description
             }];
 
+            const sDate = Date.parse(req.body.startDate);
+            const eDate = Date.parse(req.body.endDate);
+
             const order = new Order({
                 _id: new mongoose.Types.ObjectId(),
                 orderDate: new Date(),
-                startDate: startDate,
-                endDate: endDate,
+                startDate: sDate,
+                endDate: eDate,
                 buyer: new mongoose.Types.ObjectId(req.userData.userId),
                 product: new mongoose.Types.ObjectId(req.body.productId),
                 seller: product.seller,
@@ -328,33 +329,15 @@ exports.getSellerOrders = (req, res, next) => {
         .select("-__v")
         .populate("buyer", "-__v -password -admin")
         .populate("product", "-__v -verified -toRevise -date")
+        .sort([['orderDate', -1]])
         .then(docs => {
             const response = docs.map(doc => {
-                const _startDate = new Date(doc.startDate);
-                const _endDate = new Date(doc.endDate);
-                const _orderDate = new Date(doc.orderDate);
-
-                const startDate = _startDate.getDay() + "." + (_startDate.getMonth() + 1) + "." +
-                    _startDate.getFullYear() + " " +
-                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) +
-                    ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
-
-                const endDate = _endDate.getDay() + "." + (_endDate.getMonth() + 1) + "." +
-                    _endDate.getFullYear() + " " +
-                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) +
-                    ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
-
-                const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth() + 1) + "." +
-                    _orderDate.getFullYear() + " " +
-                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) +
-                    ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
-
                 return {
                     _id: doc._id,
-                    startDate: startDate,
-                    endDate: endDate,
+                    startDate: doc.startDate,
+                    endDate: doc.endDate,
                     status: doc.status,
-                    orderDate: orderDate,
+                    orderDate: doc.orderDate,
                     buyer: {
                         _id: doc.buyer._id,
                         name: doc.buyer.name,
@@ -396,33 +379,15 @@ exports.getNewSellerOrders = (req, res, next) => {
         .select("-__v")
         .populate("buyer", "-__v -password -admin")
         .populate("product", "-__v -verified -toRevise -date")
+        .sort([['orderDate', -1]])
         .then(docs => {
             const response = docs.map(doc => {
-                const _startDate = new Date(doc.startDate);
-                const _endDate = new Date(doc.endDate);
-                const _orderDate = new Date(doc.orderDate);
-
-                const startDate = _startDate.getDay() + "." + (_startDate.getMonth() + 1) + "." +
-                    _startDate.getFullYear() + " " +
-                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) +
-                    ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
-
-                const endDate = _endDate.getDay() + "." + (_endDate.getMonth() + 1) + "." +
-                    _endDate.getFullYear() + " " +
-                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) +
-                    ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
-
-                const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth() + 1) + "." +
-                    _orderDate.getFullYear() + " " +
-                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) +
-                    ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
-
                 return {
                     _id: doc._id,
-                    startDate: startDate,
-                    endDate: endDate,
+                    startDate: doc.startDate,
+                    endDate: doc.endDate,
                     status: doc.status,
-                    orderDate: orderDate,
+                    orderDate: doc.orderDate,
                     buyer: {
                         _id: doc.buyer._id,
                         name: doc.buyer.name,
@@ -459,33 +424,15 @@ exports.getBuyerOrders = (req, res, next) => {
         .select("-__v")
         .populate("seller", "-__v -password -admin")
         .populate("product", "-__v -verified -toRevise -date")
+        .sort([['orderDate', -1]])
         .then(docs => {
             const response = docs.map(doc => {
-                const _startDate = new Date(doc.startDate);
-                const _endDate = new Date(doc.endDate);
-                const _orderDate = new Date(doc.orderDate);
-
-                const startDate = _startDate.getDay() + "." + (_startDate.getMonth() + 1) + "." +
-                    _startDate.getFullYear() + " " +
-                    (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) +
-                    ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
-
-                const endDate = _endDate.getDay() + "." + (_endDate.getMonth() + 1) + "." +
-                    _endDate.getFullYear() + " " +
-                    (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) +
-                    ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
-
-                const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth() + 1) + "." +
-                    _orderDate.getFullYear() + " " +
-                    (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) +
-                    ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
-
                 return {
                     _id: doc._id,
-                    startDate: startDate,
-                    endDate: endDate,
+                    startDate: doc.startDate,
+                    endDate: doc.endDate,
                     status: doc.status,
-                    orderDate: orderDate,
+                    orderDate: doc.orderDate,
                     seller: {
                         _id: doc.seller._id,
                         name: doc.seller.name,
@@ -525,32 +472,12 @@ exports.getOrderById = (req, res, next) => {
         .then(async doc => {
             if (doc.buyer._id != req.userData.userId && doc.seller._id != req.userData.userId && !req.userData.admin)
                 throw new Error("Access denied");
-
-            const _startDate = new Date(doc.startDate);
-            const _endDate = new Date(doc.endDate);
-            const _orderDate = new Date(doc.orderDate);
-
-            const startDate = _startDate.getDay() + "." + (_startDate.getMonth() + 1) + "." +
-                _startDate.getFullYear() + " " +
-                (_startDate.getHours() < 10 ? "0" + _startDate.getHours() : _startDate.getHours()) +
-                ":" + (_startDate.getMinutes() < 10 ? "0" + _startDate.getMinutes() : _startDate.getMinutes());
-
-            const endDate = _endDate.getDay() + "." + (_endDate.getMonth() + 1) + "." +
-                _endDate.getFullYear() + " " +
-                (_endDate.getHours() < 10 ? "0" + _endDate.getHours() : _endDate.getHours()) +
-                ":" + (_endDate.getMinutes() < 10 ? "0" + _endDate.getMinutes() : _endDate.getMinutes());
-
-            const orderDate = _orderDate.getDay() + "." + (_orderDate.getMonth() + 1) + "." +
-                _orderDate.getFullYear() + " " +
-                (_orderDate.getHours() < 10 ? "0" + _orderDate.getHours() : _orderDate.getHours()) +
-                ":" + (_orderDate.getMinutes() < 10 ? "0" + _orderDate.getMinutes() : _orderDate.getMinutes());
-
             return res.status(200).json({
                 _id: doc._id,
-                startDate: startDate,
-                endDate: endDate,
+                startDate: doc.startDate,
+                endDate: doc.endDate,
                 status: doc.status,
-                orderDate: orderDate,
+                orderDate: doc.orderDate,
                 reviewed:doc.reviewed,
                 seller: {
                     _id: doc.seller._id,

@@ -29,8 +29,8 @@
     <ion-card-content>
         <ion-grid #grid>
             <ion-row class="row" *ngFor="let key of profileItemData">
-                <ion-col>{{ getKeyString(key) }}</ion-col>
-                <ion-col>{{ getValueString(key) }} </ion-col>
+                <ion-col size="4" >{{ getKeyString(key) }}</ion-col>
+                <ion-col size="7">{{ getValueString(key) }} </ion-col>
                 <ion-col *ngIf="changeable" size="1">
                     <ion-icon class="cursor-pointer" name="create" (click)=onClickEdit()></ion-icon>
                 </ion-col>

@@ -39,6 +39,24 @@ exports.signup= () => {
     });
 };
 
+exports.addAdditionalInformation = (user) => {
+    return new Promise((resolve,reject) => {
+        reqUser.patch('/' + user.id)
+       .set('Content-Type','application/json')
+       .set('Authorization','Bearer ' + user.token)
+       .send({ 'name': 'testname', 'address':'testaddress','country':'testcountry', 'sex':'female'})
+       .then((res)=>{
+           if(res.status == 200)
+                resolve();
+            else
+                reject(res.text);
+       })
+       .catch((err) =>{
+           reject(err);
+       });
+    })
+}
+
 exports.verify = (id) => {
     return new Promise((resolve, reject) => {
         reqDev.patch('/verify')
@@ -71,11 +89,11 @@ exports.login = (user)=>{
 /**
  * should only be used after a login is tested
  * @param user is a Json containing email and password
- * @example{email:usermail, password:pw}
+ * @example{email:usermail, password:pw, token:usertoken}
  */
 exports.loggedInAndVerified = () => {
     return new Promise(async (resolve, reject)=>{
-        let user;
+        let user = {'token': ''};
         let id;
         let login;
         let token;
@@ -86,6 +104,7 @@ exports.loggedInAndVerified = () => {
             await this.verify(id);
             token = await this.login(login);
             user.token = token;
+            await this.addAdditionalInformation(user);
             resolve(user);
         }catch(err){
             reject(new Error('setup failed ' + err));

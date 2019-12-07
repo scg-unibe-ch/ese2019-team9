@@ -44,8 +44,9 @@ describe('Test Notifications', () => {
         .set('Authorization', 'b ' + user.token)
         .then((res) => {
             assert.equal(res.status, 200);
-            assert.isArray(res.body);
-            assert.equal(res.body[0].text, 'test aber itz outomatisch');
+            assert.isObject(res.body);
+            assert.isArray(res.body.notifications);
+            assert.equal(res.body.notifications[0].text, 'test aber itz outomatisch');
             done();
         })
         .catch((err) => {
@@ -61,7 +62,7 @@ describe('Test Notifications', () => {
             .set('authorization', 'b ' + user.token)
             .then((res) => {
                 assert.equal(res.status, 200);
-                assert.isTrue(res.body[0].read);
+                assert.isAtMost(res.body.unread, 0);
                 done();
             })
             .catch((err) => {
@@ -92,9 +93,9 @@ describe('Test Notifications', () => {
             request.get('/user')
             .set('Authorization', 'b ' + user.token)
             .then((res1)=>{
-                assert.equal(res1.status, 200, 'should not get empty array');
-                assert.isArray(res1.body);
-                assert.isAtMost(res1.body.length, 0);
+                assert.equal(res1.status, 200, 'should get empty array');
+                assert.isArray(res1.body.notifications);
+                assert.isAtMost(res1.body.notifications.length, 0);
                 done();
             })
             .catch((err)=>{

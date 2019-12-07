@@ -21,3 +21,6 @@ get Json of specific user: GET /dev/<id>
 
 ## Documentation ##
 To read our Compodoc documentation please run 'npm run compodoc' in the frontend folder
+
+## Tests ##
+To run our tests, navigate to `./ESE-2019-Project/backend/` and type `npm test`

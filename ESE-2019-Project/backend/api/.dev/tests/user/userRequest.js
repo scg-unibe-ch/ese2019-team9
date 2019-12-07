@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 const app = 'http://localhost:8080/user';
 const notification = 'http://localhost:8080/notification'
 const request = chai.request(app);
-const notifRequest = chai.request(notification);
+
 describe("Test requests for userId", () =>{
     let user;
     let other;
@@ -16,7 +16,7 @@ describe("Test requests for userId", () =>{
             user = await User.loggedInAndVerified();
             other = await User.loggedInAndVerified();
         }catch(err){
-            throw new Error('dini mer: ' + err);
+            throw new Error(err);
         }
         assert.isDefined(user);
         assert.hasAllKeys(user, ['email','token','id','pw']);
@@ -26,9 +26,9 @@ describe("Test requests for userId", () =>{
         assert.notEqual(user.token, other.token);
     });
 
-    after(()=>{
-       User.clean(user.id);
-       User.clean(other.id);
+    after(async ()=>{
+       await User.clean(user.id);
+       await User.clean(other.id);
     });
 
    it('getting own data', (done) =>{
@@ -126,14 +126,14 @@ describe("Test requests for userId", () =>{
        request.patch('/' + user.id)
        .set('Content-Type','application/json')
        .set('Authorization','Bearer ' + user.token)
-       .send({'userData': {'admin':true, 'userId': user.id}, 'sex': 'gender fluid'})
+       .send({ 'sex': 'male'})
        .then((res)=>{
            assert.equal(res.status, 200);
            request.get('/' + user.id)
            .set('Authorization','Bearer ' + user.token)
            .then((res1)=>{
                assert.equal(res1.status, 200);
-               assert.equal(res1.body.sex, 'gender fluid', 'should have updated field');
+               assert.equal(res1.body.sex, 'male', 'should have updated field');
                done();
            })   
            .catch((err) =>{
@@ -152,7 +152,7 @@ describe("Test requests for userId", () =>{
            request.get('/' + user.id)
            .set('Authorization' , 'Bearer ' + user.token)
            .then((res1) => {
-               assert.equal(res1.status, 404, 'user should not be found');
+               assert.equal(res1.status, 500, 'user should not be found');
                user = User.loggedInAndVerified().then();
                done();
            })
@@ -164,7 +164,21 @@ describe("Test requests for userId", () =>{
            done(err);
        });
 
-   });
+   }); 
+
+   it('cant patch other', (done)=> {
+       request.patch('/' + other.id)
+       .set('Authorization', 'B '+ user.token)
+       .send({'gender': 'male'})
+       .then((res) => {
+            assert.equal(res.status, 401);
+            done()
+       })
+       .catch((err)=>{
+           done(err);
+       })
+    });
+
    it('delete others account', (done) => {
        request.delete('/' + other.id)
         .set('Authorization', 'Bearer ' + user.token)

@@ -4,7 +4,7 @@
   "description": "backend for ESE project",
   "main": "server.js",
   "scripts": {
-    "test": "mocha 'C:/UniBe/ese/team9/backend/api/.dev/tests/tests.js'",
+    "test": "mocha 'C:/UniBe/ese/team9/ESE-2019-Project/backend/api/.dev/tests'",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
@@ -27,6 +27,7 @@
     "express": "^4.17.1",
     "index": "^0.4.0",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^6.2.2",
     "mongoose": "^5.7.4",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",

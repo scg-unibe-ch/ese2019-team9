@@ -333,20 +333,21 @@ exports.deleteProduct = (req, res, next) => {
             if (req.userData.userId != result.seller && !req.userData.admin)
                 throw new Error("Access forbidden");
 
+            image = result.image;
             return Product.findOneAndDelete({
                 _id: req.params.productId
             });
         })
-        .then(async result => {
-            if (result.image)
-                deleteFile(result.image);
+        .then(result => {
+           if (result.image || result.image != null)
+               deleteFile(result.image);
             res.status(200).json({
                 message: "Product deleted"
             });
         })
         .catch(err => {
             res.status(500).json({
-                error: err.message
+                error: 'Hie bini' + err.message
             });
         });
 }

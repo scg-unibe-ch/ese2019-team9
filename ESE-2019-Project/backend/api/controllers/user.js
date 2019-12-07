@@ -325,6 +325,8 @@ exports.deleteUser = (req, res, next) => {
 
             if (result.image)
                 deleteFile(result.image);
+            if (result.admin)
+                throw new Error('User is admin');
             res.status(200).json({
                 message: 'User deleted'
             });
@@ -417,17 +419,12 @@ exports.forgotPassword = (req, res, next) => {
                 }, env.JWT_KEY, {
                     expiresIn: "1h"
                 });
-                Email.sendResetLink(token, usermail, browser, operatingSystem)
-                    .then(() => {
-                        res.status(200).json({
-                            message: 'Reset-link sent'
-                        });
-                    })
-                    .catch((err) => {
-                        res.status(500).json({
-                            message: err.message
-                        });
-                    });
+                try{
+                    Email.sendResetLink(token, usermail, browser, operatingSystem)
+                    res.status(200).json({message:'reset link sent'})
+                }catch(err) {
+                    res.status(500).json({message: err});
+                }
             } else {
                 // email is not yet registered
                 Email.sendEmailNotRegistered(usermail, browser, operatingSystem)
