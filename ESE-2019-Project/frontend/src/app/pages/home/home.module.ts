@@ -9,8 +9,8 @@ import { AuthModule } from '../../core/auth.module';
 import { CarouselModule } from '../../shared/carousel.module';
 
 import { HomePage } from './home.page';
-import {FooterComponent} from '../../core/footer/footer.component';
 import { SearchResultComponent } from './home-banner/search-result/search-result.component';
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
@@ -24,10 +24,11 @@ import { SearchResultComponent } from './home-banner/search-result/search-result
     ]),
     HeaderModule,
     AuthModule,
-    CarouselModule
+    CarouselModule,
+    SharedModule
   ],
   exports: [],
-  declarations: [HomePage, FooterComponent, SearchResultComponent],
+  declarations: [HomePage, SearchResultComponent],
   entryComponents: [SearchResultComponent]
 })
 export class HomePageModule {}

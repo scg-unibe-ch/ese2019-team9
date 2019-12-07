@@ -28,6 +28,7 @@ export class SubcategoryPage implements OnInit {
     private filterargs: string[] = [];
     private lastfilterargs: string[] = [];
     private subcategory;
+    private isLoading = true;
     private carouselIsReady = false;
     private displayFilterOptions = false;
 
@@ -63,6 +64,7 @@ export class SubcategoryPage implements OnInit {
             this.products = this.applyFilters(this.allProducts);
             this.getPriceSpan();
             this.selectFeaturedProducts();
+            this.isLoading = false;
         });
     }
 

@@ -51,10 +51,9 @@ export class ProfileInformationsComponent implements OnInit {
     KEYS_COLUMN = 5;
     keysToName: Map<string, string> = new Map([
         ['_id', 'Id'],
-        ['email', 'E-Mail address'],
+        ['email', 'E-Mail'],
         ['verifiedEmail', 'E-Mail verified'],
         ['country', 'Country*'],
-        ['phone', 'Phone number'],
         ['website', 'Website'],
         ['sex', 'Sex'],
         ['name', 'Name*'],
