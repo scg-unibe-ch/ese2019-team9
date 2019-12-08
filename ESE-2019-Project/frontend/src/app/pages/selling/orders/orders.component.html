@@ -10,7 +10,7 @@
             </ion-select>
           </ion-col>
         </ion-row>
-        <ion-row class = "ordersTitleBar">
+        <ion-row class = "ordersTitleBar" *ngIf="ordersToShow && ordersToShow.length > 0">
             <ion-col class="ordersTitle" offset="1">
                 Product
             </ion-col>
@@ -52,5 +52,6 @@
                 </ion-item-options>
             </ion-item-sliding>
         </ion-row>
+        <ion-row *ngIf="(!ordersToShow || ordersToShow.length == 0) && !isLoading">No offers were found.</ion-row>
     </ion-grid>
 </ion-list>
