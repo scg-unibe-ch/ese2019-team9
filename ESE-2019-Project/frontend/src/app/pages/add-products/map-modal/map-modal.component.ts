@@ -2,26 +2,48 @@ import {Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2, OnDe
 import {ModalController} from '@ionic/angular';
 import { environment } from '../../../../environments/environment';
 
+/**
+ * Displays the map from Google Maps
+ */
 @Component({
     selector: 'app-map-modal',
     templateUrl: './map-modal.component.html',
     styleUrls: ['./map-modal.component.scss'],
 })
-export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapModalComponent implements AfterViewInit, OnDestroy {
+    /**
+     * The map Element
+     */
     @ViewChild('map', {static: false}) mapElementRef: ElementRef;
+    /**
+     * The click-event-listener
+     */
     clickListener: any;
+
+    /**
+     * @ignore
+     */
     googleMaps: any;
 
+    /**
+     * Assigns two new private variables
+     * @param modalCtrl Auto injected ModalController to dismiss the modal
+     * @param renderer Auto injected Renderer to have a custom rendering
+     */
     constructor(private modalCtrl: ModalController,
                 private renderer: Renderer2) {
     }
 
-    ngOnInit() { }
-
+    /**
+     * Dismisses the Modal
+     */
     onCancel() {
         this.modalCtrl.dismiss();
     }
 
+    /**
+     * Fetches the Google Maps Script and renders the map. Assigns a new click listener on the map.
+     */
     ngAfterViewInit() {
         this.getGoogleMaps().then(googleMaps => {
             this.googleMaps = googleMaps;
@@ -42,10 +64,17 @@ export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
+    /**
+     * Removes the click-event-listener when the component gets destroyed
+     */
     ngOnDestroy() {
         this.googleMaps.event.removeListener(this.clickListener);
     }
 
+    /**
+     * Tries to fetch the Google Maps Script.
+     * @returns Promise with the maps field of the google module or rejects if the SDK is not available
+     */
     private getGoogleMaps(): Promise<any> {
         const win = window as any;
         const googleModule = win.google;

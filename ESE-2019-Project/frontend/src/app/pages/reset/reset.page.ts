@@ -4,6 +4,9 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../core/services/authService/auth.service';
 import {ProgressIndicatorService} from '../../core/services/progressIndicatorService/progress-indicator.service';
 
+/**
+ * The page to reset the password
+ */
 @Component({
   selector: 'app-reset',
   templateUrl: './reset.page.html',
@@ -11,7 +14,13 @@ import {ProgressIndicatorService} from '../../core/services/progressIndicatorSer
 })
 export class ResetPage implements OnInit {
 
+  /**
+   * A FromGroup of the password-input-field
+   */
   resetForm: FormGroup;
+  /**
+   * The validation messages if the field is not valid
+   */
   validationMessages = {
     password: [
       { type: 'required', message: 'Password is required' },
@@ -19,6 +28,13 @@ export class ResetPage implements OnInit {
     ]
   };
 
+  /**
+   * Assigns new private variables
+   * @param formBuilder Auto injected FormBuilder to group the Input
+   * @param authService Auto injected AuthService used to handle backend communication
+   * @param activatedRoute Auto injected ActivatedRoute to read the token of the reset process
+   * @param progressIndicatorService Auto injected ProgressIndicatorService to display toasts
+   */
   constructor(
       private formBuilder: FormBuilder,
       private authService: AuthService,
@@ -26,14 +42,19 @@ export class ResetPage implements OnInit {
       private progressIndicatorService: ProgressIndicatorService
   ) { }
 
+  /**
+   * Groups the reset form
+   */
   ngOnInit() {
     this.resetForm = this.formBuilder.group( {
       password: ['', [ Validators.required, Validators.minLength(6)]]
     });
   }
 
+  /**
+   * Resets the password if the form is valid
+   */
   onSubmitReset() {
-    // stop here if form is invalid
     if (this.resetForm.invalid) {
       return;
     }

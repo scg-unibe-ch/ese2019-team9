@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
 
   /**
    * Assigns new private variables and calls {@link #initializeApp}
-   * @param platform Auto injected Platform variable to check wheter the platform is ready
+   * @param platform Auto injected Platform variable to check whether the platform is ready
    * @param splashScreen Auto injected SplashScreen variable
    * @param statusBar Auto injected StatusBar variable
    * @param authService Auto injected AuthService variable to check what buttons to display in the menu
