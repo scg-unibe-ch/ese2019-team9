@@ -48,7 +48,7 @@
 										[type]="'dateTime'" [max]="maxDate" [min]="orderForm.controls['startDate'].value" [inputMode]="'text'">
 										</app-input-form>
 										<ion-item [formGroup]= "orderForm">
-											<ion-label position="floating" style="margin-bottom:7px"> Additional things you want the seller to know* </ion-label>
+											<ion-label position="floating" style="margin-bottom:7px"> Remarks* </ion-label>
 											<ion-textarea formControlName='remarks' inputmode = "text" required></ion-textarea>			
 												<div *ngFor="let validation of validationMessages.remarks">
 													<div class="invalid-feedback" *ngIf="orderForm.get('remarks').hasError(validation.type) && (orderForm.get('remarks').dirty || orderForm.get('remarks').touched)">
