@@ -91,16 +91,14 @@ export class HomeBannerComponent implements OnInit {
     }
 
 
-    async openSearchResultPopover() {
+    async openSearchResultPopover(ev: any) {
+        
         if (this.searchResults.popover) {
             return;
         }
         this.popoverLock = true;
-        await this.presentPopover();
-        document.querySelectorAll('ion-content')[1].shadowRoot.querySelector('main').addEventListener('scroll', () => {
-            this.modifyMargin();
-        });
-        (document.getElementsByClassName('popover-content')[0] as any).style = 'top: 5px; left: 0px; width: 100%, height: 100%';
+        await this.presentPopover(ev);
+        
         const evt = { target: { value: undefined } };
         evt.target.value = (document.getElementById('searchbar') as HTMLIonInputElement).value;
         this.onSearchbarChange(evt);
@@ -108,41 +106,34 @@ export class HomeBannerComponent implements OnInit {
         this.popoverLock = false;
     }
 
+    
     closeSearchResultPopover() {
         if (this.popoverLock) { return; }
         document.querySelectorAll('ion-content')[1].shadowRoot.querySelector('main').removeEventListener('scroll', () => {
-            this.modifyMargin();
+            this.popoverController.dismiss(this.searchResults.popover.id);
         });
         this.popoverController.dismiss(this.searchResults.popover.id);
         this.searchResults.popover = undefined;
     }
 
-    public modifyMargin() {
-        if (!this.searchResults.popover) { return; }
-        const searchbar = document.getElementById('searchbar');
-        this.searchResults.popover.style.marginTop = searchbar.getBoundingClientRect().bottom + 'px';
-    }
-
-    async presentPopover() {
+    async presentPopover(ev: any) {
         const popoverElement = await this.popoverController.create({
             component: SearchResultComponent,
             translucent: true,
             cssClass: 'results',
-            event,
+            leaveAnimation: null,
+            animated: false,
+            event:ev,
             backdropDismiss: false,
             componentProps: {
                 searchResults: this.searchResults
             }
         });
-        const searchbar = document.getElementById('searchbar');
-        popoverElement.style.marginTop = searchbar.getBoundingClientRect().bottom + 'px';
-        popoverElement.style.marginLeft = searchbar.getBoundingClientRect().left + 'px';
+
         this.searchResults.popover = popoverElement;
+        document.querySelectorAll('ion-content')[1].shadowRoot.querySelector('main').addEventListener('scroll', () => {
+            this.popoverController.dismiss(this.searchResults.popover.id);
+        });
         return await popoverElement.present();
     }
-
-    onClickResult(evt) {
-        console.log(evt);
-    }
-
 }
