@@ -25,7 +25,7 @@
 						<ion-item><ion-icon name="pricetags"></ion-icon>&nbsp; Price: <span>&nbsp;{{ product.price || 'not specified'}}</span><span>&nbsp;CHF</span></ion-item>
 						<ion-item><ion-icon name="albums"></ion-icon>&nbsp; Category: <span>&nbsp;{{ product.category.name }}</span></ion-item>
 						<ion-item><ion-icon name="person"></ion-icon>&nbsp; Seller: <span>&nbsp;{{ product.seller.name }}</span></ion-item>
-						<ion-item><ion-icon name="pin"></ion-icon> &nbsp;Location: <span>&nbsp;{{ product.location || 'nowhere'}}</span></ion-item>
+						<ion-item><ion-icon name="pin"></ion-icon> &nbsp;Location:<span class="whiteSpace">{{ product.location || 'nowhere'}}</span></ion-item>
 						<ion-button fill="empty" class="blueButton" (click) = "showHideOrderingDetails();" *ngIf="!orderingDetails && loggedIn && product.seller._id != authService.getId()">Order now</ion-button>
 					</ion-list>
 				</ion-card>

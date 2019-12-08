@@ -2,11 +2,11 @@
     "env": {
         "MONGO_ATLAS_PW": "molnunibe19",
         "JWT_KEY": "7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/",
-        "PUBLIC_DOMAIN": "themoln.herokuapp.com",
+        "PUBLIC_DOMAIN": "moln.internet-box.",
         "MAIL_SERVICE": "gmail",
         "SUPPORT_MAIL_PW": "molnunibe19",
         "SUPPORT_MAIL":"themolnplatform@gmail.com",
-        "PUBLIC_DOMAIN_API":"http://moln-api.herokuapp.com",
+        "PUBLIC_DOMAIN_API":"http://beeri-1:8080",
         "FILE_STORAGE":"http://d3t3rm1n4nt3.bplaced.net/fileStorage/"
     }
 }

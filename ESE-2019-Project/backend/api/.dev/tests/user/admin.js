@@ -9,7 +9,6 @@ const userRequest = chai.request(app + '/user');
 const notifRequest = chai.request(app + '/notification');
 const catRequest = chai.request(app + '/category');
 const reviewRequest = chai.request(app + '/review')
-const Helper = require('../methods/methods');
 
 describe("Test requests for admin", (done) =>{
     let formdata = {'slug':'admintestslug','name':'admintestname','image':'image'};
@@ -22,10 +21,11 @@ describe("Test requests for admin", (done) =>{
         other = await User.loggedInAndVerified();
         user = await User.loggedInAndVerified();
         //make adminuser (we really only need the token of an adminuser)
-        let temp = await Helper.verifyToken(user.token);
+        let temp = await jwt.decode(user.token, '7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/');
+        assert.isDefined(temp.admin);
         temp.admin = true;
         admin.id = user.id;
-        admin.token = await Helper.getToken(temp);
+        admin.token = await jwt.sign(temp, '7YpBnfZnS1r0CcxrIRbfA4Jp2zwrdUhd82JBZAEluYip3GA76Fsz8ng/VUNgVCT/')
         //make other adminuser
 
     });
