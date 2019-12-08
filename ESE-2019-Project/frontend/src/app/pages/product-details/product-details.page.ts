@@ -50,7 +50,7 @@ export class ProductDetailsPage implements OnInit {
 
 	private startDate;
 	private endDate;
-
+	today = new Date();
 	maxDate = (new Date()).getFullYear() + 3;
 
 	isLoading = true;
