@@ -2,7 +2,7 @@
   <ion-label position="floating" style="margin-bottom:7px"> {{ text }} </ion-label>
   <ion-input *ngIf="type != 'dateTime'" [type]= "type" [formControlName] = "givenName"  [inputmode] = "inputMode" ></ion-input>
   <ion-datetime *ngIf="type == 'dateTime'" [max]="max" [min]="min" [formControlName] = "givenName" 
-    display-format="DD.MMM.YYYY hh:mm"></ion-datetime>
+    display-format="DD.MMM.YYYY HH:mm"></ion-datetime>
   <ng-container *ngIf="isPassword">
     <ion-icon *ngIf="!showingPassword" name="eye" slot="end" (click)="showPassword(true)"></ion-icon>
     <ion-icon *ngIf="showingPassword" name="eye-off" slot="end" (click)="showPassword(false)"></ion-icon>

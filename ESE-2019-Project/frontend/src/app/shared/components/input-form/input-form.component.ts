@@ -22,7 +22,7 @@ export class InputFormComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.isPassword = this.type === 'password';
   }
 
