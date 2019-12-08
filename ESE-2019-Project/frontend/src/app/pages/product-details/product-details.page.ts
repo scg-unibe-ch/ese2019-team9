@@ -166,7 +166,7 @@ export class ProductDetailsPage implements OnInit {
 		}
 
 		const val = {
-			comment: this.reviewForm.value.comment,
+			description: this.reviewForm.value.comment,
 			rating: this.rating,
 			productId: this.productId
 		};
