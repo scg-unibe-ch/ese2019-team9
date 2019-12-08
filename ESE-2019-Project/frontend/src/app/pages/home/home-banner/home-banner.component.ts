@@ -132,7 +132,7 @@ export class HomeBannerComponent implements OnInit {
 
         this.searchResults.popover = popoverElement;
         document.querySelectorAll('ion-content')[1].shadowRoot.querySelector('main').addEventListener('scroll', () => {
-            this.popoverController.dismiss(this.searchResults.popover.id);
+            this.popoverController.dismiss();
         });
         return await popoverElement.present();
     }

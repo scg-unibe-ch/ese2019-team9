@@ -15,24 +15,6 @@
                                 <b>My orders</b>
                             </ion-col>
                         </ion-row>
-                        <!--
-                          <ion-row class = "ordersTitleBar">
-                              <ion-col class="ordersTitle" size="2" size-md="2" offset-md="1" size-lg="2">
-                                  Product Name
-                              </ion-col>
-                              <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
-                                  Seller Name
-                              </ion-col>
-                              <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
-                                  From
-                              </ion-col>
-                              <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
-                                  To
-                              </ion-col>
-                              <ion-col class="ordersTitle" size="2" size-md="2" size-lg="2">
-                                  Status
-                              </ion-col>
-                          </ion-row>-->
                         <ion-row *ngIf="isLoading">
                             Loading orders...
                         </ion-row>
@@ -53,7 +35,7 @@
                                         </ion-row>
                                         <ion-row>
                                             <ion-col size="10" size-md="8" size-lg="8" offset-md="2">
-                                                by {{ order.seller.name }} | <b>{{ order.status }}</b>
+                                                Seller: {{ order.seller.name }} | <b>{{ order.status }}</b>
                                             </ion-col>
                                         </ion-row>
                                         <ion-row>
