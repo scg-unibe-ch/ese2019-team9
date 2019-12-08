@@ -123,6 +123,7 @@ ion-input {
 ion-select{
 
   color: var(--ion-color-primary);
+  max-width: 160px;
   @media (max-width: 768px) {
     width: 35vw;
   }

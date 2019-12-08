@@ -200,7 +200,7 @@ exports.updateProduct = (req, res, next) => {
             });
         })
         .then(result => {
-            if (req.body.toRevise && req.userData.admin) {
+            if (req.body.verified && req.userData.admin) {
                 const notification = new Notification({
                     _id: new mongoose.Types.ObjectId(),
                     user: product.seller,
@@ -212,7 +212,7 @@ exports.updateProduct = (req, res, next) => {
                 return notification.save();
             }
 
-            if (req.body.verified && req.userData.admin) {
+            if (req.body.toRevise && req.userData.admin) {
                 const notification = new Notification({
                     _id: new mongoose.Types.ObjectId(),
                     user: product.seller,
@@ -334,6 +334,11 @@ exports.deleteProduct = (req, res, next) => {
                 throw new Error("Access forbidden");
 
             image = result.image;
+
+            return Order.deleteMany({product:req.params.productId});
+
+        })
+        .then(result =>{
             return Product.findOneAndDelete({
                 _id: req.params.productId
             });
@@ -347,7 +352,7 @@ exports.deleteProduct = (req, res, next) => {
         })
         .catch(err => {
             res.status(500).json({
-                error: 'Hie bini' + err.message
+                error:err.message
             });
         });
 }

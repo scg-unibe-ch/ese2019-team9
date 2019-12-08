@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Order = require('./order');
+const Review = require('./review');
 
 const productSchema = mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
@@ -18,6 +20,13 @@ productSchema.virtual('reviews', {
     ref: 'Review',
     localField: '_id',
     foreignField: 'product', 
+});
+
+// delete dependencies when product gets deleted
+productSchema.pre('remove', function(next) {
+    Order.deleteMany({product: this._id}).exec();
+    Review.deleteMany({product: this._id}).exec();
+    next();
 });
 
 module.exports = mongoose.model('Product', productSchema);

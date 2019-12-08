@@ -1,7 +1,11 @@
 <ion-list>
   <ion-grid #grid class="ion-padding-start">
     <ion-row>
-      <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+      <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
+
+
+    <ion-row>
+      <ion-col size="12" size-sm="6" size-md="7" size-lg="5">
         <ion-row>
           <ion-col>
             <ion-item lines="none" >
@@ -27,7 +31,7 @@
           </ion-col>
         </ion-row>
       </ion-col>
-      <ion-col size="12" size-sm="6" size-md="4" size-lg="3" offset-md="4" offset-lg="6">
+      <ion-col size="12" size-sm="6" size-md="4" size-lg="3" offset-md="1" offset-lg="4">
         <ion-select #sortSelection placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
             <ion-select-option value="+date">Date ascending</ion-select-option>
             <ion-select-option value="-date">Date descending</ion-select-option>
@@ -179,6 +183,8 @@
           (click)="verifyOffer(offer._id, offer.name, offer.seller._id)"
           >Accept</ion-button
         >
+      </ion-col>
+    </ion-row>
       </ion-col>
     </ion-row>
   </ion-grid>

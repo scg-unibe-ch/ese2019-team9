@@ -22,7 +22,7 @@
 						  "></ion-icon>
                     </ion-col>
                 </ion-item>
-                <ion-item-options side="end">
+                <ion-item-options *ngIf="!user.admin" side="end">
                     <ion-item-option color="danger" (click)="deleteUser(user._id)">
                         Delete
                     </ion-item-option>

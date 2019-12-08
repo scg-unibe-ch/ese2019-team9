@@ -325,8 +325,9 @@ exports.deleteUser = (req, res, next) => {
 
             if (result.image)
                 deleteFile(result.image);
-            if (result.admin)
-                throw new Error('User is admin');
+
+            return Product.
+
             res.status(200).json({
                 message: 'User deleted'
             });

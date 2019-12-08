@@ -7,8 +7,8 @@
     <ion-grid>
         <form [formGroup]="productForm" (ngSubmit)="onSubmitAddProduct()">
             <ion-row>
-                <ion-col size="12" size-md="6"  offset-md="3">
-                    <ion-title>Add a product</ion-title>
+                <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
+                    <ion-title mode="md">Add a product</ion-title>
                     <ion-card>
                         <ion-card class="formElement">
                             <app-input-form [inputForm]="productForm" [givenName]="'name'" [text]="'Title*'"
@@ -74,7 +74,7 @@
             </ion-row>
             <ion-row>
                 <ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
-                    <ion-button type="submit"> Upload product</ion-button>
+                    <ion-button class="blueButton" fill="empty" type="submit"> Upload product</ion-button>
                 </ion-col>
             </ion-row>
         </form>

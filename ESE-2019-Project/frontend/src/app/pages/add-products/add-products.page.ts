@@ -121,7 +121,7 @@ export class AddProductsPage implements OnInit {
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
             this.progressIndicatorService.dismissLoadingIndicator();
             this.productForm.reset();
-            this.progressIndicatorService.presentToast('Product successfully created');
+            this.progressIndicatorService.presentToast('Product successfully created. We will publish it online within 24 hours or contact you if changes are necessary.', 'warning',10000);
             this.imagePicker.resetImage();
             this.mapPicker.resetLocation();
         }, error => {

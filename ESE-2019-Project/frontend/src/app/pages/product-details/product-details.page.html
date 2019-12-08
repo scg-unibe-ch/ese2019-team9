@@ -40,7 +40,7 @@
 										<app-input-form
 										[inputForm]="orderForm" [givenName]="'startDate'" [text]="'Event Start*'"
 										[validationMessages]="validationMessages.startDate"
-										[type]="'dateTime'" [max]="maxDate" (ionChange)="onChangeStartDate()" [inputMode]="'text'">
+										[type]="'dateTime'" [min]="today" [max]="maxDate" (ionChange)="onChangeStartDate()" [inputMode]="'text'">
 										</app-input-form>
 										<app-input-form
 										[inputForm]="orderForm" [givenName]="'endDate'" [text]="'Event End*'"

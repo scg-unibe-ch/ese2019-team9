@@ -135,11 +135,11 @@
         <ion-row *ngIf="order.status=='accepted' && !isSeller">
             <ion-col offset-md="2" size-md="8" class="container">
                 <ion-row class="actionBar">
-                    <ion-col size="9" style="vertical-align: middle;"><span style="vertical-align:5%">Your order is ready. Please
-              pay now your invoice</span></ion-col>
+                    <ion-col size="9" style="vertical-align: middle;"><span style="vertical-align:5%">Please
+              pay your invoice now.</span></ion-col>
                     <ion-col size="2" class="">
-                        <ion-button no-margin color="success" size="small"
-                                    class="greyButton ion-justify-content-center ion-no-margin ion-no-padding ion-text-center"
+                        <ion-button no-margin fill="empty"
+                                    class="greenButton ion-justify-content-center ion-no-margin ion-no-padding ion-text-center"
                                     style="margin-top:-1rem;" (click)="payOrder()">Pay
                         </ion-button>
                     </ion-col>
