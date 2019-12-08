@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const Product = require('./product');
+const Notification = require('./notification');
+const Review = require('./review');
+const Order = require('./review');
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -18,6 +22,16 @@ const userSchema = mongoose.Schema({
     phone: { type:String },
     sex: { type:String },
     image: { type: String }
+});
+
+// delete dependencies when user gets deleted
+userSchema.pre('remove', function(next) {
+    Product.deleteMany({seller: this._id}).exec();
+    Order.deleteMany({buyer:this._id}).exec();
+    Order.deleteMany({seller:this._id}).exec();
+    Notification.deleteMany({}).exec({user: this._id});
+    Review.deleteMany({}).exec({user: this._id});
+    next();
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -334,6 +334,11 @@ exports.deleteProduct = (req, res, next) => {
                 throw new Error("Access forbidden");
 
             image = result.image;
+
+            return Order.deleteMany({product:req.params.productId});
+
+        })
+        .then(result =>{
             return Product.findOneAndDelete({
                 _id: req.params.productId
             });
@@ -347,7 +352,7 @@ exports.deleteProduct = (req, res, next) => {
         })
         .catch(err => {
             res.status(500).json({
-                error: 'Hie bini' + err.message
+                error:err.message
             });
         });
 }
