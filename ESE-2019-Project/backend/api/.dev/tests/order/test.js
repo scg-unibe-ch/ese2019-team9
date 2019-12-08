@@ -10,7 +10,7 @@ const Product = require('../products/buildAndClean');
 const User = require('../user/buildAndClean');
 const Helper = require('../methods/methods');
 
-describe("Test order", (done) =>{
+describe.only("Test order", (done) =>{
     let seller;
     let buyer;
     let admintoken;
@@ -19,6 +19,8 @@ describe("Test order", (done) =>{
     let product;
     let catslug = 'ordertestcatslug';
     let subcatslug = 'ordertestsubcatslug';
+    let orderId;
+
     before(async ()=>{
         let formdata = {'slug':catslug,'name':'ordertestname','image':'bug.png'};
         let subform = {'name':'subtestname','parentId': '', 'image':'subtestimage','parentSlug':catslug,'slug':subcatslug};
@@ -36,12 +38,13 @@ describe("Test order", (done) =>{
             product = await Product.addProduct(subcatslug, seller.token);
             
         }catch(err){
+            after();
             throw new Error("Setup failed: " + err);
         }
         assert.isDefined(seller, 'Setup failed');
         assert.isDefined(buyer, 'Setup failed');
-        assert.isDefined(cat, 'category should be added');
-        assert.isDefined(subcat, 'subcategory should be added');
+        assert.isDefined(cat._id, 'category should be added');
+        assert.isDefined(subcat._id, 'subcategory should be added');
         assert.isDefined(product._id, 'product should be added');
         
     });
@@ -58,48 +61,74 @@ describe("Test order", (done) =>{
         }
     });
 
-    it.skip('place order', async ()=>{
+    it('place order', async ()=>{
         let start = new Date(2022,12,1);
         let end = new Date(2022,12,7);
         let res = await request.post('/place')
                         .set('authorization', 'B ' + buyer.token)
                         .send({productId: product._id, startDate:start, endDate:end});
         assert.equal(res.status, 200, res.text);
-        done();
+        assert.isDefined(res.body.order);
+        assert.isDefined(res.body.order._id);
+        orderId = res.body.order._id;
     }); 
     
-    it.skip('get order by id', (done)=>{
-        
+    it('get order by id', async()=>{
+        let resBuyer = await request.get('/id/' + orderId).set('authorization', 'B ' + buyer.token);
+        let resSeller = await request.get('/id/' + orderId).set('authorization', 'B ' + seller.token);
+        assert.equal(resBuyer.status, 200);
+        assert.equal(resSeller.status, 200);
+        assert.equal(resSeller.body._id, resBuyer.body._id);
     });
     
-    it.skip('get order by user', (done)=>{
-
+    it('get order by seller', async()=>{
+        let resSeller = await request.get('/seller').set('authorization', 'B ' + seller.token);
+        assert.equal(resSeller.status, 200);
     });
     
-    it.skip('get order by buyer', (done) =>{
+    it('get order by buyer', async () =>{
+        let resBuyer = await request.get('/buyer').set('Authorization', 'B ' + buyer.token);
+        assert.equal(resBuyer.status, 200);
+    });
 
+    it('seller => cant get order by buyer', async () =>{
+        let resSeller = await request.get('/buyer').set('Authorization', 'B ' + seller.token);
+        assert.equal(resSeller.status, 200);
+        assert.isEmpty(resSeller.body);
+    });
+
+    it('buyer => cant get order by seller', async () =>{
+        let resBuyer = await request.get('/buyer').set('Authorization', 'B ' + buyer.token);
+        assert.equal(resBuyer.status, 200);
+        assert.isEmpty(resBuyer.body);
     });
     
-    it.skip('accept order', (done)=>{
-
+    it('accept order', (done)=>{
+        //accept order
+        //check by getter
     });
     
     it.skip('reject order', (done) =>{
-
+        //make new order
+        //reject that order
     });
 
     it.skip('send message on order', (done)=>{
 
     });
+
     it.skip('user deleted => order deleted',()=>{
 
     });
+
     it.skip('insufficient userdata', ()=>{
 
     });
+
     it.skip('test notification both users', ()=>{
 
     });
+    
     it.skip('product delete => order deleted', ()=> {
 
     });
