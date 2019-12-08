@@ -5,33 +5,6 @@ const Notification = require('../models/notification');
 const mongoose = require('mongoose');
 
 /**
- * Parses dates from different formats
- */
-const parseDate = (_date, _format, _delimiter) => {
-
-    var blocks = _date.split(" ");
-    var formatLowerCase = _format.toLowerCase();
-    var formatItems = formatLowerCase.split(_delimiter);
-    let timeItems = [];
-    if (blocks[1]) {
-        var dateItems = blocks[0].split(_delimiter);
-        timeItems = blocks[1].split(":");
-    } else {
-        var dateItems = _date.split(_delimiter);
-    }
-    var monthIndex = formatItems.indexOf("mm");
-    var dayIndex = formatItems.indexOf("dd");
-    var yearIndex = formatItems.indexOf("yyyy");
-    var month = parseInt(dateItems[monthIndex]);
-    month -= 1;
-    var formatedDate = timeItems.length > 0 ?
-        new Date(dateItems[yearIndex], month, dateItems[dayIndex],
-            timeItems[0], timeItems[1], 0) :
-        new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
-    return formatedDate;
-}
-
-/**
  * Place a new order
  * User has to be logged in
  * @param req.body has to contain productId, startDate and endDate
