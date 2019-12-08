@@ -47,11 +47,15 @@
 										[validationMessages]="validationMessages.endDate"
 										[type]="'dateTime'" [max]="maxDate" [min]="orderForm.controls['startDate'].value" [inputMode]="'text'">
 										</app-input-form>
-										<app-input-form
-										[inputForm]="orderForm" [givenName]="'remarks'" [text]="'Additional things you want the seller to know*'"
-										[validationMessages]="validationMessages.remarks"
-										[type]="'text'" [inputMode]="'text'">
-										</app-input-form>
+										<ion-item [formGroup]= "orderForm">
+											<ion-label position="floating" style="margin-bottom:7px"> Additional things you want the seller to know* </ion-label>
+											<ion-textarea formControlName='remarks' inputmode = "text" required></ion-textarea>			
+												<div *ngFor="let validation of validationMessages.remarks">
+													<div class="invalid-feedback" *ngIf="orderForm.get('remarks').hasError(validation.type) && (orderForm.get('remarks').dirty || orderForm.get('remarks').touched)">
+													  {{ validation.message + "\n"}}
+													</div>
+												  </div>
+											  </ion-item>
 										<ion-button class="blueButton" fill="empty" type="submit"> Submit </ion-button>
 								</form>
 								<ion-button class="greyButton" fill="empty" color="danger" (click) = "showHideOrderingDetails();" *ngIf="orderingDetails">Cancel</ion-button>
