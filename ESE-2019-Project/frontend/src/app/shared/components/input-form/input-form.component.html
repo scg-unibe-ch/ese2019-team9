@@ -1,6 +1,6 @@
 <ion-item *ngIf="inputForm" [formGroup]= "inputForm">
   <ion-label position="floating" style="margin-bottom:7px"> {{ text }} </ion-label>
-  <ion-input *ngIf="type != 'dateTime'" [type]= "type" [formControlName] = "givenName"  [inputmode] = "inputMode" ></ion-input>
+  <ion-input id="input" *ngIf="type != 'dateTime'" [type]= "type" [formControlName] = "givenName"  [inputmode] = "inputMode"></ion-input>
   <ion-datetime *ngIf="type == 'dateTime'" [max]="max" [min]="min" [formControlName] = "givenName" 
     display-format="DD.MMM.YYYY HH:mm"></ion-datetime>
   <ng-container *ngIf="isPassword">
