@@ -200,7 +200,7 @@ exports.updateProduct = (req, res, next) => {
             });
         })
         .then(result => {
-            if (req.body.toRevise && req.userData.admin) {
+            if (req.body.verified && req.userData.admin) {
                 const notification = new Notification({
                     _id: new mongoose.Types.ObjectId(),
                     user: product.seller,
@@ -212,7 +212,7 @@ exports.updateProduct = (req, res, next) => {
                 return notification.save();
             }
 
-            if (req.body.verified && req.userData.admin) {
+            if (req.body.toRevise && req.userData.admin) {
                 const notification = new Notification({
                     _id: new mongoose.Types.ObjectId(),
                     user: product.seller,
