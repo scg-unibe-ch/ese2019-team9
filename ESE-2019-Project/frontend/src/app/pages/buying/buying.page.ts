@@ -55,7 +55,7 @@ export class BuyingPage implements OnInit {
 
   getOrders() {
     this.userId = this.authService.getId();
-    this.orderService.getBuyerOrders(this.userId).subscribe(data => {
+    this.orderService.getBuyerOrders().subscribe(data => {
       this.orders = data.map(doc => {
         return Object.assign(doc, {
           openDetails: false

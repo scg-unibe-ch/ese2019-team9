@@ -63,7 +63,7 @@ export class OrdersComponent implements OnInit {
 
   getOrders() {
     this.userId = this.authService.getId();
-    this.orderService.getSellerOrders(this.userId).subscribe(data => {
+    this.orderService.getSellerOrders().subscribe(data => {
       if (data.length === 0) {
         this.progressIndicatorService.presentToast('No offers found', 'danger');
       }
