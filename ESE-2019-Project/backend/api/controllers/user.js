@@ -264,6 +264,8 @@ exports.updateUser = async (req, res, next) => {
                 case 'admin':
                     if (req.userData.admin && [true, false].includes(value))
                         updateFields[propName] = value;
+                    else if (req.userData.admin)
+                        updateFields[propName] = value === "true" ? true : false;
                     break;
                 case 'sex':
                     if (['male', 'female'].includes(value))
