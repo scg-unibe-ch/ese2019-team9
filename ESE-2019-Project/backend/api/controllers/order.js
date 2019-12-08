@@ -25,18 +25,22 @@ exports.placeOrder = (req, res, next) => {
             sellerId = product.seller;
             productName = product.name;
 
+            
             const messages = [{
                 _id: new mongoose.Types.ObjectId(),
                 date: new Date(),
                 sender: new mongoose.Types.ObjectId(req.userData.userId),
                 message: '[INITIAL REQUEST]',
                 statusMessage: true
-            }, {
-                _id: new mongoose.Types.ObjectId(),
-                date: new Date(),
-                sender: new mongoose.Types.ObjectId(req.userData.userId),
-                message: req.body.description
             }];
+
+            if(req.body.description)
+                messages.push({
+                    _id: new mongoose.Types.ObjectId(),
+                    date: new Date(),
+                    sender: new mongoose.Types.ObjectId(req.userData.userId),
+                    message: req.body.description
+                });
 
             const sDate = Date.parse(req.body.startDate);
             const eDate = Date.parse(req.body.endDate);
