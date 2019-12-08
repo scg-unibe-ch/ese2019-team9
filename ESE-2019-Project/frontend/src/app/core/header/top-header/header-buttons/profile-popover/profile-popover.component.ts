@@ -8,6 +8,9 @@ import {PopoverService} from '../../../../services/popoverService/popover.servic
 import { EventEmitter } from 'events';
 import { Router } from '@angular/router';
 
+/**
+ * The profile Popover with a basic navigation to the most important sites
+ */
 @Component({
   selector: 'app-profile-popover',
   templateUrl: './profile-popover.component.html',
@@ -15,20 +18,30 @@ import { Router } from '@angular/router';
 })
 export class ProfilePopoverComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private popoverService: PopoverService,
-    private popoverController: PopoverController,
-    private router: Router) { }
+  /**
+   * The variable where the users admin status is stored
+   */
+  isAdmin = false;
 
+  /**
+   * Assings new private Variables
+   * @param authService Auto injected AuthService used for checking if the user is an admin
+   * @param popoverController Auto injected PopoverController used for dismissing the popover
+   */
+  constructor(
+    private authService: AuthService,
+    private popoverController: PopoverController) { }
+
+    /**
+     * Checks if the user is an Admin and updates the corresponding variable {@link #isAdmin}
+     */
   ngOnInit() {
-    this.show = true;
     this.isAdmin = this.authService.isAdmin();
   }
 
-  show = false;
-  isAdmin = false;
-
+  /**
+   * Dismisses the popover
+   */
   async dismissPopover() {
     await this.popoverController.dismiss();
   }

@@ -4,11 +4,22 @@ import { environment } from 'src/environments/environment';
 import { isUndefined } from 'util';
 import { isDefined } from '@angular/compiler/src/util';
 
+/**
+ * The ProgressIndicator Service which handles
+ *  - Presenting of a toast
+ *  - displaying of a loading overlay
+ *  - dismissing the top-most loading overlay
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class ProgressIndicatorService {
 
+  /**
+   * Assigns two new private variables `toastController` and `loadingController`
+   * @param toastController Auto injected ToastController used for displaying toasts
+   * @param loadingController Auto injected Loading Controller used for displaying and dismissing loading overlays
+   */
   constructor(private toastController: ToastController, private loadingController: LoadingController) { }
 
   /**
@@ -46,7 +57,12 @@ export class ProgressIndicatorService {
     });
   }
 
-  getDurationFromVariable(duration: number | 'success' | 'other' ): number {
+  /**
+   * Resolves the duration into a number in milliseconds. If a string is given, it returns the environment variables with that indicator
+   * @param duration a number or 'success' or 'other'
+   * @returns the duration in milliseconds
+   */
+  private getDurationFromVariable(duration: number | 'success' | 'other' ): number {
     if (typeof duration === 'number') { return duration; } else if (duration === 'success') {
       return environment.notificationsLength.success;
     } else {
@@ -54,6 +70,10 @@ export class ProgressIndicatorService {
     }
   }
   
+  /**
+   * Presents a loading overlay with the given message and the moln-logo spinner
+   * @param message the message to display in the overlay
+   */
   async presentLoading(message: string) {
     const loading = await this.loadingController.create({
       message: '<img class="custom-spinner" src="../../../assets/images/logo.png">' + message,
@@ -65,10 +85,22 @@ export class ProgressIndicatorService {
     await loading.present();
   }
 
+  /**
+   * Dismisses the top overlay if it has one
+   */
   dismissLoadingIndicator() {
-    this.loadingController.dismiss();
+    this.loadingController.getTop().then((id: HTMLIonLoadingElement | undefined )=> {
+      if (isUndefined(id)) { return; } else {
+        this.loadingController.dismiss();
+      }
+    });
   }
 
+  /**
+   * Checks if the color is 'success' or undefined and not something different
+   * @param color the color as a string
+   * @returns true if the color is 'success' or undefined
+   */
   private isSuccessToast(color: string): boolean{
     if (isUndefined(color) || color === 'success') {
       return true;
