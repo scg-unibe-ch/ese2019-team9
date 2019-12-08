@@ -8,7 +8,7 @@ const notification = 'http://localhost:8080/notification'
 const request = chai.request(app);
 const notifRequest = chai.request(notification);
 
-describe("Test requests for admin", (done) =>{
+describe("Test payment", (done) =>{
     before(()=>{
 
     });

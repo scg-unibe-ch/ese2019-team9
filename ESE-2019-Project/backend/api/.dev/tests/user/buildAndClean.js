@@ -107,7 +107,7 @@ exports.loggedInAndVerified = () => {
             await this.addAdditionalInformation(user);
             resolve(user);
         }catch(err){
-            reject(new Error('setup failed ' + err));
+            reject(new Error('User setup failed ' + err));
         }
     });
 };

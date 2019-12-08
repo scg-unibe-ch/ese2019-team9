@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, AfterViewChecked } from '@angular/core';
 import {FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -6,9 +6,9 @@ import {FormGroup, FormBuilder } from '@angular/forms';
   templateUrl: './input-form.component.html',
   styleUrls: ['./input-form.component.scss'],
 })
-export class InputFormComponent implements OnInit {
-  @Input('validationMessages') validationMessages: any;
-  @Input('inputForm') inputForm: FormGroup;
+export class InputFormComponent implements OnInit, AfterViewInit {
+  @Input() validationMessages: any;
+  @Input() inputForm: FormGroup;
   @Input() givenName: string;
   @Input() text: string;
   @Input() type = 'text';
@@ -16,6 +16,7 @@ export class InputFormComponent implements OnInit {
   @Input() async: {pendingText: string, validText: string};
   @Input() min;
   @Input() max;
+  @Input() autofocus;
 
   isPassword = false;
   showingPassword = false;
@@ -24,6 +25,16 @@ export class InputFormComponent implements OnInit {
 
   ngOnInit() {
     this.isPassword = this.type === 'password';
+  }
+
+  ngAfterViewInit() {
+    if (this.autofocus) {
+      // @ts-ignore
+      const input: HTMLIonInputElement = document.getElementById('input');
+      setTimeout(()=> {
+        input.setFocus();
+      }, 150);
+    }
   }
 
   showPassword(bool: boolean) {
