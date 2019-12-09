@@ -3,17 +3,21 @@
         <ion-grid>
             <ion-row>
                 <ion-col size="6" size-sm="4" size-md="2">
-                    <ion-avatar style="object-fit: cover; width:100%; height:100%;+" *ngIf=!changeable>
-                        <img style="width:100%; height:100%; object-fit: cover;" [src]="profileItem.image">
-                    </ion-avatar>
+                        <div *ngIf="!changeable" class="thumbnail" style="width:5em; height:5em;">
+                                <ion-avatar style="width:auto; height:auto; object-fit: cover;">
+                                    <img *ngIf="profileItem.image" src="{{ profileItem.image }}"
+                                        style="object-fit: cover; width:auto; height:auto">
+                                </ion-avatar>
+                            </div>
+
                     <ion-avatar class="cursor-pointer pickerAvatar"  style="object-fit: cover; width:100%; height:100%;" *ngIf="changeable">
                         <app-image-picker #imagePicker style="width:100%; height:100%; object-fit: cover;" (imagePick)="onImagePicked($event)" [profilePicker]="true"
                                           [preSelectedImage]="profileItem.image">
                         </app-image-picker>
-                        <ion-badge class="changePictureBadge ion-float-end">
+                    </ion-avatar>
+                    <ion-badge class="changePictureBadge ion-float-end">
                             <ion-icon name="add"></ion-icon>
                         </ion-badge>
-                    </ion-avatar>
                 </ion-col>
                 <ion-button *ngIf="!hideDelete" class="redButton deleteProductButton" fill="outline" (click)="onClickDelete()">
                     <ion-icon name="close"></ion-icon>
