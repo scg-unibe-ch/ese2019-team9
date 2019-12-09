@@ -1,6 +1,10 @@
 # ESE-Project 2019
 Welcome to our Project for the course 'ESE: Introduction to Software Engineering (Einführung in SE)'. Below you will find all information you need to get started.
 
+You find a working state of our project on [themoln.herokuapp.com](http://themoln.herokuapp.com), where we upload the most recent, functional version of our project.
+
+*Please note that the website can take a long time to load on first access. This is because the server automatically shuts down when noone accesses the site for a longer period of time.*
+
 ## Documentation folder
 [Link to the documentations folder][DocumentationFolder]
 
