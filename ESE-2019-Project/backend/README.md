@@ -5,6 +5,7 @@
 1. Install [Node.js](https://nodejs.org/en/) (must be done already, as it is a part of prerequisite!)
 1. `cd` into this backend folder with your shell (note: if you're on Windows, you can for example use [Git Bash](https://git-scm.com/download/win) as a shell)
 1. run `npm install`
+1. Change the constants defined in `nodemon.json` to constants that match your need (eg. Change fileserver, change JWT private key etc. pp.)
 1. Run `npm run dev` to start the server. The command line output should say something like `listening at http://localhost:3000/`
 
 
