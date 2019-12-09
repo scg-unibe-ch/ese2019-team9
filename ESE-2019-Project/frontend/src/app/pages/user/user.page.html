@@ -21,7 +21,7 @@
                 <b>{{ user.name ? user.name : 'user' + user._id }}</b>
               </ion-col>
             </ion-row>
-            <ion-item-divider style="margin-bottom:1rem; margin-top:-1rem;">
+            <ion-item-divider mode="md" class="md" style="margin-bottom:1rem; margin-top:-1rem;">
             </ion-item-divider>
             <ion-row *ngIf="user.country">
               <ion-icon name="pin"></ion-icon>&nbsp;From &nbsp; <b>{{ user.country }}</b>
@@ -56,7 +56,7 @@
                 <b>{{ user.name ? user.name : 'user' + user._id }}'s Products</b>
               </ion-col>
             </ion-row>
-            <ion-item-divider style="margin-bottom:1rem; margin-top:-3rem;">
+            <ion-item-divider mode="md" class="md" style="margin-bottom:1rem; margin-top:-3rem;">
             </ion-item-divider>
             <ion-grid>
               <ion-row>
@@ -152,7 +152,7 @@
             <b>{{ user.name ? user.name : 'user' + user._id }}'s Products</b>
           </ion-col>
         </ion-row>
-        <ion-item-divider style="margin-bottom:1rem; margin-top:-3rem;">
+        <ion-item-divider style="margin-bottom:1rem; margin-top:-3rem;" class="md">
         </ion-item-divider>
         <ion-grid>
           <ion-row>
