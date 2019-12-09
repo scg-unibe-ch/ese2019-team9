@@ -2,26 +2,53 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from 'src/app/core/services/categoryService/category.service';
 import {Category} from 'src/app/models/category';
 import {FormGroupName, FormGroup, FormBuilder, Validators, FormControl, AbstractControl} from '@angular/forms';
-import {UniqueValidator} from './uniqueValidator'
+import {UniqueValidator} from './uniqueValidator';
 import {ProgressIndicatorService} from 'src/app/core/services/progressIndicatorService/progress-indicator.service';
 import {AlertController} from '@ionic/angular';
-import {ImagePickerComponent} from "../../../shared/components/image-picker/image-picker.component";
+import {ImagePickerComponent} from '../../../shared/components/image-picker/image-picker.component';
 
+/**
+ * A component to add, delete and edit categories.
+ */
 @Component({
     selector: 'app-add-category',
     templateUrl: './add-category.component.html',
     styleUrls: ['./add-category.component.scss'],
 })
 export class AddCategoryComponent implements OnInit {
+    /**
+     * The Image Pciker Component on the page
+     */
     @ViewChild(ImagePickerComponent, {static: false}) imagePicker: ImagePickerComponent;
+    /**
+     * All of the current categories as a Category Array
+     */
     currentCategories: Category[] = [];
+    /**
+     * The form as a FormGroup
+     */
     categoryForm: FormGroup;
+    /**
+     * The selected image File for the category
+     */
     imageFile;
-    updateNotCreate: boolean = false;
+    /**
+     * A boolean to indicate whether a category should be created or updated
+     */
+    updateNotCreate = false;
+    /**
+     * A variable to store the selected Category
+     */
     selectedCategory: Category;
 
+    /**
+     * The Texts that are displayed in the checking process of the validility and availability of the slug
+     */
     slugAsyncTexts = {pendingText: 'Checking if slug is unique', validText: 'Slug is available'};
 
+    /**
+     * The texts to dsiplay if the form is invalid
+     */
     validationMessages = {
         name: [
             {type: 'required', message: 'Name is required'},
@@ -37,8 +64,15 @@ export class AddCategoryComponent implements OnInit {
             {type: 'pattern', message: 'Slug can only contain lowercase, alphabetic characters'},
             {type: 'unique', message: 'A (Sub)Category with this slug already exists'}
         ]
-    }
+    };
 
+    /**
+     * Assigns new private variable
+     * @param categoryService Auto injceted CategoryService to fetch all categories and handle the updating and creation of categories
+     * @param formBuilder Auto injceted FormBuilder used to group the form
+     * @param progressIndicatorService Auto injceted ProgressIndicatorService to display toasts and loading indicators
+     * @param alertController Auto injceted AlertController to display Alerts
+     */
     constructor(
         private categoryService: CategoryService,
         private formBuilder: FormBuilder,
@@ -46,11 +80,14 @@ export class AddCategoryComponent implements OnInit {
         private alertController: AlertController) {
     }
 
+    /**
+     * Fetches all categories and groups the form
+     */
     ngOnInit() {
         this.categoryService.getCategories().subscribe(
             data => {
                 this.currentCategories = data;
-                if (!this.updateNotCreate) this.setUniqueValidator();
+                if (!this.updateNotCreate) { this.setUniqueValidator(); }
             },
             err => {
                 console.log(err);
@@ -64,35 +101,51 @@ export class AddCategoryComponent implements OnInit {
         });
     }
 
+    /**
+     * Changes the form so that a category is being updated, not a new one created
+     * @param category the category which should be edited
+     * @param parentCategory the parent category of the category to be edited
+     */
     editCategory(category: Category, parentCategory?: Category) {
         this.changeMode('update');
         const hasParentCategory = Boolean(parentCategory);
-        this.categoryForm.controls['subcategoryToggle'].setValue(hasParentCategory);
-        if (hasParentCategory) this.categoryForm.controls['parentSlug'].setValue(parentCategory.slug)
+        this.categoryForm.controls.subcategoryToggle.setValue(hasParentCategory);
+        if (hasParentCategory) { this.categoryForm.controls['parentSlug'].setValue(parentCategory.slug) }
         this.selectedCategory = category;
-        this.categoryForm.controls['name'].setValue(category.name);
-        this.categoryForm.controls['slug'].setValue(category.slug);
+        this.categoryForm.controls.name.setValue(category.name);
+        this.categoryForm.controls.slug.setValue(category.slug);
         this.categoryForm.markAsUntouched();
         this.categoryForm.markAsPristine();
-        document.querySelector('#form').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+        document.querySelector('#form').scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
     }
 
+    /**
+     * Changes the form so that a new category is being created
+     * @param category the parent category on which the new subcategory should be created on
+     */
     createNewSubcategoryOn(category) {
         this.changeMode('create');
-        this.categoryForm.controls['subcategoryToggle'].setValue(true);
-        this.categoryForm.controls['parentSlug'].setValue(category.slug);
-        document.querySelector('#form').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+        this.categoryForm.controls.subcategoryToggle.setValue(true);
+        this.categoryForm.controls.parentSlug.setValue(category.slug);
+        document.querySelector('#form').scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
     }
 
+    /**
+     * Edits the slug if the name of a category has been edited
+     * @param event the change event of the name-input-field
+     */
     onCategoryNameChange(event: any) {
         let name = event.target.value;
         name = name.toLowerCase();
         name = name.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/[^a-z]/g, '');
-        this.categoryForm.controls['slug'].setValue(name);
-        this.categoryForm.controls['slug'].updateValueAndValidity();
-        this.categoryForm.controls['slug'].markAsDirty();
+        this.categoryForm.controls.slug.setValue(name);
+        this.categoryForm.controls.slug.updateValueAndValidity();
+        this.categoryForm.controls.slug.markAsDirty();
     }
 
+    /**
+     * Checks whether the form is valid and if it is valid, tries to update/create the category.
+     */
     onSubmitForm() {
         let promise;
         this.progressIndicatorService.presentLoading(`${this.updateNotCreate ? 'Updating ' : 'Creating '} the category`);
@@ -106,7 +159,7 @@ export class AddCategoryComponent implements OnInit {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Category updated');
                 this.categoryForm.reset();
-                //this.imagePicker.resetImage();
+                this.imagePicker.resetImage();
             }, reason => {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Category not updated', 'danger');
@@ -115,7 +168,7 @@ export class AddCategoryComponent implements OnInit {
             this.categoryService.getCategories().subscribe(
                 data => {
                     this.currentCategories = data;
-                    if (!this.updateNotCreate) this.setUniqueValidator();
+                    if (!this.updateNotCreate) { this.setUniqueValidator(); }
                 },
                 err => {
                     console.log(err);
@@ -124,11 +177,18 @@ export class AddCategoryComponent implements OnInit {
         });
     }
 
+    /**
+     * Sets the UniqueValidators for the slug if a new category should be created
+     */
     setUniqueValidator() {
-        this.categoryForm.controls['slug'].setAsyncValidators(UniqueValidator(this.currentCategories, 'slug'));
-        this.categoryForm.controls['slug'].updateValueAndValidity();
+        this.categoryForm.controls.slug.setAsyncValidators(UniqueValidator(this.currentCategories, 'slug'));
+        this.categoryForm.controls.slug.updateValueAndValidity();
     }
 
+    /**
+     * Triggered when a new image is picked. Transforms the image
+     * @param imageData the data of the image
+     */
     onImagePicked(imageData: string | File) {
         if (typeof imageData === 'string') {
             try {
@@ -142,6 +202,11 @@ export class AddCategoryComponent implements OnInit {
         }
     }
 
+    /**
+     * Transforms base64 Data to a Blob (file-like data)
+     * @param base64Data the data to transform
+     * @param contentType the type of the content
+     */
     base64toBlob(base64Data, contentType) {
         contentType = contentType || '';
         const sliceSize = 1024;
@@ -163,11 +228,15 @@ export class AddCategoryComponent implements OnInit {
         return new Blob(byteArrays, {type: contentType});
     }
 
+    /**
+     * Changes the mode and updates the form to match the required inputs and validators for the given mode
+     * @param mode the mode which is 'update' or 'create'
+     */
     changeMode(mode: string) {
         this.categoryForm.reset();
         this.updateNotCreate = mode === 'update';
         if (this.updateNotCreate) {
-            this.categoryForm.controls['slug'].clearAsyncValidators();
+            this.categoryForm.controls.slug.clearAsyncValidators();
             this.slugAsyncTexts = undefined;
         } else {
             this.setUniqueValidator();
@@ -175,10 +244,14 @@ export class AddCategoryComponent implements OnInit {
         }
     }
 
+    /**
+     * Updates the category with all the new information
+     * @param form the FormGroup of all inputs
+     */
     updateCategory(form: FormGroup): Promise<any> {
         return new Promise((resolve, reject) => {
             let body = `{`;
-            let controlKeys = Object.keys(form.controls);
+            const controlKeys = Object.keys(form.controls);
             let firstLine = true;
             controlKeys.forEach((key) => {
                 if (form.controls[key].dirty) {
@@ -186,15 +259,15 @@ export class AddCategoryComponent implements OnInit {
                     firstLine = false;
                 }
             });
-            if (form.controls['subcategoryToggle'].dirty && !form.controls['subcategoryToggle'].value) {
+            if (form.controls.subcategoryToggle.dirty && !form.controls.subcategoryToggle.value) {
                 body += `${(firstLine) ? '' : ','}"parentId":null`;
             }
             body += `}`;
             if (firstLine) {
-                this.progressIndicatorService.presentToast('Nothing has been changed', "warning");
+                this.progressIndicatorService.presentToast('Nothing has been changed', 'warning');
                 return;
             }
-            ;
+            
             this.categoryService.updateCategory((this.selectedCategory as any)._id, body, this.imageFile).subscribe((data) => {
                 resolve(data);
             }, (err) => {
@@ -203,10 +276,14 @@ export class AddCategoryComponent implements OnInit {
         });
     }
 
-    createCategory(values: FormGroup["value"]) {
+    /**
+     * Creates a new Category
+     * @param values the values of the the FormGroup
+     */
+    createCategory(values: FormGroup['value']) {
         return new Promise((resolve, reject) => {
-            if (!this.imageFile) reject('Specify an image');
-            const category = new Category(values.name, values.slug, '')
+            if (!this.imageFile) { reject('Specify an image'); }
+            const category = new Category(values.name, values.slug, '');
             if (values.subcategoryToggle) {
                 category.parentSlug = values.parentSlug;
             }
@@ -218,6 +295,10 @@ export class AddCategoryComponent implements OnInit {
         });
     }
 
+    /**
+     * Deletes a category
+     * @param category the category which should be deleted
+     */
     onDeleteCategory(category: Category) {
         const promise = this.presentAlertConfirm(category);
         promise.then((shouldDelete) => {
@@ -232,7 +313,7 @@ export class AddCategoryComponent implements OnInit {
                     this.categoryService.getCategories().subscribe(
                         data => {
                             this.currentCategories = data;
-                            if (!this.updateNotCreate) this.setUniqueValidator();
+                            if (!this.updateNotCreate) { this.setUniqueValidator(); }
                         },
                         err => {
                             console.log(err);
@@ -247,6 +328,11 @@ export class AddCategoryComponent implements OnInit {
         });
     }
 
+    /**
+     * Ask for confirmation if the category should be deleted
+     * @param category  the category to be deleted
+     * @returns a new Promis that resolves whit the boolean whether the category should be deleted
+     */
     async presentAlertConfirm(category) {
         return new Promise(async (resolve, reject) => {
             const alert = await this.alertController.create({
@@ -264,7 +350,7 @@ export class AddCategoryComponent implements OnInit {
                         text: 'Delete',
                         cssClass: 'delete-button',
                         handler: () => {
-                            resolve(true)
+                            resolve(true);
                         }
                     }
                 ]

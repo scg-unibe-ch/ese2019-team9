@@ -121,7 +121,7 @@ export class HeaderButtonsComponent implements OnInit {
     }
 
     /**
-     * Shows the profile Popover {@link NotificationsComponent}
+     * Shows the Notification Popover {@link NotificationsComponent}
      * @param ev the event object
      */
     async showNotificationsPopover(ev: any) {

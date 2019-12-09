@@ -7,28 +7,47 @@ import {NotificationService} from '../../../core/services/notificationService/no
 import { FilterAndSearchService } from 'src/app/core/services/filterAndSearchService/filter-and-search.service';
 import { isDefined } from '@angular/compiler/src/util';
 
+/**
+ * The component for the admin panel to manage offers
+ *  - accept
+ *  - send to revise status
+ *  - delete
+ */
 @Component({
     selector: 'app-manage-offers',
     templateUrl: './manage-offers.component.html',
     styleUrls: ['./manage-offers.component.scss'],
 })
-export class ManageOffersComponent implements OnInit {
-    sorting: {name: 0 | '+' | '-', seller: 0 | '+' | '-', status: 0 | '+' | '-'} = {name: 0, seller: 0, status: 0}
+export class ManageOffersComponent {
+    /**
+     * The current sorting, where 0 stands for not sorting for this field, + stands for ascending and - for descending
+     */
+    sorting: {name: 0 | '+' | '-', seller: 0 | '+' | '-', status: 0 | '+' | '-'} = {name: 0, seller: 0, status: 0};
+    /**
+     * The list of all displayed offers
+     */
     listOfOffers;
+    /**
+     * the list of all offers
+     */
     private listOfAllOffers;
-    private showVerified = true;
+    /**
+     * the filter options
+     */
     private filterOptions: {showVerified: boolean, showRevising: boolean} = { showVerified: true, showRevising: true};
 
+    /**
+     * @ignore
+     */
     constructor(
         private productService: ProductService,
         private progressIndicatorService: ProgressIndicatorService,
         private notificationService: NotificationService,
         private filterService: FilterAndSearchService) {
     }
-
-    ngOnInit() {
-    }
-
+    /**
+     * Fetches all products from the backend
+     */
     getAllProducts() {
         return new Promise((resolve, reject) => {
             this.productService.getAllProducts().subscribe(
@@ -43,9 +62,15 @@ export class ManageOffersComponent implements OnInit {
         });
     }
 
+    /**
+     * Deletes an offer and notifies the seller about it
+     * @param productId the productId of the product
+     * @param productName  the name of the product
+     * @param sellerId the id of the seller
+     */
     deleteOffer(productId: string, productName: string, sellerId: string) {
         this.progressIndicatorService.presentLoading('Loading...');
-        this.productService.deleteProduct(productId).pipe(first()).subscribe(
+        this.productService.deleteProduct(productId).subscribe(
             data => {
                 this.progressIndicatorService.dismissLoadingIndicator();
                 this.progressIndicatorService.presentToast('Product deleted');
@@ -60,6 +85,12 @@ export class ManageOffersComponent implements OnInit {
         );
     }
 
+    /**
+     * Verifies an offer and notifies the seller about it
+     * @param productId the productId of the product
+     * @param productName  the name of the product
+     * @param sellerId the id of the seller
+     */
     verifyOffer(productId: string, productName: string, sellerId: string) {
         this.progressIndicatorService.presentLoading('Loading...');
         this.productService.verifyProduct(productId).subscribe(
@@ -76,6 +107,12 @@ export class ManageOffersComponent implements OnInit {
         );
     }
 
+    /**
+     * Sends an offer to the revise status and notifies the seller about it
+     * @param productId the productId of the product
+     * @param productName  the name of the product
+     * @param sellerId the id of the seller
+     */
     reviseOffer(productId: string, productName: string, sellerId: string) {
         this.progressIndicatorService.presentLoading('Loading...');
         this.productService.reviseProduct(productId).subscribe(
@@ -92,6 +129,9 @@ export class ManageOffersComponent implements OnInit {
         );
     }
 
+    /**
+     * Updates all products and displays loading indicator
+     */
     updateProducts() {
         this.progressIndicatorService.presentLoading('Updating Products...');
         this.getAllProducts().then(data => {
@@ -104,16 +144,27 @@ export class ManageOffersComponent implements OnInit {
         });
     }
 
+    /**
+     * Toggles the filter option whether to show verified offers or not
+     * @param event the event of the toggle
+     */
     onToggleShowVerified(event) {
         this.filterOptions.showVerified = event.target.checked;
         this.filterProducts();
     }
 
+    /**
+     * Toggles the filter option whether to show revising offers or not
+     * @param event the event of the toggle
+     */
     onToggleShowRevise(event) {
         this.filterOptions.showRevising = event.target.checked;
         this.filterProducts();
     }
 
+    /**
+     * Filters products
+     */
     filterProducts() {
         let productsToShow = this.listOfAllOffers;
         if (this.filterOptions.showRevising === false) {
@@ -125,6 +176,13 @@ export class ManageOffersComponent implements OnInit {
         this.listOfOffers = productsToShow;
     }
 
+    /**
+     * Notifies the seller about an update with the sellers product
+     * @param productId the productId of the product
+     * @param productName  the name of the product
+     * @param sellerId the id of the seller
+     * @param notificationType the type of notification
+     */
     notifySeller(productId: string, productName: string, sellerId: string, notificationType: string) {
         let link = '/home';
         let message = '';
@@ -149,6 +207,10 @@ export class ManageOffersComponent implements OnInit {
         }, 3750);
     }
 
+    /**
+     * Changes the sorting of the displayed offers
+     * @param evt the change event of the selection
+     */
     onSortChange(evt) {
         const fieldNameMap  = new Map<string, string>([
             ['name', 'name'],
@@ -167,10 +229,18 @@ export class ManageOffersComponent implements OnInit {
         }
     }
 
+    /**
+     * Returns the Date as an UTC string
+     * @param stringRepresentation the date as a string
+     */
     getDateString(stringRepresentation: string): string {
         return new Date(stringRepresentation).toUTCString();
     }
 
+    /**
+     * sort by the fieldname, which was clicked on
+     * @param fieldname the fieldname that was clicked on
+     */
     sortBy(fieldname: string) {
         const fieldNameMap  = new Map<string, string>([
             ['name', 'name'],

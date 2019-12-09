@@ -12,6 +12,9 @@ import {
     isUndefined
 } from 'util';
 
+/**
+ * The component in the admin panel to mange the users
+ */
 @Component({
     selector: 'app-manage-users',
     templateUrl: './manage-users.component.html',
@@ -19,16 +22,31 @@ import {
 })
 export class ManageUsersComponent implements OnInit {
 
+    /**
+     * @ignore
+     */
     constructor(private userService: UserService, private progressIndicatorService: ProgressIndicatorService) {
     }
 
+    /**
+     * The list of all users
+     */
     private userList = [];
+    /**
+     * The fields which should be hidden
+     */
     valuesToHide = ['password', 'openDetail', 'image'];
 
+    /**
+     * Fetch all users
+     */
     ngOnInit() {
         this.getAllUsers();
     }
 
+    /**
+     * Fetches all users from the backend and displays a loading indicator
+     */
     getAllUsers() {
         this.progressIndicatorService.presentLoading('Loading...');
         this.userService.getAllUsers().subscribe(
@@ -47,10 +65,19 @@ export class ManageUsersComponent implements OnInit {
         );
     }
 
+    /**
+     * checks if the object is undefined
+     * @param obj the object to be checked
+     * @return true if the object is undefined
+     */
     isUndefined(obj: any) {
         return isUndefined(obj);
     }
 
+    /**
+     * Delete a user
+     * @param id the id of the user
+     */
     deleteUser(id: String) {
         this.progressIndicatorService.presentLoading("Deleting User!");
         this.userService.deleteUser(id).subscribe(
