@@ -20,7 +20,7 @@ exports.createPayment = (req, res, next) => {
         return res.status(500).json({
             message: 'No orderId provided'
         });
-
+        
     Order.findById(req.body.orderId)
         .then(order => {
             if (!order)
@@ -46,8 +46,8 @@ exports.createPayment = (req, res, next) => {
                     "payment_method": "paypal"
                 },
                 "redirect_urls": {
-                    "return_url": "https://moln.internet-box./payment/" + token,
-                    "cancel_url": "https://moln.internet-box./order-details/" + req.body.orderId
+                    "return_url": "https://themoln.herokuapp.com/payment/" + token,
+                    "cancel_url": "https://themoln.herokuapp.com/order-details/" + req.body.orderId
                 },
                 "transactions": [{
                     "item_list": {

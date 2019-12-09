@@ -69,13 +69,11 @@ exports.addReview = (req, res, next) => {
                 user: req.userData.userId,
                 product: req.body.productId
             });
-
+            res.status(200).json({
+                review: review, 
+                message: 'Review added'
+            })
             return review.save();
-        })
-        .then(result => {
-            return res.status(200).json({
-                message: "Review added"
-            });
         })
         .catch(err => {
             return res.status(500).json({

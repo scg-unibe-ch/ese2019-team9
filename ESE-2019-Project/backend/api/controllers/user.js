@@ -286,7 +286,7 @@ exports.updateUser = async (req, res, next) => {
         })
         .exec()
         .then(result => {
-            res.status(200).json(result);
+            res.status(200).json({'message': 'successfully updated'});
         })
         .catch(err => {
             res.status(500).json({
@@ -307,7 +307,7 @@ exports.deleteUser = (req, res, next) => {
             message: 'Access denied'
         });
 
-    User.findOneAndDelete({
+    User.findOne({
             _id: id
         })
         .exec()
@@ -317,14 +317,15 @@ exports.deleteUser = (req, res, next) => {
                     message: 'User not found'
                 });
 
+            if(result.admin)
+                return res.status(401).json({message: 'Access denied'});
+
             if (result.image)
                 deleteFile(result.image);
-
-            return Product.
-
-            res.status(200).json({
-                message: 'User deleted'
-            });
+            return User.findOneAndDelete({_id: result._id});
+        })
+        .then((result) => {
+            return res.status(200).json({message: 'succeded'});
         })
         .catch(err => {
             res.status(500).json({

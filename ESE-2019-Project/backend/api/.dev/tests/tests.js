@@ -7,4 +7,3 @@ require('./products/test');
 require('./notifications/test');
 require('./reviews/test');
 require('./order/test');
-require('./payment/test');

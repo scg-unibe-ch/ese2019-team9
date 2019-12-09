@@ -15,14 +15,14 @@ const User = require('../../models/user');
                 User.remove({_id:element._id})
                 .exec()
                 .then(result => {
-                    res.status(200).json({ message:'All dev users deleted' });
-                    next();
+
                 })
                 .catch(err => {
-                    res.status(500).json({ message:'Failed to delete all users'});
+                   return res.status(500).json({ message:'Failed to delete all users'});
                 });
             }
         });
+        res.status(200).json({ message:'All dev users deleted' });
     }).catch((err) => {
         res.status(500).json({message: err});
     });
