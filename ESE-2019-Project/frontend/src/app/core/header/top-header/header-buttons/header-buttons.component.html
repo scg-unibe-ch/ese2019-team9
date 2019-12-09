@@ -6,8 +6,9 @@
                     (deleteEvent)="checkForNewNotifications()"
                     class="roundButton">
             <ion-icon class="iconSize" name="notifications"></ion-icon>
-        </button>
-        <ion-badge class="notificationsBadge" *ngIf="unreadCount != 0" color="danger" slot="end">
+        </ion-button>
+
+        <ion-badge class="notificationsBadge" *ngIf="unreadCount > 0" color="danger">
             {{ unreadCount }}
         </ion-badge>
         <button *ngIf="authService.isLoggedIn()"
