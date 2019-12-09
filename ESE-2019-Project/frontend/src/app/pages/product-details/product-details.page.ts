@@ -24,6 +24,7 @@ export class ProductDetailsPage implements OnInit {
   /**
    * The FormGroup to order the product
    */
+
   orderForm: FormGroup;
   /**
    * The FormGroup to create a review
@@ -326,3 +327,4 @@ export class ProductDetailsPage implements OnInit {
     );
   }
 }
+
