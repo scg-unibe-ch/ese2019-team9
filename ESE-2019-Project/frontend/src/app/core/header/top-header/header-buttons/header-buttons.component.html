@@ -1,24 +1,22 @@
 <ion-grid class="ion-no-margin ion-no-padding" *ngIf="authService.isLoggedIn()"
           style="text-align:right; overflow:hidden; justify-content: flex-end;">
     <ion-row style="justify-content: flex-end;">
-        <ion-button *ngIf="authService.isLoggedIn()"
+        <button *ngIf="authService.isLoggedIn()"
                     (click)="showNotificationsPopover($event)"
                     (deleteEvent)="checkForNewNotifications()"
-                    class="blueButton"
-                    fill="emtpy" size="small">
+                    class="roundButton">
             <ion-icon class="iconSize" name="notifications"></ion-icon>
         </ion-button>
 
         <ion-badge class="notificationsBadge" *ngIf="unreadCount > 0" color="danger">
             {{ unreadCount }}
         </ion-badge>
-        <ion-button *ngIf="authService.isLoggedIn()"
+        <button *ngIf="authService.isLoggedIn()"
                     (click)="showProfilePopover($event)"
                     style="margin-left:5%"
-                    size="small" fill="empty"
-                    class="blueButton" id="profile">
+                    class="roundButton" id="profile">
             <ion-icon class="iconSize" name="person"></ion-icon>
-        </ion-button>
+        </button>
     </ion-row>
 </ion-grid>
 
