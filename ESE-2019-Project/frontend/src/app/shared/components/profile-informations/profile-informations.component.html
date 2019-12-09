@@ -30,8 +30,8 @@
     <ion-card-content>
         <ion-grid #grid>
             <ion-row class="row" *ngFor="let key of profileItemData">
-                <ion-col size="4" >{{ getKeyString(key) }}</ion-col>
-                <ion-col size="7">{{ getValueString(key) }} </ion-col>
+                <ion-col class="informationAttribute" size="12" size-md="4" >{{ getKeyString(key) }}</ion-col>
+                <ion-col size="11" size-md="7">{{ getValueString(key) }} </ion-col>
                 <ion-col *ngIf="changeable" size="1">
                     <ion-icon class="cursor-pointer" name="create" (click)=onClickEdit()></ion-icon>
                 </ion-col>
@@ -53,9 +53,9 @@
         <ion-grid *ngIf="additionalValues">
             <ion-row class="additionalInformation"> Additional information</ion-row>
             <ion-row class="row" *ngFor="let key of additionalInformation">
-                <ion-col> {{ getKeyString(key)}} </ion-col>
-                <ion-col *ngIf="!(getKeyString(key) === 'Category')">{{ getValueString(key)}}</ion-col>
-                <ion-col *ngIf="getKeyString(key) === 'Category'"> {{getCategoryValue(key)}}</ion-col>
+                <ion-col class="informationAttribute" size="12" size-md="4"> {{ getKeyString(key)}} </ion-col>
+                <ion-col size="11" size-md="7" *ngIf="!(getKeyString(key) === 'Category')">{{ getValueString(key)}}</ion-col>
+                <ion-col size="11" size-md="7" *ngIf="getKeyString(key) === 'Category'"> {{getCategoryValue(key)}}</ion-col>
                 <ion-col size="1"></ion-col>
             </ion-row>
         </ion-grid>
