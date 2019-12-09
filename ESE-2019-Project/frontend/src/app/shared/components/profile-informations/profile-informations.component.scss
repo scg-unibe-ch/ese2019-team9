@@ -48,12 +48,15 @@ ion-input {
 .changePictureBadge {
     border-radius: 50% !important;
     padding: 3px;
-    margin-right: 10%;
-    margin-bottom: 10%;
-    margin-top: -10%
+    margin-right: 8%;
+    margin-top: -22px;
 }
 
 .pickerAvatar {
     min-height: 100px;
-    mind-width: 100px;
+    min-width: 100px;
+}
+
+.profileInformationsTitle {
+    font-size: 1.1rem;
 }
