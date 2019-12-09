@@ -9,7 +9,7 @@ router.post('/add', checkAuth, ReviewController.addReview);
 
 router.patch('/:productId', checkAuth, ReviewController.editReview);
 
-router.delete('/:productId', checkAuth, ReviewController.deleteReview);
+router.delete('/:reviewId', checkAuth, ReviewController.deleteReview);
 
 router.get('', checkAdmin, ReviewController.getReviews);
 

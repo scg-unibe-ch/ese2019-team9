@@ -6,6 +6,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const request = chai.request(app).keepOpen();
+const picRequest = chai.request('http://d3t3rm1n4nt3.bplaced.net/fileStorage');
 const catrequest = chai.request(catapp).keepOpen();
 const Category = require('../categories/buildAndClean');
 const Helper = require('../methods/methods');
@@ -18,6 +19,7 @@ describe('Test products', ()=>{
     let subcatid;
     let catslug = 'prodslug';
     let subcatslug = 'prodsubcatslug';
+    let product;
 
     before(async()=>{
         let formdata = {'slug':catslug,'name':'testname','image':'bug.png'};
@@ -90,6 +92,7 @@ describe('Test products', ()=>{
         .field('description', 'if you see this someone is about to get fired')
         .field('location', 'neverland')
         .then((res) => {
+            product = res.body.createdProduct;
             assert.equal(res.status, 200, res.text);
             assert.isObject(res.body);
             assert.isObject(res.body.createdProduct);
@@ -101,8 +104,9 @@ describe('Test products', ()=>{
             done(err)
         })
     });
-    it.skip('uploaded pic', (done)=>{
-
+    it('uploaded pic', async ()=>{
+        let picreq = await picRequest.get('/' + product.image);
+        assert.equal(picreq.status, 200);
     })
     it('update product',(done)=>{
         request.patch('/' + id)
@@ -189,17 +193,6 @@ describe('Test products', ()=>{
             done(err);
         });
     });
-    it('get prod from subcategroy', (done)=>{
-        catrequest.get('/' + subcatslug)
-        .then((res) => {
-            assert.equal(res.status, 200, res.text);
-            assert.lengthOf(res.body[0].products, 1, 'should contain at least one product')
-            assert.equal(res.body[0].products[0].name, 'newTestProdName')
-        }).catch((err) => {
-            done(err);
-        })
-        
-    });
     it('delete product',(done) =>{
         request.delete('/' + id)
         .set('authorization','B ' + token)
@@ -210,11 +203,5 @@ describe('Test products', ()=>{
         .catch((err) =>{
             done(err);
         })
-    });
-    it.skip('picture of product also deleted',(done) =>{
-
-    });
-    it.skip('unsucessful product addition no picture stored', (done) =>{
-
     });
 });

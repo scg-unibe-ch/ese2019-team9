@@ -20,7 +20,7 @@ exports.createPayment = (req, res, next) => {
         return res.status(500).json({
             message: 'No orderId provided'
         });
-
+        
     Order.findById(req.body.orderId)
         .then(order => {
             if (!order)

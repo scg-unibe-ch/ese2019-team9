@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 const app = 'http://localhost:8080/user';
 const request = chai.request(app);
 
-describe.only("Test requests for userId", () =>{
+describe("Test requests for userId", () =>{
     let user;
     let other;
     before(async()=>{
@@ -145,11 +145,11 @@ describe.only("Test requests for userId", () =>{
    });
    it('delete account', (done)=>{
        request.delete('/' + user.id)
-       .set('Authorization', 'Bearer ' + user.token)
+       .set('Authorization', 'B ' + user.token)
        .then((res)=>{
            assert.equal(res.status, 200, res.text);
            request.get('/' + user.id)
-           .set('Authorization' , 'Bearer ' + user.token)
+           .set('Authorization' , 'B ' + user.token)
            .then((res1) => {
                assert.equal(res1.status, 500, 'user should not be found');
                user = User.loggedInAndVerified().then();

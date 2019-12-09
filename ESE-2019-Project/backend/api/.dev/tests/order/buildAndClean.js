@@ -23,3 +23,38 @@ exports.placeOrder = (buyer, product) => {
         });
     });
 }
+
+exports.paid = (order, token) => {
+    return new Promise((resolve, reject) => {
+        request.patch('/pay')
+        .set('authorization', 'B ' + token)
+        .send({orderId: order._id})
+        .then((res) => {
+            if(res.status == 200)
+                resolve(res.body);
+            else
+                reject(res.text);
+        })
+        .catch((err) => {
+            reject(err);
+        })
+
+    });
+}
+
+exports.accept = (order, token) => {
+    return new Promise((resolve, reject) => {
+        request.patch('/accept')
+        .set('authorization', 'B ' + token)
+        .send({orderId: order._id})
+        .then((res) => {
+            if(res.status == 200)
+                resolve(res.body);
+            else
+                reject(res.text);
+        })
+        .then((err) => {
+            reject(err);
+        })
+    });
+}

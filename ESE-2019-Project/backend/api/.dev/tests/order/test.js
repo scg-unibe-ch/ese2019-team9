@@ -162,19 +162,6 @@ describe("Test order", (done) =>{
         assert.equal(getter.body.chat[3].message, message);
     });
 
-    it('user deleted => order deleted',async ()=>{
-        //make new seller
-        let newbuyer = await User.loggedInAndVerified();
-        //make order
-        let neworder = await Order.placeOrder(newbuyer, product);
-        //delete user
-        await User.clean(newbuyer._id);
-        //check if order deleted
-        let res = await request.get('/id/' + neworder._id).set('authorization', 'B ' + seller.token);
-        assert.equal(res.status, 200);
-        assert.isEmpty(res.body);
-    });
-
     it('product delete => order deleted', async ()=> {
          //make new product
          let newproduct = await Product.addProduct(subcatslug, seller.token);
@@ -185,6 +172,5 @@ describe("Test order", (done) =>{
          //check if order deleted
          let res = await request.get('/id/' + neworder._id).set('authorization', 'B ' + seller.token);
          assert.equal(res.status, 500, res.text);
-         assert.isEmpty(res.body);
     });
 });
