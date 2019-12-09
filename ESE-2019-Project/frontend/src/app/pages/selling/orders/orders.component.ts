@@ -100,7 +100,6 @@ export class OrdersComponent implements OnInit {
     this.userId = this.authService.getId();
     this.orderService.getSellerOrders().subscribe(data => {
       if (data.length === 0) {
-        this.progressIndicatorService.presentToast('No offers found', 'danger');
       }
       this.orders = data.map(doc => {
         return Object.assign(doc, {
