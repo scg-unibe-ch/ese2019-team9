@@ -50,6 +50,7 @@ export class UserProductsComponent implements OnInit {
      */
     ngOnInit() {
         this.getUserProducts();
+
     }
 
     /**
@@ -73,6 +74,7 @@ export class UserProductsComponent implements OnInit {
         this.userId = this.authService.getId();
         this.productService.getProductsByUserId(this.userId).subscribe(data => {
             this.products = data;
+            console.log(data);
             this.loading = false;
         }, err => {
             console.log(err);
