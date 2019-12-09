@@ -399,7 +399,8 @@ exports.getProductsOfUser = (req, res, next) => {
                     location: doc.location,
                     rating: rating,
                     image: imagePath,
-                    date: doc.date
+                    date: doc.date,
+                    toRevise:doc.toRevise
                 }
             });
             return res.status(200).json(response);
