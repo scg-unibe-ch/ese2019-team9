@@ -27,7 +27,8 @@ const routes: Routes = [
         SharedModule,
         CarouselModule
     ],
-    declarations: [SubcategoryPage, SubcategoryItemComponent, FilterComponent]
+    declarations: [SubcategoryPage, SubcategoryItemComponent, FilterComponent],
+    exports: [SubcategoryItemComponent]
 })
 export class SubcategoryPageModule {
 }
