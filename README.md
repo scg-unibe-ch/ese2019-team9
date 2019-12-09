@@ -26,5 +26,5 @@ In the project folder you will find
  - The code of the project
  - A README to help you get started with the project
 
-[DocumentationFolder]: './Documentation'
-[ProjectFolder]: './ESE-2019-Project'
+[DocumentationFolder]: <./Documentation>
+[ProjectFolder]: <./ESE-2019-Project>
