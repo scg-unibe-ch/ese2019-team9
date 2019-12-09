@@ -10,21 +10,49 @@ import {
 import {Plugins, Capacitor, CameraResultType, CameraSource} from '@capacitor/core';
 import {Platform} from '@ionic/angular';
 
+/**
+ * The Component handling the picking of the image from the users disk or the camera
+ */
 @Component({
   selector: 'app-image-picker',
   templateUrl: './image-picker.component.html',
   styleUrls: ['./image-picker.component.scss'],
 })
 export class ImagePickerComponent implements OnInit {
+  /**
+   * the filePicker Element on the page
+   */
   @ViewChild('filePicker', {static: false}) filePickerRef: ElementRef<HTMLInputElement>;
+  /**
+   * An event that is emitted if a new image is picked
+   */
   @Output() imagePick = new EventEmitter<string | File>();
+  /**
+   * The image that should be selected by default or undefined
+   */
   @Input() preSelectedImage?: string;
+  /**
+   * A variable to indicate if the image pciker is for the profile
+   */
   @Input() profilePicker?: boolean;
+  /**
+   * The currently selected image
+   */
   selectedImage: string;
+  /**
+   * A variable to indicate whether the picker has to be used
+   */
   usePicker = false;
 
+  /**
+   * Assings a new private variable `platform`
+   * @param platform Auto injected Platform to check what platform the website is run
+   */
   constructor(private platform: Platform) { }
 
+  /**
+   * Inputs the default preSelectedImage and checks tha platform to decide whether the picker has to be used
+   */
   ngOnInit() {
     this.selectedImage = this.preSelectedImage;
     if (this.platform.is('mobile') && !this.platform.is('hybrid') || this.platform.is('desktop')) {
@@ -32,6 +60,9 @@ export class ImagePickerComponent implements OnInit {
     }
   }
 
+  /**
+   * Picks a new Image from the filePicker or the camera
+   */
   onPickImage() {
       if (!Capacitor.isPluginAvailable('Camera') || this.usePicker) {
       this.filePickerRef.nativeElement.click();
@@ -52,6 +83,10 @@ export class ImagePickerComponent implements OnInit {
     });
   }
 
+  /**
+   * Called when a File is chosen
+   * @param event the event given by the FilePicker
+   */
   onFileChosen(event: Event) {
     const pickedFile = (event.target as HTMLInputElement).files[0];
     if (!pickedFile) {
@@ -66,6 +101,9 @@ export class ImagePickerComponent implements OnInit {
     fr.readAsDataURL(pickedFile);
   }
 
+  /**
+   * Resets the selected Image
+   */
   resetImage() {
     this.selectedImage = undefined;
   }

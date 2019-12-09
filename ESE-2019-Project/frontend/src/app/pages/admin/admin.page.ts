@@ -2,22 +2,32 @@ import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/
 import { ManageOffersComponent } from './manage-offers/manage-offers.component';
 import { isUndefined } from 'util';
 
+/**
+ * The Admin Panel consisting of three tabs
+ */
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
   styleUrls: ['./admin.page.scss'],
 })
-export class AdminPage implements OnInit {
+export class AdminPage {
 
+  /**
+   * The currently selected tab
+   */
   private selectedTab = -1;
+  /**
+   * The delete Offers Component of the page
+   */
   private deleteOffersComponent;
+  /**
+   * The manage offers component query list
+   */
   @ViewChildren(ManageOffersComponent) deleteOffersComponentQueryList: QueryList<ManageOffersComponent>;
 
-    constructor() {
-    }
-
-    ngOnInit(){}
-
+  /**
+   * Selects the default tab and loads the products as soon as the delete offers component is defined
+   */
     ngAfterViewInit() {
       this.selectedTab = 0;
       this.deleteOffersComponentQueryList.changes.subscribe((components: QueryList<ManageOffersComponent>) => {
@@ -26,25 +36,23 @@ export class AdminPage implements OnInit {
       });
     }
 
+    /**
+     * Switches to a new tab an reload it's data
+     * @param evt The change event containing the new tab value
+     */
     onTabSwitch(evt: CustomEvent) {
         const id = parseInt(evt.detail.value, 10);
         this.selectedTab = id;
         if (id === 0) {
             this.updateProducts();
-        } else if (id === 1) {
-            this.selectTabManageUsers();
-        }
+      }
     }
 
+    /**
+     * Updates the products
+     */
     updateProducts() {
-      if (isUndefined(this.deleteOffersComponent)) return;
+      if (isUndefined(this.deleteOffersComponent)) { return; }
       this.deleteOffersComponent.updateProducts();
     }
-
-    selectTabManageUsers() {
-        // (Re-)load all Users from Backend
-    }
-
-    
-
 }

@@ -2,31 +2,66 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CategoryService} from '../../../core/services/categoryService/category.service';
 import {Platform} from '@ionic/angular';
 
+/**
+ * A component for an 'item-carousel' (Item Slideshow).
+ * Consists of multiple {@link CarouselItemComponent CarouselItemComponents}
+ */
 @Component({
   selector: 'app-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselComponent implements OnInit {
+  /**
+   * The name to be displayed
+   */
   @Input() carouselName: string;
+  /**
+   *  The array of the category items to be displayed in the carousel
+   */
   @Input() categoryCarousel?: any[];
+  /**
+   * The array of the product items to be displayed in the carousel
+   */
   @Input() productCarousel?: any[];
-  @Input() carouselSlug: string;
+
+  /**
+   * The starting size of the carousel
+   */
   @Input() startingCarouselSize: number;
 
-  constructor(
-      private categoryService: CategoryService,
-      private platform: Platform
-  ) { }
+  /**
+   * The items that are in the carousel
+   */
   carouselItems = [];
+  /**
+   * The starting index of the carousel
+   */
   carouselStartingIndex = 0;
+
+  /**
+   * The current size of the carousel in number of items
+   */
   carouselSize;
+  /**
+   * All items that should be displayed
+   */
   itemsToDisplay = [];
-  // Designated link if clicked on carouselItem
+
+  /**
+   * The Link that where a user should be redirected to if the user clicks an item
+   */
   routerLink: string;
 
-  /*
-      Select the size of the categoryCarousel based on screen size
+  /**
+   * @ignore
+   */
+  constructor(
+      private platform: Platform
+  ) { }
+
+  /**
+   * Selects the carousel size based on screen size
    */
   selectCarouselSize() {
     if (window.innerWidth >= 768) {
@@ -35,8 +70,9 @@ export class CarouselComponent implements OnInit {
       this.carouselSize = 3;
     }
   }
-  /*
-      Prepares the size and content of carousel
+  
+  /**
+   * Prepares the carousel and selects the size of it
    */
   prepareCarousel() {
     this.carouselItems = [];
@@ -64,6 +100,9 @@ export class CarouselComponent implements OnInit {
     this.selectCarouselItems(this.carouselSize, 0);
   }
 
+  /**
+   * Prepares the carousel and adds a new event listener to the resizing
+   */
   ngOnInit() {
     this.prepareCarousel();
     this.platform.resize.subscribe(async () => {
@@ -71,16 +110,16 @@ export class CarouselComponent implements OnInit {
     });
   }
 
-  /*
-      Selects the next carouselItem to be displayed
-   */
+/**
+ * Select the next Carousel Item to be displayed
+ */
   selectNextItem() {
     this.carouselStartingIndex++;
     this.selectCarouselItems(this.carouselSize, this.carouselStartingIndex);
   }
 
-  /*
-      Selects the previous carouselItem to be displayed
+  /**
+   * Select the previous Carousel Item to be displayed
    */
   selectPreviousItem() {
     // Reset carouselStartingIndex once carousel reaches end of subCategories
@@ -95,8 +134,10 @@ export class CarouselComponent implements OnInit {
     this.selectCarouselItems(this.carouselSize, this.carouselStartingIndex );
   }
 
-  /*
-      Selects carouselItems to be currently displayed from all carouselItems
+  /**
+   * Select all Carousel Items that should be displayed
+   * @param carouselSize the size of the carousel in number of items
+   * @param startingIndex the current startingIndex
    */
   selectCarouselItems(carouselSize, startingIndex) {
     this.itemsToDisplay = [];

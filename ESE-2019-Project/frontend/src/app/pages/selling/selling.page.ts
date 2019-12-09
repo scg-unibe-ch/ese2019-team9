@@ -3,9 +3,6 @@ import {
   OnInit
 } from '@angular/core';
 import {
-  OrderService
-} from '../../core/services/orderService/order.service';
-import {
   AuthService
 } from '../../core/services/authService/auth.service';
 import {
@@ -18,10 +15,13 @@ import {
 
 import {
   FormBuilder,
-  FormGroup,
-  Validators
+  FormGroup
 } from '@angular/forms';
 
+/**
+ * The page with all the necessary information for sellers. Shows all of the current users products and all offers for these,
+ * if the user is a seller. Else displays a message to the user to share additional needed information on the profile.
+ */
 @Component({
   selector: 'app-selling',
   templateUrl: './selling.page.html',
@@ -29,28 +29,65 @@ import {
 })
 
 export class SellingPage implements OnInit {
+  /**
+   * The currently selected tab
+   */
   selectedTab;
+  /**
+   * All orders of a user
+   */
   orders;
+  /**
+   * The id of the currently logged in user
+   */
   userId;
+  /**
+   * The currently logged in user
+   */
   user;
+  /**
+   * A boolean indicating whether the current user is a seller
+   */
   isSeller = false;
+  /**
+   * A boolean indicating whether information is being fetched from the backend
+   */
   isLoading = true;
+  /**
+   * The input Form for the additional needed information
+   */
   sellerForm: FormGroup;
 
-  constructor(private progressIndicatorService: ProgressIndicatorService,
-    private orderService: OrderService,
+  /**
+   * Assigns new private variables
+   * @param progressIndicatorService Auto injected ProgressIndicatorService used for displaying toasts
+   * @param authService Auto injected AuthService used to get the user id
+   * @param userService Auto injected UserService used to fetch the products of and offers for the user
+   * @param formBuilder Auto injected FormBuilder to group the form
+   */
+  constructor(
+    private progressIndicatorService: ProgressIndicatorService,
     private authService: AuthService,
     private userService: UserService,
     private formBuilder: FormBuilder) {}
 
+    /**
+     * Sets up the page on Init
+     */
   ngOnInit() {
     this.setupSellingPage();
   }
 
+ /**
+  * Sets up the page on 
+  */
   ionViewDidEnter() {
     this.setupSellingPage();
   }
 
+  /**
+   * Selects the first tab, groups the inputs of the form and checks if the user is seller
+   */
   setupSellingPage() {
     this.selectedTab = 0;
     this.sellerForm = this.formBuilder.group({
@@ -61,6 +98,9 @@ export class SellingPage implements OnInit {
     this.checkIfUserIsSeller();
   }
 
+  /**
+   * Checks whether the current user is seller and retrieves the user Id
+   */
   checkIfUserIsSeller() {
     this.userService.isSeller().then(res => {
       this.isSeller = res;
@@ -70,11 +110,18 @@ export class SellingPage implements OnInit {
     });
   }
 
+  /**
+   * Switches the currently selected Tab of the sement
+   * @param evt the change event
+   */
   onTabSwitch(evt: CustomEvent) {
     const id = parseInt(evt.detail.value, 10);
     this.selectedTab = id;
   }
 
+  /**
+   * Submits the form and updates the values of the user
+   */
   onPressSubmit() {
     if (this.sellerForm.value.name.length == 0 &&
       this.sellerForm.value.country.length == 0 &&

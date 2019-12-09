@@ -1,26 +1,30 @@
-## Open a working state of our project ##
-Open your desired browser and navigate to http://themoln.herokuapp.com .
-Here you will find the most recent, functional version of our project.
-We update this public domain at least once a week on Wednesday afternoon.
+# ESE-Project 2019
+Welcome to our Project for the course 'ESE: Introduction to Software Engineering (Einführung in SE)'. Below you will find all information you need to get started.
+
+You find a working state of our project on [themoln.herokuapp.com](http://themoln.herokuapp.com), where we upload the most recent, functional version of our project.
+
 *Please note that the website can take a long time to load on first access. This is because the server automatically shuts down when noone accesses the site for a longer period of time.*
 
-## Backend setup ##
-Navigate to backend folder and run 'npm run dev'.
+## Documentation folder
+[Link to the documentations folder][DocumentationFolder]
 
-## User management on backend ##  
-Registration: POST request to /user/signup passing a json object with email and password  
-Update: PATCH request to /user/<id> passing a json object with email and password  
-Deletion: DELETE request to /user/ providing the password of the user and the token in the header
-Login: POST request to /user/login passing a json object with email and password
+In the documentation folder you will find
+ - A file where these parts of our project are included
+    - Usability Testing
+    - Manuals
+    - Challenges, Risks and Learning outcomes
+    - Requests
+    - SRS
+    - Compodoc
+    - Project Backlog
+ - The biweekly reports
 
-## Dev commands ##
-Delete all users that end in '@fs.ch': DELETE /dev/
-Delete a user by id: DELETE /dev/<id>
-List all users: GET /dev/
-get Json of specific user: GET /dev/<id>
+## Project Folder
+[Link to the Project folder][DocumentationFolder]
 
-## Documentation ##
-To read our Compodoc documentation please run 'npm run compodoc' in the frontend folder
+In the project folder you will find
+ - The code of the project
+ - A README to help you get started with the project
 
-## Tests ##
-To run our tests, navigate to `./ESE-2019-Project/backend/` and type `npm test`
+[DocumentationFolder]: <./Documentation>
+[ProjectFolder]: <./ESE-2019-Project>

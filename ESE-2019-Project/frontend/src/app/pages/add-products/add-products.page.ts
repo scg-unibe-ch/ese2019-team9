@@ -9,6 +9,11 @@ import { Router } from '@angular/router';
 import {ImagePickerComponent} from '../../shared/components/image-picker/image-picker.component';
 import {MapPickerComponent} from './map-picker/map-picker.component';
 
+/**
+ * Transforms base64 Data to a Blob (file-like data)
+ * @param base64Data the data to transform
+ * @param contentType the type of the content
+ */
 function base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
     const sliceSize = 1024;
@@ -30,17 +35,38 @@ function base64toBlob(base64Data, contentType) {
     return new Blob(byteArrays, {type: contentType});
 }
 
+/**
+ * The page for adding new products
+ */
 @Component({
     selector: 'app-add-products',
     templateUrl: './add-products.page.html',
     styleUrls: ['./add-products.page.scss'],
 })
 export class AddProductsPage implements OnInit {
+    /**
+     * The Image Picker Component on the page
+     */
     @ViewChild(ImagePickerComponent, {static: false}) imagePicker: ImagePickerComponent;
+
+    /**
+     * The Map Picker Component on the page
+     */
     @ViewChild(MapPickerComponent, {static: false}) mapPicker: MapPickerComponent;
 
+    /**
+     * The input form as a FormGroup
+     */
     productForm: FormGroup;
+
+    /**
+     * The selected imageFile
+     */
     imageFile;
+
+    /**
+     * The validation messages to display if a field of the form is invalid
+     */
     validationMessages = {
         name: [
             {type: 'required', message: 'Title is required'},
@@ -64,10 +90,26 @@ export class AddProductsPage implements OnInit {
             {type: 'maxlength', message: 'Location must be less than 30 characters'}
         ]
     };
-    message;
+
+    /**
+     * An array with all categories
+     */
     categories: any = [];
+
+    /**
+     * An array with all the subcategories of the chosen category
+     */
     chosenSubcategories = [];
 
+    /**
+     * Assigns new private variables
+     * @param categoryService Auto injected CategoryService to fetch all categories
+     * @param productService Auto injected ProductService to create the product
+     * @param progressIndicatorService Auto injected ProgressIndicatorService to display toasts
+     * @param formBuilder Auto injected FormBuilder
+     * @param userService Auto injected UserService to check whether the user is eligible to create a product
+     * @param router Auto injected Router to redirect users
+     */
     constructor(
         private categoryService: CategoryService,
         private productService: ProductService,
@@ -75,19 +117,25 @@ export class AddProductsPage implements OnInit {
         private formBuilder: FormBuilder,
         private userService: UserService,
         private router: Router
-    ) {
-    }
+    ) {}
 
+    /**
+     * Checks whether the currently logged in user is a seller. If not redirects him to the profile page
+     */
     ionViewWillEnter() {
         const promise = this.userService.isSeller();
         promise.then((isSeller) => {
             if (!isSeller) {
+                // tslint:disable-next-line: max-line-length
                 this.progressIndicatorService.presentToast('You\'re missing profile information to add products', 'danger', 'other', true, 'middle')
                 .then(() => this.router.navigate(['/profile']));
             }
         });
     }
 
+    /**
+     * Fetches all categories from the backend and groups all FormControls into the FormGroup
+     */
     ngOnInit() {
         this.categoryService.getCategories().subscribe(data => {
             this.categories = data;
@@ -103,25 +151,35 @@ export class AddProductsPage implements OnInit {
         });
     }
 
+    /**
+     * Filters the subcategories, so that only the subcategories of the chosen category are shown
+     * @param event the change event of the ion-select
+     */
     displayChosenSubcategories(event) {
         const slug = event.target.value;
-        if(!this.categories.filter(cat => cat.slug === slug)[0])
+        if (!this.categories.filter(cat => cat.slug === slug)[0]) {
             return;
+        }
         this.chosenSubcategories = this.categories.filter(cat => cat.slug === slug)[0].subcategories
             .sort((a, b) => a.name.localeCompare(b.name));
     }
 
+    /**
+     * Validates the form and adds the product if the form is valid.
+     * Then resets the form.
+     */
     onSubmitAddProduct() {
         if (this.productForm.invalid) {
             this.progressIndicatorService.presentToast('Form incomplete: Please enter all required information', 'danger');
-          return;
+            return;
         }
         const val = this.productForm.value;
         this.progressIndicatorService.presentLoading('Adding product...');
         this.productService.addProduct(val, this.imageFile).subscribe(data => {
             this.progressIndicatorService.dismissLoadingIndicator();
             this.productForm.reset();
-            this.progressIndicatorService.presentToast('Product successfully created. We will publish it online within 24 hours or contact you if changes are necessary.', 'warning',10000);
+            // tslint:disable-next-line: max-line-length
+            this.progressIndicatorService.presentToast('Product successfully created. We will publish it online within 24 hours or contact you if changes are necessary.', 'warning', 10000);
             this.imagePicker.resetImage();
             this.mapPicker.resetLocation();
         }, error => {
@@ -130,6 +188,10 @@ export class AddProductsPage implements OnInit {
         });
     }
 
+    /**
+     * Called when a new image is selected with the ImagePicker. Transforms the image and assingsd it to the {@link #imageFile} variable
+     * @param imageData the new image
+     */
     onImagePicked(imageData: string | File) {
         if (typeof imageData === 'string') {
             try {
@@ -143,6 +205,10 @@ export class AddProductsPage implements OnInit {
         }
     }
 
+    /**
+     * Called when a new location is selected with the MapPciker. Sets the selected address as an input on the address input field.
+     * @param location the new Location
+     */
     onLocationPicked(location: PlaceMap) {
         this.productForm.patchValue({map: location});
         (document.getElementById('locationInput').firstElementChild.children[1] as any).value = location.address;

@@ -2,22 +2,42 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { NavParams, PopoverController } from '@ionic/angular';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
+/**
+ * A component used in the popover under the searchbar
+ */
 @Component({
   selector: 'app-search-result',
   templateUrl: './search-result.component.html',
   styleUrls: ['./search-result.component.scss'],
 })
 export class SearchResultComponent implements OnInit, OnDestroy {
+  /**
+   * All search results
+   */
   searchResults: Set<{ obj: any, app: any }>;
+  /**
+   * The subject subscribed to, to get new searchresults while opened
+   */
   subject: BehaviorSubject<{ set: Set<{ obj: any, app: any }>, searchTerm: string }>;
+  /**
+   * The subscription to the {@link #subject}
+   */
   subscription: Subscription;
+  /**
+   * The current searchterm
+   */
   searchTerm = '';
 
+  /**
+   * @ignore
+   */
   constructor(
-    private navParams: NavParams,
-    private popoverController: PopoverController
+    private navParams: NavParams
   ) { }
 
+  /**
+   * Assignes all instance variables and displays the searchresults
+   */
   ngOnInit() {
     this.subject = (this.navParams.data as any).searchResults.resultsSubject;
     this.searchTerm = (this.navParams.data as any).searchTerm;
@@ -28,14 +48,24 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * unsubscribes on the subject
+   */
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
+  /**
+   * Returns the amount of results
+   */
   get amountOfResults(): string {
     return this.searchResults.size.toString();
   }
 
+  /**
+   * returns the routerlink of the result
+   * @param result the search Result
+   */
   getRouterLinkOfResult(result: object): [string, string] {
     if (this.isProduct(result)) {
       return ['/product-details/', (result as any)._id];
@@ -44,10 +74,20 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Checks whether a searchResult is a Product or category
+   * @param result the searchResult
+   * @returns true if the reuslt is a product
+   */
   isProduct(result: object): boolean {
     return (result.hasOwnProperty('seller'));
   }
 
+  /**
+   * Get the name to display
+   * @param result The search result
+   * @param row the row in which to display the name
+   */
   getName(result: { obj: any, app: Map<string, number[]> }, row: any) {
     const product = result.obj;
     const rowEl: HTMLIonRowElement = row.el;
@@ -72,6 +112,11 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     rowEl.appendChild(res);
   }
 
+  /**
+   * Get the description to display
+   * @param result The search result
+   * @param row the row in which to display the description
+   */
   getDescription(result: { obj: any, app: Map<string, number[]> }, row: any) {
     const product = result.obj;
     const rowEl: HTMLIonRowElement = row.el;
@@ -115,6 +160,9 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     this.fixDescriptionHeight();
   }
 
+  /**
+   * Cuts the description to make it an ellipsis
+   */
   fixDescriptionHeight() {
     const container = document.getElementById('descriptionContainerId');
     const description = document.getElementById('descriptionId');
