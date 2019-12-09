@@ -29,7 +29,8 @@ If you need to create a new middleware you should
 
 
 ## Tests 
-To run our tests run the test script (The backend must be running for that process)
+To run our tests create an empty folder called `tmp` in the backend folder and then run the test script (The backend must be running for that process).
 ```sh
+$ mkdir tmp
 $ npm run test
 ```
