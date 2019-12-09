@@ -8,7 +8,8 @@
                     fill="emtpy" size="small">
             <ion-icon class="iconSize" name="notifications"></ion-icon>
         </ion-button>
-        <ion-badge class="notificationsBadge" *ngIf="unreadCount != 0" color="danger" slot="end">
+
+        <ion-badge class="notificationsBadge" *ngIf="unreadCount > 0" color="danger">
             {{ unreadCount }}
         </ion-badge>
         <ion-button *ngIf="authService.isLoggedIn()"
