@@ -20,9 +20,10 @@
                     Delete
                 </ion-button>
             </ion-row>
-            <ion-row>
-                <ion-card-title *ngIf="typeOfProfileItem === typeOfUser">{{ profileItem.email }}</ion-card-title>
-                <ion-card-title *ngIf="typeOfProfileItem === typeOfProduct">{{ profileItem.name }}</ion-card-title>
+            <ion-row></ion-row>
+            <ion-row style="padding-top: 0.2rem">
+                <ion-card-title class="profileInformationsTitle" *ngIf="typeOfProfileItem === typeOfUser">{{ profileItem.email }}</ion-card-title>
+                <ion-card-title class="profileInformationsTitle" *ngIf="typeOfProfileItem === typeOfProduct">{{ profileItem.name }}</ion-card-title>
             </ion-row>
         </ion-grid>
     </ion-card-header>
