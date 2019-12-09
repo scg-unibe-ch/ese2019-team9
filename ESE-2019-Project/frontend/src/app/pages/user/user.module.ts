@@ -8,8 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { UserPage } from './user.page';
 import { HeaderModule } from 'src/app/core/header.module';
 import {SharedModule} from "../../shared/shared.module";
-import {InputFormModule} from '../../shared/input-form.module';
-import {SubcategoryItemComponent} from 'src/app/pages/subcategory/subcategory-item/subcategory-item.component';
+import {SubcategoryPageModule} from "../subcategory/subcategory.module";
 
 const routes: Routes = [
   {
@@ -25,8 +24,9 @@ const routes: Routes = [
     IonicModule,
     HeaderModule,
     SharedModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SubcategoryPageModule
   ],
-  declarations: [UserPage, SubcategoryItemComponent]
+  declarations: [UserPage]
 })
 export class UserPageModule {}
