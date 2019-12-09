@@ -13,7 +13,10 @@
 .notificationsBadge {
   margin-left: -19px;
   margin-bottom: 3px;
-
+  height:1.5em;
+  width:1.5em;
+  z-index:5;
+  border-radius:50%;
 }
 
 .responsiveButton {
@@ -93,4 +96,8 @@
 .normalButton:hover {
   background: var(--ion-color-primary);
   color: white;
+}
+
+.iconSize {
+  font-size: 1rem;
 }

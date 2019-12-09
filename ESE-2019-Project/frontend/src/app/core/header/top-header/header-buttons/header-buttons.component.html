@@ -1,19 +1,22 @@
-<ion-grid class="ion-no-margin ion-no-padding" *ngIf="authService.isLoggedIn()" style="text-align:right; overflow:hidden; justify-content: flex-end;">
+<ion-grid class="ion-no-margin ion-no-padding" *ngIf="authService.isLoggedIn()"
+          style="text-align:right; overflow:hidden; justify-content: flex-end;">
     <ion-row style="justify-content: flex-end;">
-          
-        <button *ngIf="authService.isLoggedIn()"  (click)="showNotificationsPopover($event)"
-            (deleteEvent)="checkForNewNotifications()" class="roundButton">
-            <ion-icon name="notifications"></ion-icon>
+        <button *ngIf="authService.isLoggedIn()"
+                    (click)="showNotificationsPopover($event)"
+                    (deleteEvent)="checkForNewNotifications()"
+                    class="roundButton">
+            <ion-icon class="iconSize" name="notifications"></ion-icon>
+        </ion-button>
+
+        <ion-badge class="notificationsBadge" *ngIf="unreadCount > 0" color="danger">
+            {{ unreadCount }}
+        </ion-badge>
+        <button *ngIf="authService.isLoggedIn()"
+                    (click)="showProfilePopover($event)"
+                    style="margin-left:5%"
+                    class="roundButton" id="profile">
+            <ion-icon class="iconSize" name="person"></ion-icon>
         </button>
-        <ion-badge class="notificationsBadge" *ngIf="unreadCount != 0" color="danger" slot="end">
-            {{ unreadCount }}</ion-badge>
-     
-      
-            <button *ngIf="authService.isLoggedIn()" style="margin-left:5%" (click)="showProfilePopover($event)" size="small"
-                class="roundButton" id="profile">
-                <ion-icon name="person"></ion-icon>
-            </button>
-      
     </ion-row>
 </ion-grid>
 
@@ -21,9 +24,9 @@
 <div>
     <!-- Buttons to be displayed when the user is not logged in -->
     <ion-button *ngIf="!authService.isLoggedIn()" size="small" class="greyButton" fill="empty"
-        (click)="presentLoginPopover()">Login
+                (click)="presentLoginPopover()">Login
     </ion-button>
     <ion-button *ngIf="!authService.isLoggedIn()" size="small" class="blueButton" fill="empty"
-        (click)="presentRegistrationPopover()">Join
+                (click)="presentRegistrationPopover()">Join
     </ion-button>
 </div>
