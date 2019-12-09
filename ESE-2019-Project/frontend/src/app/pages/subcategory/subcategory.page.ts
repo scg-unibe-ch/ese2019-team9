@@ -314,7 +314,7 @@ export class SubcategoryPage implements OnInit {
     getPriceSpan(): { lower: number, upper: number } {
         const sorted = this.filterAndSearchService.sort([...this.products], '+price');
         if (sorted.length === 0) { return { lower: 0, upper: 1000 }; }
-        this.priceSpan = { lower: sorted[0].price, upper: sorted[sorted.length - 1].price };
+        this.priceSpan = { lower: (sorted[0]as any).price, upper: (sorted[sorted.length - 1] as any).price };
     }
 
     /**
