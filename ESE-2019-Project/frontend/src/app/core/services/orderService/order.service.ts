@@ -44,7 +44,7 @@ export class OrderService {
     const data = {
       startDate: new Date((body.startDate as string).replace(/\.(.*)\+/, '+')),
       endDate: new Date((body.endDate as string).replace(/\.(.*)\+/, '+')),
-      description: body.description,
+      description: body.remarks,
       productId
     };
 

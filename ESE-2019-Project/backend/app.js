@@ -38,6 +38,7 @@ app.use((req, res, next) => {
 
 // routes
 const userRoutes = require('./api/routes/user');
+const paymentRoutes = require('./api/routes/payment');
 const devRoutes = require('./api/.dev/routes/dev');
 const categoryRoutes = require('./api/routes/category');
 const productRoutes = require('./api/routes/product');
@@ -52,6 +53,7 @@ app.use('/product', productRoutes);
 app.use('/review', reviewRoutes);
 app.use('/order', orderRoutes);
 app.use('/notification', notificationRoutes);
+app.use('/payment', paymentRoutes);
 
 // invalid request
 app.use((req, res, next) => {
