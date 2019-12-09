@@ -77,28 +77,22 @@ exports.getAllUsers = (req, res, next) => {
         .select(fields)
         .exec()
         .then(docs => {
-            if (docs) {
-                res.status(200).json(docs.map(doc => {
-                    const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.image;
-                    return {
-                        _id: doc._id,
-                        admin: doc.admin,
-                        email: doc.email,
-                        verifiedEmail: doc.verifiedEmail,
-                        name: doc.name,
-                        address: doc.address,
-                        country: doc.country,
-                        website: doc.website,
-                        phone: doc.phone,
-                        sex: doc.sex,
-                        image: imagePath
-                    };
-                }));
-            } else {
-                res.status(404).json({
-                    message: 'No valid entry found for provided user ID'
-                });
-            }
+            res.status(200).json(docs.map(doc => {
+                const imagePath = !doc.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.image;
+                return {
+                    _id: doc._id,
+                    admin: doc.admin,
+                    email: doc.email,
+                    verifiedEmail: doc.verifiedEmail,
+                    name: doc.name,
+                    address: doc.address,
+                    country: doc.country,
+                    website: doc.website,
+                    phone: doc.phone,
+                    sex: doc.sex,
+                    image: imagePath
+                };
+            }));
         }).catch(err => {
             res.status(500).json({
                 error: err.message

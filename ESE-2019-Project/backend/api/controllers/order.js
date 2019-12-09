@@ -447,6 +447,8 @@ exports.getOrderById = (req, res, next) => {
         .populate("buyer", "-__v -password -admin")
         .populate("product", "-__v -verified -toRevise -date")
         .then(async doc => {
+            if(!doc)
+                throw new Error("Order not found");    
             if (doc.buyer._id != req.userData.userId && doc.seller._id != req.userData.userId && !req.userData.admin)
                 throw new Error("Access denied");
             return res.status(200).json({
