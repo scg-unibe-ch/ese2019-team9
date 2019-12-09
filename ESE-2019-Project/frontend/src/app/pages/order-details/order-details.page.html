@@ -16,9 +16,15 @@
         <ion-row>
             <ion-col offset-md="2" size-md="8" class="container ion-hide-sm-down">
                 <ion-row>
-                    <ion-col size-md="2" size="1">
-                        <ion-avatar style="width:auto; height:auto;"><img style="width:auto; height:auto;"
-                                                                          src="{{ order.product.image }}"/></ion-avatar>
+                    <ion-col size-md="2" size="1" style="justify-content: center; align-content: center;">
+                            <div class="thumbnail" style="width:7em; height:7em;">
+                                    <ion-avatar style="width:auto; height:auto; object-fit: cover;">
+
+                                        <img *ngIf="order.product.image" src="{{ order.product.image }}"
+                                            style="object-fit: cover; width:auto; height:auto">
+
+                                    </ion-avatar>
+                                </div>
                     </ion-col>
                     <ion-col>
                         <ion-row class="productName actionLink" [routerLink]="['/product-details/', order.product._id]">
@@ -60,7 +66,14 @@
             <ion-col offset-md="2" size-md="8" class="container ion-hide-md-up">
                 <ion-row style="display:flex; justify-content: center; align-items: center;">
                     <ion-col size="3" style="display:flex; justify-content: center; align-items: center;">
-                        <ion-img style="text-align:center" src="{{ order.product.image }}"></ion-img>
+                            <div class="thumbnail" style="width:2em; height:2em;">
+                                    <ion-avatar style="width:auto; height:auto; object-fit: cover;">
+
+                                        <img *ngIf="order.product.image" src="{{ order.product.image }}"
+                                            style="object-fit: cover; width:auto; height:auto">
+
+                                    </ion-avatar>
+                                </div>
                     </ion-col>
                 </ion-row>
                 <ion-row>
@@ -112,6 +125,7 @@
                                 <b>{{ order.product.price }} CHF </b>
                             </ion-col>
                         </ion-row>
+
                       <!-- Accept/Reject (for seller only) -->
                       <ion-row *ngIf="order.status=='pending' && isSeller">
                         <ion-col offset-md="2" size-md="8">
