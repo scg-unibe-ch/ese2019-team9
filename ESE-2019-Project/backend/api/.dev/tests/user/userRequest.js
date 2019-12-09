@@ -5,10 +5,9 @@ const chaiHttp = require('chai-http');
 const assert = chai.assert;
 chai.use(chaiHttp);
 const app = 'http://localhost:8080/user';
-const notification = 'http://localhost:8080/notification'
 const request = chai.request(app);
 
-describe("Test requests for userId", () =>{
+describe.only("Test requests for userId", () =>{
     let user;
     let other;
     before(async()=>{
@@ -148,7 +147,7 @@ describe("Test requests for userId", () =>{
        request.delete('/' + user.id)
        .set('Authorization', 'Bearer ' + user.token)
        .then((res)=>{
-           assert.equal(res.status, 200, 'deletion should succeed');
+           assert.equal(res.status, 200, res.text);
            request.get('/' + user.id)
            .set('Authorization' , 'Bearer ' + user.token)
            .then((res1) => {
@@ -171,7 +170,7 @@ describe("Test requests for userId", () =>{
        .set('Authorization', 'B '+ user.token)
        .send({'gender': 'male'})
        .then((res) => {
-            assert.equal(res.status, 401);
+            assert.equal(res.status, 401, res.text);
             done()
        })
        .catch((err)=>{

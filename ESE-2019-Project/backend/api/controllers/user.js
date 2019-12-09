@@ -328,7 +328,7 @@ exports.deleteUser = (req, res, next) => {
             if (result.image)
                 deleteFile(result.image);
 
-            return Product.
+            return Product;
 
             res.status(200).json({
                 message: 'User deleted'

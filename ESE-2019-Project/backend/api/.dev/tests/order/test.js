@@ -8,9 +8,10 @@ const request = chai.request(app);
 const Category = require('../categories/buildAndClean');
 const Product = require('../products/buildAndClean');
 const User = require('../user/buildAndClean');
+const Order = require('./buildAndClean');
 const Helper = require('../methods/methods');
 
-describe.only("Test order", (done) =>{
+describe("Test order", (done) =>{
     let seller;
     let buyer;
     let admintoken;
@@ -98,38 +99,92 @@ describe.only("Test order", (done) =>{
     });
 
     it('buyer => cant get order by seller', async () =>{
-        let resBuyer = await request.get('/buyer').set('Authorization', 'B ' + buyer.token);
+        let resBuyer = await request.get('/buyer').set('Authorization', 'B ' + seller.token);
         assert.equal(resBuyer.status, 200);
         assert.isEmpty(resBuyer.body);
     });
     
-    it('accept order', (done)=>{
+    it('seller => accept order', async ()=>{
         //accept order
+        let res = await request.patch('/accept').set('authorization', 'B ' + seller.token).send({orderId: orderId});
+        assert.equal(res.status, 200);
         //check by getter
+        let getter = await request.get('/id/' + orderId).set('authorization' , 'B ' + seller.token);
+        assert.equal(getter.status, 200);
+        assert.equal(getter.body.status, 'accepted');
     });
     
-    it.skip('reject order', (done) =>{
+    it('seller => reject order', async () =>{
         //make new order
+        let neworder = await Order.placeOrder(buyer, product);
+        assert.isDefined(neworder._id);
         //reject that order
+        let res = await request.patch('/reject').set('authorization', 'B ' + seller.token).send({orderId:neworder._id});
+        assert.equal(res.status, 200);
+        let getter = await request.get('/id/' + neworder._id).set('authorization' , 'B ' + seller.token);
+        assert.equal(getter.status, 200);
+        assert.equal(getter.body.status, 'rejected');
     });
 
-    it.skip('send message on order', (done)=>{
-
+    it('buyer => cant accept order', async ()=> {
+        let neworder = await Order.placeOrder(buyer, product);
+        let res = await request.patch('/accept').set('authorization', 'B ' + buyer.token).send({orderId: neworder._id});
+        assert.equal(res.status, 500);
+        //check by getter
+        let getter = await request.get('/id/' + neworder._id).set('authorization' , 'B ' + seller.token);
+        assert.equal(getter.status, 200);
+        assert.equal(getter.body.status, 'pending');
     });
 
-    it.skip('user deleted => order deleted',()=>{
-
+    it('buyer => cant reject order', async ()=> {
+        let neworder = await Order.placeOrder(buyer, product);
+        let res = await request.patch('/reject').set('authorization', 'B ' + buyer.token).send({orderId: neworder._id});
+        assert.equal(res.status, 500);
+        //check by getter
+        let getter = await request.get('/id/' + neworder._id).set('authorization' , 'B ' + seller.token);
+        assert.equal(getter.status, 200);
+        assert.equal(getter.body.status, 'pending');
+    });
+    it('buyer => send message on order', async ()=>{
+        let message = 'testbuyerrmessage';
+        let res = await request.post('/message/send').set('authorization', 'B ' + buyer.token).send({orderId: orderId, message:message});
+        assert.equal(res.status, 200);
+        let getter = await request.get('/id/' + orderId).set('authorization' , 'B ' + buyer.token);
+        assert.equal(getter.status, 200);
+        assert.equal(getter.body.chat[2].message, message);
+    });
+    it('seller => send message on order', async()=>{
+        let message = 'testsellermessage';
+        let res = await request.post('/message/send').set('authorization', 'B ' + seller.token).send({orderId: orderId, message:message});
+        assert.equal(res.status, 200);
+        let getter = await request.get('/id/' + orderId).set('authorization' , 'B ' + seller.token);
+        assert.equal(getter.status, 200);
+        assert.equal(getter.body.chat[3].message, message);
     });
 
-    it.skip('insufficient userdata', ()=>{
-
+    it('user deleted => order deleted',async ()=>{
+        //make new seller
+        let newbuyer = await User.loggedInAndVerified();
+        //make order
+        let neworder = await Order.placeOrder(newbuyer, product);
+        //delete user
+        await User.clean(newbuyer._id);
+        //check if order deleted
+        let res = await request.get('/id/' + neworder._id).set('authorization', 'B ' + seller.token);
+        assert.equal(res.status, 200);
+        assert.isEmpty(res.body);
     });
 
-    it.skip('test notification both users', ()=>{
-
-    });
-    
-    it.skip('product delete => order deleted', ()=> {
-
+    it('product delete => order deleted', async ()=> {
+         //make new product
+         let newproduct = await Product.addProduct(subcatslug, seller.token);
+         //make order
+         let neworder = await Order.placeOrder(buyer, newproduct);
+         //delete user
+         await Product.clean(newproduct._id, seller.token);
+         //check if order deleted
+         let res = await request.get('/id/' + neworder._id).set('authorization', 'B ' + seller.token);
+         assert.equal(res.status, 500, res.text);
+         assert.isEmpty(res.body);
     });
 });
