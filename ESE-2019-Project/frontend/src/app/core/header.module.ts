@@ -11,7 +11,6 @@ import {HeaderComponent} from './header/header.component';
 import {TopHeaderComponent} from './header/top-header/top-header.component';
 import {HeaderButtonsComponent} from './header/top-header/header-buttons/header-buttons.component';
 import {NavigationBarComponent} from './header/navigation-bar/navigation-bar.component';
-import {LogoComponent} from './header/logo/logo.component';
 import {HomeBannerComponent} from '../pages/home/home-banner/home-banner.component';
 
 import {LoginComponent} from './authentication/login/login.component';
@@ -22,7 +21,7 @@ import {CategoryMenuComponent} from './header/navigation-bar/category-menu/categ
 
 @NgModule({
     declarations: [HeaderComponent, TopHeaderComponent, HeaderButtonsComponent,
-        NavigationBarComponent, LogoComponent, HomeBannerComponent, CategoryMenuComponent],
+        NavigationBarComponent, HomeBannerComponent, CategoryMenuComponent],
     imports: [
         CommonModule,
         IonicModule,
@@ -36,7 +35,7 @@ import {CategoryMenuComponent} from './header/navigation-bar/category-menu/categ
             {path: 'forgotPassword', component: ForgotPasswordComponent}
         ])
     ],
-    exports: [HeaderComponent, TopHeaderComponent, HeaderButtonsComponent, HomeBannerComponent, NavigationBarComponent, LogoComponent]
+    exports: [HeaderComponent, TopHeaderComponent, HeaderButtonsComponent, HomeBannerComponent, NavigationBarComponent]
 })
 export class HeaderModule {
 }
