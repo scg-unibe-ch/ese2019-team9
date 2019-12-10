@@ -11,6 +11,8 @@ const env = process.env;
 const Email = require('../methods/mail');
 const User = require('../models/user');
 const Order = require('../models/order');
+const Review = require('../models/review');
+const Product = require('../models/product');
 const deleteFile = require('../methods/delete-file');
 
 /**
@@ -321,11 +323,21 @@ exports.deleteUser = (req, res, next) => {
                 return res.status(401).json({message: 'Access denied'});
 
             if (result.image)
-                deleteFile(result.image);
-            return User.findOneAndDelete({_id: result._id});
+                await deleteFile(result.image);
+
+            return Order.deleteMany({ $or: [{seller:id}, {buyer:id}]});
+        })
+        .then(result => {
+            return Product.deleteMany({seller:id});
+        })
+        .then(result => {
+            return Review.deleteMany({user:id});
+        })
+        .then(result => {
+            return User.findOneAndDelete({_id:id});
         })
         .then((result) => {
-            return res.status(200).json({message: 'succeded'});
+            return res.status(200).json({message: 'succeeded'});
         })
         .catch(err => {
             res.status(500).json({

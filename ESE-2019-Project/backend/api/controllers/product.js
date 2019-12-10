@@ -348,6 +348,9 @@ exports.deleteProduct = (req, res, next) => {
 
         })
         .then(result =>{
+            return Review.deleteMany({product:req.params.productId});
+        })
+        .then(result => {
             return Product.findOneAndDelete({
                 _id: req.params.productId
             });

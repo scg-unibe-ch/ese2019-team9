@@ -26,11 +26,11 @@ const userSchema = mongoose.Schema({
 
 // delete dependencies when user gets deleted
 userSchema.pre('remove', function(next) {
-    Product.deleteMany({seller: this._id}).exec();
     Order.deleteMany({buyer:this._id}).exec();
     Order.deleteMany({seller:this._id}).exec();
-    Notification.deleteMany({}).exec({user: this._id});
-    Review.deleteMany({}).exec({user: this._id});
+    Product.deleteMany({seller: this._id}).exec();
+    Notification.deleteMany({user: this._id}).exec();
+    Review.deleteMany({user: this._id}).exec();
     next();
 });
 
