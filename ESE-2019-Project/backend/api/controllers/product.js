@@ -132,7 +132,7 @@ exports.getSingleProduct = (req, res, next) => {
                         comment:rv.comment,
                         user:{
                             name:rv.user.name,
-                            image:!rv.user.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + rv.user.image
+                            image:!rv.user.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + rv.user.image
                         }
                     }
                 }),
