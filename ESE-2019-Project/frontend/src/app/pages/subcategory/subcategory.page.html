@@ -39,8 +39,8 @@
         <ion-row>
             <!-- Normal version -->
             <ion-col size="12" offset="0" offset-md="1" size-md="9">
-                <ion-row class="ion-hide-sm-down">
-                    <ion-col size="2" style="justify-content: flex-start;">
+                <ion-row class="ion-hide-lg-down">
+                    <ion-col size="2" style="justify-content: flex-start; min-width: 160px;">
                         <ion-button style="display:flex; min-width:150px; max-width:150px" fill="empty"
                             class="ion-no-margin ion-no-padding blueButton" (click)="displayHideFilterOptions();"
                             *ngIf="!filterOptions">Filter Results
@@ -61,7 +61,7 @@
                 </ion-row>
 
                 <!-- Mobile version -->
-                <ion-row class="ion-hide-md-up" style="justify-content: center;">
+                <ion-row class="ion-hide-xl-up" style="justify-content: center;">
                     <ion-button fill="empty" class="ion-no-margin ion-no-padding blueButton"
                         (click)="displayHideFilterOptions();" *ngIf="!filterOptions">Filter Results
                     </ion-button>

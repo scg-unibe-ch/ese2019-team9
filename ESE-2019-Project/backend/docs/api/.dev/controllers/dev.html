@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>dev.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="..\..\..\docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>dev.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);
+<span class="hljs-keyword">const</span> bcrypt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'bcrypt'</span>);
+<span class="hljs-keyword">const</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jsonwebtoken'</span>);
+<span class="hljs-keyword">const</span> nodemailer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'nodemailer'</span>);
+<span class="hljs-keyword">const</span> ejs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'ejs'</span>);
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> User = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../../models/user'</span>);
+
+  exports.deleteAllDev = <span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+    User.find()
+    .exec()
+    .then(<span class="hljs-function"><span class="hljs-params">docs</span> =&gt;</span> {
+        docs.forEach(<span class="hljs-function"><span class="hljs-params">element</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span>(element.email.match(<span class="hljs-string">"[A-Za-z0-9]*@fs\\.ch"</span>)){
+                User.remove({<span class="hljs-attr">_id</span>:element._id})
+                .exec()
+                .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+
+                })
+                .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+                   <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">message</span>:<span class="hljs-string">'Failed to delete all users'</span>});
+                });
+            }
+        });
+        res.status(<span class="hljs-number">200</span>).json({ <span class="hljs-attr">message</span>:<span class="hljs-string">'All dev users deleted'</span> });
+    }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">message</span>: err});
+    });
+};
+
+exports.deleteUser = <span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> id = req.params.id;
+    User.deleteOne({ <span class="hljs-attr">_id</span>:id })
+    .exec()
+    .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+        res.status(<span class="hljs-number">200</span>).json({ <span class="hljs-attr">message</span>:<span class="hljs-string">'User deleted'</span> });
+    })
+    .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+        res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">error</span>:err })
+    });
+};
+
+exports.getUser = <span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> id = req.params.id;
+    User.findById(id)
+    .exec()
+    .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+        res.status(<span class="hljs-number">200</span>).json({ <span class="hljs-attr">message</span>:result});
+        next();
+    })
+    .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+        res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">error</span>:err })
+    });
+};
+
+exports.getAllUsers = <span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span>{
+    User.find().exec().then( <span class="hljs-function">(<span class="hljs-params">users</span>) =&gt;</span> {
+        res.status(<span class="hljs-number">200</span>).json(users);
+        next();
+    }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span>{
+        res.status(<span class="hljs-number">500</span>).json({<span class="hljs-string">'message'</span>:err});
+    });
+}
+
+exports.verifyToken = <span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> token = req.params.token;
+    <span class="hljs-keyword">try</span>{
+        <span class="hljs-keyword">const</span> verified = jwt.verify(token, process.env.JWT_KEY);
+        res.status(<span class="hljs-number">200</span>).json({<span class="hljs-attr">token</span>: verified});
+    }<span class="hljs-keyword">catch</span>(error){
+        res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">message</span>: error});
+    }
+}
+
+exports.getToken = <span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> token = req.body;
+    <span class="hljs-keyword">try</span>{
+        <span class="hljs-keyword">const</span> encoded = jwt.sign(token, process.enc.JWT_KEY);
+        res.status(<span class="hljs-number">200</span>).json({<span class="hljs-attr">token</span>: encoded});
+    }<span class="hljs-keyword">catch</span> (error){
+        res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">message</span>:error,<span class="hljs-attr">wiso</span>:<span class="hljs-string">'wiso'</span>});
+    }
+}
+
+exports.deleteUserWithDomain = <span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> regex = req.params.domain + <span class="hljs-string">'\\.'</span> + req.params.namespace;
+      User.find()
+    .exec()
+    .then(<span class="hljs-function"><span class="hljs-params">docs</span> =&gt;</span> {
+        docs.forEach(<span class="hljs-function"><span class="hljs-params">element</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span>(element.email.match(<span class="hljs-string">"[A-Za-z0-9]*@"</span> + regex)){
+                User.remove({<span class="hljs-attr">_id</span>:element._id})
+                .exec()
+                .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+                    res.status(<span class="hljs-number">200</span>).json({ <span class="hljs-attr">message</span>:<span class="hljs-string">'All dev users deleted'</span> });
+                    next();
+                })
+                .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+                    res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">message</span>:<span class="hljs-string">'Failed to delete all users'</span>});
+                });
+            }
+        });
+    }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>)=&gt;</span>{
+        res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">message</span>: err});
+    });
+}
+exports.verify = <span class="hljs-function">(<span class="hljs-params">req,res,next</span>) =&gt;</span> {
+   <span class="hljs-keyword">let</span> id = req.body.id;
+   User.findById({<span class="hljs-attr">_id</span>:id})
+   .exec()
+   .then(<span class="hljs-function">(<span class="hljs-params">user</span>)=&gt;</span>{
+       user.verifiedEmail = <span class="hljs-literal">true</span>;
+       user.save()
+       res.status(<span class="hljs-number">200</span>).json({<span class="hljs-string">'message'</span>: <span class="hljs-string">'successful'</span>});
+   })
+   .catch(<span class="hljs-function">(<span class="hljs-params">err</span>)=&gt;</span>{
+       res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">message</span>: err});
+   });
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
