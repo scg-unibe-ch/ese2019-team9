@@ -67,9 +67,9 @@ export class ProductDetailsPage implements OnInit {
    */
   today = new Date().toISOString();
   /**
-   * Today in 3 years
+   * Array holding all years showing up in date picker
    */
-  maxDate = new Date().getFullYear() + 3;
+  yearValues = [new Date().getFullYear(), new Date().getFullYear() + 1, new Date().getFullYear() + 2];
 
   /**
    * A boolean indicating whether information is being loaded from the backend at the moment
@@ -149,7 +149,7 @@ export class ProductDetailsPage implements OnInit {
     private progressIndicatorService: ProgressIndicatorService,
     private authService: AuthService
   ) {
-    this.isLoggedIn = authService.isLoggedIn();
+	this.isLoggedIn = authService.isLoggedIn();
   }
 
   /**
@@ -197,7 +197,7 @@ export class ProductDetailsPage implements OnInit {
         this.progressIndicatorService.presentToast('Order successfully placed');
       },
       error => {
-        console.log(error.error.error);
+       // console.log(error.error.error);
         this.progressIndicatorService.presentToast(error.error.error, 'danger');
       }
     );
@@ -231,7 +231,7 @@ export class ProductDetailsPage implements OnInit {
         this.progressIndicatorService.presentToast('Review successfully added');
       },
       error => {
-        console.log(error.error.error);
+        //console.log(error.error.error);
         this.progressIndicatorService.presentToast(error.error.error, 'danger');
       }
     );
@@ -320,7 +320,7 @@ export class ProductDetailsPage implements OnInit {
 
       err => {
         this.isLoading = false;
-        console.log(err);
+       // console.log(err);
         this.isLoading = false;
       }
     );
