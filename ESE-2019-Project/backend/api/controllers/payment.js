@@ -87,7 +87,9 @@ exports.createPayment = (req, res, next) => {
         });
 }
 
-
+/**
+ * Executes a payment
+ */
 exports.executePayment = async (req, res, next) => {
     let data;
     if (!req.body.payerId || !req.body.token || !req.body.paymentId)
@@ -109,6 +111,9 @@ exports.executePayment = async (req, res, next) => {
             }]
         };
 
+        const decoded = jwt.verify(data.loginToken, process.env.JWT_KEY);
+        const userId = decoded.userId;
+
         const paymentId = req.body.paymentId;
 
         await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
@@ -121,7 +126,7 @@ exports.executePayment = async (req, res, next) => {
         const message = {
             _id: new mongoose.Types.ObjectId(),
             date: new Date(),
-            sender: new mongoose.Types.ObjectId(req.userData.userId),
+            sender: new mongoose.Types.ObjectId(userId),
             message: '[PAY]',
             statusMessage: true
         };
