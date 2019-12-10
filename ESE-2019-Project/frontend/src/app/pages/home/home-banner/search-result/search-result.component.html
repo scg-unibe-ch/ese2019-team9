@@ -3,7 +3,7 @@
 		<ion-item *ngFor="let result of searchResults" [routerLink]="getRouterLinkOfResult(result.obj)"
 			class="result-item">
 			<ion-grid>
-				<ion-row [routerLink]="getRouterLinkOfResult(result.obj)"> 
+				<ion-row> 
 					<ion-col size="auto">
 						<ion-thumbnail>
 							<img [src]="result.obj.image" />
@@ -13,11 +13,9 @@
 						<ion-row *ngIf="isProduct(result.obj)">
 							{{ result.obj.price }} CHF
 						</ion-row>
-						<ion-row #titleRow >
-							{{ getName(result,titleRow) }}
+						<ion-row [innerHTML]="getName(result)" class="name">
 						</ion-row>
-						<ion-row #descRow *ngIf="isProduct(result.obj)">
-							{{ getDescription(result, descRow) }} 
+						<ion-row *ngIf="isProduct(result.obj)" [innerHTML]="getDescription(result)">
 						</ion-row>
 					</ion-col>
 				</ion-row>

@@ -167,6 +167,7 @@ export class HomeBannerComponent implements OnInit {
         const popoverElement = await this.popoverController.create({
             component: SearchResultComponent,
             cssClass: 'results',
+            backdropDismiss:true,
             event:ev,
             componentProps: {
                 searchResults: this.searchResults

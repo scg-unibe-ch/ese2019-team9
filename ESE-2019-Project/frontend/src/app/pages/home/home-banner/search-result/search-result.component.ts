@@ -1,6 +1,18 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { NavParams, PopoverController } from '@ionic/angular';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter
+} from '@angular/core';
+import {
+  NavParams,
+  PopoverController
+} from '@ionic/angular';
+import {
+  BehaviorSubject,
+  Subscription
+} from 'rxjs';
 
 /**
  * A component used in the popover under the searchbar
@@ -14,11 +26,20 @@ export class SearchResultComponent implements OnInit, OnDestroy {
   /**
    * All search results
    */
-  searchResults: Set<{ obj: any, app: any }>;
+  searchResults: Set < {
+    obj: any,
+    app: any
+  } > ;
   /**
    * The subject subscribed to, to get new searchresults while opened
    */
-  subject: BehaviorSubject<{ set: Set<{ obj: any, app: any }>, searchTerm: string }>;
+  subject: BehaviorSubject < {
+    set: Set < {
+      obj: any,
+      app: any
+    } > ,
+    searchTerm: string
+  } > ;
   /**
    * The subscription to the {@link #subject}
    */
@@ -33,7 +54,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
    */
   constructor(
     private navParams: NavParams
-  ) { }
+  ) {}
 
   /**
    * Assignes all instance variables and displays the searchresults
@@ -41,7 +62,13 @@ export class SearchResultComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subject = (this.navParams.data as any).searchResults.resultsSubject;
     this.searchTerm = (this.navParams.data as any).searchTerm;
-    this.subscription = this.subject.subscribe((data: { set: Set<{ obj: any, app: any }>, searchTerm: string }) => {
+    this.subscription = this.subject.subscribe((data: {
+      set: Set < {
+        obj: any,
+        app: any
+      } > ,
+      searchTerm: string
+    }) => {
       this.searchResults = data.set;
       this.searchTerm = data.searchTerm;
       this.fixDescriptionHeight();
@@ -95,44 +122,44 @@ export class SearchResultComponent implements OnInit, OnDestroy {
   /**
    * Get the name to display
    * @param result The search result
-   * @param row the row in which to display the name
    */
-  getName(result: { obj: any, app: Map<string, number[]> }, row: any) {
+  getName(result: {
+    obj: any,
+    app: Map < string,
+    number[] >
+  }) {
     const product = result.obj;
-    const rowEl: HTMLIonRowElement = row.el;
     const app = result.app;
-    const res = document.createElement('span');
+    let res;
     const name: string = product.name + ' ';
 
     if (app.has('name')) {
       const firstApp = app.get('name')[0];
       const wordBegin = name.lastIndexOf(' ', firstApp);
       const wordEnd = name.indexOf(' ', firstApp);
-      const firstPart = (wordBegin > 0) ? name.substring(0, wordBegin) : '';
+      const firstPart = (wordBegin > 0) ? name.substring(0, wordBegin) + "&nbsp;" : '';
       const highlightedPart = (wordEnd >= name.length) ? name.substring(wordBegin) : name.substring(wordBegin, wordEnd);
       const lastPart = (wordEnd >= name.length) ? '' : name.substring(wordEnd);
-      res.innerHTML = `${firstPart}<strong>${highlightedPart}</strong>${lastPart}`;
+      res = firstPart + "<strong>" + highlightedPart + "</strong>&nbsp;" + lastPart;
     } else {
-      res.innerHTML = name;
+      res = name;
     }
-    Array.from(rowEl.children).forEach((child) => {
-      rowEl.removeChild(child);
-    });
-    rowEl.appendChild(res);
+    return res;
   }
 
   /**
    * Get the description to display
    * @param result The search result
-   * @param row the row in which to display the description
    */
-  getDescription(result: { obj: any, app: Map<string, number[]> }, row: any) {
+  getDescription(result: {
+    obj: any,
+    app: Map < string,
+    number[] >
+  }) {
     const product = result.obj;
-    const rowEl: HTMLIonRowElement = row.el;
     const app = result.app;
-    const res = document.createElement('div');
+    let res;
     const desc: string = product.description + ' ';
-    const container = document.createElement('div');
 
     if (app.has('description')) {
       const allSplits = desc.split(' ');
@@ -146,27 +173,17 @@ export class SearchResultComponent implements OnInit, OnDestroy {
           wordIndex = index;
         }
       });
-      const firstPart = (wordBegin > 0) ? ((wordIndex > 10) ? `... ${desc.substring(desc.lastIndexOf(' ', wordBegin - 1), wordBegin)}`
-        : desc.substring(0, wordBegin)) : '';
+      const firstPart = (wordBegin > 0) ? ((wordIndex > 10) ? `... ${desc.substring(desc.lastIndexOf(' ', wordBegin - 1), wordBegin)}` :
+        desc.substring(0, wordBegin)) + "&nbsp;": '';
       const highlightedPart = word;
       const lastPart = (wordEnd >= desc.length) ? '' : (wordEnd + 1000 > desc.length) ?
         desc.substring(wordEnd) : desc.substring(wordEnd, wordEnd + 1000);
-      res.innerHTML = `${firstPart}<strong>${highlightedPart}</strong>${lastPart}`;
+      res = firstPart + "<strong>" + highlightedPart + "</strong>&nbsp;" + lastPart;
     } else {
-      res.innerText = desc;
+      res = desc;
     }
 
-    Array.from(rowEl.children).forEach((child) => {
-      rowEl.removeChild(child);
-    });
-    container.style.width = '100%';
-    container.style.maxHeight = '100px';
-    container.style.overflow = 'hidden';
-    container.id = 'descriptionContainerId';
-    container.id = 'descriptionId';
-    container.appendChild(res);
-    rowEl.appendChild(container);
-    this.fixDescriptionHeight();
+    return res;
   }
 
   /**
@@ -175,7 +192,9 @@ export class SearchResultComponent implements OnInit, OnDestroy {
   fixDescriptionHeight() {
     const container = document.getElementById('descriptionContainerId');
     const description = document.getElementById('descriptionId');
-    if (!container || !description) { return; }
+    if (!container || !description) {
+      return;
+    }
     const containerHeight = container.clientHeight;
     while (description.clientHeight > containerHeight) {
       description.innerHTML = description.innerHTML.replace(/\W*\s(\S)*$/, '...');
