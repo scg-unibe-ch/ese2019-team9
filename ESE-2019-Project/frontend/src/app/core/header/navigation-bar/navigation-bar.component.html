@@ -1,9 +1,10 @@
 <ion-toolbar (mouseleave)="dismissMenu()">
         <ion-segment mode="md" (ionChange)="segmentChanged($event)">
-            <ion-segment-button *ngFor="let category of categories" value="{{ category.slug }}" fill="clear" >
+            <ion-segment-button class="ion-no-padding ion-no-margin" *ngFor="let category of categories" value="{{ category.slug }}" fill="clear" >
                 <ion-label> {{ category.name }}</ion-label>
             </ion-segment-button>
         </ion-segment>
+    <ion-item-divider *ngIf="menuVisible" mode="md" style="min-height: 1px; margin-top: -2px;"></ion-item-divider>
     <app-category-menu style="cursor:pointer;" [subcategories]="currentMenuSubcategories" *ngIf="menuVisible"></app-category-menu>
 </ion-toolbar>
 
