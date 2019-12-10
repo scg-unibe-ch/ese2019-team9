@@ -17,4 +17,15 @@ ion-thumbnail{
 .itemTitle {
   padding-bottom: 10px;
   border-bottom: 0.5px black solid;
+  text-align: center;
+}
+
+ion-card {
+  width: 100%;
+  ion-thumbnail {
+    img {
+      margin: auto;
+      width: auto !important;
+    }
+  }
 }
