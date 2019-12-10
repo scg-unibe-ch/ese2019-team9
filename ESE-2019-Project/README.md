@@ -1,8 +1,8 @@
 # ESE-Project 2019
 
-Here you will find the installation process of all required packages, programs and frameworks and a guide on how to get the application ruuning for the first time.
+Here you will find the installation process of all required packages, programs and frameworks and a guide on how to get the application running for the first time.
 
-# Installation 
+## Installation 
 
 ### Initial Installation
 
@@ -34,18 +34,18 @@ Now that everything is installed, it's time to run the page on your local machin
 First, navigate to the backend folder to compile the TypeScript code to JavaScript. Then start the backend server.
 
 ```sh
-$ cd backend
+$ cd backend/
 $ npm run dev
 ```
 
 Second, navigate to the frontend folder to start a dev server.
 
 ```sh
-$ cd frontend
+$ cd frontend/
 $ ionic serve
 ```
 
-You can now visit the page in your local browser using the following URL: `http://localhost:4200/`
+You can now visit the page in your local browser using the following URL: `http://localhost:8100/`
 
 
 [Node.js]: <https://nodejs.org/en/>
