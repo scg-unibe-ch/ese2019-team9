@@ -126,7 +126,16 @@ exports.getSingleProduct = (req, res, next) => {
                 description: doc.description,
                 location: doc.location,
                 rating: rating,
-                reviews: doc.reviews,
+                reviews: doc.reviews.map(rv => {
+                    return {
+                        rating:rv.rating,
+                        comment:rv.comment,
+                        user:{
+                            name:rv.user.name,
+                            image:!rv.user.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-image.jpg" : process.env.FILE_STORAGE + rv.user.image
+                        }
+                    }
+                }),
                 image: imagePath,
                 toRevise: doc.toRevise,
                 date: doc.date
