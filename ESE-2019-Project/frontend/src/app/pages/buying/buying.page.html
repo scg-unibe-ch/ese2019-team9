@@ -20,7 +20,7 @@
                             Loading orders...
                         </ion-row>
                         <ion-row *ngFor="let order of orders" class="orderContainer" class="ion-hide-sm-down">
-                            <ion-item-sliding button [routerLink]="['/order-details', order._id]">
+                            <ion-item-sliding button [routerLink]="['/order-details', order._id]" style="outline:none">
                                 <ion-item class="profileProductsItem ion-no-padding "
                                     (click)="order.openDetails = !order.openDetails">
                                     <ion-col size="2" class="ion-hide-sm-down">
@@ -62,9 +62,9 @@
 
                         <!-- Mobile version -->
                         <ion-row *ngFor="let order of orders" class="orderContainer" class="ion-hide-md-up">
-                            <ion-item-sliding button [routerLink]="['/order-details', order._id]">
+                            <ion-item-sliding button style="outline:none" [routerLink]="['/order-details', order._id]">
                                 <ion-item class="profileProductsItem ion-no-padding "
-                                    (click)="order.openDetails = !order.openDetails">
+                                    style="outline:none">
                                     <ion-col size="2">
                                             <div class="thumbnail" style="width:2em; height:2em;">
                                                     <ion-avatar style="width:auto; height:auto; object-fit: cover;">
