@@ -199,6 +199,7 @@
                                             <ion-icon *ngFor="let i of array(5)" class="rating" style="font-size:25px"
                                                       [name]="i>filledStars ? 'star-outline' : 'star'"
                                                       (mouseenter)="fillTo(i)"
+                                                      (mouseleave)="resetStars()"
                                                       (click)="onRatingChanged(i)"></ion-icon>
                                         </ion-col>
                                     </ion-row>
