@@ -1,8 +1,10 @@
 <div [className]="profilePicker ? 'profilePicker' : 'picker'">
-    <div class="thumbnail" style="width:7em; height:7em">
+    <div *ngIf="avatar" class="thumbnail" style="width:7em; height:7em">
     <ion-img [className]="profilePicker ? 'profileImage' : 'image'" *ngIf="selectedImage" role="button"  (click)="onPickImage()"
              [src]="selectedImage"  style="width:100%;height:100%;object-fit: cover;"></ion-img>
             </div>
+            <ion-img [className]="image" *ngIf="selectedImage && !avatar" role="button"  (click)="onPickImage()"
+             [src]="selectedImage"  style="width:100%;height:100%;object-fit: cover;"></ion-img>
     <ion-button fill="empty" color="primary" class="blueButton" (click)="onPickImage()" *ngIf="!selectedImage">
         <ion-icon name="camera" slot="start"></ion-icon>
         <ion-label *ngIf="!preSelectedImage" >Select</ion-label>
