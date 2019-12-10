@@ -87,8 +87,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
    * Navigates to search result
    * @param result the search result
    */
-  navigateTo(result: object) {
-    console.log("here");
+  navigateTo(result: any) {
     let routerLink = this.getRouterLinkOfResult(result);
     window.open(routerLink[0] + routerLink[1], '_self');
   }

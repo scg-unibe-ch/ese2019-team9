@@ -1,8 +1,9 @@
 <div class="container">
 	<ion-list class="list ion-no-margin">
-		<ion-item *ngFor="let result of searchResults" [routerLink]="getRouterLinkOfResult(result.obj)" class="result-item">
+		<ion-item *ngFor="let result of searchResults" [routerLink]="getRouterLinkOfResult(result.obj)"
+			class="result-item">
 			<ion-grid>
-				<ion-row>
+				<ion-row [routerLink]="getRouterLinkOfResult(result.obj)"> 
 					<ion-col size="auto">
 						<ion-thumbnail>
 							<img [src]="result.obj.image" />
@@ -12,11 +13,11 @@
 						<ion-row *ngIf="isProduct(result.obj)">
 							{{ result.obj.price }} CHF
 						</ion-row>
-						<ion-row #titleRow>
+						<ion-row #titleRow >
 							{{ getName(result,titleRow) }}
 						</ion-row>
 						<ion-row #descRow *ngIf="isProduct(result.obj)">
-							{{ getDescription(result, descRow) }}
+							{{ getDescription(result, descRow) }} 
 						</ion-row>
 					</ion-col>
 				</ion-row>

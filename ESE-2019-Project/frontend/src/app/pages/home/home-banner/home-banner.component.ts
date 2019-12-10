@@ -148,10 +148,15 @@ export class HomeBannerComponent implements OnInit {
     closeSearchResultPopover() {
         if (this.popoverLock) { return; }
         document.querySelectorAll('ion-content')[1].shadowRoot.querySelector('main').removeEventListener('scroll', () => {
-            this.popoverController.dismiss(this.searchResults.popover.id);
+            if(this.searchResults.popover) {
+                this.popoverController.dismiss(this.searchResults.popover.id);
+                this.searchResults.popover = undefined;
+            }
         });
-        this.popoverController.dismiss(this.searchResults.popover.id);
-        this.searchResults.popover = undefined;
+        if(this.searchResults.popover) {
+            this.popoverController.dismiss(this.searchResults.popover.id);
+            this.searchResults.popover = undefined;
+        }
     }
 
     /**
@@ -161,12 +166,8 @@ export class HomeBannerComponent implements OnInit {
     async presentPopover(ev: any) {
         const popoverElement = await this.popoverController.create({
             component: SearchResultComponent,
-            translucent: true,
             cssClass: 'results',
-            leaveAnimation: null,
-            animated: false,
             event:ev,
-            backdropDismiss: false,
             componentProps: {
                 searchResults: this.searchResults
             }
@@ -174,7 +175,10 @@ export class HomeBannerComponent implements OnInit {
 
         this.searchResults.popover = popoverElement;
         document.querySelectorAll('ion-content')[1].shadowRoot.querySelector('main').addEventListener('scroll', () => {
-            this.popoverController.dismiss();
+            if(this.searchResults.popover) {
+                this.popoverController.dismiss();
+                this.searchResults.popover = undefined;
+            }
         });
         return await popoverElement.present();
     }
