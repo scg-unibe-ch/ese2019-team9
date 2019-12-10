@@ -32,7 +32,7 @@
         </ion-row>
       </ion-col>
       <ion-col size="12" size-sm="6" size-md="4" size-lg="3" offset-md="1" offset-lg="4">
-        <ion-select #sortSelection placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
+        <ion-select #sortSelection class="sortBy" placeholder="Sort by" okText="Sort" cancelText="Cancel" (ionChange)="onSortChange($event)">
             <ion-select-option value="+date">Date ascending</ion-select-option>
             <ion-select-option value="-date">Date descending</ion-select-option>
             <ion-select-option value="+name">Product Name ascending</ion-select-option>

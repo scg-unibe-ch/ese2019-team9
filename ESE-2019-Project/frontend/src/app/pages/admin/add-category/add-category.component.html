@@ -24,12 +24,8 @@
 						<ion-grid>
 							<ion-row>
 								<ion-col>
-									<app-image-picker #imagePicker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
-									<ion-text *ngIf="updateNotCreate">New Icon</ion-text>
-								</ion-col>
-								<ion-col>
-									<img *ngIf="updateNotCreate" [src]="selectedCategory.image" class="image">
-									<ion-text *ngIf="updateNotCreate">Previous Icon</ion-text>
+									<app-image-picker *ngIf="!updateNotCreate" #imagePicker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
+									<app-image-picker *ngIf="updateNotCreate" [preSelectedImage]="selectedCategory.image" #imagePicker class="imagePicker" (imagePick)="onImagePicked($event)"></app-image-picker>
 								</ion-col>
 							</ion-row>
 						</ion-grid>
