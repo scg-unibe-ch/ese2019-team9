@@ -40,10 +40,10 @@
                 <ion-row>
                     <ion-col offset="2" offset-md="0">
                         <ion-select class="sortBy" placeholder="Sort by" okText="Sort" cancelText="Cancel"
-                                    (ionChange)="onSortChange($event)">
+                        (ionChange)="onSortChange($event)">
                             <ion-select-option value="+price">Price ascending</ion-select-option>
                             <ion-select-option value="-price">Price descending</ion-select-option>
-                            <ion-select-option value="+date">Date ascending</ion-select-option>
+                            <ion-select-option selected="true" value="+date">Date ascending</ion-select-option>
                             <ion-select-option value="-date">Date descending</ion-select-option>
                             <ion-select-option value="+rating">Rating ascending</ion-select-option>
                             <ion-select-option value="-rating">Rating descending</ion-select-option>
