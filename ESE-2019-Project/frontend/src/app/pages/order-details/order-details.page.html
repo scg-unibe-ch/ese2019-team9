@@ -173,6 +173,21 @@
             </ion-col>
         </ion-row>
 
+        <!-- Paid info (for seller only) -->
+        <ion-row *ngIf="order.status=='paid' && isSeller">
+                <ion-col offset-md="2" size-md="8" class="container">
+                    <ion-row class="actionBar">
+                        <ion-col size="12" style="width:100%; justify-content: center; display:flex;">
+                            <ion-item lines="none">
+                                <ion-icon size="large" class="green" name="cash">
+                                </ion-icon>&nbsp;<b style="font-size:0.9em" class="green ion-hide-md-up">Invoice has been paid</b>
+                                <b style="font-size:1.5em" class="green ion-hide-sm-down">Invoice has been paid</b>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+
         <!-- Rejected info (for customer only) -->
         <ion-row *ngIf="order.status=='rejected' && !isSeller">
             <ion-col offset-md="2" size-md="8" class="container">
@@ -180,7 +195,8 @@
                     <ion-col size="12" style="width:100%; justify-content: center; display:flex;">
                         <ion-item lines="none">
                             <ion-icon size="large" class="red" name="close-circle">
-                            </ion-icon><b style="font-size:1.5em" class="red">This order has been rejected</b>
+                            </ion-icon><b style="font-size:0.9em" class="red ion-hide-md-up">This order has been rejected</b>
+                            <b style="font-size:1.5em" class="red ion-hide-sm-down">This order has been rejected</b>
                         </ion-item>
                     </ion-col>
                 </ion-row>
@@ -195,7 +211,8 @@
                     <ion-col size="12" style="width:100%; justify-content: center; display:flex;">
                         <ion-item lines="none">
                             <ion-icon size="large" class="green" name="checkmark-circle">
-                            </ion-icon><b style="font-size:1.5em" class="green">You accepted this order</b>
+                            </ion-icon><b style="font-size:0.9em" class="green ion-hide-md-up">You accepted this order</b>
+                            <b style="font-size:1.5em" class="green ion-hide-sm-down">You accepted this order</b>
                         </ion-item>
                     </ion-col>
                 </ion-row>
@@ -209,7 +226,8 @@
                     <ion-col size="12" style="width:100%; justify-content: center; display:flex;">
                         <ion-item lines="none">
                             <ion-icon size="large" class="red" name="close-circle">
-                            </ion-icon><b style="font-size:1.5em" class="red">You rejected this order</b>
+                            </ion-icon><b style="font-size:0.9em" class="red ion-hide-md-up">You rejected this order</b>
+                            <b style="font-size:1.5em" class="red ion-hide-sm-down">You rejected this order</b>
                         </ion-item>
 
                     </ion-col>

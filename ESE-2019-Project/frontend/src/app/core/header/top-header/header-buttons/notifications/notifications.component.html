@@ -4,10 +4,10 @@
             <b>Notifications</b>
         </ion-col>
     </ion-row>
-    <ion-row *ngFor="let notification of notifications" class="message item-text-wrap" [routerLink]="[notification.link]">
+    <ion-row *ngFor="let notification of notifications" class="message item-text-wrap" [routerLink]="[notification.link]" [ngStyle]="{'background-color': !notification.read ? '#E5EAF2' : ''}">
         <ion-row>
             <ion-col (click)="this.dismissPopover()"  item-text-wrap
-                [ngStyle]="{'background-color': !notification.read ? '#E5EAF2' : ''}">
+                >
                 {{ notification.text }}
             </ion-col>
         </ion-row>
