@@ -52,6 +52,11 @@ export class InputFormComponent implements OnInit, AfterViewInit {
   @Input() autofocus;
 
   /**
+   * Array holding all year values
+   */
+  @Input() years;
+
+  /**
    * A variable if the input is of type password
    */
   isPassword = false;
@@ -61,7 +66,7 @@ export class InputFormComponent implements OnInit, AfterViewInit {
   showingPassword = false;
 
   /**
-   * Saves the type of the input if it is a password
+   * Saves the type of the input if it is a password, populates all year values
    */
   ngOnInit() {
     this.isPassword = this.type === 'password';

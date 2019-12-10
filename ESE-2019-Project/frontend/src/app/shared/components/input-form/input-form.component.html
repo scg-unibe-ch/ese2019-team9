@@ -1,7 +1,7 @@
 <ion-item *ngIf="inputForm" [formGroup]= "inputForm">
   <ion-label position="floating" style="margin-bottom:7px"> {{ text }} </ion-label>
   <ion-input id="input" *ngIf="type != 'dateTime'" [type]= "type" [formControlName] = "givenName"  [inputmode] = "inputMode"></ion-input>
-  <ion-datetime *ngIf="type == 'dateTime'" [max]="max" [min]="min" [formControlName] = "givenName" 
+  <ion-datetime *ngIf="type == 'dateTime'" [yearValues]="[2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030]" [max]="max" [min]="min" [formControlName] = "givenName" 
     display-format="DD.MMM.YYYY HH:mm"></ion-datetime>
   <ng-container *ngIf="isPassword">
     <ion-icon *ngIf="!showingPassword" name="eye" slot="end" (click)="showPassword(true)"></ion-icon>
