@@ -481,7 +481,6 @@ exports.getOrderById = (req, res, next) => {
                     image: !doc.product.image ? process.env.PUBLIC_DOMAIN_API + "/rsc/no-user-image.png" : process.env.FILE_STORAGE + doc.product.image
                 },
                 chat: doc.chat.map(msg => {
-                    console.log(msg.sender + " " + doc.buyer._id + " " + doc.seller._id);
                     return {
                         _id: msg._id,
                         sender: {

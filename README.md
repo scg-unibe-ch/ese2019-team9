@@ -3,21 +3,23 @@ Welcome to our Project for the course 'ESE: Introduction to Software Engineering
 
 You find a working state of our project on [themoln.herokuapp.com](http://themoln.herokuapp.com), where we upload the most recent, functional version of our project.
 
-*Please note that the website can take a long time to load on first access. This is because the server automatically shuts down when noone accesses the site for a longer period of time.*
+*Please note that the website can take a long time to load on first access. This is because the server automatically shuts down when no one accesses the site for a longer period of time.*
 
 ## Documentation folder
 [Link to the documentations folder][DocumentationFolder]
 
-In the documentation folder you will find
- - A file where these parts of our project are included
-    - Usability Testing
+In the documentation folder, you will find
+ - A file (Documentation.pdf) where these parts of our project are included
+    - Milestones Overview
     - Manuals
-    - Challenges, Risks and Learning outcomes
-    - Requests
-    - SRS
-    - Compodoc
     - Project Backlog
+    - SRS
+    - Testing (Backend)
+    - Compodoc
+    - Usability Testing
  - The biweekly reports
+    - Challenges, Risks and Learning outcomes
+ - Requests
 
 ## Project Folder
 [Link to the Project folder][ProjectFolder]

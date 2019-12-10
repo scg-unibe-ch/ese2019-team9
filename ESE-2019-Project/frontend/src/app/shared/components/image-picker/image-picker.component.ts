@@ -35,6 +35,11 @@ export class ImagePickerComponent implements OnInit {
    * A variable to indicate if the image pciker is for the profile
    */
   @Input() profilePicker?: boolean;
+
+  /**
+   * Whether the image picker should be displayed in "avatar mode"
+   */
+  @Input() avatar?: boolean;
   /**
    * The currently selected image
    */

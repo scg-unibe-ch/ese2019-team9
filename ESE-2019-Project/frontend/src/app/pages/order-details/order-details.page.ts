@@ -177,6 +177,13 @@ export class OrderDetailsPage implements OnInit {
   }
 
   /**
+   * Reset number of filled starts to current rating
+   */
+  resetStars() {
+    this.filledStars = this.rating;
+  }
+
+  /**
    * Accept the currently displayed order
    */
   acceptOrder() {
