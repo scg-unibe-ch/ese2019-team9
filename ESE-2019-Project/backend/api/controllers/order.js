@@ -294,13 +294,7 @@ exports.payOrder = (req, res, next) => {
  */
 exports.getSellerOrders = (req, res, next) => {
     const searchFields = {
-        $and: [{
             seller: req.userData.userId
-        }, {
-            status: {
-                $nin: ["rejected"]
-            }
-        }]
     };
     Order.find(searchFields)
         .select("-__v")
