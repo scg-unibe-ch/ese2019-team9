@@ -20,7 +20,7 @@ In the documentation folder you will find
  - The biweekly reports
 
 ## Project Folder
-[Link to the Project folder][DocumentationFolder]
+[Link to the Project folder][ProjectFolder]
 
 In the project folder you will find
  - The code of the project

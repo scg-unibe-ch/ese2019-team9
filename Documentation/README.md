@@ -8,4 +8,4 @@ In this folder you will find our projects main documentation with
     -  Challenges, Risks and Learning outcomes
     - Implementation
     - Design
- - All the requests endpoints
+ - All the requests endpoints in the Requests.md file

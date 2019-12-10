@@ -1,7 +1,7 @@
 <ion-header>
-	<ion-toolbar>
-		<app-header></app-header>
-	</ion-toolbar>
+    <ion-toolbar>
+        <app-header></app-header>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
 	<ion-title *ngIf="!product && isLoading" class="statusMessage">
@@ -12,75 +12,88 @@
 	</ion-title>
 	<ion-grid *ngIf="product">
 		<ion-row>
-			<ion-col class="product-image-container" size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
-				<ion-card>
-					<ion-img [src]="product.image"></ion-img>
-				</ion-card>
-
+			<ion-col class="product-image-container" size="12" offset="0" offset-md="2" size-md="8" offset-lg="3"
+				size-lg="6">
+				<div class="container thumbnail" style="justify-content: center;">
+					<ion-img [src]="product.image" style="width:auto; height:auto; object-fit: cover;" class="productImage"></ion-img>
+				</div>
 			</ion-col>
 			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
-				<ion-card class="cardDetails">
+				<div class="cardDetails container">
 					<ion-list>
 						<ion-item class="ion-text-capitalize product-title">{{ product.name }}</ion-item>
-						<ion-item><ion-icon name="pricetags"></ion-icon>&nbsp; Price: <span>&nbsp;{{ product.price || 'not specified'}}</span><span>&nbsp;CHF</span></ion-item>
-						<ion-item><ion-icon name="albums"></ion-icon>&nbsp; Category: <span>&nbsp;{{ product.category.name }}</span></ion-item>
-						<ion-item><ion-icon name="person"></ion-icon>&nbsp; Seller: <span>&nbsp;{{ product.seller.name }}</span></ion-item>
-						<ion-item><ion-icon name="pin"></ion-icon> &nbsp;Location:<span class="whiteSpace">{{ product.location || 'nowhere'}}</span></ion-item>
-						<ion-button fill="empty" class="blueButton" (click) = "showHideOrderingDetails();" *ngIf="!orderingDetails && loggedIn && product.seller._id != authService.getId()">Order now</ion-button>
+						<ion-item>
+							<ion-icon name="pricetags"></ion-icon>&nbsp; Price:
+							<span>&nbsp;<b>{{ product.price || 'not specified'}}</b></span><span>&nbsp;CHF</span>
+						</ion-item>
+						<ion-item>
+							<ion-icon name="albums"></ion-icon>&nbsp; Category:
+							<span>&nbsp;<b>{{ product.category.name }}</b></span>
+						</ion-item>
+						<ion-item>
+							<ion-icon name="person"></ion-icon>&nbsp; Seller: <span>&nbsp;
+								<b *ngIf="authService.isLoggedIn()" class="actionLink blueLink"
+									[routerLink]="['/user', product.seller._id]">{{ product.seller.name }}</b>
+									<b *ngIf="!authService.isLoggedIn()">{{ product.seller.name }} </b>
+								</span>
+						</ion-item>
+						
+						<ion-item>
+							<ion-icon name="pin"></ion-icon> &nbsp;Location:<span
+								class="whiteSpace"><b>{{ product.location || 'nowhere'}}</b></span>
+						</ion-item>
+						<ion-button fill="empty" class="blueButton" (click)="showHideOrderingDetails();"
+							*ngIf="!orderingDetails && loggedIn && product.seller._id != authService.getId()">Order now
+						</ion-button>
 					</ion-list>
-				</ion-card>
-
-
-				<ion-card *ngIf="orderingDetails">
-						<ion-card-header>
-							<ion-card-title>Order this product</ion-card-title>
-						</ion-card-header>
-						<ion-card-content>
-								<form [formGroup]="orderForm" (ngSubmit)="onOrder()">
-										<app-input-form
-										[inputForm]="orderForm" [givenName]="'startDate'" [text]="'Event Start*'"
-										[validationMessages]="validationMessages.startDate"
-										[type]="'dateTime'" [min]="today" [max]="maxDate" (ionChange)="onChangeStartDate()" [inputMode]="'text'">
-										</app-input-form>
-										<app-input-form
-										[inputForm]="orderForm" [givenName]="'endDate'" [text]="'Event End*'"
-										[validationMessages]="validationMessages.endDate"
-										[type]="'dateTime'" [max]="maxDate" [min]="orderForm.controls['startDate'].value" [inputMode]="'text'">
-										</app-input-form>
-										<ion-item [formGroup]= "orderForm">
-											<ion-label position="floating" style="margin-bottom:7px"> Remarks* </ion-label>
-											<ion-textarea formControlName='remarks' inputmode = "text" required></ion-textarea>			
-												<div *ngFor="let validation of validationMessages.remarks">
-													<div class="invalid-feedback" *ngIf="orderForm.get('remarks').hasError(validation.type) && (orderForm.get('remarks').dirty || orderForm.get('remarks').touched)">
-													  {{ validation.message + "\n"}}
-													</div>
-												  </div>
-											  </ion-item>
-										<ion-button class="blueButton" fill="empty" type="submit"> Submit </ion-button>
-								</form>
-								<ion-button class="greyButton" fill="empty" color="danger" (click) = "showHideOrderingDetails();" *ngIf="orderingDetails">Cancel</ion-button>
-						</ion-card-content>
-					</ion-card>
+				</div>
+					<ion-card *ngIf="orderingDetails" class="cardDetails">
+						<ion-card-title>Order this product</ion-card-title>
+						<form [formGroup]="orderForm" (ngSubmit)="onOrder()">
+							<app-input-form [inputForm]="orderForm" [givenName]="'startDate'" [text]="'Event Start*'"
+								[validationMessages]="validationMessages.startDate" [type]="'dateTime'" [min]="today"
+								[max]="maxDate" (ionChange)="onChangeStartDate()" [inputMode]="'text'">
+							</app-input-form>
+							<app-input-form [inputForm]="orderForm" [givenName]="'endDate'" [text]="'Event End*'"
+								[validationMessages]="validationMessages.endDate" [type]="'dateTime'"
+								[years]="yearValues" [max]="maxDate" [min]="orderForm.controls['startDate'].value"
+								[inputMode]="'text'">
+							</app-input-form>
+							<ion-item [formGroup]="orderForm">
+								<ion-label position="floating" style="margin-bottom:7px"> Remarks* </ion-label>
+								<ion-textarea formControlName='remarks' inputmode="text" required></ion-textarea>
+								<div *ngFor="let validation of validationMessages.remarks">
+									<div class="invalid-feedback"
+										*ngIf="orderForm.get('remarks').hasError(validation.type) && (orderForm.get('remarks').dirty || orderForm.get('remarks').touched)">
+										{{ validation.message + "\n"}}
+									</div>
+								</div>
+							</ion-item>
+							<ion-button class="blueButton" fill="empty" type="submit"> Submit </ion-button>
+						</form>
+						<ion-button class="greyButton" fill="empty" color="danger" (click)="showHideOrderingDetails();"
+							*ngIf="orderingDetails">Cancel</ion-button>
+						</ion-card>
 			</ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
 				<ion-card class="cardDetails">
-				<ion-card-title>Description<br/><br/></ion-card-title>
-				<ng-container *ngIf="product.description"> {{ product.description }} </ng-container>
-				<ng-container *ngIf="!product.description"> This product does not have a description</ng-container>
+					<ion-card-title>Description<br /><br /></ion-card-title>
+					<ng-container *ngIf="product.description"> {{ product.description }} </ng-container>
+					<ng-container *ngIf="!product.description"> This product does not have a description</ng-container>
 				</ion-card>
 			</ion-col>
 			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
 				<ion-card class="cardDetails">
-				<ion-card-title>Reviews</ion-card-title>
-				<p *ngIf="product.reviews.length == 0"> This product has no reviews yet. </p>
-				<span *ngFor="let review of product.reviews">
-					<app-product-review [review]="review"></app-product-review>
-				</span>
+					<ion-card-title>Reviews</ion-card-title>
+					<p *ngIf="product.reviews.length == 0"> This product has no reviews yet. </p>
+					<span *ngFor="let review of product.reviews">
+						<app-product-review [review]="review"></app-product-review>
+					</span>
 				</ion-card>
 			</ion-col>
 		</ion-row>
 	</ion-grid>
-	<app-footer *ngIf="!isLoading" ></app-footer>
+	<app-footer *ngIf="!isLoading"></app-footer>
 </ion-content>

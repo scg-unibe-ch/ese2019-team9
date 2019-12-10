@@ -13,16 +13,29 @@
     margin-right: 5px;
 }
 
+.container {
+  border-radius:5px;
+}
+
 .statusMessage {
       text-align:center;
       margin-top:10%;
+}
+
+.actionLink:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.blueLink {
+  color:var(--ion-color-primary-shade);
 }
 
 .cardDetails {
     padding: 20px;
 }
 
-ion-img{
+ion-img {
   max-height: 40vh;
 }
 

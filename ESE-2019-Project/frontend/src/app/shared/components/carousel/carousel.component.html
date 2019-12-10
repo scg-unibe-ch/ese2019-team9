@@ -4,16 +4,21 @@
       {{ carouselName }}
     </ion-title>
   </ion-toolbar>
-  <ion-card-content class="line carouselBody ion-justify-content-center ion-align-items-center" >
-      <ion-button size="large" fill="empty" slot="start" (click)="selectPreviousItem()" >
-          <ion-icon name="arrow-dropleft" slot="end" ></ion-icon>
-      </ion-button>
-      <span *ngFor="let item of itemsToDisplay">
-        <app-carousel-item [imageSrc]="item.image ? item.image : undefined" [name]="item.name" [slug]="item.slug" [id]="item._id" [link]="routerLink" ></app-carousel-item>
-      </span>
-      <ion-button size="large" fill="empty" slot="end" (click)="selectNextItem()">
-          <ion-icon name="arrow-dropright" slot="start" ></ion-icon>
-      </ion-button>
+  <ion-card-content class="line carouselBody ion-justify-content-center ion-align-items-center">
+    <div style="width:3%; height:3%; margin-right:2em">
+      <img (click)="selectPreviousItem()" src="../../../../assets/images/arrowLeft.png"
+        style="width:auto; height:auto; object-fit: cover;">
+    </div>
+
+    <span *ngFor="let item of itemsToDisplay">
+      <app-carousel-item [imageSrc]="item.image ? item.image : undefined" [name]="item.name" [slug]="item.slug"
+        [id]="item._id" [link]="routerLink"></app-carousel-item>
+    </span>
+
+    <!--<ion-icon name="arrow-dropright" slot="start" ></ion-icon>-->
+    <div style="width:3%; height:3%; margin-left:2em">
+      <img (click)="selectNextItem()" src="../../../../assets/images/arrowRight.png"
+        style="width:auto; height:auto; object-fit: cover;">
+    </div>
   </ion-card-content>
 </ion-card>
-

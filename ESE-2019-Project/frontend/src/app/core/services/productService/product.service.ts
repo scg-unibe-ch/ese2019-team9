@@ -98,7 +98,7 @@ export class ProductService {
    * @param img a new image for the product
    * @returns an observable with the server response
    */
-  updateProduct(productId: string, body: string, img: any) {
+  updateProduct(productId: string, body: any, img: any) {
     const headers = this.createHeader();
     headers.set('Content-Type', null);
     headers.set('Accept', 'multipart/form-data');
