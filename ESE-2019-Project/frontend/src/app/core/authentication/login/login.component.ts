@@ -125,9 +125,8 @@ export class LoginComponent implements OnInit {
 
   /**
    * Creates and presents a popover containing the {@link ForgotPasswordComponent}
-   * @param evt the event with which the method was called
    */
-  async presentForgotPopover(evt) {
+  async presentForgotPopover() {
       this.popoverService.dismissPopover();
       const popover = await this.popoverController.create({
           component: ForgotPasswordComponent,

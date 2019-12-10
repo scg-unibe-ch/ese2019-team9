@@ -34,13 +34,13 @@ export class HeaderButtonsComponent implements OnInit {
     notifications = [];
 
     /**
-     * Assign new private variables `popoverController` and `authService`
+     * Assign new variables `popoverController` and `authService`
      * @param popoverController Auto injected Popovercontroller
      * @param authService Auto injected AuthService
      */
     constructor(
         private popoverController: PopoverController,
-        private authService: AuthService,
+        public authService: AuthService,
         private notificationService: NotificationService) {
     }
 

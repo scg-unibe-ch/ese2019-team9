@@ -29,7 +29,7 @@ export class ProfilePopoverComponent implements OnInit {
    * @param popoverController Auto injected PopoverController used for dismissing the popover
    */
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private popoverController: PopoverController) { }
 
     /**

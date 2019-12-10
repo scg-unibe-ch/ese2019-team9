@@ -25,15 +25,15 @@ export class SubcategoryPage implements OnInit {
     /**
      * An array with all products that match the current filter
      */
-    private products: {}[] = [];
+    products: {}[] = [];
     /**
      * The number of filled Stars in the filter section
      */
-    private filledStars = 0;
+    filledStars = 0;
     /**
      * The price span of all the products unified
      */
-    private priceSpan: { lower: number, upper: number } = { lower: 0, upper: 1000 };
+    priceSpan: { lower: number, upper: number } = { lower: 0, upper: 1000 };
 
     /**
      * The current filter settings
@@ -51,11 +51,11 @@ export class SubcategoryPage implements OnInit {
     /**
      * The subcategory of which the items are displayed
      */
-    private subcategory;
+    subcategory;
     /**
      * A boolean indicating whether the page is being loaded
      */
-    private isLoading = true;
+    isLoading = true;
     /**
      * A boolean indicating whether the carousel is prepared
      */
@@ -175,8 +175,8 @@ export class SubcategoryPage implements OnInit {
     /**
      * Returns a RangeValue with the selected Price
      */
-    get selectedPrice(): RangeValue {
-        return ((document.querySelector('#priceRangeInput') as unknown) as IonRange).value;
+    get selectedPrice(): {lower:number, upper:number} {
+        return ((document.querySelector('#priceRangeInput') as unknown) as any).value;
     }
 
     /**

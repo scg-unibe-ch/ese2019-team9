@@ -15,7 +15,7 @@ export class AdminPage {
   /**
    * The currently selected tab
    */
-  private selectedTab = -1;
+  selectedTab = -1;
   /**
    * The delete Offers Component of the page
    */

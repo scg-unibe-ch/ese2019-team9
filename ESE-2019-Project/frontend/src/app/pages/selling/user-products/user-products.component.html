@@ -80,7 +80,7 @@
                 <ion-item-sliding>
                     <ion-item class="profileProductsItem ion-no-padding "
                         (click)="product.openDetail = !product.openDetail">
-                        <ion-col size="2" style="justify-content: center; padding:0;">
+                        <ion-col size="2" style="justify-content: center;" class="ion-hide-sm-down">
                             <div class="thumbnail" style="width:5em; height:5em; justify-content: center;">
                                 <ion-avatar style="width:auto; height:auto; object-fit: cover;">
     
@@ -90,6 +90,17 @@
                                 </ion-avatar>
                             </div>
                         </ion-col>
+
+                        <ion-col size="2" style="justify-content: center;" class="ion-hide-md-up">
+                                <div class="thumbnail" style="width:2em; height:2em; justify-content: center;">
+                                    <ion-avatar style="width:auto; height:auto; object-fit: cover;">
+        
+                                        <img *ngIf="product.image" src="{{ product.image }}"
+                                            style="object-fit: cover; width:auto; height:auto">
+        
+                                    </ion-avatar>
+                                </div>
+                            </ion-col>
                         <ion-col size="5">
                             {{ product.name }}
                         </ion-col>

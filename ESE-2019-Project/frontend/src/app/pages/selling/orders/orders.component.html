@@ -29,8 +29,8 @@
         <ion-row *ngFor="let order of ordersToShow">
             <ion-item-sliding [routerLink]="['../order-details', order._id]">
                 <ion-item class="profileProductsItem ion-no-padding ">
-                    <ion-col size="2">
-                        <div class="thumbnail" class="ion-hide-md-up" style="width:2em; height:2em; justify-content: center;">
+                    <ion-col size="2" style="justify-content: center;" class="ion-hide-sm-down">
+                        <div class="thumbnail" style="width:5em; height:5em; justify-content: center;">
                             <ion-avatar style="width:auto; height:auto; object-fit: cover;">
 
                                 <img *ngIf="order.product.image" src="{{ order.product.image }}"
@@ -38,20 +38,24 @@
 
                             </ion-avatar>
                         </div>
-                        <div class="thumbnail" class="ion-hide-sm-down" style="width:5em; height:5em; justify-content: center;">
-                                <ion-avatar style="width:auto; height:auto; object-fit: cover;">
-    
-                                    <img *ngIf="order.product.image" src="{{ order.product.image }}"
-                                        style="object-fit: cover; width:auto; height:auto">
-    
-                                </ion-avatar>
-                            </div>
                     </ion-col>
+
+                    <ion-col size="2" style="justify-content: center;" class="ion-hide-md-up">
+                        <div class="thumbnail" style="width:2em; height:2em; justify-content: center;">
+                            <ion-avatar style="width:auto; height:auto; object-fit: cover;">
+
+                                <img *ngIf="order.product.image" src="{{ order.product.image }}"
+                                    style="object-fit: cover; width:auto; height:auto">
+
+                            </ion-avatar>
+                        </div>
+                    </ion-col>
+
                     <ion-col>
                         {{ order.product.name }}
                     </ion-col>
                     <ion-col>
-                        {{ order.buyer.name }}
+                        {{ order.buyer.name || "user" + order.buyer._id }}
                     </ion-col>
                     <ion-col>
                         {{ order.orderDate | date : "dd.MM.y hh:mm" }}

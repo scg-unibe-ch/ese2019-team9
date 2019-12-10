@@ -67,9 +67,9 @@ export class ProductDetailsPage implements OnInit {
    */
   today = new Date().toISOString();
   /**
-   * Array holding all years showing up in date picker
+   * Max date
    */
-  yearValues = [new Date().getFullYear(), new Date().getFullYear() + 1, new Date().getFullYear() + 2];
+ maxDate = new Date().getFullYear() + 3;
 
   /**
    * A boolean indicating whether information is being loaded from the backend at the moment
@@ -138,7 +138,7 @@ export class ProductDetailsPage implements OnInit {
   };
 
   /**
-   * Checks if a user is logged in
+   * @ignore
    */
   constructor(
     private route: ActivatedRoute,
@@ -147,7 +147,7 @@ export class ProductDetailsPage implements OnInit {
     private orderService: OrderService,
     private formBuilder: FormBuilder,
     private progressIndicatorService: ProgressIndicatorService,
-    private authService: AuthService
+    public authService: AuthService
   ) {
 	this.isLoggedIn = authService.isLoggedIn();
   }

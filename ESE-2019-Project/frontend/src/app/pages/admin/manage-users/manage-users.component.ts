@@ -31,7 +31,7 @@ export class ManageUsersComponent implements OnInit {
     /**
      * The list of all users
      */
-    private userList = [];
+    userList = [];
     /**
      * The fields which should be hidden
      */

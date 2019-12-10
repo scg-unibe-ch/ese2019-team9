@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authService: AuthService,
+    public authService: AuthService,
     private categoryService: CategoryService
   ) {
     this.initializeApp();

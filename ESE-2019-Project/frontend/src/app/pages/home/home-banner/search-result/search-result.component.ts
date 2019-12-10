@@ -64,7 +64,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
 
   /**
    * returns the routerlink of the result
-   * @param result the search Result
+   * @param result the search result
    */
   getRouterLinkOfResult(result: object): [string, string] {
     if (this.isProduct(result)) {
@@ -81,6 +81,16 @@ export class SearchResultComponent implements OnInit, OnDestroy {
    */
   isProduct(result: object): boolean {
     return (result.hasOwnProperty('seller'));
+  }
+
+  /**
+   * Navigates to search result
+   * @param result the search result
+   */
+  navigateTo(result: object) {
+    console.log("here");
+    let routerLink = this.getRouterLinkOfResult(result);
+    window.open(routerLink[0] + routerLink[1], '_self');
   }
 
   /**
