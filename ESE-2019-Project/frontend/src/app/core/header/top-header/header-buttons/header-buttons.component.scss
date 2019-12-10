@@ -30,6 +30,11 @@
   outline: none;
 }
 
+.headerButton {
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
 .roundButton {
   background-color:white;
   justify-content: center;
