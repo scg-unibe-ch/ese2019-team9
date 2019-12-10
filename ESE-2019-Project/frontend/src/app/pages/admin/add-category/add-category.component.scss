@@ -19,16 +19,16 @@
 }
 
 .imagePicker {
-    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-items: center;
     align-items: center;
+    margin: auto;
     @media (max-width: 768px) {
       width: 25vw;
       height: 25vw;
     }
     @media (min-width: 768px) {
-      width: 20vw;
-      height: 20vw;
+      width: 22vw;
+      height: 22vw;
     }
 }
