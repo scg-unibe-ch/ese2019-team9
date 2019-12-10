@@ -79,14 +79,14 @@
 		<ion-row>
 			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
 				<ion-card class="cardDetails">
-					<ion-card-title>Description<br /><br /></ion-card-title>
+					<ion-card-title><b>Description</b><br /><br /></ion-card-title>
 					<ng-container *ngIf="product.description"> {{ product.description }} </ng-container>
 					<ng-container *ngIf="!product.description"> This product does not have a description</ng-container>
 				</ion-card>
 			</ion-col>
 			<ion-col size="12" offset="0" offset-md="2" size-md="8" offset-lg="3" size-lg="6">
 				<ion-card class="cardDetails">
-					<ion-card-title>Reviews</ion-card-title>
+					<ion-card-title><b>Reviews</b></ion-card-title>
 					<p *ngIf="product.reviews.length == 0"> This product has no reviews yet. </p>
 					<span *ngFor="let review of product.reviews">
 						<app-product-review [review]="review"></app-product-review>

@@ -24,6 +24,7 @@ export class ProductReviewComponent implements OnInit {
    */
   ngOnInit() {
     this.user = this.review.user;
+    console.log(this.user);
   }
 
 }
