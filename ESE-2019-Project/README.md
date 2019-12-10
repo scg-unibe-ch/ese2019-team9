@@ -7,7 +7,6 @@ Here you will find the installation process of all required packages, programs a
 ### Initial Installation
 
 - Install both [Node.js] and NPM. (NPM is installed automatically with latest versions of Node.js)
-- Install [Angular CLI] globally on your computer.
 - Clone this repository to your local machine and delete the .git folder.
 
 
@@ -25,6 +24,7 @@ Navigate to the backend folder and run `npm install`. Note that you need to chan
  ```sh
  $ cd backend/
  $ npm install
+ $ npm install -g ionic
  $ npm i -g @compodoc/compodoc
  ```
 
@@ -35,15 +35,14 @@ First, navigate to the backend folder to compile the TypeScript code to JavaScri
 
 ```sh
 $ cd backend
-$ npm run tsc
-$ node build/server.js
+$ npm run dev
 ```
 
 Second, navigate to the frontend folder to start a dev server.
 
 ```sh
 $ cd frontend
-$ ng serve
+$ ionic serve
 ```
 
 You can now visit the page in your local browser using the following URL: `http://localhost:4200/`

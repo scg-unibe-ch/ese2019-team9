@@ -37,6 +37,7 @@
             </ion-col>
         </ion-row>
         <ion-row>
+            <!-- Normal version -->
             <ion-col size="12" offset="0" offset-md="1" size-md="9">
                 <ion-row class="ion-hide-sm-down">
                     <ion-col size="2" style="justify-content: flex-start;">
@@ -46,12 +47,12 @@
                         </ion-button>
                     </ion-col>
                     <ion-col size="7">
-                        <ion-select style="justify-content: flex-end; display:flex; min-width:150px; max-width:150px"
+                        <ion-select style="justify-content: flex-end; display:flex; min-width:180px; max-width:180px"
                             class="sortBy" placeholder="Sort by" okText="Sort" cancelText="Cancel"
                             (ionChange)="onSortChange($event)">
                             <ion-select-option value="+price">Price ascending</ion-select-option>
                             <ion-select-option value="-price">Price descending</ion-select-option>
-                            <ion-select-option value="+date">Date ascending</ion-select-option>
+                            <ion-select-option selected="true" value="+date">Date ascending</ion-select-option>
                             <ion-select-option value="-date">Date descending</ion-select-option>
                             <ion-select-option value="+rating">Rating ascending</ion-select-option>
                             <ion-select-option value="-rating">Rating descending</ion-select-option>
@@ -59,6 +60,7 @@
                     </ion-col>
                 </ion-row>
 
+                <!-- Mobile version -->
                 <ion-row class="ion-hide-md-up" style="justify-content: center;">
                     <ion-button fill="empty" class="ion-no-margin ion-no-padding blueButton"
                         (click)="displayHideFilterOptions();" *ngIf="!filterOptions">Filter Results

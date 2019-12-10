@@ -103,12 +103,7 @@ export class ProductService {
     headers.set('Content-Type', null);
     headers.set('Accept', 'multipart/form-data');
     const formData = this.createFormData(body, img);
-    
-    return this.httpClient.patch(
-      this.productsEndpoint + `/${productId}`,
-      formData,
-      { headers }
-    );
+    return this.httpClient.patch(this.productsEndpoint + `/${productId}`, formData,{ headers });
   }
 
   /**
@@ -207,11 +202,14 @@ export class ProductService {
    * @returns an observable with the server response
    */
   createFormData(body: string, img: any) {
+    body = JSON.parse(body);
     const formData = new FormData();
     Object.keys(body).forEach(key => {
       formData.append(key, body[key]);
     });
-    formData.append('image', img);
+    if (img) {
+      formData.append('image', img);
+    }
     return formData;
   }
 
