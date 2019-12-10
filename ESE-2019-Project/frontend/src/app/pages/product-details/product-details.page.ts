@@ -320,7 +320,6 @@ export class ProductDetailsPage implements OnInit {
 
       err => {
         this.isLoading = false;
-       // console.log(err);
         this.isLoading = false;
       }
     );

@@ -3,6 +3,14 @@
     font-size: 30px;
 }
 
+.product-image-container img {
+  height:20em;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+}
+
 :host ion-item {
     --padding-bottom: 20px;
     --min-height: 0px;
