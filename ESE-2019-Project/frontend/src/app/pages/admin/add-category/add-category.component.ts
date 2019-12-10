@@ -336,8 +336,8 @@ export class AddCategoryComponent implements OnInit {
     async presentAlertConfirm(category) {
         return new Promise(async (resolve, reject) => {
             const alert = await this.alertController.create({
-                header: 'Confirm!',
-                message: `Are you sure you want to delete the category <strong>${category.name}</strong>`,
+                header: 'Confirm',
+                message: `Are you sure you want to delete the category <strong>${category.name}</strong>?`,
                 buttons: [
                     {
                         text: 'Cancel',
