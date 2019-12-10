@@ -521,8 +521,13 @@ exports.sendMessage = (req, res, next) => {
             message: "Empty message"
         });
 
+    let recipient;
+
     Order.findById(req.body.orderId)
         .then(order => {
+            if(!order)
+                throw new Error("Order not found");
+
             if (!order.seller.equals(req.userData.userId) && !order.buyer.equals(req.userData.userId))
                 throw new Error("Access denied");
 
@@ -534,6 +539,8 @@ exports.sendMessage = (req, res, next) => {
                 statusMessage: false
             };
 
+            recipient = order.seller.equals(req.userData.userId) ? order.buyer : order.seller;
+
             return order.update({
                 $push: {
                     chat: message
@@ -541,6 +548,17 @@ exports.sendMessage = (req, res, next) => {
             })
         })
         .then(result => {
+            const notification = new Notification({
+                _id: new mongoose.Types.ObjectId(),
+                user: new mongoose.Types.ObjectId(recipient),
+                text: "You received a new message",
+                link: "/order-details/" + req.body.orderId,
+                date: new Date()
+            });
+
+            return notification.save();
+        })
+        .then(result =>{ 
             res.status(200).json({
                 message:"Message sent"
             });
