@@ -8,7 +8,7 @@
             </ion-button>
         </ion-row>
         <ion-row *ngIf="products.length != 0">
-            <ion-col class="profileProductsTitle" size="6" offset="1">
+            <ion-col class="profileProductsTitle" size="5" offset="2">
                 Name
             </ion-col>
             <ion-col class="profileProductsTitle">
@@ -28,11 +28,12 @@
             Loading products...
         </ion-row>
         
-        <ion-row *ngFor="let product of products">
+        <!-- Mobile version -->
+        <ion-row *ngFor="let product of products" class="ion-hide-md-up">
             <ion-item-sliding>
                 <ion-item class="profileProductsItem ion-no-padding "
                     (click)="product.openDetail = !product.openDetail">
-                    <ion-col size="1" style="justify-content: center; padding:0;">
+                    <ion-col size="2" style="justify-content: center; padding:0;">
                         <div class="thumbnail" style="width:2em; height:2em; justify-content: center;">
                             <ion-avatar style="width:auto; height:auto; object-fit: cover;">
 
@@ -42,7 +43,7 @@
                             </ion-avatar>
                         </div>
                     </ion-col>
-                    <ion-col size="6">
+                    <ion-col size="5">
                         {{ product.name }}
                     </ion-col>
                     <ion-col class="ion-padding-start" size="2">
@@ -73,5 +74,52 @@
                 </app-profile-informations>
             </ion-col>
         </ion-row>
+
+        <!-- Desktop version -->
+        <ion-row *ngFor="let product of products" class="ion-hide-sm-down">
+                <ion-item-sliding>
+                    <ion-item class="profileProductsItem ion-no-padding "
+                        (click)="product.openDetail = !product.openDetail">
+                        <ion-col size="2" style="justify-content: center; padding:0;">
+                            <div class="thumbnail" style="width:5em; height:5em; justify-content: center;">
+                                <ion-avatar style="width:auto; height:auto; object-fit: cover;">
+    
+                                    <img *ngIf="product.image" src="{{ product.image }}"
+                                        style="object-fit: cover; width:auto; height:auto">
+    
+                                </ion-avatar>
+                            </div>
+                        </ion-col>
+                        <ion-col size="5">
+                            {{ product.name }}
+                        </ion-col>
+                        <ion-col class="ion-padding-start" size="2">
+                            <ion-icon size="large" [class]="product.verified ? 'verified' : 'notVerified'"
+                                [name]="product.verified ? 'checkmark-circle' : 'close-circle'">
+                            </ion-icon>
+                        </ion-col>
+                        <ion-col class="ion-padding-start" size="2">
+                            <ion-icon size="large" [class]="product.toRevise ? 'toRevise' : 'verified'"
+                                [name]="product.toRevise ? 'warning' : 'checkmark-circle'">
+                            </ion-icon>
+                        </ion-col>
+                        <ion-col size="1">
+                            <ion-icon [name]="product.openDetail ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+                        </ion-col>
+                    </ion-item>
+                    <ion-item-options side="end">
+                        <ion-item-option color="danger" (click)="deleteProduct(product._id)">
+                            Delete
+                        </ion-item-option>
+                    </ion-item-options>
+                </ion-item-sliding>
+    
+                <ion-col *ngIf="product.openDetail">
+                    <app-profile-informations (deleteEvent)="deleteProduct(product._id)" (updateEvent)="reloadProducts()"
+                        [profileItem]="product" [changeable]="true" [type]="'product'" [valuesToHide]="valuesToHide"
+                        [additionalValues]="additionalValues">
+                    </app-profile-informations>
+                </ion-col>
+            </ion-row>
     </ion-grid>
 </ion-list>

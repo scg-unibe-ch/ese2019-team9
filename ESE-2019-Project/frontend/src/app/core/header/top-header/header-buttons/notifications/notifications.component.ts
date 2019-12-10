@@ -35,10 +35,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Sorts the notifications and assings the first 10 to the local {@link #notifications} variable.
+     * Sorts the notifications and assings the first 5 to the local {@link #notifications} variable.
      */
     ngOnInit() {
-        this.notifications = this.sortService.sort(this.navParams.get('notifications'), '+read', '+date').slice(0, 10);
+        this.notifications = this.sortService.sort(this.navParams.get('notifications'), '+read', '-date').slice(0, 5);
     }
 
     /**
