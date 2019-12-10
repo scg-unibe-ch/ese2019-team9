@@ -98,6 +98,7 @@ export class ProductService {
    * @param img a new image for the product
    * @returns an observable with the server response
    */
+
   updateProduct(productId: string, body: string, img: any) {
     body = JSON.parse(body);
     const headers = this.createHeader();
