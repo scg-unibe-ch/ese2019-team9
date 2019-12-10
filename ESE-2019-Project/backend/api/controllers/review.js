@@ -38,6 +38,7 @@ exports.addReview = (req, res, next) => {
                 date: new Date(),
                 sender: new mongoose.Types.ObjectId(req.userData.userId),
                 message: '[REVIEW]',
+                args:{rating:req.body.rating, comment:req.body.comment},
                 statusMessage: true
             };
 
@@ -57,7 +58,7 @@ exports.addReview = (req, res, next) => {
                     reviewed: true
                 },
                 $push: {
-
+                    chat:message
                 }
             });
         })

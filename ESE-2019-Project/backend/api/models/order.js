@@ -5,7 +5,8 @@ const messageSchema = mongoose.Schema({
     date:{ type:Date, required:true },
     sender:{ type:mongoose.Schema.Types.ObjectId, ref:'User', index:true, required:true },
     message:{ type:String },
-    statusMessage:{ type:Boolean, required:true, default:false }
+    statusMessage:{ type:Boolean, required:true, default:false },
+    args:{ type:Object }
 });
 
 const orderSchema = mongoose.Schema({

@@ -495,7 +495,8 @@ exports.getOrderById = (req, res, next) => {
                         },
                         date: msg.date,
                         statusMessage: msg.statusMessage,
-                        message: msg.message
+                        message: msg.message,
+                        args:msg.args
                     }
                 })
             });
